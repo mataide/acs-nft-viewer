@@ -31,7 +31,7 @@ class _SettingsPageState extends State<SettingsPage>
     final ThemeData state = themeNotifier.getTheme();
 
     return Container(
-      color: state.primaryColor,
+      color: Colors.white,
       child: ListView(
         physics: BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -49,6 +49,16 @@ class _SettingsPageState extends State<SettingsPage>
               ),
             ],
           ),
+          CardWithChildren(
+            title: "User",
+            children: <Widget>[
+              CustomListTile(
+                title: "Login",
+                icon: FontAwesomeIcons.user,
+                onTap: (){}, //AGUARDANDO BANCO DE DADOS DE LOGIN
+              )
+            ],
+          )
 
           //DESATIVANDO AS OPÇOES DE DESENVOLVIMENTO
           //_supportDev(state),

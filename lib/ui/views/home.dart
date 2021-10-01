@@ -34,17 +34,20 @@ class _HomePageState extends State<HomePage> {
       key: _scaffoldKey,
       appBar: AppBar(
         centerTitle: false,
-        backgroundColor: state.primaryColor,
+        //backgroundColor: state.primaryColor,
+        backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
-          'reWalls',
-          style: state.textTheme.headline5,
+          'NTF-View',
+          style: TextStyle(color: Colors.black, fontSize: 34.0,fontWeight: FontWeight.bold)
+          //style: state.textTheme.headline5,
         ),
         actions: <Widget>[
           IconButton(
             icon: Icon(
               Icons.search,
-              color: state.textTheme.bodyText2.color,
+              color: Colors.black,
+              //color: state.textTheme.bodyText2.color,
             ),
             onPressed: () => showSearch(
                 context: context, delegate: WallpaperSearch(themeData: state)),
@@ -52,7 +55,8 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Container(
-        color: state.primaryColor,
+        color: Colors.white,
+        //color: state.primaryColor,
         child: PageView(
           controller: _pageController,
           physics: BouncingScrollPhysics(),
@@ -71,12 +75,14 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomNavyBar(
         selectedIndex: _selectedIndex,
-        unselectedColor: state.textTheme.bodyText2.color,
+        unselectedColor: Colors.black,
+        //unselectedColor: state.textTheme.bodyText2.color,
         onItemSelected: (index) {
           _pageController.jumpToPage(index);
         },
         selectedColor: state.accentColor,
-        backgroundColor: state.primaryColor,
+        backgroundColor: Colors.white,
+        //backgroundColor: state.primaryColor,
         showElevation: false,
         items: [
           BottomNavyBarItem(
@@ -111,7 +117,7 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: state.primaryColor,
             elevation: 4,
             title: Text(
-              'reWalls',
+              'NTF-View',
               style: state.textTheme.headline5,
             ),
             actions: <Widget>[
