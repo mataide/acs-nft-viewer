@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavyBarItem(
             icon: Icon(Icons.category),
-            title: Text('Subreddits'),
+            title: Text('Categories'),
           ),
           //RETIRANDO O BOTAO DO EXACT FIT POIS ACREDITO SER DESNECESSARIA UMA BUSCA POR TAMANHO DA IMAGEM
           //NESTE PROJETO.
