@@ -39,15 +39,13 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         title: Text(
           'NTF-View',
-          style: TextStyle(color: Colors.black, fontSize: 34.0,fontWeight: FontWeight.bold)
-          //style: state.textTheme.headline5,
+          style: state.textTheme.headline5,
         ),
         actions: <Widget>[
           IconButton(
             icon: Icon(
               Icons.search,
-              color: Colors.black,
-              //color: state.textTheme.bodyText2.color,
+              color: state.textTheme.bodyText2.color,
             ),
             onPressed: () => showSearch(
                 context: context, delegate: WallpaperSearch(themeData: state)),
@@ -55,8 +53,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Container(
-        color: Colors.white,
-        //color: state.primaryColor,
+        color: state.primaryColor,
         child: PageView(
           controller: _pageController,
           physics: BouncingScrollPhysics(),
@@ -75,14 +72,12 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomNavyBar(
         selectedIndex: _selectedIndex,
-        unselectedColor: Colors.black,
-        //unselectedColor: state.textTheme.bodyText2.color,
+        unselectedColor: state.textTheme.bodyText2.color,
         onItemSelected: (index) {
           _pageController.jumpToPage(index);
         },
         selectedColor: state.accentColor,
-        backgroundColor: Colors.white,
-        //backgroundColor: state.primaryColor,
+        backgroundColor: state.primaryColor,
         showElevation: false,
         items: [
           BottomNavyBarItem(

@@ -1,3 +1,4 @@
+import 'package:re_walls/ui/views/login.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +56,10 @@ class _SettingsPageState extends State<SettingsPage>
               CustomListTile(
                 title: "Login",
                 icon: FontAwesomeIcons.user,
-                onTap: (){}, //AGUARDANDO BANCO DE DADOS DE LOGIN
+                onTap: (){
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context)=> Login()));
+                }, //AGUARDANDO BANCO DE DADOS DE LOGIN
               )
             ],
           )
