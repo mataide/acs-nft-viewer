@@ -34,8 +34,7 @@ class _HomePageState extends State<HomePage> {
       key: _scaffoldKey,
       appBar: AppBar(
         centerTitle: false,
-        //backgroundColor: state.primaryColor,
-        backgroundColor: Colors.white,
+        backgroundColor: state.primaryColor,
         elevation: 0,
         title: Text(
           'NTF-View',

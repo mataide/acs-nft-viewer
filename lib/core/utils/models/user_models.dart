@@ -13,7 +13,7 @@ class User {
   String country;
   String email;
 
-  User(this.id, this.name, this.address, this.state, this.city, this.country, this.email);
+  User(this.id,this.password ,this.name, this.address, this.state, this.city, this.country, this.email);
 
 
   //CONVERTENDO OS DADOS EM MAPA
@@ -21,12 +21,14 @@ class User {
 
     var map = <String, dynamic>{
       'id':id,
+      'password': password,
       'name': name,
       'address': address,
       'state': state,
       'city': city,
       'country': country,
-      'email': email
+      'email': email,
+
     };
 
     return map;
@@ -34,6 +36,7 @@ class User {
   //PROCESSO INVERSO
   User.fromMap(Map<String, dynamic> map){
   id = map['id'];
+  password = map['password'];
   name = map['name'];
   address = map['address'];
   state = map['state'];

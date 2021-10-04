@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:re_walls/database_helper/database_helper.dart';
+import 'package:provider/provider.dart';
+import 'package:re_walls/core/utils/models/user_models.dart';
+import 'package:re_walls/core/utils/theme.dart';
+import 'package:re_walls/ui/views/login_presenter.dart';
 import 'package:re_walls/ui/views/signup.dart';
 
 class Login extends StatefulWidget {
@@ -7,18 +10,50 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginState extends State<Login> implements LoginContract {
 
 
-  final _emailCrontoller = TextEditingController();
-  final _passCrontoller = TextEditingController();
+  String _email, _password;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  BuildContext _ctx;
+  bool _isLoading = false;
   final  _formKey = GlobalKey<FormState>();
+  LoginPagePresenter _presenter;
+
+  _LoginState() {
+    _presenter = new LoginPagePresenter(this);
+  }
+
+  void _register() {
+    Navigator.of(context).pushNamed("/register");
+  }
+
+  void _submit() {
+    final form = _formKey.currentState;
+
+    if (form.validate()) {
+      setState(() {
+        _isLoading = true;
+        form.save();
+        _presenter.doLogin(_email, _password);
+      });
+    }
+  }
+
+  void _showSnackBar(String text) {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: new Text(text),
+    ));
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    _ctx = context;
+    final stateData = Provider.of<ThemeNotifier>(context);
+    final ThemeData state = stateData.getTheme();
     return Scaffold(
+      backgroundColor: state.primaryColor,
         key: _scaffoldKey,
         appBar: AppBar (
           title: Text("Entrar"),
@@ -46,7 +81,7 @@ class _LoginState extends State<Login> {
                 padding: EdgeInsets.all(16.0),
                 children: [
                   TextFormField(
-                    controller: _emailCrontoller,
+                    onSaved: (val) => _email = val,
                     decoration: InputDecoration(
                         hintText: "E-mail"
                     ),
@@ -57,7 +92,7 @@ class _LoginState extends State<Login> {
                   ),
                   SizedBox(height: 16.0),
                   TextFormField(
-                    controller: _passCrontoller,
+                    onSaved: (val) => _password = val,
                     decoration: InputDecoration(
                         hintText: "Senha"
                     ),
@@ -71,23 +106,7 @@ class _LoginState extends State<Login> {
                     alignment: Alignment.centerRight,
                     child: ElevatedButton(
                       onPressed: (){
-                        if(_emailCrontoller.text.isEmpty)
-                          _scaffoldKey.currentState.showSnackBar(
-                              SnackBar(
-                                content: Text("Insira seu e-mail para recuperação"),
-                                duration: Duration(seconds: 2),
-                              )
-                          );
-                        else{
-                          //model.recoverPass(_emailCrontoller.text);
-                          _scaffoldKey.currentState.showSnackBar(
-                              SnackBar(
-                                content: Text("Confira seu e-mail"),
-                                backgroundColor: Theme.of(context).primaryColor,
-                                duration: Duration(seconds: 2),
-                              )
-                          );
-                        }
+                        //CRIAR RECUPERAÇÃO DA SENHA
                       },
                       child: Text("Esqueci minha senha",
                           textAlign: TextAlign.right),
@@ -99,12 +118,7 @@ class _LoginState extends State<Login> {
                     onPressed: (){
                       if(_formKey.currentState.validate()){
                       }
-                      /*model.signIn(
-                          email: _emailCrontoller.text,
-                          pass: _passCrontoller.text,
-                          onSucess: _onSuccess,
-                          onFail: _onFail
-                      );*/
+                      _submit();
                     },
                     child: Text("Entrar",
                       style: TextStyle(fontSize: 18.0),
@@ -117,17 +131,26 @@ class _LoginState extends State<Login> {
 
         );
   }
-  void _onSuccess(){
-    Navigator.of(context).pop();
+  @override
+  void onLoginError(String error) {
+    // TODO: implement onLoginError
+    _showSnackBar("Login not successful");
+    setState(() {
+      _isLoading = false;
+    });
   }
+  @override
+  void onLoginSuccess(User user) async {
+    // TODO: implement onLoginSuccess
+    if(user.email == ""){
+      _showSnackBar("Login not successful");
+    }else{
+      _showSnackBar(user.toString());
+      Navigator.of(context).pushNamed("/home");
+    }
+    setState(() {
+      _isLoading = true;
+    });
 
-  void _onFail(){
-    _scaffoldKey.currentState.showSnackBar(
-        SnackBar(
-          content: Text("Falha ao Entrar!"),
-          duration: Duration(seconds: 2),
-        )
-    );
   }
 }
-

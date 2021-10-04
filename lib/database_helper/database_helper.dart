@@ -1,12 +1,8 @@
 import 'dart:async';
-import 'dart:async';
-import 'dart:async';
 import 'dart:io';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:re_walls/core/utils/models/user_models.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/sql.dart';
 
 
 class DatabaseHelper{
@@ -17,6 +13,7 @@ class DatabaseHelper{
   String userTable = 'user';
   String colId ='id';
   String colName = 'name';
+  String colPassword = 'passoword';
   String coladdress = 'address';
   String colState= 'state';
   String colCity = 'city';
@@ -49,7 +46,7 @@ class DatabaseHelper{
   }
    void _createDb(Database db, int newVersion) async {
   await db.execute('CREATE TABLE $userTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, '
-      '$colName TEXT, ''$coladdress TEXT, $colState TEXT, $colCity TEXT, $colCountry TEXT, '
+      '$colName TEXT, $colPassword,''$coladdress TEXT, $colCity TEXT, $colState TEXT, $colCountry TEXT, '
       '$colEmail TEXT)');
    }
   //INCLUIR USER NO BANCO DE DADOS
@@ -66,7 +63,7 @@ class DatabaseHelper{
     Database db = await this.database;
 
     List<Map> maps = await db.query(userTable,
-    columns: [colId, colName, coladdress,colState,colCity,colCountry, colEmail ],
+    columns: [colId,colPassword, colName, coladdress,colCity,colState,colCountry, colEmail ],
     where: "$colId = ?",whereArgs: [id]);
 
     if(maps.length > 0){
@@ -97,13 +94,20 @@ class DatabaseHelper{
         whereArgs: [id]);
     return result;
   }
-//OBTENDO NUMERO DE USUARIOS
-  Future<int> getCount() async {
-    Database db = await this.database;
-    List<Map<String, dynamic>> x = await db.rawQuery('SELECT COUNT (*) from $userTable');
-
-    int result = Sqflite.firstIntValue(x);
-    return result;
+//SELECIONANDO USUARIOS
+  Future<User> selectUser(User user) async {
+    var dbClient = await this.database;
+    List<Map<String, dynamic>> maps = await dbClient.query(userTable,
+        columns: [colEmail, colPassword],
+        where: "$colEmail = ? and $colPassword = ?",
+        whereArgs: [user.email, user.password]);
+    print(maps);
+    if (maps.length > 0) {
+      print("User Exist !!!");
+      return user;
+    } else {
+      return null;
+    }
   }
   //FECHANDO O BANCO DE DADOS
 Future close() async {
