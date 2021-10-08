@@ -30,7 +30,7 @@ class _PopularWallpapersState extends State<PopularWallpapers>
     final dataState = Provider.of<GridWallpaperState>(context);
     final themeState = Provider.of<ThemeNotifier>(context);
     final themeData = themeState.getTheme();
-    final List<Post>? posts = dataState.posts;
+    final List<Post?> posts = dataState.posts;
 
     return dataState.state == kdataFetchState.IS_LOADING
         ? Container(
