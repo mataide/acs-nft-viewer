@@ -4,10 +4,10 @@ import '../../core/utils/constants.dart';
 import '../../core/utils/theme.dart';
 
 class ResolutionSelector extends StatefulWidget {
-  final String deviceResolution;
-  final Function(String) onTap;
+  final String? deviceResolution;
+  final Function(String?)? onTap;
 
-  ResolutionSelector({Key key, this.onTap, this.deviceResolution})
+  ResolutionSelector({Key? key, this.onTap, this.deviceResolution})
       : super(key: key);
   @override
   _ResolutionSelectorState createState() => _ResolutionSelectorState();
@@ -15,7 +15,7 @@ class ResolutionSelector extends StatefulWidget {
 
 class _ResolutionSelectorState extends State<ResolutionSelector> {
   int selected = 0;
-  List<String> list = [];
+  List<String?> list = [];
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _ResolutionSelectorState extends State<ResolutionSelector> {
                       setState(() {
                         selected = index;
                       });
-                      widget.onTap(list[index]);
+                      widget.onTap!(list[index]);
                     }
                   },
                   child: Container(
@@ -63,8 +63,8 @@ class _ResolutionSelectorState extends State<ResolutionSelector> {
                           ),
                           borderRadius: BorderRadius.circular(40.0)),
                       child: Text(
-                        list[index],
-                        style: themeData.textTheme.bodyText1
+                        list[index]!,
+                        style: themeData.textTheme.bodyText1!
                             .copyWith(fontSize: 14),
                       )),
                 );

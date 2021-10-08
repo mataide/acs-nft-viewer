@@ -1,7 +1,7 @@
 const String API_BASE_URL = "https://www.reddit.com/";
 
 class EndPoints {
-  static String getPosts(String subreddit, String filter) {
+  static String getPosts(String? subreddit, String filter) {
     return '${API_BASE_URL}r/$subreddit/$filter.json';
   }
 

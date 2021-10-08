@@ -1,28 +1,28 @@
-name: re_walls
+name: NFT_View
 description: Wallpapers from reddit.
 
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  provider: 5.0.0
-  carousel_slider: 3.0.0
-  shared_preferences: 2.0.5
-  http: 0.13.1
-  cached_network_image: 3.0.0
-  share: 2.0.1
-  webview_flutter: 2.0.4
-  image_downloader: 0.30.0
-  font_awesome_flutter: 9.0.0
-  permission_handler: 7.0.0
-  fluttertoast: 8.0.6
-  url_launcher: 6.0.3
   sqflite: ^2.0.0+4
-  path_provider: ^2.0.2
+  path_provider: ^2.0.5
+  provider: ^6.0.1
+  carousel_slider: ^4.0.0
+  shared_preferences: ^2.0.8
+  http: ^0.13.4
+  cached_network_image: ^3.1.0
+  share: ^2.0.4
+  webview_flutter: ^2.1.1
+  image_downloader: ^0.30.0
+  font_awesome_flutter: ^9.1.0
+  permission_handler: ^8.2.2
+  fluttertoast: ^8.0.8
+  url_launcher: ^6.0.12
 
 dev_dependencies:
   flutter_test:

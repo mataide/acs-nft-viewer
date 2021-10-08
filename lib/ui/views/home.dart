@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: Icon(
               Icons.search,
-              color: state.textTheme.bodyText2.color,
+              color: state.textTheme.bodyText2!.color,
             ),
             onPressed: () => showSearch(
                 context: context, delegate: WallpaperSearch(themeData: state)),
@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomNavyBar(
         selectedIndex: _selectedIndex,
-        unselectedColor: state.textTheme.bodyText2.color,
+        unselectedColor: state.textTheme.bodyText2!.color,
         onItemSelected: (index) {
           _pageController.jumpToPage(index);
         },
@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget oldBody(ThemeData state) {
+  /*Widget oldBody(ThemeData state) {
     return NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool boxIsScrolled) {
         return <Widget>[
@@ -150,5 +150,5 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
+  }*/
 }

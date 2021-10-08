@@ -1,4 +1,4 @@
-import 'package:re_walls/ui/views/login.dart';
+import 'package:NFT_View/ui/views/login.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
@@ -57,8 +57,8 @@ class _SettingsPageState extends State<SettingsPage>
                 title: "Login",
                 icon: FontAwesomeIcons.user,
                 onTap: (){
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context)=> Login()));
+                  //Navigator.of(context).push(
+                  //,03,,    MaterialPageRoute(builder: (context)=> Login()));
                 }, //AGUARDANDO BANCO DE DADOS DE LOGIN
               )
             ],
@@ -115,12 +115,12 @@ class _SettingsPageState extends State<SettingsPage>
 }
 
 class CustomListTile extends StatelessWidget {
-  final String title, subtitle;
+  final String? title, subtitle;
   final IconData icon;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   CustomListTile(
-      {Key key,
+      {Key? key,
       this.title = 'Title',
       this.subtitle,
       this.icon = Icons.star,
@@ -139,13 +139,13 @@ class CustomListTile extends StatelessWidget {
         color: Color(0xff909090),
       ),
       title: Text(
-        title,
+        title!,
         style: state.textTheme.bodyText1,
       ),
       subtitle: subtitle == null
           ? null
           : Text(
-              subtitle,
+              subtitle!,
               style: state.textTheme.caption,
             ),
     );

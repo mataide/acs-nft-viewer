@@ -1,6 +1,6 @@
 class Reddit {
-  String kind;
-  Data data;
+  String? kind;
+  Data? data;
 
   Reddit({this.kind, this.data});
 
@@ -11,8 +11,8 @@ class Reddit {
 }
 
 class Data {
-  String modhash;
-  List<Children> children;
+  String? modhash;
+  List<Children>? children;
 
   Data({
     this.modhash,
@@ -24,15 +24,15 @@ class Data {
     if (json['children'] != null) {
       children = [];
       json['children'].forEach((v) {
-        children.add(new Children.fromJson(v));
+        children!.add(new Children.fromJson(v));
       });
     }
   }
 }
 
 class Children {
-  String kind;
-  Post post;
+  String? kind;
+  Post? post;
 
   Children({this.kind, this.post});
 
@@ -43,7 +43,7 @@ class Children {
 }
 
 class Post {
-  String subreddit,
+  String? subreddit,
       title,
       name,
       subredditType,
@@ -54,7 +54,7 @@ class Post {
       author,
       permalink,
       url;
-  Preview preview;
+  Preview? preview;
 
   Post(
       {this.subreddit,
@@ -82,8 +82,8 @@ class Post {
 }
 
 class Preview {
-  List<Images> images;
-  bool enabled;
+  List<Images>? images;
+  bool? enabled;
 
   Preview({this.images, this.enabled});
 
@@ -91,7 +91,7 @@ class Preview {
     if (json['images'] != null) {
       images = [];
       json['images'].forEach((v) {
-        images.add(new Images.fromJson(v));
+        images!.add(new Images.fromJson(v));
       });
     }
     enabled = json['enabled'];
@@ -99,9 +99,9 @@ class Preview {
 }
 
 class Images {
-  Source source;
-  List<Resolutions> resolutions;
-  String id;
+  Source? source;
+  List<Resolutions>? resolutions;
+  String? id;
 
   Images({this.source, this.resolutions, this.id});
 
@@ -111,7 +111,7 @@ class Images {
     if (json['resolutions'] != null) {
       resolutions = [];
       json['resolutions'].forEach((v) {
-        resolutions.add(new Resolutions.fromJson(v));
+        resolutions!.add(new Resolutions.fromJson(v));
       });
     }
     id = json['id'];
@@ -119,9 +119,9 @@ class Images {
 }
 
 class Source {
-  String url;
-  int width;
-  int height;
+  String? url;
+  int? width;
+  int? height;
 
   Source({this.url, this.width, this.height});
 
@@ -133,9 +133,9 @@ class Source {
 }
 
 class Resolutions {
-  String url;
-  int width;
-  int height;
+  String? url;
+  int? width;
+  int? height;
 
   Resolutions({this.url, this.width, this.height});
 

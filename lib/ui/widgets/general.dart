@@ -9,10 +9,10 @@ import 'package:http/http.dart' as http;
 class ColButton extends StatelessWidget {
   final String title;
   final IconData icon;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   ColButton(
-      {Key key, this.title = '', this.icon = Icons.tap_and_play, this.onTap})
+      {Key? key, this.title = '', this.icon = Icons.tap_and_play, this.onTap})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class ColButton extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Icon(
                 icon,
-                color: theme.textTheme.bodyText2.color,
+                color: theme.textTheme.bodyText2!.color,
               ),
             ),
             Text(title,
@@ -84,7 +84,7 @@ class _SubredditAddWidgetState extends State<SubredditAddWidget> {
                       controller: subredditText,
                       keyboardType: TextInputType.text,
                       style:
-                          TextStyle(color: themeData.textTheme.bodyText1.color),
+                          TextStyle(color: themeData.textTheme.bodyText1!.color),
                       decoration: InputDecoration(
                         hintText: 'Subreddit Name',
                         labelText: 'Enter the subreddit',
@@ -103,7 +103,7 @@ class _SubredditAddWidgetState extends State<SubredditAddWidget> {
                         ),
                       ),
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return 'Please enter a subreddit.';
                         }
                         return null;
@@ -148,11 +148,11 @@ class _SubredditAddWidgetState extends State<SubredditAddWidget> {
                         color: themeData.accentColor,
                         child: Text(
                           'Add',
-                          style: themeData.textTheme.bodyText1
+                          style: themeData.textTheme.bodyText1!
                               .copyWith(color: themeData.primaryColor),
                         ),
                         onPressed: () async {
-                          if (_formKey.currentState.validate()) {
+                          if (_formKey.currentState!.validate()) {
                             checkSub(
                                 'https://www.reddit.com/search.json?q=${subredditText.text}&type=sr');
                           }
@@ -175,9 +175,9 @@ class _SubredditAddWidgetState extends State<SubredditAddWidget> {
         SubredditTestClass subredditTestClass =
             SubredditTestClass.fromJson(decodeRes);
 
-        List<bool> list = subredditTestClass.data.children
+        List<bool> list = subredditTestClass.data!.children!
             .map((item) =>
-                item.data.displayname.toLowerCase() ==
+                item.data!.displayname!.toLowerCase() ==
                 'r/${subredditText.text.toLowerCase()}')
             .toList();
         setState(() {
@@ -200,9 +200,9 @@ class _SubredditAddWidgetState extends State<SubredditAddWidget> {
 }
 
 class ErrorOccured extends StatelessWidget {
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
-  ErrorOccured({Key key, this.onTap}) : super(key: key);
+  ErrorOccured({Key? key, this.onTap}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<ThemeNotifier>(context);
@@ -218,7 +218,7 @@ class ErrorOccured extends StatelessWidget {
           ElevatedButton(
             onPressed: onTap,
             child: Text('Retry',
-                style: _themeData.textTheme.bodyText1.copyWith(
+                style: _themeData.textTheme.bodyText1!.copyWith(
                   color: _themeData.primaryColor,
                 )),
           ),
@@ -229,18 +229,18 @@ class ErrorOccured extends StatelessWidget {
 }
 
 class ShowSelectorWidget extends StatelessWidget {
-  final String title;
-  final VoidCallback onTap;
+  final String? title;
+  final VoidCallback? onTap;
 
-  ShowSelectorWidget({Key key, this.title, this.onTap}) : super(key: key);
+  ShowSelectorWidget({Key? key, this.title, this.onTap}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     final ThemeData themeData = themeNotifier.getTheme();
     return ListTile(
       dense: true,
-      trailing: Icon(Icons.edit, color: themeData.textTheme.bodyText1.color),
-      title: Text(title,
+      trailing: Icon(Icons.edit, color: themeData.textTheme.bodyText1!.color),
+      title: Text(title!,
           maxLines: 2,
           overflow: TextOverflow.clip,
           style: themeData.textTheme.caption),

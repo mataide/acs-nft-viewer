@@ -3,8 +3,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:re_walls/core/utils/constants.dart';
-import 'package:re_walls/ui/widgets/general.dart';
+import 'package:NFT_View/core/utils/constants.dart';
+import 'package:NFT_View/ui/widgets/general.dart';
 import '../../core/utils/models/response.dart';
 import '../../core/utils/theme.dart';
 import '../widgets/resolution_selector.dart';
@@ -23,7 +23,7 @@ class _ForYouState extends State<ForYou>
   bool get wantKeepAlive => true;
 
   kdataFetchState _fetchState = kdataFetchState.IS_LOADING;
-  List<Post> posts;
+  List<Post?>? posts;
 
   @override
   void initState() {
@@ -41,9 +41,9 @@ class _ForYouState extends State<ForYou>
         var decodeRes = jsonDecode(res.body);
         posts = [];
         Reddit temp = Reddit.fromJson(decodeRes);
-        temp.data.children.forEach((children) {
-          if (children.post.postHint == 'image') {
-            posts.add(children.post);
+        temp.data!.children!.forEach((children) {
+          if (children.post!.postHint == 'image') {
+            posts!.add(children.post);
           }
         });
 
@@ -79,7 +79,7 @@ class _ForYouState extends State<ForYou>
               deviceResolution:
                   '${window.physicalSize.width.toInt()}x${window.physicalSize.height.toInt()}',
               onTap: (value) {
-                fetchWallPapers(EndPoints.getSearch(value));
+                fetchWallPapers(EndPoints.getSearch(value!));
               },
             ),
           ),

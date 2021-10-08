@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:re_walls/core/utils/theme.dart';
-import 'package:re_walls/core/viewmodels/grid_wallpaper_state.dart';
+import 'package:NFT_View/core/utils/theme.dart';
+import 'package:NFT_View/core/viewmodels/grid_wallpaper_state.dart';
 import '../../core/utils/constants.dart';
 import '../views/selector.dart';
 import '../../core/utils/api_endpoints.dart';
@@ -30,7 +30,7 @@ class _PopularWallpapersState extends State<PopularWallpapers>
     final dataState = Provider.of<GridWallpaperState>(context);
     final themeState = Provider.of<ThemeNotifier>(context);
     final themeData = themeState.getTheme();
-    final List<Post> posts = dataState.posts;
+    final List<Post>? posts = dataState.posts;
 
     return dataState.state == kdataFetchState.IS_LOADING
         ? Container(
@@ -62,7 +62,7 @@ class _PopularWallpapersState extends State<PopularWallpapers>
                         overflow: TextOverflow.clip,
                         style: themeData.textTheme.caption),
                     onTap: () async {
-                      SelectorCallback selected =
+                      SelectorCallback? selected =
                           await showModalBottomSheet<SelectorCallback>(
                               context: context,
                               isScrollControlled: true,

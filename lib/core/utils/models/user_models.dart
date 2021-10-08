@@ -4,14 +4,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class User {
 
-  int id;
-  String password;
-  String name;
-  String address;
-  String state;
-  String city;
-  String country;
-  String email;
+
+
+
+  int? id;
+  String? password;
+  String? name;
+  String? address;
+  String? state;
+  String? city;
+  String? country;
+  String? email;
 
   User(this.id,this.password ,this.name, this.address, this.state, this.city, this.country, this.email);
 
@@ -21,13 +24,14 @@ class User {
 
     var map = <String, dynamic>{
       'id':id,
-      'password': password,
       'name': name,
-      'address': address,
-      'state': state,
-      'city': city,
-      'country': country,
       'email': email,
+      'password': password,
+      'address': address,
+      'city': city,
+      'state': state,
+      'country': country,
+
 
     };
 
@@ -36,16 +40,15 @@ class User {
   //PROCESSO INVERSO
   User.fromMap(Map<String, dynamic> map){
   id = map['id'];
-  password = map['password'];
   name = map['name'];
-  address = map['address'];
-  state = map['state'];
-  city = map['city'];
-  country = map['country'];
   email = map['email'];
+  password = map['password'];
+  address = map['address'];
+  city = map['city'];
+  state = map['state'];
+  country = map['country'];
 
 
   }
-
 
 }
