@@ -5,10 +5,10 @@ import '../views/wallpaper.dart';
 import '../../core/utils/models/response.dart';
 
 class WallpaperList extends StatefulWidget {
-  final List<Post> posts;
-  final ThemeData themeData;
+  final List<Post?>? posts;
+  final ThemeData? themeData;
 
-  WallpaperList({@required this.posts, @required this.themeData});
+  WallpaperList({required this.posts, required this.themeData});
 
   @override
   _WallpaperListState createState() => _WallpaperListState();
@@ -22,7 +22,7 @@ class _WallpaperListState extends State<WallpaperList> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.posts.length == 0
+    return widget.posts!.length == 0
         ? SizedBox(
             height: 200,
             child: Column(
@@ -30,19 +30,19 @@ class _WallpaperListState extends State<WallpaperList> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Icon(FontAwesomeIcons.sadCry,
-                      size: 30, color: widget.themeData.accentColor),
+                      size: 30, color: widget.themeData!.accentColor),
                 ),
                 Text(
                   'Seems like what you are looking for, is empty.',
-                  style: widget.themeData.textTheme.bodyText1,
+                  style: widget.themeData!.textTheme.bodyText1,
                 )
               ],
             ),
           )
-        : wallpaperGrid(widget.posts);
+        : wallpaperGrid(widget.posts!);
   }
 
-  Widget wallpaperGrid(List<Post> list) {
+  Widget wallpaperGrid(List<Post?> list) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, childAspectRatio: 0.7),
@@ -63,13 +63,13 @@ class _WallpaperListState extends State<WallpaperList> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => WallpaperPage(
-                            heroId: 'popular${list[index].name}',
+                            heroId: 'popular${list[index]!.name}',
                             posts: list,
                             index: index,
                           )));
             },
             child: Hero(
-              tag: 'popular${list[index].name}',
+              tag: 'popular${list[index]!.name}',
               child: SizedBox(
                 width: double.infinity,
                 height: 300,
@@ -82,7 +82,7 @@ class _WallpaperListState extends State<WallpaperList> {
                       child: Center(
                         child: Icon(
                           Icons.error,
-                          color: widget.themeData.accentColor,
+                          color: widget.themeData!.accentColor,
                         ),
                       ),
                     ),
@@ -91,32 +91,32 @@ class _WallpaperListState extends State<WallpaperList> {
                       child: Container(
                           width: double.infinity,
                           height: double.infinity,
-                          color: widget.themeData.primaryColorDark,
+                          color: widget.themeData!.primaryColorDark,
                           child: Center(
                               child: CircularProgressIndicator(
                             valueColor: AlwaysStoppedAnimation(
-                                widget.themeData.accentColor),
+                                widget.themeData!.accentColor),
                           ))),
                     ),
                     imageUrl:
-                        list[index].preview.images[0].resolutions.length <= 3
+                        list[index]!.preview!.images![0].resolutions!.length <= 3
                             ? widget
-                                .posts[index]
-                                .preview
-                                .images[0]
-                                .resolutions[list[index]
-                                        .preview
-                                        .images[0]
-                                        .resolutions
+                                .posts![index]!
+                                .preview!
+                                .images![0]
+                                .resolutions![list[index]!
+                                        .preview!
+                                        .images![0]
+                                        .resolutions!
                                         .length -
                                     1]
-                                .url
+                                .url!
                                 .replaceAll('amp;', '')
-                            : list[index]
-                                .preview
-                                .images[0]
-                                .resolutions[3]
-                                .url
+                            : list[index]!
+                                .preview!
+                                .images![0]
+                                .resolutions![3]
+                                .url!
                                 .replaceAll('amp;', ''),
                   ),
                 ),

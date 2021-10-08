@@ -1,20 +1,20 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:re_walls/core/utils/api_endpoints.dart';
-import 'package:re_walls/core/utils/subreddits.dart';
-import 'package:re_walls/ui/views/selector.dart';
+import 'package:NFT_View/core/utils/api_endpoints.dart';
+import 'package:NFT_View/core/utils/subreddits.dart';
+import 'package:NFT_View/ui/views/selector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/constants.dart';
 import '../utils/models/response.dart';
 import 'package:http/http.dart' as http;
 
 class CarouselWallpaperState extends ChangeNotifier {
-  List<Post> _posts;
+  List<Post?> _posts;
   kdataFetchState _fetchState;
 
-  int _selectedFilter;
-  List<String> _subreddits, _selectedSubreddit;
+  int? _selectedFilter;
+  List<String>? _subreddits, _selectedSubreddit;
 
   CarouselWallpaperState(this._fetchState, this._posts) {
     prepareSharedPrefs();
@@ -32,10 +32,10 @@ class CarouselWallpaperState extends ChangeNotifier {
           preferences.getStringList('subredditsList') ?? initialSubredditsList;
       _selectedFilter = preferences.getInt('carousel_filter') ?? 0;
       _selectedSubreddit = preferences.getStringList('carousel_subreddit') ??
-          [_subreddits[0], _subreddits[1]];
+          [_subreddits![0], _subreddits![1]];
 
-      fetchWallPapers(EndPoints.getPosts(_selectedSubreddit.join('+'),
-          kfilterValues[_selectedFilter].toLowerCase()));
+      fetchWallPapers(EndPoints.getPosts(_selectedSubreddit!.join('+'),
+          kfilterValues[_selectedFilter!].toLowerCase()));
     });
   }
 
@@ -48,8 +48,8 @@ class CarouselWallpaperState extends ChangeNotifier {
           var decodeRes = jsonDecode(res.body);
           _posts = [];
           Reddit temp = Reddit.fromJson(decodeRes);
-          temp.data.children.forEach((children) {
-            if (children.post.postHint == 'image') {
+          temp.data!.children!.forEach((children) {
+            if (children.post!.postHint == 'image') {
               _posts.add(children.post);
             }
           });
@@ -71,8 +71,8 @@ class CarouselWallpaperState extends ChangeNotifier {
     _selectedFilter = selected.selectedFilter;
     _selectedSubreddit = selected.selectedSubreddits;
     SharedPreferences.getInstance().then((preferences) {
-      preferences.setInt('carousel_filter', _selectedFilter);
-      preferences.setStringList('carousel_subreddit', _selectedSubreddit);
+      preferences.setInt('carousel_filter', _selectedFilter!);
+      preferences.setStringList('carousel_subreddit', _selectedSubreddit!);
       prepareSharedPrefs();
     });
   }

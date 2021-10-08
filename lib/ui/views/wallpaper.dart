@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:re_walls/core/utils/theme.dart';
+import 'package:NFT_View/core/utils/theme.dart';
 import 'web_page.dart';
 import '../../core/utils/dialog_utils.dart';
 import '../widgets/general.dart';
@@ -16,22 +16,22 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class WallpaperPage extends StatefulWidget {
   final String heroId;
-  final List<Post> posts;
+  final List<Post?> posts;
   final int index;
 
   WallpaperPage(
-      {@required this.heroId, @required this.posts, @required this.index});
+      {required this.heroId, required this.posts, required this.index});
   @override
   _WallpaperPageState createState() => _WallpaperPageState();
 }
 
 class _WallpaperPageState extends State<WallpaperPage>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+  late AnimationController _controller;
   BoxFit fit = BoxFit.cover;
-  Post currentPost;
+  Post? currentPost;
   static const platform = const MethodChannel('com.bimsina.re_walls/wallpaper');
-  PageController _pageController;
+  PageController? _pageController;
 
   @override
   void initState() {
@@ -63,7 +63,7 @@ class _WallpaperPageState extends State<WallpaperPage>
         try {
           showToast('Check the notification to see progress.');
 
-          var imageId = await ImageDownloader.downloadImage(currentPost.url,
+          var imageId = await ImageDownloader.downloadImage(currentPost!.url!,
               destination: AndroidDestinationType.directoryDownloads);
           if (imageId == null) {
             return;
@@ -88,9 +88,9 @@ class _WallpaperPageState extends State<WallpaperPage>
   }
 
   void _setWallpaper() async {
-    var file = await DefaultCacheManager().getSingleFile(currentPost.url);
+    var file = await DefaultCacheManager().getSingleFile(currentPost!.url!);
     try {
-      final int result = await platform.invokeMethod('setWallpaper', file.path);
+      final int? result = await platform.invokeMethod('setWallpaper', file.path);
       print('Wallpaer Updated.... $result');
     } on PlatformException catch (e) {
       print("Failed to Set Wallpaer: '${e.message}'.");
@@ -123,13 +123,13 @@ class _WallpaperPageState extends State<WallpaperPage>
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
-            currentPost.title,
+            currentPost!.title!,
             style: themeData.textTheme.bodyText2,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           Text(
-            'Posted on r/${currentPost.subreddit} by u/${currentPost.author}',
+            'Posted on r/${currentPost!.subreddit} by u/${currentPost!.author}',
             style: themeData.textTheme.bodyText1,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -155,7 +155,7 @@ class _WallpaperPageState extends State<WallpaperPage>
                 icon: Icons.share,
                 onTap: () {
                   Share.share(
-                      'Checkout this awesome wallpaper I found on reWalls ${currentPost.url}');
+                      'Checkout this awesome wallpaper I found on reWalls ${currentPost!.url}');
                 },
               ),
               ColButton(
@@ -166,9 +166,9 @@ class _WallpaperPageState extends State<WallpaperPage>
                       context,
                       MaterialPageRoute(
                           builder: (context) => WebPage(
-                                title: currentPost.title,
+                                title: currentPost!.title,
                                 initialPage: 'https://www.reddit.com' +
-                                    currentPost.permalink,
+                                    currentPost!.permalink!,
                               )));
                 },
               ),
@@ -223,7 +223,7 @@ class _WallpaperPageState extends State<WallpaperPage>
                             fit: StackFit.expand,
                             children: <Widget>[
                               Image.network(
-                                item.preview.images[0].resolutions[0].url,
+                                item!.preview!.images![0].resolutions![0].url!,
                                 fit: fit,
                               ),
                               Center(
@@ -234,7 +234,7 @@ class _WallpaperPageState extends State<WallpaperPage>
                               ),
                             ],
                           ),
-                          imageUrl: item.url,
+                          imageUrl: item!.url!,
                         ),
                       )
                       .toList(),
@@ -270,7 +270,7 @@ class _WallpaperPageState extends State<WallpaperPage>
                           child: IconButton(
                             icon: Icon(
                               Icons.arrow_back,
-                              color: themeData.textTheme.bodyText2.color,
+                              color: themeData.textTheme.bodyText2!.color,
                             ),
                             onPressed: () {
                               Navigator.pop(context);
@@ -282,7 +282,7 @@ class _WallpaperPageState extends State<WallpaperPage>
                             fit == BoxFit.contain
                                 ? Icons.fullscreen
                                 : Icons.fullscreen_exit,
-                            color: themeData.textTheme.bodyText2.color,
+                            color: themeData.textTheme.bodyText2!.color,
                           ),
                           onPressed: () {
                             if (fit == BoxFit.contain) {

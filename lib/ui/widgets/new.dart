@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:re_walls/core/utils/models/response.dart';
-import 'package:re_walls/core/utils/theme.dart';
-import 'package:re_walls/core/viewmodels/carousel_wallpaper_state.dart';
+import 'package:NFT_View/core/utils/models/response.dart';
+import 'package:NFT_View/core/utils/theme.dart';
+import 'package:NFT_View/core/viewmodels/carousel_wallpaper_state.dart';
 import '../../core/utils/constants.dart';
 import '../views/selector.dart';
 import '../views/wallpaper.dart';
@@ -51,7 +51,7 @@ class _NewWallpapersState extends State<NewWallpapers>
                     title:
                         '${kfilterValues[dataState.selectedFilter]} on r/${dataState.selectedSubreddit.join(', ')}',
                     onTap: () async {
-                      SelectorCallback selected =
+                      SelectorCallback? selected =
                           await showModalBottomSheet<SelectorCallback>(
                               context: context,
                               isScrollControlled: true,
@@ -137,21 +137,21 @@ class _NewWallpapersState extends State<NewWallpapers>
                                                                     .accentColor),
                                                       ))),
                                                 ),
-                                            imageUrl: post.preview.images[0]
-                                                        .resolutions.length <=
+                                            imageUrl: post.preview!.images![0]
+                                                        .resolutions!.length <=
                                                     3
                                                 ? post
-                                                    .preview
-                                                    .images[0]
-                                                    .resolutions[post
-                                                            .preview
-                                                            .images[0]
-                                                            .resolutions
+                                                    .preview!
+                                                    .images![0]
+                                                    .resolutions![post
+                                                            .preview!
+                                                            .images![0]
+                                                            .resolutions!
                                                             .length -
                                                         1]
-                                                    .url
-                                                : post.preview.images[0]
-                                                    .resolutions[3].url),
+                                                    .url!
+                                                : post.preview!.images![0]
+                                                    .resolutions![3].url!),
                                       ),
                                     ),
                                   ),

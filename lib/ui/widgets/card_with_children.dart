@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import '../../core/utils/theme.dart';
 
 class CardWithChildren extends StatelessWidget {
-  final List<Widget> children;
+  final List<Widget>? children;
   final String title;
-  CardWithChildren({Key key, this.children, this.title = 'Title'})
+  CardWithChildren({Key? key, this.children, this.title = 'Title'})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class CardWithChildren extends StatelessWidget {
           ),
           Column(
             mainAxisSize: MainAxisSize.min,
-            children: children,
+            children: children!,
           )
         ],
       ),

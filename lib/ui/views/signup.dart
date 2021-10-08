@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:re_walls/core/utils/theme.dart';
-import 'package:re_walls/database_helper/database_helper.dart';
-import 'package:re_walls/core/utils/models/user_models.dart';
-import 'package:re_walls/ui/views/login.dart';
+import 'package:NFT_View/core/utils/theme.dart';
+import 'package:NFT_View/database_helper/database_helper.dart';
+import 'package:NFT_View/core/utils/models/user_models.dart';
+import 'package:NFT_View/ui/views/login.dart';
+import 'package:sqflite/sqflite.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -12,8 +13,15 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
 
-  String _name, _email, _pass, _address,  _city,_state, _country;
+  final _emailCrontoller = TextEditingController();
+  final _nameCrontoller = TextEditingController();
+  final _passCrontoller = TextEditingController();
+  final _addressCrontoller = TextEditingController();
+  final _cityCrontoller = TextEditingController();
+  final _stateCrontoller = TextEditingController();
+  final _countryCrontoller = TextEditingController();
 
+  final dbHelper = DatabaseHelper.instance;
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -37,82 +45,82 @@ class _SignUpState extends State<SignUp> {
             padding: EdgeInsets.all(16.0),
             children: [
               TextFormField(
-                onSaved: (val) => _name = val,
+                controller: _nameCrontoller,
                 decoration: InputDecoration(
                     hintText: "Nome Completo"
                 ),
                 validator: (text) {
-                  if (text.isEmpty)
+                  if (text!.isEmpty)
                     return "Nome inválido!"; //se texto vazio OU não contem arroba
                 },
               ),
               SizedBox(height: 16.0),
               TextFormField(
-                onSaved: (val) => _email = val,
+                controller: _emailCrontoller,
                 decoration: InputDecoration(
                     hintText: "E-mail"
                 ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (text) {
-                  if (text.isEmpty || !text.contains("@"))
+                  if (text!.isEmpty || !text.contains("@"))
                     return "E-mail inválido!"; //se texto vazio OU não contem arroba
                 },
               ),
               SizedBox(height: 16.0),
               TextFormField(
-                onSaved: (val) => _pass = val,
+                controller: _passCrontoller,
                 decoration: InputDecoration(
                     hintText: "Senha"
                 ),
                 obscureText: true,
                 //PARA NÃO MOSTRAR A SENHA
                 validator: (text) {
-                  if (text.isEmpty || text.length < 6) return "Senha inválida!";
+                  if (text!.isEmpty || text.length < 6) return "Senha inválida!";
                 },
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 16.0,),
               TextFormField(
-                onSaved: (val) => _address = val,
+                controller: _addressCrontoller,
                 decoration: InputDecoration(
                     hintText: "Endereço"
                 ),
                 validator: (text) {
-                  if (text.isEmpty) return "Endereço inválido!";
+                  if (text!.isEmpty) return "Endereço inválido!";
                 },
               ),
               SizedBox(height: 16.0,),
               TextFormField(
-                onSaved: (val) => _city = val,
+                controller: _cityCrontoller,
                 decoration: InputDecoration(
                     hintText: "Cidade"
                 ),
                 validator: (text) {
-                  if (text.isEmpty) return "Cidade Inválida!";
+                  if (text!.isEmpty) return "Cidade Inválida!";
                 },
               ),
               SizedBox(height: 16.0,),
               TextFormField(
-                onSaved: (val) => _state = val,
+                controller: _stateCrontoller,
                 decoration: InputDecoration(
                     hintText: "Estado"
                 ),
                 validator: (text) {
-                  if (text.isEmpty) return "Estado inválido!";
+                  if (text!.isEmpty) return "Estado inválido!";
                 },
               ),
               SizedBox(height: 16.0,),
               TextFormField(
-                onSaved: (val) => _pass = val,
+                controller: _countryCrontoller,
                 decoration: InputDecoration(
                     hintText: "País"
                 ),
                 validator: (text) {
-                  if (text.isEmpty) return "País inválido!";
+                  if (text!.isEmpty) return "País inválido!";
                 },
               ),
               ElevatedButton(
-                onPressed: _submit,
+                onPressed:(){ _inserir();},
                 child: Text("Criar Conta",
                   style: TextStyle(fontSize: 18.0),
                 ),
@@ -124,30 +132,33 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  void _submit() {
-    final form = _formKey.currentState;
-
-    if (form.validate()) {
-      setState(() {
-        _isLoading = true;
-        form.save();
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context)=> Login()));
-        var user = new User(
-            null,
-            _name,
-            _email,
-            _pass,
-            _address,
-            _state,
-            _city,
-            _country);
-        var db = new DatabaseHelper();
-        db.insertUser(user);
-        _isLoading = false;
-
-      });
-    }
+  // métodos dos Buttons
+  void _inserir() async {
+    // linha para incluir
+    Map<String, dynamic> row = {
+      DatabaseHelper.instance.colName : _nameCrontoller.text,
+    DatabaseHelper.instance.colEmail : _emailCrontoller.text,
+    DatabaseHelper.instance.colCountry: _countryCrontoller.text,
+    DatabaseHelper.instance.colCity : _cityCrontoller.text,
+    DatabaseHelper.instance.colPassword: _passCrontoller.text,
+    DatabaseHelper.instance.colState: _stateCrontoller.text,
+    DatabaseHelper.instance.coladdress: _addressCrontoller.text,
+    };
+    final id = await dbHelper.insert(row);
+    print('linha inserida id: $id');
+    _scaffoldKey.currentState!.showSnackBar(
+        SnackBar(
+          content: Text("Usúario criado com sucesso"),
+          duration: Duration(seconds: 2),
+        ));
+    final todasLinhas = await dbHelper.queryAllRows();
+    print('Consulta todas as linhas:');
+    todasLinhas.forEach((row) => print(row));
+    Future.delayed(Duration(seconds: 2)).then((_) {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context)=> Login())
+      );
+    });
   }
 
 }

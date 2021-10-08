@@ -1,7 +1,7 @@
 import 'package:provider/provider.dart';
-import 'package:re_walls/core/utils/constants.dart';
-import 'package:re_walls/core/viewmodels/carousel_wallpaper_state.dart';
-import 'package:re_walls/core/viewmodels/grid_wallpaper_state.dart';
+import 'package:NFT_View/core/utils/constants.dart';
+import 'package:NFT_View/core/viewmodels/carousel_wallpaper_state.dart';
+import 'package:NFT_View/core/viewmodels/grid_wallpaper_state.dart';
 import '../widgets/new.dart';
 import '../widgets/popular.dart';
 import 'package:flutter/material.dart';

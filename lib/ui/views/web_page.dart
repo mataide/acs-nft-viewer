@@ -4,9 +4,9 @@ import '../../core/utils/theme.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebPage extends StatefulWidget {
-  final String title, initialPage;
+  final String? title, initialPage;
 
-  WebPage({Key key, @required this.title, @required this.initialPage})
+  WebPage({Key? key, required this.title, required this.initialPage})
       : super(key: key);
 
   @override
@@ -22,11 +22,11 @@ class _WebPageState extends State<WebPage> {
       appBar: AppBar(
         backgroundColor: themeData.primaryColor,
         leading: IconButton(
-            color: themeData.textTheme.bodyText2.color,
+            color: themeData.textTheme.bodyText2!.color,
             icon: Icon(Icons.close),
             onPressed: () => Navigator.pop(context)),
         title: Text(
-          widget.title,
+          widget.title!,
           style: themeData.textTheme.bodyText2,
         ),
       ),

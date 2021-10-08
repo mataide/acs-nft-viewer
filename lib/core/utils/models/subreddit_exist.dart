@@ -1,6 +1,6 @@
 class SubredditTestClass {
-  String kind;
-  SubredditTestClassData data;
+  String? kind;
+  SubredditTestClassData? data;
 
   SubredditTestClass({
     this.kind,
@@ -14,7 +14,7 @@ class SubredditTestClass {
 }
 
 class SubredditTestClassData {
-  List<Child> children;
+  List<Child>? children;
 
   SubredditTestClassData({
     this.children,
@@ -23,15 +23,15 @@ class SubredditTestClassData {
     if (json['children'] != null) {
       children = [];
       json['children'].forEach((v) {
-        children.add(new Child.fromJson(v));
+        children!.add(new Child.fromJson(v));
       });
     }
   }
 }
 
 class Child {
-  String kind;
-  ChildData data;
+  String? kind;
+  ChildData? data;
 
   Child({
     this.kind,
@@ -43,7 +43,7 @@ class Child {
 }
 
 class ChildData {
-  String displayname;
+  String? displayname;
 
   ChildData({
     this.displayname,

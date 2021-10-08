@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:re_walls/core/utils/subreddits.dart';
+import 'package:NFT_View/core/utils/subreddits.dart';
 import '../../core/utils/constants.dart';
 import '../../core/utils/theme.dart';
 import '../widgets/general.dart';
@@ -14,7 +14,7 @@ class Category extends StatefulWidget {
 
 class _CategoryState extends State<Category>
     with AutomaticKeepAliveClientMixin<Category> {
-  List<String> subreddits, filtered;
+  List<String>? subreddits, filtered;
   final TextEditingController controller = new TextEditingController();
   final ScrollController scrollController = ScrollController();
 
@@ -42,7 +42,7 @@ class _CategoryState extends State<Category>
         if (controller.text.length == 0) {
           filtered = subreddits;
         } else {
-          filtered = subreddits
+          filtered = subreddits!
               .where((p) => p.toLowerCase().contains(controller.text))
               .toList();
         }
@@ -66,7 +66,7 @@ class _CategoryState extends State<Category>
               ? Center(
                   child: CircularProgressIndicator(),
                 )
-              : filtered.length == 0
+              : filtered!.length == 0
                   ? Center(
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -80,7 +80,7 @@ class _CategoryState extends State<Category>
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2, childAspectRatio: 2.1),
                       controller: scrollController,
-                      itemCount: filtered.length,
+                      itemCount: filtered!.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -91,7 +91,7 @@ class _CategoryState extends State<Category>
                                   MaterialPageRoute(
                                       builder: (context) => SubredditPage(
                                             themeData: themeData,
-                                            subreddit: filtered[index],
+                                            subreddit: filtered![index],
                                           )));
                             },
                             child: Container(
@@ -102,9 +102,9 @@ class _CategoryState extends State<Category>
                                   borderRadius: BorderRadius.circular(8.0)),
                               padding: const EdgeInsets.all(8.0),
                               child: Center(
-                                child: Text('r/${filtered[index]}',
+                                child: Text('r/${filtered![index]}',
                                     maxLines: 1,
-                                    style: themeData.textTheme.bodyText1
+                                    style: themeData.textTheme.bodyText1!
                                         .copyWith(color: Colors.white)),
                               ),
                             ),
@@ -132,12 +132,12 @@ class _CategoryState extends State<Category>
                       style: themeData.textTheme.bodyText1,
                       decoration: InputDecoration(
                         icon: Icon(Icons.search,
-                            color: themeData.textTheme.bodyText1.color
+                            color: themeData.textTheme.bodyText1!.color!
                                 .withOpacity(0.6)),
                         border: InputBorder.none,
                         hintText: 'What subreddit are you looking for?',
-                        hintStyle: themeData.textTheme.bodyText1.copyWith(
-                          color: themeData.textTheme.bodyText1.color
+                        hintStyle: themeData.textTheme.bodyText1!.copyWith(
+                          color: themeData.textTheme.bodyText1!.color!
                               .withOpacity(0.6),
                         ),
                       ),
@@ -154,14 +154,14 @@ class _CategoryState extends State<Category>
                       heroTag: 'add',
                       icon: Icon(
                         Icons.add,
-                        color: themeData.textTheme.bodyText1.color,
+                        color: themeData.textTheme.bodyText1!.color,
                       ),
                       label: Text(
                         'Add',
                         style: themeData.textTheme.bodyText1,
                       ),
                       onPressed: () async {
-                        String res = await showDialog(
+                        String? res = await showDialog(
                           context: context,
                           barrierDismissible: true,
                           builder: (context) => Material(
@@ -174,10 +174,10 @@ class _CategoryState extends State<Category>
                           ),
                         );
                         if (res != null) {
-                          if (!subreddits.contains(res)) {
-                            subreddits.add(res);
+                          if (!subreddits!.contains(res)) {
+                            subreddits!.add(res);
                             SharedPreferences.getInstance().then((prefs) {
-                              prefs.setStringList('subredditsList', subreddits);
+                              prefs.setStringList('subredditsList', subreddits!);
                               setState(() {
                                 filtered = subreddits;
                               });

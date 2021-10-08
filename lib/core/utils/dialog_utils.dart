@@ -128,7 +128,7 @@ class ThemeChangerWidget extends StatelessWidget {
                 return RadioListTile(
                   value: index,
                   groupValue: themes.indexOf(state),
-                  onChanged: (ind) {
+                  onChanged: (dynamic ind) {
                     onThemeChanged(ind, stateData);
                   },
                   title: Text(
