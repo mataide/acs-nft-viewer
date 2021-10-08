@@ -57,8 +57,8 @@ class _SettingsPageState extends State<SettingsPage>
                 title: "Login",
                 icon: FontAwesomeIcons.user,
                 onTap: (){
-                  //Navigator.of(context).push(
-                  //,03,,    MaterialPageRoute(builder: (context)=> Login()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context)=> Login()));
                 }, //AGUARDANDO BANCO DE DADOS DE LOGIN
               )
             ],

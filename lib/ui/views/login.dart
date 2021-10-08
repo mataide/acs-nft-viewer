@@ -8,6 +8,8 @@ import 'package:NFT_View/ui/views/home.dart';
 import 'package:NFT_View/ui/views/signup.dart';
 import 'package:NFT_View/database_helper/database_helper.dart';
 
+import 'conectar.dart';
+
 
 
 class Login extends StatefulWidget {
@@ -36,6 +38,7 @@ class _LoginState extends State<Login> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text("Entrar"),
+        backgroundColor: state.primaryColor,
         centerTitle: true,
         actions: [
           FlatButton(
@@ -61,8 +64,9 @@ class _LoginState extends State<Login> {
           children: [
             TextFormField(
               controller: _emailCrontollers,
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
-                  hintText: "E-mail"
+                  hintText: "E-mail",
               ),
               keyboardType: TextInputType.emailAddress,
               validator: (text) {
@@ -73,6 +77,7 @@ class _LoginState extends State<Login> {
             SizedBox(height: 16.0),
             TextFormField(
               controller: _passCrontollers,
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                   hintText: "Senha"
               ),
@@ -86,6 +91,7 @@ class _LoginState extends State<Login> {
             Align(
               alignment: Alignment.centerRight,
               child: ElevatedButton(
+
                 onPressed: () {
                   //CRIAR RECUPERAÇÃO DA SENHA
                 },
@@ -96,7 +102,10 @@ class _LoginState extends State<Login> {
             SizedBox(height: 16.0,),
             //ElevatedButton(
             RaisedButton(
-              onPressed: () {  },
+
+              onPressed: () {
+                ()=>Home;
+                          },
               child: Text("Entrar",
                 style: TextStyle(fontSize: 18.0),
               ),
