@@ -1,10 +1,8 @@
 package com.bimsina.re_walls
 
-import android.os.Bundle
-
-import io.flutter.app.FlutterActivity
+import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugins.GeneratedPluginRegistrant
 import java.io.IOException
 import android.app.WallpaperManager
 import android.graphics.BitmapFactory
@@ -12,6 +10,7 @@ import java.io.File
 import android.os.Build
 import android.annotation.TargetApi
 import android.content.Context
+import androidx.annotation.NonNull
 
 private const val CHANNEL = "com.bimsina.re_walls/wallpaper"
 private const val HOME = "setWallpaper"
@@ -19,11 +18,10 @@ private const val LOCK = "setLockWallpaper"
 
 class MainActivity: FlutterActivity() {
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    GeneratedPluginRegistrant.registerWith(this)
-
-    MethodChannel(flutterView, CHANNEL).setMethodCallHandler { call, result ->
+  override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
+    super.configureFlutterEngine(flutterEngine)
+    MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler {
+      call, result ->
       print("call ${call.method}")
       if (call.method == HOME || call.method == LOCK) {
         val setWallpaper = setWallpaper(call.arguments as String, applicationContext)
