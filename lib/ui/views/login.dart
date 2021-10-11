@@ -8,6 +8,8 @@ import 'package:NFT_View/ui/views/home.dart';
 import 'package:NFT_View/ui/views/signup.dart';
 import 'package:NFT_View/database_helper/database_helper.dart';
 
+import 'conectar.dart';
+
 
 
 class Login extends StatefulWidget {
@@ -18,8 +20,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
 
   final dbHelper = DatabaseHelper.instance;
-  final _passCrontollers = TextEditingController();
-  final _emailCrontollers = TextEditingController();
+  final _keyCrontollers = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   BuildContext? _ctx;
   bool _isLoading = false;
@@ -35,24 +36,9 @@ class _LoginState extends State<Login> {
       backgroundColor: state.primaryColor,
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("Entrar"),
+        title: Text("Acess Wallet"),
+        backgroundColor: state.primaryColor,
         centerTitle: true,
-        actions: [
-          FlatButton(
-            onPressed: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => SignUp()),
-              );
-            },
-            child: Text(
-              "CRIAR CONTA",
-              style: TextStyle(
-                  fontSize: 15.0
-              ),
-            ),
-            textColor: Colors.white,
-          )
-        ],
       ),
       body: Form( //FORM é para validar os campos
         key: _formKey,
@@ -60,59 +46,55 @@ class _LoginState extends State<Login> {
           padding: EdgeInsets.all(16.0),
           children: [
             TextFormField(
-              controller: _emailCrontollers,
+              controller: _keyCrontollers,
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
-                  hintText: "E-mail"
+                  hintText: "Insert Public Key",
+                hintStyle: TextStyle(fontSize: 20.0,color: Colors.white),
               ),
-              keyboardType: TextInputType.emailAddress,
               validator: (text) {
-                if (text!.isEmpty || text.length < 6)
-                  return "E-mail inválido!"; //se texto vazio OU não contem arroba
+                if (text!.isEmpty || text.length < 15)
+                  return "Invalid Public Key!"; //
               },
             ),
             SizedBox(height: 16.0),
-            TextFormField(
-              controller: _passCrontollers,
-              decoration: InputDecoration(
-                  hintText: "Senha"
-              ),
-              obscureText: true,
-              //PARA NÃO MOSTRAR A SENHA
-              validator: (text) {
-                if (text!.isEmpty || text.length < 6) return "Senha inválida!";
-              },
-              keyboardType: TextInputType.number,
-            ),
-            Align(
-              alignment: Alignment.centerRight,
+          Container(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:<Widget>[
+                    Expanded(
               child: ElevatedButton(
-                onPressed: () {
-                  //CRIAR RECUPERAÇÃO DA SENHA
-                },
-                child: Text("Esqueci minha senha",
-                    textAlign: TextAlign.right),
-              ),
-            ),
-            SizedBox(height: 16.0,),
-            //ElevatedButton(
-            RaisedButton(
-              onPressed: () {  },
-              child: Text("Entrar",
-                style: TextStyle(fontSize: 18.0),
-              ),
+                    onPressed: () {
+                        openMetaMesk();
+                    },
+                    child: Text("Fetch my PUBLIC KEY",
+                     textAlign: TextAlign.right,),
+                    ),
+                ),
+                  SizedBox(width: 16.0,),
+                    Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_keyCrontollers != null) {
+                              var texto = _keyCrontollers;
+                              print(texto);
+                            }
+                            else {
 
-            )
-          ],
+                            }
+
+                          },
+                          child: Text("Enter",
+                            style: TextStyle(fontSize: 16.0),),
+            ),
+    )
+            ],
         ),
       ),
-
+        ]
+    )
+    )
     );
   }
- /* void rawQuery() async {
-    final queryResult = await dbHelper.rawQuery('query', null);
-    print('Consulta todas as linhas:');
-    //todasLinhas.forEach((row) => print(row));
-    queryResult.forEach((row) => print(row));
-    setState(() {});
-  }*/
+
 }
