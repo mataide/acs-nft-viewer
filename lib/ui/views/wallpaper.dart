@@ -30,7 +30,7 @@ class _WallpaperPageState extends State<WallpaperPage>
   late AnimationController _controller;
   BoxFit fit = BoxFit.cover;
   Post? currentPost;
-  static const platform = const MethodChannel('com.bimsina.re_walls/wallpaper');
+  static const platform = const MethodChannel('com.bimsina.re_walls/MainActivity');
   PageController? _pageController;
 
   @override

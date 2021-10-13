@@ -1,11 +1,19 @@
 
-  import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
+
 
   openMetaMesk() async {
-    var url = 'metamask://'; //Abrindo o app do METAMASK
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
+    const platform = const MethodChannel('com.bimsina.re_walls/MainActivity');
+    try {
+      await platform.invokeMethod('initialSetup', null);
+      print('Connected....');
+    } on PlatformException catch (e) {
+      print("Failed to initialSetup: '${e.message}'.");
+    }
+    try {
+      await platform.invokeMethod('initWalletConnection', null);
+      print('Connected....');
+    } on PlatformException catch (e) {
+      print("Failed to initWalletConnection: '${e.message}'.");
     }
   }
