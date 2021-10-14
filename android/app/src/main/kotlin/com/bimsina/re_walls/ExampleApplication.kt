@@ -1,7 +1,9 @@
 package com.bimsina.re_walls
 
+import android.content.Context
 import androidx.multidex.MultiDexApplication
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.walletconnect.example.server.BridgeServer
 import okhttp3.OkHttpClient
 import org.komputing.khex.extensions.toNoPrefixHexString
@@ -12,31 +14,6 @@ import java.io.File
 import java.util.*
 
 class ExampleApplication : MultiDexApplication() {
-    override fun onCreate() {
-        super.onCreate()
-        initMoshi()
-        initClient()
-        initBridge()
-        initSessionStorage()
-    }
-
-    private fun initClient() {
-        client = OkHttpClient.Builder().build()
-    }
-
-    private fun initMoshi() {
-        moshi = Moshi.Builder().build()
-    }
-
-
-    private fun initBridge() {
-        bridge = BridgeServer(moshi)
-        bridge.start()
-    }
-
-    private fun initSessionStorage() {
-        storage = FileWCSessionStore(File(cacheDir, "session_store.json").apply { createNewFile() }, moshi)
-    }
 
     companion object {
         private lateinit var client: OkHttpClient
@@ -45,6 +22,31 @@ class ExampleApplication : MultiDexApplication() {
         private lateinit var storage: WCSessionStore
         lateinit var config: Session.Config
         lateinit var session: Session
+
+        fun init(context:Context) {
+            initMoshi()
+            initClient()
+            initBridge()
+            initSessionStorage(context)
+        }
+
+        private fun initClient() {
+            client = OkHttpClient.Builder().build()
+        }
+
+        private fun initMoshi() {
+            moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
+        }
+
+
+        private fun initBridge() {
+            bridge = BridgeServer(moshi)
+            bridge.start()
+        }
+
+        private fun initSessionStorage(context:Context) {
+            storage = FileWCSessionStore(File(context.cacheDir, "session_store.json").apply { createNewFile() }, moshi)
+        }
 
         fun resetSession() {
             nullOnThrow { session }?.clearCallbacks()

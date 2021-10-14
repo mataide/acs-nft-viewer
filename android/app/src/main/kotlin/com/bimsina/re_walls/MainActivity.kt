@@ -33,7 +33,7 @@ class MainActivity: FlutterActivity(), Session.Callback {
       call, result ->
       print("call ${call.method}")
       if (call.method == WALLET_SETUP) {
-        initialSetup()
+        initialSetup(applicationContext)
       } else if (call.method == WALLET_CONNECTION) {
         initWalletConnection()
       } else if (call.method == WALLET_DISCONNECTION) {
@@ -83,8 +83,11 @@ class MainActivity: FlutterActivity(), Session.Callback {
     }
   }
 
-  private fun initialSetup() {
-    val session = nullOnThrow { ExampleApplication.session } ?: return
+  private fun initialSetup(applicationContext: Context) {
+
+    //val session = WalletConnect.getInstance(applicationContext).session
+    ExampleApplication.init(applicationContext)
+    val session = ExampleApplication.session
     session.addCallback(this)
     sessionApproved()
   }
