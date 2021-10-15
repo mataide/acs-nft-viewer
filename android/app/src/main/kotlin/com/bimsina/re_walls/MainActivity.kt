@@ -84,14 +84,13 @@ class MainActivity: FlutterActivity(), Session.Callback {
 
   private fun requestConnectionToWallet() {
     val i = Intent(Intent.ACTION_VIEW)
-    i.data = Uri.parse(ExampleApplication.config.toWCUri())
+    i.data = Uri.parse(WalletConnect.getInstance(applicationContext).config.toWCUri())
     startActivity(i)
   }
 
   private fun initialSetup(applicationContext: Context) {
-    ExampleApplication.init(applicationContext)
-    if(ExampleApplication.isSessionInitialized()) {
-      val session = ExampleApplication.session
+    if(WalletConnect.getInstance(applicationContext).isSessionInitialized()) {
+      val session = WalletConnect.getInstance(applicationContext).session
       session.addCallback(this)
       sessionApproved()
     }
@@ -101,7 +100,7 @@ class MainActivity: FlutterActivity(), Session.Callback {
   }
   private fun sessionApproved(): String {
     val result = runBlocking {
-      "Connected: ${ExampleApplication.session.approvedAccounts()}"
+      "Connected: ${WalletConnect.getInstance(applicationContext).session.approvedAccounts()}"
     }
     return result
   }
@@ -110,12 +109,12 @@ class MainActivity: FlutterActivity(), Session.Callback {
   }
 
   private fun initWalletConnection() {
-    ExampleApplication.resetSession()
-    ExampleApplication.session.addCallback(this)
+    WalletConnect.getInstance(applicationContext).resetSession()
+    WalletConnect.getInstance(applicationContext).session.addCallback(this)
   }
 
   private fun initWalletDisconnection() {
-    ExampleApplication.session.kill()
+    WalletConnect.getInstance(applicationContext).session.kill()
   }
 
 }

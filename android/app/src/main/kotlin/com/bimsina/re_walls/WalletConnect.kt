@@ -28,7 +28,6 @@ class WalletConnect private constructor(context: Context) : Application() {
         initClient()
         initBridge()
         initSessionStorage(context)
-        initSession()
     }
 
     fun isSessionInitialized() = ::session.isInitialized
@@ -48,24 +47,6 @@ class WalletConnect private constructor(context: Context) : Application() {
 
     private fun initSessionStorage(context:Context) {
         storage = FileWCSessionStore(File(context.cacheDir, "session_store.json").apply { createNewFile() }, moshi)
-    }
-
-    private fun initSession() {
-        val key = ByteArray(32).also { Random().nextBytes(it) }.toNoPrefixHexString()
-        config = Session.FullyQualifiedConfig(UUID.randomUUID().toString(), "http://localhost:${BridgeServer.PORT}", key)
-        // The walletConnect app freezes/crashes if "icons" in passed PeerMeta is not filled, so pass at least an empty list.
-        session = WCSession(config,
-            MoshiPayloadAdapter(moshi),
-            storage,
-            OkHttpTransport.Builder(client, moshi),
-            Session.PeerMeta(
-                url = "www.accursedshare.art",
-                name = "ACC: NFT Viewer",
-                description = "Login with wallet connect. Permission required: Public Address",
-                icons = listOf()
-            )
-        )
-        session.offer()
     }
 
     fun resetSession() {
