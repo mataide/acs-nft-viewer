@@ -18,7 +18,7 @@ class BridgeServer(moshi: Moshi) : WebSocketServer(InetSocketAddress(PORT)) {
             Types.newParameterizedType(
                     Map::class.java,
                     String::class.java,
-                    String::class.java
+                    Any::class.java
             )
     )
 

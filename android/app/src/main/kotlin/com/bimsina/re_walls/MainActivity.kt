@@ -21,7 +21,6 @@ import java.io.IOException
 private const val CHANNEL = "com.bimsina.re_walls/MainActivity"
 private const val HOME = "setWallpaper"
 private const val LOCK = "setLockWallpaper"
-private const val WALLET_SETUP = "initialSetup"
 private const val WALLET_CONNECTION = "initWalletConnection"
 private const val WALLET_DISCONNECTION = "initWalletDisconnection"
 
@@ -32,9 +31,7 @@ class MainActivity: FlutterActivity(), Session.Callback {
     MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler {
       call, result ->
       print("call ${call.method}")
-      if (call.method == WALLET_SETUP) {
-        initialSetup(applicationContext)
-      } else if (call.method == WALLET_CONNECTION) {
+      if (call.method == WALLET_CONNECTION) {
         initWalletConnection()
       } else if (call.method == WALLET_DISCONNECTION) {
         initWalletDisconnection()
@@ -68,14 +65,16 @@ class MainActivity: FlutterActivity(), Session.Callback {
 
   override fun onStart() {
     super.onStart()
-    //initialSetup()
+    initialSetup(applicationContext)
   }
 
   override fun onStatus(status: Session.Status) {
     when(status) {
       Session.Status.Approved -> sessionApproved()
       Session.Status.Closed -> sessionClosed()
-      Session.Status.Connected,
+      Session.Status.Connected -> {
+        requestConnectionToWallet()
+      }
       Session.Status.Disconnected,
       is Session.Status.Error -> {
         // Do Stuff
@@ -83,13 +82,19 @@ class MainActivity: FlutterActivity(), Session.Callback {
     }
   }
 
-  private fun initialSetup(applicationContext: Context) {
+  private fun requestConnectionToWallet() {
+    val i = Intent(Intent.ACTION_VIEW)
+    i.data = Uri.parse(ExampleApplication.config.toWCUri())
+    startActivity(i)
+  }
 
-    //val session = WalletConnect.getInstance(applicationContext).session
+  private fun initialSetup(applicationContext: Context) {
     ExampleApplication.init(applicationContext)
-    val session = ExampleApplication.session
-    session.addCallback(this)
-    sessionApproved()
+    if(ExampleApplication.isSessionInitialized()) {
+      val session = ExampleApplication.session
+      session.addCallback(this)
+      sessionApproved()
+    }
   }
 
   override fun onMethodCall(call: Session.MethodCall) {
@@ -107,9 +112,6 @@ class MainActivity: FlutterActivity(), Session.Callback {
   private fun initWalletConnection() {
     ExampleApplication.resetSession()
     ExampleApplication.session.addCallback(this)
-    val i = Intent(Intent.ACTION_VIEW)
-    i.data = Uri.parse(ExampleApplication.config.toWCUri())
-    startActivity(i)
   }
 
   private fun initWalletDisconnection() {

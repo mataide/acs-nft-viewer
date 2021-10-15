@@ -1,5 +1,6 @@
 package com.bimsina.re_walls
 
+import android.app.Application
 import android.content.Context
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -12,13 +13,13 @@ import org.walletconnect.nullOnThrow
 import java.io.File
 import java.util.*
 
-class WalletConnect private constructor(context: Context) {
+class WalletConnect private constructor(context: Context) : Application() {
 
     private lateinit var client: OkHttpClient
     private lateinit var moshi: Moshi
     private lateinit var bridge: BridgeServer
     private lateinit var storage: WCSessionStore
-    lateinit var config: Session.Config
+    lateinit var config: Session.FullyQualifiedConfig
     lateinit var session: Session
 
     init {
@@ -27,7 +28,10 @@ class WalletConnect private constructor(context: Context) {
         initClient()
         initBridge()
         initSessionStorage(context)
+        initSession()
     }
+
+    fun isSessionInitialized() = ::session.isInitialized
 
     private fun initClient() {
         client = OkHttpClient.Builder().build()
@@ -46,16 +50,39 @@ class WalletConnect private constructor(context: Context) {
         storage = FileWCSessionStore(File(context.cacheDir, "session_store.json").apply { createNewFile() }, moshi)
     }
 
-    fun resetSession() {
-        nullOnThrow { session }?.clearCallbacks()
+    private fun initSession() {
         val key = ByteArray(32).also { Random().nextBytes(it) }.toNoPrefixHexString()
-        config = Session.Config(UUID.randomUUID().toString(), "http://localhost:${BridgeServer.PORT}", key)
-        session = WCSession(
-            config,
+        config = Session.FullyQualifiedConfig(UUID.randomUUID().toString(), "http://localhost:${BridgeServer.PORT}", key)
+        // The walletConnect app freezes/crashes if "icons" in passed PeerMeta is not filled, so pass at least an empty list.
+        session = WCSession(config,
             MoshiPayloadAdapter(moshi),
             storage,
             OkHttpTransport.Builder(client, moshi),
-            Session.PeerMeta(name = "NFT Viewer")
+            Session.PeerMeta(
+                url = "www.accursedshare.art",
+                name = "ACC: NFT Viewer",
+                description = "Login with wallet connect. Permission required: Public Address",
+                icons = listOf()
+            )
+        )
+        session.offer()
+    }
+
+    fun resetSession() {
+        nullOnThrow { session }?.clearCallbacks()
+        val key = ByteArray(32).also { Random().nextBytes(it) }.toNoPrefixHexString()
+        config = Session.FullyQualifiedConfig(UUID.randomUUID().toString(), "http://localhost:${BridgeServer.PORT}", key)
+        // The walletConnect app freezes/crashes if "icons" in passed PeerMeta is not filled, so pass at least an empty list.
+        session = WCSession(config,
+            MoshiPayloadAdapter(moshi),
+            storage,
+            OkHttpTransport.Builder(client, moshi),
+            Session.PeerMeta(
+                url = "www.accursedshare.art",
+                name = "ACC: NFT Viewer",
+                description = "Login with wallet connect. Permission required: Public Address",
+                icons = listOf()
+            )
         )
         session.offer()
     }
