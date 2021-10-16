@@ -10,7 +10,10 @@
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		2C0D95202719DA3300FFC667 /* WalletConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D951F2719DA3300FFC667 /* WalletConnect.swift */; };
 		2C0D95222719DA4000FFC667 /* HandshakeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D95212719DA4000FFC667 /* HandshakeViewController.swift */; };
-		2C0D95242719DA4500FFC667 /* ActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D95232719DA4500FFC667 /* ActionsViewController.swift */; };
+		2C85E1CB271B846200B29B88 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 2C85E1CA271B846200B29B88 /* SwiftyJSON */; };
+		2C85E1CE271B84A100B29B88 /* WalletConnectSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2C85E1CD271B84A100B29B88 /* WalletConnectSwift */; };
+		2C85E1D1271B851300B29B88 /* routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C85E1D0271B851300B29B88 /* routes.swift */; };
+		2C85E1D3271B851900B29B88 /* configure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C85E1D2271B851900B29B88 /* configure.swift */; };
 		2C8B9DC6271A18EA00648742 /* Vapor in Frameworks */ = {isa = PBXBuildFile; productRef = 2C8B9DC5271A18EA00648742 /* Vapor */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
@@ -39,7 +42,8 @@
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		2C0D951F2719DA3300FFC667 /* WalletConnect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalletConnect.swift; sourceTree = "<group>"; };
 		2C0D95212719DA4000FFC667 /* HandshakeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandshakeViewController.swift; sourceTree = "<group>"; };
-		2C0D95232719DA4500FFC667 /* ActionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionsViewController.swift; sourceTree = "<group>"; };
+		2C85E1D0271B851300B29B88 /* routes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = routes.swift; sourceTree = "<group>"; };
+		2C85E1D2271B851900B29B88 /* configure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = configure.swift; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		6C73A99B03E9CF0FCB970DA5 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -62,7 +66,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C85E1CB271B846200B29B88 /* SwiftyJSON in Frameworks */,
 				2C8B9DC6271A18EA00648742 /* Vapor in Frameworks */,
+				2C85E1CE271B84A100B29B88 /* WalletConnectSwift in Frameworks */,
 				9AD96AC8DE62C7EC36BE952C /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -73,11 +79,19 @@
 		2C0D951E2719DA1900FFC667 /* MainActivity */ = {
 			isa = PBXGroup;
 			children = (
-				2C0D95232719DA4500FFC667 /* ActionsViewController.swift */,
 				2C0D95212719DA4000FFC667 /* HandshakeViewController.swift */,
 				2C0D951F2719DA3300FFC667 /* WalletConnect.swift */,
 			);
 			path = MainActivity;
+			sourceTree = "<group>";
+		};
+		2C85E1CF271B84E300B29B88 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				2C85E1D2271B851900B29B88 /* configure.swift */,
+				2C85E1D0271B851300B29B88 /* routes.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 		9740EEB11CF90186004384FC /* Flutter */ = {
@@ -113,6 +127,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				2C85E1CF271B84E300B29B88 /* App */,
 				2C0D951E2719DA1900FFC667 /* MainActivity */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
@@ -175,6 +190,8 @@
 			name = Runner;
 			packageProductDependencies = (
 				2C8B9DC5271A18EA00648742 /* Vapor */,
+				2C85E1CA271B846200B29B88 /* SwiftyJSON */,
+				2C85E1CD271B84A100B29B88 /* WalletConnectSwift */,
 			);
 			productName = Runner;
 			productReference = 97C146EE1CF9000F007C117D /* Runner.app */;
@@ -206,6 +223,8 @@
 			mainGroup = 97C146E51CF9000F007C117D;
 			packageReferences = (
 				2C8B9DC4271A18EA00648742 /* XCRemoteSwiftPackageReference "vapor" */,
+				2C85E1C9271B846200B29B88 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				2C85E1CC271B84A100B29B88 /* XCRemoteSwiftPackageReference "WalletConnectSwift" */,
 			);
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
 			projectDirPath = "";
@@ -332,10 +351,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
+				2C85E1D3271B851900B29B88 /* configure.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 				2C0D95222719DA4000FFC667 /* HandshakeViewController.swift in Sources */,
-				2C0D95242719DA4500FFC667 /* ActionsViewController.swift in Sources */,
 				2C0D95202719DA3300FFC667 /* WalletConnect.swift in Sources */,
+				2C85E1D1271B851300B29B88 /* routes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -635,6 +655,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2C85E1C9271B846200B29B88 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
+		2C85E1CC271B84A100B29B88 /* XCRemoteSwiftPackageReference "WalletConnectSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mataide/WalletConnectSwift.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
 		2C8B9DC4271A18EA00648742 /* XCRemoteSwiftPackageReference "vapor" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/vapor/vapor.git";
@@ -646,6 +682,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2C85E1CA271B846200B29B88 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C85E1C9271B846200B29B88 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+		2C85E1CD271B84A100B29B88 /* WalletConnectSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C85E1CC271B84A100B29B88 /* XCRemoteSwiftPackageReference "WalletConnectSwift" */;
+			productName = WalletConnectSwift;
+		};
 		2C8B9DC5271A18EA00648742 /* Vapor */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2C8B9DC4271A18EA00648742 /* XCRemoteSwiftPackageReference "vapor" */;
