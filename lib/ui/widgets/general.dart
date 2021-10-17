@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/utils/models/subreddit_exist.dart';
+import '../../core/models/subreddit_exist.dart';
 import '../../core/utils/theme.dart';
 import 'package:http/http.dart' as http;
 

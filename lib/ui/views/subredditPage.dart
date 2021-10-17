@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import '../../core/utils/models/response.dart';
+import '../../core/models/response.dart';
 import '../../core/utils/api_endpoints.dart';
 import '../widgets/wallpaper_list.dart';
 

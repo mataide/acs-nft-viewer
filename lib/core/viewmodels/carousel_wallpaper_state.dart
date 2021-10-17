@@ -6,7 +6,7 @@ import 'package:NFT_View/core/utils/subreddits.dart';
 import 'package:NFT_View/ui/views/selector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/constants.dart';
-import '../utils/models/response.dart';
+import '../models/response.dart';
 import 'package:http/http.dart' as http;
 
 class CarouselWallpaperState extends ChangeNotifier {

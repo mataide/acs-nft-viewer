@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:NFT_View/core/utils/constants.dart';
 import '../../core/utils/api_endpoints.dart';
-import '../../core/utils/models/response.dart';
+import '../../core/models/response.dart';
 import 'package:http/http.dart' as http;
 import '../../ui/widgets/wallpaper_list.dart';
 import 'general.dart';

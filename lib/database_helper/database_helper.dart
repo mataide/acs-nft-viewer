@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:NFT_View/core/utils/models/user_models.dart';
+import 'package:NFT_View/core/models/user_models.dart';
 import 'package:sqflite/sqflite.dart';
 
 

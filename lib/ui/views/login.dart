@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:NFT_View/core/utils/models/user_models.dart';
+import 'package:NFT_View/core/models/user_models.dart';
 import 'package:NFT_View/core/utils/theme.dart';
 import 'package:NFT_View/ui/views/home.dart';
 import 'package:NFT_View/ui/views/signup.dart';

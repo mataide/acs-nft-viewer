@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:NFT_View/core/utils/models/response.dart';
+import 'package:NFT_View/core/models/response.dart';
 import 'package:NFT_View/core/utils/theme.dart';
 import 'package:NFT_View/core/viewmodels/carousel_wallpaper_state.dart';
 import '../../core/utils/constants.dart';

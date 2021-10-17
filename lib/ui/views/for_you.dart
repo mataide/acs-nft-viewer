@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:NFT_View/core/utils/constants.dart';
 import 'package:NFT_View/ui/widgets/general.dart';
-import '../../core/utils/models/response.dart';
+import '../../core/models/response.dart';
 import '../../core/utils/theme.dart';
 import '../widgets/resolution_selector.dart';
 import '../../core/utils/api_endpoints.dart';

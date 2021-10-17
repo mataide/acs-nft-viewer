@@ -10,7 +10,7 @@ import 'web_page.dart';
 import '../../core/utils/dialog_utils.dart';
 import '../widgets/general.dart';
 import 'package:share/share.dart';
-import '../../core/utils/models/response.dart';
+import '../../core/models/response.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 

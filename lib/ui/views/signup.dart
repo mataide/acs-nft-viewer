@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:NFT_View/core/utils/theme.dart';
 import 'package:NFT_View/database_helper/database_helper.dart';
-import 'package:NFT_View/core/utils/models/user_models.dart';
+import 'package:NFT_View/core/models/user_models.dart';
 import 'package:NFT_View/ui/views/login.dart';
 import 'package:sqflite/sqflite.dart';
 
