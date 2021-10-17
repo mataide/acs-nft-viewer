@@ -8,7 +8,7 @@ import 'package:NFT_View/ui/widgets/general.dart';
 import '../../core/models/response.dart';
 import '../../core/utils/theme.dart';
 import '../widgets/resolution_selector.dart';
-import '../../core/utils/api_endpoints.dart';
+import '../../core/client/APIClient.dart';
 import 'package:http/http.dart' as http;
 import '../widgets/wallpaper_list.dart';
 

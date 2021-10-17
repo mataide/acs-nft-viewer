@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:NFT_View/core/utils/api_endpoints.dart';
+import 'package:NFT_View/core/client/APIClient.dart';
 import 'package:NFT_View/core/utils/subreddits.dart';
 import 'package:NFT_View/ui/views/selector.dart';
 import 'package:shared_preferences/shared_preferences.dart';

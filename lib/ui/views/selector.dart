@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:NFT_View/core/utils/subreddits.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../core/utils/api_endpoints.dart';
+import '../../core/client/APIClient.dart';
 
 class SelectorCallback {
   final int? selectedFilter;

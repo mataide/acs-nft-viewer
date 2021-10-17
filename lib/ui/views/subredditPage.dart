@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../../core/models/response.dart';
-import '../../core/utils/api_endpoints.dart';
+import '../../core/client/APIClient.dart';
 import '../widgets/wallpaper_list.dart';
 
 class SubredditPage extends StatefulWidget {
