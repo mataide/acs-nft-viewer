@@ -24,6 +24,7 @@ dependencies:
   fluttertoast: ^8.0.8
   url_launcher: ^6.0.12
   get: ^4.3.8
+  realm_dart: ^0.1.1+preview
 
 
 
