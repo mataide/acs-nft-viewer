@@ -4,10 +4,8 @@ import 'core/utils/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'ui/views/home.dart';
 import 'core/utils/constants.dart';
-import 'package:realm_dart/realm.dart';
 
 void main() {
-  initRealm();
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.getInstance().then((prefs) {
     int theme = prefs.getInt('theme') ?? 1;

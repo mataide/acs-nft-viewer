@@ -34,8 +34,8 @@ class GridWallpaperState extends ChangeNotifier {
       _selectedSubreddit = preferences.getStringList('list_subreddit') ??
           [_subreddits![4], _subreddits![5]];
 
-      fetchWallPapers(EndPoints.getPosts(_selectedSubreddit!.join('+'),
-          kfilterValues[_selectedFilter!].toLowerCase()));
+      // fetchWallPapers(EndPoints.getPosts(_selectedSubreddit!.join('+'),
+      //     kfilterValues[_selectedFilter!].toLowerCase()));
     });
   }
 

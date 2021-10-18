@@ -22,15 +22,14 @@ class _SubredditPageState extends State<SubredditPage> {
   @override
   void initState() {
     super.initState();
-    fetchWallPapers(widget.subreddit, filterValue!);
+    //fetchWallPapers(EndPoints.getPosts(widget.subreddit, filterValue!));
   }
 
-  void fetchWallPapers(String? subreddit, String filter) async {
+  void fetchWallPapers(url) async {
     setState(() {
       isLoading = true;
     });
-    filter = filter.toLowerCase();
-    http.get(Uri.parse(EndPoints.getPosts(subreddit, filter))).then((res) {
+    http.get(Uri.parse(url)).then((res) {
       if (res.statusCode == 200) {
         var decodeRes = jsonDecode(res.body);
         posts = [];
@@ -89,7 +88,7 @@ class _SubredditPageState extends State<SubredditPage> {
                       filterValue = value;
                     });
 
-                    fetchWallPapers(widget.subreddit, filterValue!);
+                    //fetchWallPapers(widget.subreddit, filterValue!);
                   }
                 },
               ),

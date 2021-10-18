@@ -28,8 +28,8 @@ class _ForYouState extends State<ForYou>
   @override
   void initState() {
     super.initState();
-    fetchWallPapers(EndPoints.getSearch(
-        '${window.physicalSize.width.toInt()}x${window.physicalSize.height.toInt()}'));
+    // fetchWallPapers(EndPoints.getSearch(
+    //     '${window.physicalSize.width.toInt()}x${window.physicalSize.height.toInt()}'));
   }
 
   void fetchWallPapers(String subreddit) async {
@@ -79,7 +79,7 @@ class _ForYouState extends State<ForYou>
               deviceResolution:
                   '${window.physicalSize.width.toInt()}x${window.physicalSize.height.toInt()}',
               onTap: (value) {
-                fetchWallPapers(EndPoints.getSearch(value!));
+                //fetchWallPapers(EndPoints.getSearch(value!));
               },
             ),
           ),
@@ -94,8 +94,8 @@ class _ForYouState extends State<ForYou>
                 : _fetchState == kdataFetchState.ERROR_ENCOUNTERED
                     ? Center(child: ErrorOccured(
                         onTap: () {
-                          fetchWallPapers(EndPoints.getSearch(
-                              '${window.physicalSize.width.toInt()}x${window.physicalSize.height.toInt()}'));
+                          // fetchWallPapers(EndPoints.getSearch(
+                          //     '${window.physicalSize.width.toInt()}x${window.physicalSize.height.toInt()}'));
                         },
                       ))
                     : WallpaperList(posts: posts, themeData: _themeData),

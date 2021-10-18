@@ -36,8 +36,8 @@ class CarouselWallpaperState extends ChangeNotifier {
 
 
 
-      fetchWallPapers(EndPoints.getPosts(_selectedSubreddit!.join('+'),
-          kfilterValues[_selectedFilter!].toLowerCase()));
+      // fetchWallPapers(EndPoints.getPosts(_selectedSubreddit!.join('+'),
+      //     kfilterValues[_selectedFilter!].toLowerCase()));
     });
   }
 

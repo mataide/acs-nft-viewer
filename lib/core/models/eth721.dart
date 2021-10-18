@@ -1,60 +1,51 @@
-import 'package:realm_dart/realm.dart';
+import 'package:json_annotation/json_annotation.dart';
+//import 'package:floor/floor.dart';
 
-class _Eth721 {
-  @RealmProperty(primaryKey: true)
-  late String hash;
+part 'eth721.g.dart';
 
-  @RealmProperty()
-  late String blockNumber;
+@JsonSerializable()
+class Eth721 {
 
-  @RealmProperty()
-  late String timeStamp;
+  String hash;
 
-  @RealmProperty()
-  late String nonce;
+  String blockNumber;
 
-  @RealmProperty()
-  late String blockHash;
+  String timeStamp;
 
-  @RealmProperty()
-  late String from;
+  String nonce;
 
-  @RealmProperty()
-  late String contractAddress;
+  String blockHash;
 
-  @RealmProperty()
-  late String to;
+  String from;
 
-  @RealmProperty()
-  late String tokenID;
+  String contractAddress;
 
-  @RealmProperty()
-  late String tokenName;
+  String to;
 
-  @RealmProperty()
-  late String tokenSymbol;
+  String tokenID;
 
-  @RealmProperty()
-  late String tokenDecimal;
+  String tokenName;
 
-  @RealmProperty()
-  late String transactionIndex;
+  String tokenSymbol;
 
-  @RealmProperty()
-  late String gas;
+  String tokenDecimal;
 
-  @RealmProperty()
-  late String gasPrice;
+  String transactionIndex;
 
-  @RealmProperty()
-  late String gasUsed;
+  String gas;
 
-  @RealmProperty()
-  late String cumulativeGasUsed;
+  String gasPrice;
 
-  @RealmProperty()
-  late String input;
+  String gasUsed;
 
-  @RealmProperty()
-  late String confirmations;
+  String cumulativeGasUsed;
+
+  String input;
+
+  String confirmations;
+
+  Eth721(this.hash, this.blockNumber, this.timeStamp, this.nonce, this.blockHash, this.from, this.contractAddress, this.to, this.tokenID, this.tokenName, this.tokenSymbol, this.tokenDecimal, this.transactionIndex, this.gas, this.gasPrice, this.gasUsed, this.cumulativeGasUsed, this.input, this.confirmations);
+
+  factory Eth721.fromJson(Map<String, dynamic> json) => _$Eth721FromJson(json);
+  Map<String, dynamic> toJson() => _$Eth721ToJson(this);
 }

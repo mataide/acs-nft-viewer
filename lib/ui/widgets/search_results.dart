@@ -24,7 +24,7 @@ class _SearchResultsState extends State<SearchResults> {
   @override
   void initState() {
     super.initState();
-    fetchWallPapers(EndPoints.getSearch(widget.searchTerm!));
+    //fetchWallPapers(EndPoints.getSearch(widget.searchTerm!));
   }
 
   void fetchWallPapers(String subreddit) async {
@@ -80,8 +80,8 @@ class _SearchResultsState extends State<SearchResults> {
               )
             : _fetchState == kdataFetchState.ERROR_ENCOUNTERED
                 ? ErrorOccured(
-                    onTap: () =>
-                        fetchWallPapers(EndPoints.getSearch(widget.searchTerm!)),
+                    //onTap: () =>
+                        //fetchWallPapers(EndPoints.getSearch(widget.searchTerm!)),
                   )
                 : WallpaperList(posts: posts, themeData: widget.themeData),
       ),
