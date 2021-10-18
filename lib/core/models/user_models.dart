@@ -24,14 +24,13 @@ class User {
 
     var map = <String, dynamic>{
       'id':id,
-      'name': name,
+      'name': name,//name vai ser usada para keyMetaMask
       'email': email,
       'password': password,
       'address': address,
       'city': city,
       'state': state,
       'country': country,
-
 
     };
 
@@ -47,7 +46,6 @@ class User {
   city = map['city'];
   state = map['state'];
   country = map['country'];
-
 
   }
 

@@ -75,14 +75,7 @@ class _LoginState extends State<Login> {
                     Expanded(
                         child: ElevatedButton(
                           onPressed: () {
-                            if (_keyCrontollers != null) {
-                              var texto = _keyCrontollers;
-                              print(texto);
-                            }
-                            else {
-
-                            }
-
+                            keyMetaMask();
                           },
                           child: Text("Enter",
                             style: TextStyle(fontSize: 16.0),),
