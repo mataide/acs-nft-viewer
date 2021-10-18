@@ -1,11 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
-//import 'package:floor/floor.dart';
+import 'package:floor/floor.dart';
 
 part 'eth721.g.dart';
 
+@entity
 @JsonSerializable()
 class Eth721 {
-
+  @PrimaryKey()
   String hash;
 
   String blockNumber;

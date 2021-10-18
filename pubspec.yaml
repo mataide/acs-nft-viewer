@@ -26,10 +26,10 @@ dependencies:
   get: ^4.3.8
   retrofit: ^2.0.1
   json_annotation: ^4.3.0
-  #floor: ^1.2.0
+  floor: ^1.2.0
 
 dev_dependencies:
-  #floor_generator: ^1.2.0
+  floor_generator: ^1.2.0
   retrofit_generator: ^2.0.1
   build_runner: ^2.1.4
   flutter_test:
