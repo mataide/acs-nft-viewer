@@ -53,7 +53,7 @@ class _LoginState extends State<Login> {
                 hintStyle: TextStyle(fontSize: 20.0,color: Colors.white),
               ),
               validator: (text) {
-                if (text!.isEmpty || text.length < 15)
+                if (text!.isEmpty || text.length < 21)
                   return "Invalid Public Key!"; //
               },
             ),
@@ -75,7 +75,7 @@ class _LoginState extends State<Login> {
                     Expanded(
                         child: ElevatedButton(
                           onPressed: () {
-                            keyMetaMask();
+
                           },
                           child: Text("Enter",
                             style: TextStyle(fontSize: 16.0),),

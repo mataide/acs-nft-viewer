@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/utils/theme.dart';
@@ -17,8 +18,10 @@ void main() {
           title: 'reWalls',
           debugShowCheckedModeBanner: false,
           routes: {
+
             '/home': (context) => HomePage(),
           },
+
           home: HomePage(),
         ),
       ),
