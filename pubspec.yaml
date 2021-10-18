@@ -31,6 +31,8 @@ dependencies:
 
 
 dev_dependencies:
+  retrofit_generator: ^2.0.1
+  build_runner: ^2.0.1
   flutter_test:
     sdk: flutter
 
