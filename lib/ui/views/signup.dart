@@ -1,10 +1,10 @@
 import 'package:NFT_View/ui/views/conectar.dart';
+import 'package:NFT_View/ui/views/new_login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:NFT_View/core/utils/theme.dart';
 import 'package:NFT_View/database_helper/database_helper.dart';
 import 'package:NFT_View/core/models/user_models.dart';
-import 'package:NFT_View/ui/views/login.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SignUp extends StatefulWidget {
@@ -81,7 +81,7 @@ class _SignUpState extends State<SignUp> {
     todasLinhas.forEach((row) => print(row));
     Future.delayed(Duration(seconds: 2)).then((_) {
       Navigator.of(context).push(
-          MaterialPageRoute(builder: (context)=> Login())
+          MaterialPageRoute(builder: (context)=> LoginPage())
       );
     });
   }

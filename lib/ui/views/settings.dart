@@ -1,7 +1,7 @@
-import 'package:NFT_View/ui/views/login.dart';
+
+import 'package:NFT_View/ui/views/conectar.dart';
+import 'package:NFT_View/ui/views/logged.dart';
 import 'package:NFT_View/ui/views/new_login.dart';
-import 'package:share/share.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -58,8 +58,13 @@ class _SettingsPageState extends State<SettingsPage>
                 title: "Login",
                 icon: FontAwesomeIcons.user,
                 onTap: (){
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context)=> LoginPage()));
+                  if(result == null){
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context)=> LoginPage()));
+                  }else{
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context)=> Logged()));
+                  }
                 }, //AGUARDANDO BANCO DE DADOS DE LOGIN
               )
             ],

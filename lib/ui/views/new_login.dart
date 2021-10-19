@@ -1,8 +1,7 @@
 import 'package:NFT_View/core/utils/theme.dart';
-import 'package:NFT_View/database_helper/database_helper.dart';
 import 'package:NFT_View/ui/views/conectar.dart';
+import 'package:NFT_View/ui/views/logged.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -58,7 +57,12 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                    ElevatedButton(
                       onPressed: () {
-
+                      keyMetaMask();
+                      if(result != "")
+                        {
+                          print(result);
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Logged()));
+                        }
                       },
                       child: Text(
                         "OK",
