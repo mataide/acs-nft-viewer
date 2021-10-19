@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:NFT_View/core/utils/api_endpoints.dart';
+import 'package:NFT_View/core/client/APIClient.dart';
 import 'package:NFT_View/core/utils/subreddits.dart';
 import 'package:NFT_View/ui/views/selector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,8 +34,8 @@ class GridWallpaperState extends ChangeNotifier {
       _selectedSubreddit = preferences.getStringList('list_subreddit') ??
           [_subreddits![4], _subreddits![5]];
 
-      fetchWallPapers(EndPoints.getPosts(_selectedSubreddit!.join('+'),
-          kfilterValues[_selectedFilter!].toLowerCase()));
+      // fetchWallPapers(EndPoints.getPosts(_selectedSubreddit!.join('+'),
+      //     kfilterValues[_selectedFilter!].toLowerCase()));
     });
   }
 

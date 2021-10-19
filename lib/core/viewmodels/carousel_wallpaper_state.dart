@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:NFT_View/core/utils/api_endpoints.dart';
+import 'package:NFT_View/core/client/APIClient.dart';
 import 'package:NFT_View/core/utils/subreddits.dart';
 import 'package:NFT_View/ui/views/selector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,8 +34,10 @@ class CarouselWallpaperState extends ChangeNotifier {
       _selectedSubreddit = preferences.getStringList('carousel_subreddit') ??
           [_subreddits![0], _subreddits![1]];
 
-      fetchWallPapers(EndPoints.getPosts(_selectedSubreddit!.join('+'),
-          kfilterValues[_selectedFilter!].toLowerCase()));
+
+
+      // fetchWallPapers(EndPoints.getPosts(_selectedSubreddit!.join('+'),
+      //     kfilterValues[_selectedFilter!].toLowerCase()));
     });
   }
 

@@ -8,7 +8,7 @@ import 'package:NFT_View/core/viewmodels/carousel_wallpaper_state.dart';
 import '../../core/utils/constants.dart';
 import '../views/selector.dart';
 import '../views/wallpaper.dart';
-import '../../core/utils/api_endpoints.dart';
+import '../../core/client/APIClient.dart';
 
 import 'general.dart';
 
