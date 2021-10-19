@@ -16,13 +16,20 @@ class _APIClient implements APIClient {
   String? baseUrl;
 
   @override
-  Future<Eth721> getERC721(module, action, address, page, offset, startblock,
-      endblock, sort, apikey) async {
+  Future<List<Eth721>> getERC721(address,
+      {module = "account",
+      action = "tokennfttx",
+      page = "1",
+      offset = "100",
+      startblock = "0",
+      endblock = "27025780",
+      sort = "asc",
+      apikey = "NXIMNR3HSJR58AHXU4TE6Y7ZD73BIHE3MR"}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
+      r'address': address,
       r'module': module,
       r'action': action,
-      r'address': address,
       r'page': page,
       r'offset': offset,
       r'startblock': startblock,
@@ -32,13 +39,15 @@ class _APIClient implements APIClient {
     };
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Eth721>(
+    final _result = await _dio.fetch<List<dynamic>>(
+        _setStreamType<List<Eth721>>(
             Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/api?module=account&action=tokennfttx',
+                .compose(_dio.options, '/api',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = Eth721.fromJson(_result.data!);
+    var value = _result.data!
+        .map((dynamic i) => Eth721.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 

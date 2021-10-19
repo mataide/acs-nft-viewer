@@ -7,46 +7,42 @@ part 'APIClient.g.dart';
 
 const String API_BASE_URL = "https://api.etherscan.io/";
 
-// class APIClient {
-//
-//   static const String API_KEY = "NXIMNR3HSJR58AHXU4TE6Y7ZD73BIHE3MR";
-//
-//
-//
-//   static String getPosts(String? subreddit, String filter) {
-//     return '${API_BASE_URL}r/$subreddit/$filter.json';
-//   }
-//
-//   static String getSearch(String searchTerm) {
-//     searchTerm = searchTerm.replaceAll(' ', '%20');
-//     return '${API_BASE_URL}api?q=$searchTerm&type=link';
-//   }
-//
-//   static String getERC721(String address, {String page = "1", String offset = "100"}) {
-//     return '${API_BASE_URL}api?module=account&action=tokennfttx&address=$address&page=$page&offset=$offset&startblock=0&endblock=27025780&sort=asc&apikey=$API_KEY';
-//   }
-// }
+
+class APIService {
+  static APIClient? _instance;
+
+  APIService._();
+
+  static APIClient get instance {
+    if(_instance == null) {
+      final dio = Dio();
+      final client = APIClient(dio);
+      return client;
+    }
+    return _instance!;
+  }
+}
 
 @RestApi(baseUrl: API_BASE_URL)
 abstract class APIClient {
 
-  static const String ENDPOINT_API = "/api?module=account&action=tokennfttx";
+  static const String ENDPOINT_API = "/api";
 
   factory APIClient(Dio dio, {String baseUrl}) = _APIClient;
 
-
   @GET(ENDPOINT_API)
-  Future<Eth721> getERC721(
-      @Query("module") String module,
-      @Query("action") String action,
+  Future<List<Eth721>> getERC721(
       @Query("address") String address,
-      @Query("page") String page,
-      @Query("offset") String offset,
-      @Query("startblock") String startblock,
-      @Query("endblock") String endblock,
-      @Query("sort") String sort,
-      @Query("apikey") String apikey,
-      );
+      {
+        @Query("module") String module = "account",
+        @Query("action") String action = "tokennfttx",
+        @Query("page") String page = "1",
+        @Query("offset") String offset = "100",
+        @Query("startblock") String startblock = "0",
+        @Query("endblock") String endblock = "27025780",
+        @Query("sort") String sort = "asc",
+        @Query("apikey") String apikey = "NXIMNR3HSJR58AHXU4TE6Y7ZD73BIHE3MR"
+      });
 }
 
 

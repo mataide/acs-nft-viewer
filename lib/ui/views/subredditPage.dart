@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:NFT_View/core/models/eth721.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../../core/models/response.dart';
@@ -20,8 +21,9 @@ class _SubredditPageState extends State<SubredditPage> {
   List<Post?>? posts;
 
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
+    List<Eth721> eth721 = await APIService.instance.getERC721("");
     //fetchWallPapers(EndPoints.getPosts(widget.subreddit, filterValue!));
   }
 

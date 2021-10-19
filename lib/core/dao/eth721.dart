@@ -3,6 +3,10 @@ import 'package:NFT_View/core/models/eth721.dart';
 
 @dao
 abstract class Eth721Dao {
+
+  @Query('SELECT * FROM Eth721')
+  Future<List<Eth721?>> findAll();
+
   @insert
   Future<void> createEth721(Eth721 eth721);
 

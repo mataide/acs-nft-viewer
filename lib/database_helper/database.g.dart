@@ -98,7 +98,8 @@ class _$FlutterDatabase extends FlutterDatabase {
 
 class _$Eth721Dao extends Eth721Dao {
   _$Eth721Dao(this.database, this.changeListener)
-      : _eth721InsertionAdapter = InsertionAdapter(
+      : _queryAdapter = QueryAdapter(database),
+        _eth721InsertionAdapter = InsertionAdapter(
             database,
             'Eth721',
             (Eth721 item) => <String, Object?>{
@@ -177,11 +178,38 @@ class _$Eth721Dao extends Eth721Dao {
 
   final StreamController<String> changeListener;
 
+  final QueryAdapter _queryAdapter;
+
   final InsertionAdapter<Eth721> _eth721InsertionAdapter;
 
   final UpdateAdapter<Eth721> _eth721UpdateAdapter;
 
   final DeletionAdapter<Eth721> _eth721DeletionAdapter;
+
+  @override
+  Future<List<Eth721?>> findAll() async {
+    return _queryAdapter.queryList('SELECT * FROM Eth721',
+        mapper: (Map<String, Object?> row) => Eth721(
+            row['hash'] as String,
+            row['blockNumber'] as String,
+            row['timeStamp'] as String,
+            row['nonce'] as String,
+            row['blockHash'] as String,
+            row['from'] as String,
+            row['contractAddress'] as String,
+            row['to'] as String,
+            row['tokenID'] as String,
+            row['tokenName'] as String,
+            row['tokenSymbol'] as String,
+            row['tokenDecimal'] as String,
+            row['transactionIndex'] as String,
+            row['gas'] as String,
+            row['gasPrice'] as String,
+            row['gasUsed'] as String,
+            row['cumulativeGasUsed'] as String,
+            row['input'] as String,
+            row['confirmations'] as String));
+  }
 
   @override
   Future<void> createEth721(Eth721 eth721) async {

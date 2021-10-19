@@ -11,6 +11,7 @@ import android.view.View
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -24,18 +25,20 @@ private const val LOCK = "setLockWallpaper"
 private const val WALLET_CONNECTION = "initWalletConnection"
 private const val WALLET_DISCONNECTION = "initWalletDisconnection"
 private const val KEY_APPROVED = "keyApproved"
+private const val EVENT_CHANNEL_WALLET = "com.bimsina.re_walls/WalletStreamHandler"
 
 
 class MainActivity: FlutterActivity(), Session.Callback {
 
   override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
     super.configureFlutterEngine(flutterEngine)
+    EventChannel(flutterEngine.dartExecutor.binaryMessenger, EVENT_CHANNEL_WALLET)
+      .setStreamHandler(WalletStreamHandler(this))
+
     MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler {
       call, result ->
       print("call ${call.method}")
-      if (call.method == WALLET_CONNECTION) {
-        initWalletConnection()
-      } else if (call.method == WALLET_DISCONNECTION) {
+      if (call.method == WALLET_DISCONNECTION) {
         initWalletDisconnection()
       }else if (call.method == KEY_APPROVED){
         val setKey = keyApproved()
