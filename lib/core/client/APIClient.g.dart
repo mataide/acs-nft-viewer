@@ -16,7 +16,7 @@ class _APIClient implements APIClient {
   String? baseUrl;
 
   @override
-  Future<Eth721> getERC721(address,
+  Future<List<Eth721>> getERC721(address,
       {module = "account",
       action = "tokennfttx",
       page = "1",
@@ -39,13 +39,15 @@ class _APIClient implements APIClient {
     };
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Eth721>(
+    final _result = await _dio.fetch<List<dynamic>>(
+        _setStreamType<List<Eth721>>(
             Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/api',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = Eth721.fromJson(_result.data!);
+    var value = _result.data!
+        .map((dynamic i) => Eth721.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 

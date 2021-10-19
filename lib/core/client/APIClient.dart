@@ -31,7 +31,7 @@ abstract class APIClient {
   factory APIClient(Dio dio, {String baseUrl}) = _APIClient;
 
   @GET(ENDPOINT_API)
-  Future<Eth721> getERC721(
+  Future<List<Eth721>> getERC721(
       @Query("address") String address,
       {
         @Query("module") String module = "account",

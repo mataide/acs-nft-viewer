@@ -16,12 +16,6 @@ class DatabaseHelper {
   String userTable = 'user';
   String colId = 'id';
   String colName = 'name';
-  String colPassword = 'passoword';
-  String coladdress = 'address';
-  String colState = 'state';
-  String colCity = 'city';
-  String colCountry = 'country';
-  String colEmail = 'email';
 
 
   //CONSTRUTOR PARA CRIAR INSTANCIA DA CLASSE
@@ -58,8 +52,7 @@ class DatabaseHelper {
   void _createDb(Database db, int newVersion) async {
     await db.execute(
         'CREATE TABLE $userTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, '
-            '$colName TEXT, $colEmail,''$colPassword TEXT, $coladdress TEXT, $colCity TEXT, $colState TEXT, '
-            '$colCountry TEXT)');
+            '$colName TEXT,');
   }
 
   Future<int> insert(Map<String, dynamic> row) async {

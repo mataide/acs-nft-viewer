@@ -23,6 +23,8 @@ private const val HOME = "setWallpaper"
 private const val LOCK = "setLockWallpaper"
 private const val WALLET_CONNECTION = "initWalletConnection"
 private const val WALLET_DISCONNECTION = "initWalletDisconnection"
+private const val KEY_APPROVED = "keyApproved"
+
 
 class MainActivity: FlutterActivity(), Session.Callback {
 
@@ -35,11 +37,20 @@ class MainActivity: FlutterActivity(), Session.Callback {
         initWalletConnection()
       } else if (call.method == WALLET_DISCONNECTION) {
         initWalletDisconnection()
+      }else if (call.method == KEY_APPROVED){
+        val setKey = keyApproved()
+        if (setKey != ""){
+          result.success(setKey)
+        }else{
+          result.error("UNAVAILABLE", "", null)
+        }
+
       } else if (call.method == HOME || call.method == LOCK) {
         val setWallpaper = setWallpaper(call.arguments as String, applicationContext)
         if (setWallpaper == 0) {
           result.success(setWallpaper)
-        } else {
+        }
+        else {
           result.error("UNAVAILABLE", "", null)
         }
       } else {
@@ -103,6 +114,9 @@ class MainActivity: FlutterActivity(), Session.Callback {
       "Connected: ${WalletConnect.getInstance(applicationContext).session.approvedAccounts()}"
     }
     return result
+  }
+  private fun keyApproved (): String? = runBlocking {
+     WalletConnect.getInstance(applicationContext).session.approvedAccounts()?.get(0)
   }
 
   private fun sessionClosed() {

@@ -8,15 +8,10 @@ class User {
 
 
   int? id;
-  String? password;
   String? name;
-  String? address;
-  String? state;
-  String? city;
-  String? country;
-  String? email;
 
-  User(this.id,this.password ,this.name, this.address, this.state, this.city, this.country, this.email);
+
+  User(this.id,this.name);
 
 
   //CONVERTENDO OS DADOS EM MAPA
@@ -24,15 +19,7 @@ class User {
 
     var map = <String, dynamic>{
       'id':id,
-      'name': name,
-      'email': email,
-      'password': password,
-      'address': address,
-      'city': city,
-      'state': state,
-      'country': country,
-
-
+      'name': name,//name vai ser usada para keyMetaMask
     };
 
     return map;
@@ -41,13 +28,6 @@ class User {
   User.fromMap(Map<String, dynamic> map){
   id = map['id'];
   name = map['name'];
-  email = map['email'];
-  password = map['password'];
-  address = map['address'];
-  city = map['city'];
-  state = map['state'];
-  country = map['country'];
-
 
   }
 
