@@ -79,7 +79,7 @@ class GridWallpaperState extends ChangeNotifier {
   }
 
   void prepareFromInternet() async {
-    APIService.instance.getERC721("", "", "", "", "", "", "", "", "");
+    APIService.instance.getERC721("");
   }
 
   changeSelected(SelectorCallback selected) {
