@@ -5,9 +5,10 @@ import 'package:NFT_View/core/client/APIClient.dart';
 import 'package:NFT_View/core/utils/subreddits.dart';
 import 'package:NFT_View/ui/views/selector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../utils/constants.dart';
-import '../models/response.dart';
+import 'package:NFT_View/core/utils/constants.dart';
+import 'package:NFT_View/core/models/response.dart';
 import 'package:http/http.dart' as http;
+import 'package:NFT_View/database_helper/database.dart';
 
 class CarouselWallpaperState extends ChangeNotifier {
   List<Post?> _posts;
@@ -18,6 +19,7 @@ class CarouselWallpaperState extends ChangeNotifier {
 
   CarouselWallpaperState(this._fetchState, this._posts) {
     prepareSharedPrefs();
+    prepareFromDb();
   }
 
   get posts => _posts;
@@ -77,5 +79,13 @@ class CarouselWallpaperState extends ChangeNotifier {
       preferences.setStringList('carousel_subreddit', _selectedSubreddit!);
       prepareSharedPrefs();
     });
+  }
+
+  void prepareFromDb() async {
+    final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
+
+    final eth721Dao = database.eth721Dao;
+    final result = await eth721Dao.findAll();
+    print(result);
   }
 }

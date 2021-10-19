@@ -27,6 +27,23 @@ const String API_BASE_URL = "https://api.etherscan.io/";
 //   }
 // }
 
+class APIService {
+  static APIClient? _instance;
+
+  APIService._();
+
+  static APIClient get instance {
+    if(_instance == null) {
+      final dio = Dio();
+      final client = APIClient(dio);
+      return client;
+    }
+    return _instance!;
+  }
+
+}
+
+
 @RestApi(baseUrl: API_BASE_URL)
 abstract class APIClient {
 
