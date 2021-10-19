@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                    ElevatedButton(
                       onPressed: () {
                       keyMetaMask();
-                      if(result != "")
+                      if(result != null)
                         {
                           print(result);
                           Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Logged()));

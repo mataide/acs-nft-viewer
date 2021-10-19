@@ -21,6 +21,7 @@ import 'package:flutter/services.dart';
   } on PlatformException catch (e) {
     print("Failed to initWalletConnection: '${e.message}'.");
   }
+  print(result);
 }
 
 /*inserir() async {

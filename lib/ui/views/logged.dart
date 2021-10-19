@@ -42,7 +42,7 @@ class _LoggedState extends State<Logged> {
                   width: 10.0,),
                 ElevatedButton(
                   onPressed: () {
-                    result = "";
+                    result = null;
                     Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LoginPage()));
                     print(result);
                   },
