@@ -1,3 +1,4 @@
+import 'package:NFT_View/ui/widgets/walletconnect.dart';
 import 'package:provider/provider.dart';
 import '../../ui/widgets/bottom_nav_bar.dart';
 import '../../core/utils/theme.dart';
@@ -62,6 +63,7 @@ class _HomePageState extends State<HomePage> {
             });
           },
           children: <Widget>[
+            WalletConnect(),
             MainBody(),
             Category(),
             //ForYou(),

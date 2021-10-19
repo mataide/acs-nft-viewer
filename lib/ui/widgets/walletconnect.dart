@@ -10,6 +10,13 @@ final _eventChannel = const EventChannel(EVENT_CHANNEL_WALLET);
 
 @override
 Widget build(BuildContext context) {
+  // const platform = const MethodChannel('com.bimsina.re_walls/MainActivity');
+  // try {
+  //   await platform.invokeMethod('initWalletConnection', null);
+  //   print('Connected....');
+  // } on PlatformException catch (e) {
+  //   print("Failed to initWalletConnection: '${e.message}'.");
+  // }
   final networkStream = _eventChannel
       .receiveBroadcastStream()
       .distinct()

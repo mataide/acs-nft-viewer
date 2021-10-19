@@ -38,9 +38,11 @@ class MainActivity: FlutterActivity(), Session.Callback {
     MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler {
       call, result ->
       print("call ${call.method}")
-      if (call.method == WALLET_DISCONNECTION) {
+      if (call.method == WALLET_CONNECTION) {
+        initWalletConnection()
+      } else if (call.method == WALLET_DISCONNECTION) {
         initWalletDisconnection()
-      }else if (call.method == KEY_APPROVED){
+      } else if (call.method == KEY_APPROVED){
         val setKey = keyApproved()
         if (setKey != ""){
           result.success(setKey)
