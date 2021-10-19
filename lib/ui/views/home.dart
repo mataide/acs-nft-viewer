@@ -63,7 +63,6 @@ class _HomePageState extends State<HomePage> {
             });
           },
           children: <Widget>[
-            WalletConnect(),
             MainBody(),
             Category(),
             //ForYou(),
