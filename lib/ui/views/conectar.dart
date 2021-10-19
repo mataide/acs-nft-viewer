@@ -1,5 +1,7 @@
 
+import 'package:NFT_View/ui/widgets/walletconnect.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
   var result;
   var rest;
@@ -8,10 +10,11 @@ import 'package:flutter/services.dart';
     const platform = const MethodChannel('com.bimsina.re_walls/MainActivity');
     try {
       await platform.invokeMethod('initWalletConnection', null);
-      print('Connected....');
+
     } on PlatformException catch (e) {
       print("Failed to initWalletConnection: '${e.message}'.");
     }
+
   }
 
   keyMetaMask() async {

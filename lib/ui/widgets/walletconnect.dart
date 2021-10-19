@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WalletConnect extends StatelessWidget {
 /// Initialize NetworkStreamWidget with [key].
@@ -9,14 +10,8 @@ static const String EVENT_CHANNEL_WALLET = "com.bimsina.re_walls/WalletStreamHan
 final _eventChannel = const EventChannel(EVENT_CHANNEL_WALLET);
 
 @override
-Widget build(BuildContext context) {
-  // const platform = const MethodChannel('com.bimsina.re_walls/MainActivity');
-  // try {
-  //   await platform.invokeMethod('initWalletConnection', null);
-  //   print('Connected....');
-  // } on PlatformException catch (e) {
-  //   print("Failed to initWalletConnection: '${e.message}'.");
-  // }
+Widget build(BuildContext context){
+
   final networkStream = _eventChannel
       .receiveBroadcastStream()
       .distinct()
@@ -26,34 +21,12 @@ Widget build(BuildContext context) {
     initialData: "disconnected",
     stream: networkStream,
     builder: (context, snapshot) {
+      print(snapshot.data);
       final address = snapshot.data ?? "unknown";
-      return _NetworkStateWidget(message: address, color: Colors.black);
-    },
+      print(address);
+      return Container();
+    }
   );
 }
 }
 
-class _NetworkStateWidget extends StatelessWidget {
-  final String message;
-  final Color color;
-
-  const _NetworkStateWidget({required this.message, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      color: color,
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-      duration: kThemeAnimationDuration,
-      child: Text(
-        message,
-        textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.bodyText2!.copyWith(
-          color: Colors.white,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-}
