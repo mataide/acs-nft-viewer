@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:NFT_View/core/utils/theme.dart';
 import 'package:NFT_View/core/viewmodels/grid_wallpaper_state.dart';
 import '../../core/utils/constants.dart';
-import '../views/selector.dart';
+import 'package:NFT_View/app/home/selector.dart';
 import '../../core/client/APIClient.dart';
 import '../../core/models/response.dart';
 import '../widgets/wallpaper_list.dart';

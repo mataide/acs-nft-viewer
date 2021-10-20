@@ -1,5 +1,5 @@
 
-import 'package:NFT_View/ui/widgets/walletconnect.dart';
+import 'package:NFT_View/app/widgets/walletconnect.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

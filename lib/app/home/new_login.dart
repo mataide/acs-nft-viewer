@@ -1,5 +1,5 @@
 import 'package:NFT_View/core/utils/theme.dart';
-import 'package:NFT_View/ui/views/conectar.dart';
+import 'package:NFT_View/app/home/conectar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';

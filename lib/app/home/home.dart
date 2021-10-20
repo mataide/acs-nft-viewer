@@ -1,7 +1,7 @@
-import 'package:NFT_View/ui/widgets/walletconnect.dart';
+import 'package:NFT_View/app/widgets/walletconnect.dart';
 import 'package:provider/provider.dart';
-import '../../ui/widgets/bottom_nav_bar.dart';
-import '../../core/utils/theme.dart';
+import 'package:NFT_View/app/widgets/bottom_nav_bar.dart';
+import 'package:NFT_View/core/utils/theme.dart';
 import 'search_page.dart';
 import 'category.dart';
 import 'main_page.dart';

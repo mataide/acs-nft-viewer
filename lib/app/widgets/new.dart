@@ -6,8 +6,8 @@ import 'package:NFT_View/core/models/response.dart';
 import 'package:NFT_View/core/utils/theme.dart';
 import 'package:NFT_View/core/viewmodels/carousel_wallpaper_state.dart';
 import '../../core/utils/constants.dart';
-import '../views/selector.dart';
-import '../views/wallpaper.dart';
+import 'package:NFT_View/app/home/selector.dart';
+import 'package:NFT_View/app/home/wallpaper.dart';
 import '../../core/client/APIClient.dart';
 
 import 'general.dart';
