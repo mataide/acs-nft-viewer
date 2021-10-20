@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'constants.dart';
-import 'theme.dart';
+import '../../../core/utils/constants.dart';
+import '../../../core/utils/theme.dart';
 
 
 //SELEÇÃO DOS TEMAS

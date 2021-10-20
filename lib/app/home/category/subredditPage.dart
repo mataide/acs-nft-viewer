@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:NFT_View/core/models/eth721.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import '../../core/models/response.dart';
-import '../../core/client/APIClient.dart';
-import '../widgets/wallpaper_list.dart';
+import '../../../core/models/response.dart';
+import '../../../core/client/APIClient.dart';
+import '../shearch_page/search_results/wallpaper_list.dart';
 
 class SubredditPage extends StatefulWidget {
   final ThemeData? themeData;

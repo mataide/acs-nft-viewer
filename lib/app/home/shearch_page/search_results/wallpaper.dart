@@ -1,16 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_downloader/image_downloader.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:NFT_View/core/utils/theme.dart';
-import 'web_page.dart';
-import '../../core/utils/dialog_utils.dart';
-import '../widgets/general.dart';
+import '../../web_page.dart';
+import '../../settings/dialog_utils.dart';
+import '../../category/general.dart';
 import 'package:share/share.dart';
-import '../../core/models/response.dart';
+import '../../../../core/models/response.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 

@@ -1,4 +1,3 @@
-import 'package:NFT_View/app/widgets/walletconnect.dart';
 import 'package:provider/provider.dart';
 import 'package:NFT_View/app/widgets/bottom_nav_bar.dart';
 import 'package:NFT_View/core/utils/theme.dart';

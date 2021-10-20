@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/utils/theme.dart';
+import '../../../core/utils/theme.dart';
 
 class CardWithChildren extends StatelessWidget {
   final List<Widget>? children;

@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:NFT_View/core/utils/subreddits.dart';
 import '../../core/utils/constants.dart';
 import '../../core/utils/theme.dart';
-import '../widgets/general.dart';
+import 'category/general.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'subredditPage.dart';
+import 'category/subredditPage.dart';
 
 class Category extends StatefulWidget {
   @override

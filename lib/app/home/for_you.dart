@@ -4,13 +4,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:NFT_View/core/utils/constants.dart';
-import 'package:NFT_View/app/widgets/general.dart';
+import 'package:NFT_View/app/home/category/general.dart';
 import '../../core/models/response.dart';
 import '../../core/utils/theme.dart';
 import '../widgets/resolution_selector.dart';
 import '../../core/client/APIClient.dart';
 import 'package:http/http.dart' as http;
-import '../widgets/wallpaper_list.dart';
+import 'shearch_page/search_results/wallpaper_list.dart';
 
 class ForYou extends StatefulWidget {
   @override
