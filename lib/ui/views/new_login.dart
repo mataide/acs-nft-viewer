@@ -21,10 +21,20 @@ class _LoginPageState extends State<LoginPage> {
   final _keyCrontollers = TextEditingController();
   var rest;
   var address;
+  //Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
+
+
+ /* @override
+  void iniState(){
+    super.initState();
+    rest = prefs.then((value) => 'key');
+  }*/
 
   @override
   Widget _buildChild() {
+
+    _sharedRead();
     if (rest == null) {
       final networkStream = _eventChannel
           .receiveBroadcastStream()
@@ -68,8 +78,10 @@ class _LoginPageState extends State<LoginPage> {
                               setState(() {});
                             } else {*/
                               address = _keyCrontollers.text;
-                              {_shared();}
-                              setState(() {});
+                              rest = _keyCrontollers.text;
+                              _sharedWrite();
+                              setState(() {
+                              });
                             },
                           //},
                           child: Text(
@@ -84,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                   ElevatedButton(
                     onPressed: () {
                       openMetaMesk();
-                      {_shared();}
+                      {_sharedWrite();}
                     },
                     child: Text(
                       "Wallet Connect", style: TextStyle(fontSize: 20.0),
@@ -100,17 +112,16 @@ class _LoginPageState extends State<LoginPage> {
         children: <Widget>[
           Expanded(
             child: Text(
-              "Connected", textAlign: TextAlign.center,
+              rest, textAlign: TextAlign.center,
             ),
           ),
           SizedBox(
             width: 10.0,),
           ElevatedButton(
             onPressed: () {
-              rest = null;
+              _sharedRemove();
               setState(() {
               });
-              print(rest);
             },
             child: new Icon(Icons.delete_forever),
           )
@@ -119,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
   @override
-  Widget build(BuildContext context) {
+  Widget build (BuildContext context) {
     final stateData = Provider.of<ThemeNotifier>(context);
     final ThemeData state = stateData.getTheme();
     return Scaffold(
@@ -135,13 +146,25 @@ class _LoginPageState extends State<LoginPage> {
               child:_buildChild(),
             ),
           );
-        }
-  void _shared() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('key', address);
-    rest = prefs.getString('key') ?? '';
-    print(rest);
   }
+  Future<void> _sharedWrite() async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('key', address);
+  }
+
+  Future<void> _sharedRead () async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    rest = prefs.getString('key');
+  }
+
+  Future<void> _sharedRemove() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('key');
+
+  }
+
+
 }
 
 
