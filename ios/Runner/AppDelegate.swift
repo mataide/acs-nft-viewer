@@ -2,6 +2,7 @@ import UIKit
 import Flutter
 import Vapor
 
+private let networkEventChannel = "com.bimsina.re_walls/WalletStreamHandler"
 private let CHANNEL = "com.bimsina.re_walls/MainActivity"
 private let WALLET_CONNECTION = "initWalletConnection"
 private let WALLET_DISCONNECTION = "initWalletDisconnection"
@@ -29,6 +30,9 @@ var walletConnect: WalletConnect!
               return
             }
         })
+
+        FlutterEventChannel(name: networkEventChannel, binaryMessenger: controller.binaryMessenger)
+                            .setStreamHandler(NetworkStreamHandler(reachability: reachability))
 
         GeneratedPluginRegistrant.register(with: self)
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)

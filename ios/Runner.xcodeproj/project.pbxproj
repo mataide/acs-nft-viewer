@@ -10,6 +10,7 @@
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		2C0D95202719DA3300FFC667 /* WalletConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D951F2719DA3300FFC667 /* WalletConnect.swift */; };
 		2C0D95222719DA4000FFC667 /* HandshakeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D95212719DA4000FFC667 /* HandshakeViewController.swift */; };
+		2C3521AD271F5CAB00814F8A /* NetworkStreamHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3521AC271F5CAB00814F8A /* NetworkStreamHandler.swift */; };
 		2C85E1CB271B846200B29B88 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 2C85E1CA271B846200B29B88 /* SwiftyJSON */; };
 		2C85E1CE271B84A100B29B88 /* WalletConnectSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2C85E1CD271B84A100B29B88 /* WalletConnectSwift */; };
 		2C85E1D1271B851300B29B88 /* routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C85E1D0271B851300B29B88 /* routes.swift */; };
@@ -42,6 +43,7 @@
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		2C0D951F2719DA3300FFC667 /* WalletConnect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalletConnect.swift; sourceTree = "<group>"; };
 		2C0D95212719DA4000FFC667 /* HandshakeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandshakeViewController.swift; sourceTree = "<group>"; };
+		2C3521AC271F5CAB00814F8A /* NetworkStreamHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkStreamHandler.swift; sourceTree = "<group>"; };
 		2C85E1D0271B851300B29B88 /* routes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = routes.swift; sourceTree = "<group>"; };
 		2C85E1D2271B851900B29B88 /* configure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = configure.swift; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 		2C0D951E2719DA1900FFC667 /* MainActivity */ = {
 			isa = PBXGroup;
 			children = (
+				2C3521AC271F5CAB00814F8A /* NetworkStreamHandler.swift */,
 				2C0D95212719DA4000FFC667 /* HandshakeViewController.swift */,
 				2C0D951F2719DA3300FFC667 /* WalletConnect.swift */,
 			);
@@ -351,6 +354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
+				2C3521AD271F5CAB00814F8A /* NetworkStreamHandler.swift in Sources */,
 				2C85E1D3271B851900B29B88 /* configure.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 				2C0D95222719DA4000FFC667 /* HandshakeViewController.swift in Sources */,

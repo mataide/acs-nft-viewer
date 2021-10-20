@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/utils/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'ui/views/home.dart';
+import 'package:NFT_View/app/home/home.dart';
 import 'core/utils/constants.dart';
 
 SharedPreferences? prefs;
