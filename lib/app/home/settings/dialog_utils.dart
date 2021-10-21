@@ -129,7 +129,7 @@ class ThemeChangerWidget extends StatelessWidget {
                   value: index,
                   groupValue: themes.indexOf(state),
                   onChanged: (dynamic ind) {
-                    onThemeChanged(ind, stateData);
+                    //onThemeChanged(ind, stateData);
                   },
                   title: Text(
                     string[index],

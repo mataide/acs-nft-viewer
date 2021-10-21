@@ -1,4 +1,4 @@
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:NFT_View/app/widgets/bottom_nav_bar.dart';
 import 'package:NFT_View/core/utils/theme.dart';
 import 'search_page.dart';
@@ -6,29 +6,22 @@ import 'category.dart';
 import 'main_page.dart';
 import 'settings.dart';
 import 'package:flutter/material.dart';
+import 'package:NFT_View/core/providers/ThemeNotifierProvider.dart';
 
 import 'for_you.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class HomePage extends ConsumerWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
 
   @override
-  void dispose() {
-    super.dispose();
-    _pageController.dispose();
-  }
+  Widget build(BuildContext context, ScopedReader watch) {
+    final stateData = watch(themeNotifierProvider.notifier);
+    final ThemeData state = watch(themeNotifierProvider.notifier).state;
 
-  @override
-  Widget build(BuildContext context) {
-    final stateData = Provider.of<ThemeNotifier>(context);
-    final ThemeData state = stateData.getTheme();
+    //final stateData = Provider.of<ThemeNotifier>(context);
+    //final ThemeData state = stateData.getTheme();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -57,9 +50,9 @@ class _HomePageState extends State<HomePage> {
           controller: _pageController,
           physics: BouncingScrollPhysics(),
           onPageChanged: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
+            // setState(() {
+            //   _selectedIndex = index;
+            // });
           },
           children: <Widget>[
             MainBody(),

@@ -27,6 +27,7 @@ dependencies:
   retrofit: ^2.0.1
   json_annotation: ^4.3.0
   floor: ^1.2.0
+  flutter_riverpod: ^0.14.0+3
 
 dev_dependencies:
   floor_generator: ^1.2.0

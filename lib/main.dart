@@ -1,10 +1,9 @@
-import 'package:NFT_View/core/client/APIClient.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'core/utils/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:NFT_View/app/home/home.dart';
-import 'core/utils/constants.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:NFT_View/core/providers/ThemeNotifierProvider.dart';
+import 'package:NFT_View/core/utils/constants.dart';
 
 SharedPreferences? prefs;
 
@@ -12,29 +11,25 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.getInstance().then((shared) {
     prefs = shared;
-    runApp(MyApp());
+    runApp(ProviderScope(
+    child: MyApp()));
   });
-
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-          ChangeNotifierProvider<ThemeNotifier>(
-            create: (_) => ThemeNotifier(themes[prefs!.getInt('theme') ?? 1]),
-          ),
-          Provider<APIClient>(
-            create: (_) => APIService.instance)
-        ],
-        child: MaterialApp(
-        theme: themes[prefs!.getInt('theme') ?? 1],
-        title: 'reWalls',
-        debugShowCheckedModeBanner: false,
-        routes: {
+  Widget build(BuildContext context, ScopedReader watch) {
+    final themesNotifier = watch(themeNotifierProvider.notifier);
+    themesNotifier.setTheme(themes[prefs!.getInt("theme") ?? 1]);
+
+    return MaterialApp(
+      theme: themesNotifier.getTheme(),
+      title: 'reWalls',
+      debugShowCheckedModeBanner: false,
+      routes: {
         '/home': (context) => HomePage(),
-        },
-        home: HomePage(),
-        ),);
+      },
+      home: HomePage(),
+    );
   }
 }
