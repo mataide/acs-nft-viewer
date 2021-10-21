@@ -40,8 +40,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # assets:
-  #  - assets/images/
+  assets:
+    - assets/images/metamask.png
+    - assets/images/ethereum.png
+    - assets/images/walletconnect.png
+
   fonts:
     - family: Sans
       fonts:

@@ -1,5 +1,8 @@
+import 'package:NFT_View/app/home/settings/login_ethereum_address/login_ethereum_address.dart';
 import 'package:NFT_View/core/utils/theme.dart';
 import 'package:NFT_View/core/method_channel/conectar.dart';
+import 'package:NFT_View/core/providers/new_login_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -17,15 +20,26 @@ class _LoginPageState extends State<LoginPage> {
   static const String EVENT_CHANNEL_WALLET =
       "com.bimsina.re_walls/WalletStreamHandler";
   final _eventChannel = const EventChannel(EVENT_CHANNEL_WALLET);
-  final _formKey = GlobalKey<FormState>();
-  final _keyCrontollers = TextEditingController();
   var rest;
   var address;
 
+  @override
+  Widget build(BuildContext context) {
+    final stateData = Provider.of<ThemeNotifier>(context);
+    final ThemeData state = stateData.getTheme();
+    return Scaffold(
+      backgroundColor: state.primaryColor,
+      appBar: AppBar(
+        title: Text("Acess Wallet"),
+        backgroundColor: state.primaryColor,
+        centerTitle: true,
+      ),
+      body: _buildChild(),
+      );
+  }
 
   @override
   Widget _buildChild() {
-    _sharedRead();
     if (rest == null) {
       final networkStream = _eventChannel
           .receiveBroadcastStream()
@@ -39,61 +53,109 @@ class _LoginPageState extends State<LoginPage> {
             print(address);
             return ListView(padding: EdgeInsets.all(16.0), children: [
               Container(
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Expanded(
-                      child: TextFormField(
-                        controller: _keyCrontollers,
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: "Insert Public Key",
-                          hintStyle:
-                              TextStyle(fontSize: 20.0, color: Colors.white),
-                        ),
-                      ),
+                    SizedBox( height: 40.0,),
+                    CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.grey,
                     ),
                     SizedBox(
-                      width: 10.0,
+                      height: 35.0,
+                    ),
+                    Text(
+                      "Connect with wallet \n\n Your NFT collections will \n"
+                      "appear here as soon as you \n connect with your wallet",
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: 70.0,
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        /* if (_keyCrontollers.text == "" && rest == null) {
-                              final snackBar = SnackBar(content: Text(
-                                  'Insert a Public Key !'),
-                                duration: Duration(seconds: 3),);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  snackBar);
-                            } else if (rest != null) {
-                              setState(() {});
-                            } else {*/
-                        address = _keyCrontollers.text;
-                        rest = _keyCrontollers.text;
-                        _sharedWrite();
-                        setState(() {});
-                      },
-                      //},
-                      child: Text(
-                        "OK",
-                        style: TextStyle(fontSize: 16.0),
+                      style: TextButton.styleFrom(backgroundColor: Colors.orange,
+                          padding: const EdgeInsets.all(10.0),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.0))),
+                      child: Row(
+                        children: [
+                          new CircleAvatar(
+                          radius: 15.0,
+                        backgroundImage: AssetImage('assets/images/metamask.png'),
                       ),
+                          SizedBox(width: 45.0,),
+                      Text(
+                        "Connect to MetaMask",
+                        style: TextStyle(fontSize: 20.0),
+                        textAlign: TextAlign.center,
+                      ),
+                      ],
+                    ),
+                      onPressed: () {
+                        openMetaMesk();
+                        {
+                        //  sharedWrite();
+                        }
+                      },
+
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    ElevatedButton(
+                      style: TextButton.styleFrom(backgroundColor: Colors.blueAccent,
+                          padding: const EdgeInsets.all(10.0),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.0))),
+                      child: Row(
+                        children: [
+                          new CircleAvatar(
+                            radius: 15.0,
+                            backgroundImage: AssetImage('assets/images/walletconnect.png'),
+                          ),
+                          SizedBox(width: 55.0,),
+                          Text(
+                            "Use WalletConnect",
+                            style: TextStyle(fontSize: 20.0),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                      onPressed: () {
+                        openMetaMesk();
+                        {
+                          //  sharedWrite();
+                        }
+                      },
+
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    ElevatedButton(
+                      style: TextButton.styleFrom(backgroundColor: Colors.grey,
+                          padding: const EdgeInsets.all(10.0),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.0))),
+                      child: Row(
+                        children: [
+                          new CircleAvatar(
+                            radius: 15.0,
+                            backgroundImage: AssetImage('assets/images/ethereum.png'),
+                          ),
+                          SizedBox(width: 38.0,),
+                          Text(
+                            "Enter ethereum address",
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                        ],
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LoginAddress()));
+                      },
+
+                    ),
+                    SizedBox(
+                      height: 10.0,
                     ),
                   ],
-                ),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  openMetaMesk();
-                  {
-                    _sharedWrite();
-                  }
-                },
-                child: Text(
-                  "Wallet Connect",
-                  style: TextStyle(fontSize: 20.0),
                 ),
               ),
             ]);
@@ -113,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           ElevatedButton(
             onPressed: () {
-              _sharedRemove();
+              //sharedRemove();
               setState(() {});
             },
             child: new Icon(Icons.delete_forever),
@@ -121,39 +183,5 @@ class _LoginPageState extends State<LoginPage> {
         ],
       );
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final stateData = Provider.of<ThemeNotifier>(context);
-    final ThemeData state = stateData.getTheme();
-    return Scaffold(
-      backgroundColor: state.primaryColor,
-      appBar: AppBar(
-        title: Text("Acess Wallet"),
-        backgroundColor: state.primaryColor,
-        centerTitle: true,
-      ),
-      body: Form(
-        //FORM é para validar os campos
-        key: _formKey,
-        child: _buildChild(),
-      ),
-    );
-  }
-
-  Future<void> _sharedWrite() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('key', address);
-  }
-
-  Future<void> _sharedRead() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    rest = prefs.getString('key');
-  }
-
-  Future<void> _sharedRemove() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('key');
   }
 }

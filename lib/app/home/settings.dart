@@ -55,6 +55,7 @@ class _SettingsPageState extends State<SettingsPage>
               CustomListTile(
                 title: "Login",
                 icon: FontAwesomeIcons.user,
+                subtitle: 'Login to your app.',
                 onTap: (){
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context)=> LoginPage()));
