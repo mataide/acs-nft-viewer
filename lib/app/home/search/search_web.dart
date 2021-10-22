@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/utils/theme_notifier.dart';
+import '../../../core/utils/theme_notifier.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class WebPage extends StatefulWidget {
+class SearchWeb extends StatefulWidget {
   final String? title, initialPage;
 
-  WebPage({Key? key, required this.title, required this.initialPage})
+  SearchWeb({Key? key, required this.title, required this.initialPage})
       : super(key: key);
 
   @override
   _WebPageState createState() => _WebPageState();
 }
 
-class _WebPageState extends State<WebPage> {
+class _WebPageState extends State<SearchWeb> {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<ThemeNotifier>(context);

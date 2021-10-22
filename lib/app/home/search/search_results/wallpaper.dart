@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:NFT_View/core/utils/theme_notifier.dart';
-import '../../web_page.dart';
 import '../../../widgets/dialog.dart';
 import '../../collection/general.dart';
 import 'package:share/share.dart';
 import '../../../../core/models/response.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+
+import '../search_web.dart';
 
 class WallpaperPage extends StatefulWidget {
   final String heroId;
@@ -164,7 +165,7 @@ class _WallpaperPageState extends State<WallpaperPage>
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => WebPage(
+                          builder: (context) => SearchWeb(
                                 title: currentPost!.title,
                                 initialPage: 'https://www.reddit.com' +
                                     currentPost!.permalink!,
