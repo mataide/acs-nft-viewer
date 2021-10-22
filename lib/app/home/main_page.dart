@@ -1,24 +1,12 @@
-import 'package:provider/provider.dart';
-import 'package:NFT_View/core/utils/constants.dart';
-import 'package:NFT_View/core/viewmodels/carousel_wallpaper_state.dart';
-import 'package:NFT_View/core/viewmodels/grid_wallpaper_state.dart';
-import '../widgets/new.dart';
-import '../widgets/popular.dart';
+import '../widgets/grid_wallpaper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MainBody extends StatefulWidget {
-  @override
-  _MainBodyState createState() => _MainBodyState();
-}
-
-class _MainBodyState extends State<MainBody>
-    with AutomaticKeepAliveClientMixin<MainBody> {
-  @override
+class MainBody extends ConsumerWidget {
   bool get wantKeepAlive => true;
 
   @override
-  Widget build(BuildContext context) {
-    super.build(context);
+  Widget build(BuildContext context, ScopedReader watch) {
 
     return ListView(
       shrinkWrap: true,
@@ -31,10 +19,7 @@ class _MainBodyState extends State<MainBody>
               CarouselWallpaperState(kdataFetchState.IS_LOADING, null),
           child: NewWallpapers(),
         ),*/
-        ChangeNotifierProvider(
-          create: (_) => GridWallpaperState(kdataFetchState.IS_LOADING, null),
-          child: PopularWallpapers(),
-        ),
+        PopularWallpapers(),
       ],
     );
   }

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:NFT_View/app/home/settings/new_login.dart';
+import 'package:NFT_View/app/home/settings/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 late final String rest;

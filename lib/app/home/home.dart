@@ -1,7 +1,5 @@
 import 'package:NFT_View/app/home/marketplace.dart';
-import 'package:NFT_View/core/providers/ThemeNotifierProvider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart';
 import 'package:NFT_View/app/widgets/bottom_nav_bar.dart';
 import 'package:NFT_View/core/utils/theme.dart';
 import 'search_page.dart';
@@ -10,18 +8,17 @@ import 'main_page.dart';
 import 'settings.dart';
 import 'package:flutter/material.dart';
 
-import 'for_you.dart';
+// Providers
+import 'package:NFT_View/core/providers/providers.dart';
 
 class HomePage extends ConsumerWidget {
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final ThemeData state = watch (themeNotifierProvider.notifier).state;
-
+    final ThemeData state = watch(themeNotifierProvider.notifier).state;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -52,7 +49,9 @@ class HomePage extends ConsumerWidget {
           controller: _pageController,
           physics: BouncingScrollPhysics(),
           onPageChanged: (index) {
-              _selectedIndex = index;
+            // setState(() {
+            //   _selectedIndex = index;
+            // });
           },
           children: <Widget>[
             MainBody(),

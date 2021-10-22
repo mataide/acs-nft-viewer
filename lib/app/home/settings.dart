@@ -1,35 +1,20 @@
 
-import 'package:NFT_View/app/home/settings/new_login.dart';
+import 'package:NFT_View/app/home/settings/login.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'settings/dialog_utils.dart';
-import '../../core/utils/theme.dart';
 import 'category/card_with_children.dart';
 
-class SettingsPage extends StatefulWidget {
-  @override
-  _SettingsPageState createState() => _SettingsPageState();
-}
+// Providers
+import 'package:NFT_View/core/providers/providers.dart';
 
-class _SettingsPageState extends State<SettingsPage>
-    with AutomaticKeepAliveClientMixin<SettingsPage> {
-  @override
+class SettingsPage extends ConsumerWidget {
   bool get wantKeepAlive => true;
   String cacheSize = 'N/A';
 
-  //SEM AS OPÇOES DO DESENVOLVEDOR É DESNECESSARIO
-  /*static const String appUrl =
-          'https://play.google.com/store/apps/details?id=com.bimsina.re_walls',
-      codeUrl = 'https://github.com/bimsina/reWalls',
-      issuesUrl = 'https://github.com/bimsina/reWalls/issues';
-*/
   @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
-    final ThemeData state = themeNotifier.getTheme();
-
+  Widget build(BuildContext context, ScopedReader watch) {
     return Container(
       color: Colors.white,
       child: ListView(
@@ -72,49 +57,9 @@ class _SettingsPageState extends State<SettingsPage>
       ),
     );
   }
-
-  //RETIRANDO TELA DE DESENVOLVEDOR
- /* Widget _supportDev(ThemeData theme) {
-    return CardWithChildren(
-      title: 'Support Development',
-      children: <Widget>[
-        CustomListTile(
-          icon: Icons.share,
-          title: 'Share',
-          subtitle: 'Share this app with your friends.',
-          onTap: () => Share.share(appUrl),
-        ),
-        CustomListTile(
-          icon: FontAwesomeIcons.github,
-          title: 'GitHub',
-          subtitle: 'View the source code on GitHub.',
-          onTap: () => _launchURL(codeUrl),
-        ),
-        CustomListTile(
-          icon: Icons.star,
-          title: 'Rate the app',
-          subtitle: 'Rate the app on Google Play.',
-          onTap: () => _launchURL(appUrl),
-        ),
-        CustomListTile(
-          icon: FontAwesomeIcons.bug,
-          title: 'Report a bug',
-          onTap: () => _launchURL(issuesUrl),
-        ),
-      ],
-    );
-  }*/
-
-  /*_launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }*/
 }
 
-class CustomListTile extends StatelessWidget {
+class CustomListTile extends ConsumerWidget {
   final String? title, subtitle;
   final IconData icon;
   final VoidCallback? onTap;
@@ -127,9 +72,8 @@ class CustomListTile extends StatelessWidget {
       this.onTap})
       : super(key: key);
   @override
-  Widget build(BuildContext context) {
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
-    final ThemeData state = themeNotifier.getTheme();
+  Widget build(BuildContext context, ScopedReader watch) {
+    final ThemeData state = watch(themeNotifierProvider.notifier).state;
 
     return ListTile(
       onTap: onTap,

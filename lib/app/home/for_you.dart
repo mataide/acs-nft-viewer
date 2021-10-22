@@ -10,7 +10,7 @@ import '../../core/utils/theme.dart';
 import '../widgets/resolution_selector.dart';
 import '../../core/client/APIClient.dart';
 import 'package:http/http.dart' as http;
-import 'shearch_page/search_results/wallpaper_list.dart';
+import 'search_page/search_results/wallpaper_list.dart';
 
 class ForYou extends StatefulWidget {
   @override
