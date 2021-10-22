@@ -1,5 +1,4 @@
 import 'package:NFT_View/core/client/APIClient.dart';
-import 'package:NFT_View/core/utils/subreddits.dart';
 import 'package:NFT_View/app/widgets/selector.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';

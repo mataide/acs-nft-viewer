@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'search/search_results.dart';
 
-class WallpaperSearch extends SearchDelegate<void> {
+class HomeSearch extends SearchDelegate<void> {
   final ThemeData? themeData;
 
-  WallpaperSearch({this.themeData});
+  HomeSearch({this.themeData});
 
   @override
   ThemeData appBarTheme(BuildContext context) {

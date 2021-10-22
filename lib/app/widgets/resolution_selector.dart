@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/utils/constants.dart';
-import '../../core/utils/theme.dart';
+import '../../core/utils/theme_notifier.dart';
 
 class ResolutionSelector extends StatefulWidget {
   final String? deviceResolution;

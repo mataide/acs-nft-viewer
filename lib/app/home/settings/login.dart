@@ -1,5 +1,4 @@
 import 'package:NFT_View/app/home/settings/login_ethereum_address/login_ethereum_address.dart';
-import 'package:NFT_View/controllers/widgets/wallet_connect_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,7 +17,7 @@ class LoginPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final ThemeData state = watch(themeNotifierProvider.notifier).state;
+    final ThemeData state = watch(themeProvider.notifier).state;
     final keystate = watch (loginProvider.notifier).state;
 
     return Scaffold(

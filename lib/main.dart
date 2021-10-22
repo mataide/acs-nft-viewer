@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:NFT_View/app/home/home.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:NFT_View/core/providers/theme_notifier_provider.dart';
 import 'package:NFT_View/core/utils/constants.dart';
+
+// Providers
+import 'package:NFT_View/core/providers/providers.dart';
 
 SharedPreferences? prefs;
 
@@ -19,7 +21,7 @@ void main() {
 class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final themesNotifier = watch(themeNotifierProvider.notifier);
+    final themesNotifier = watch(themeProvider.notifier);
     themesNotifier.setTheme(themes[prefs!.getInt("theme") ?? 1]);
 
     return MaterialApp(

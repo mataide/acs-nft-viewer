@@ -1,20 +1,20 @@
-
-import 'package:NFT_View/core/utils/constants_key.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class KeyNotifier extends StateNotifier<String> {
-  String _KeyData;
+  String _keyData;
 
-  KeyNotifier(this._KeyData) : super(_KeyData);
+  KeyNotifier(this._keyData) : super(_keyData);
 
-  getKey() => _KeyData;
+  getKey() => _keyData;
 
   setKey(String keyData) async {
     state = keyData;
   }
 
   void onKeyChanged(String value, KeyNotifier keyNotifier) async {
-    keyNotifier.setKey(rest);
+    keyNotifier.setKey(value);
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setString('address', value);
   }
 }

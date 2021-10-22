@@ -139,3 +139,20 @@ const List<String> phoneResolutions = [
   "1280x720",
   "2560x1440",
 ];
+
+const List<String> initialSubredditsList = [
+  'mobilewallpapers',
+  'Amoledbackgrounds',
+  'phonewallpapers',
+  'Verticalwallpapers',
+  'MinimalWallpaper',
+  'wallpapers',
+  'phonewallpaper',
+  'AnimeWallpaper',
+  'iWallpaper',
+  'wallpaper',
+  'iPhoneWallpapers',
+  'WQHD_Wallpaper',
+  'S10Wallpapers',
+  'MobileWallpaper',
+];

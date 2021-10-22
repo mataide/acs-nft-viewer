@@ -9,7 +9,7 @@ import 'package:NFT_View/app/home/collection/card_with_children.dart';
 // Providers
 import 'package:NFT_View/core/providers/providers.dart';
 
-class SettingsPage extends ConsumerWidget {
+class HomeSettings extends ConsumerWidget {
   bool get wantKeepAlive => true;
   String cacheSize = 'N/A';
 
@@ -73,7 +73,7 @@ class CustomListTile extends ConsumerWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final ThemeData state = watch(themeNotifierProvider.notifier).state;
+    final ThemeData state = watch(themeProvider.notifier).state;
 
     return ListTile(
       onTap: onTap,

@@ -16,7 +16,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final ThemeData state = watch(themeNotifierProvider.notifier).state;
+    final ThemeData state = watch(themeProvider.notifier).state;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -37,7 +37,7 @@ class HomePage extends ConsumerWidget {
             onPressed: () =>
                 showSearch(
                     context: context,
-                    delegate: WallpaperSearch(themeData: state)),
+                    delegate: HomeSearch(themeData: state)),
           )
         ],
       ),
@@ -52,9 +52,9 @@ class HomePage extends ConsumerWidget {
             // });
           },
           children: <Widget>[
-            MainBody(),
-            Marketplace(),
-            SettingsPage(),
+            HomeCollection(),
+            HomeMarketplace(),
+            HomeSettings(),
           ],
         ),
       ),

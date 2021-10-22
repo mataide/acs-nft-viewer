@@ -20,7 +20,7 @@ class PopularWallpapers extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final dataState = watch(gridWallpaperProvider.notifier);
-    final ThemeData themeData = watch(themeNotifierProvider.notifier).state;
+    final ThemeData themeData = watch(themeProvider.notifier).state;
     final List<Post?>? posts = dataState.posts;
 
     return dataState.fetchState == kdataFetchState.IS_LOADING

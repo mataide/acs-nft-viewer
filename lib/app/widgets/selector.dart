@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:NFT_View/core/utils/subreddits.dart';
+import 'package:NFT_View/core/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/client/APIClient.dart';
 

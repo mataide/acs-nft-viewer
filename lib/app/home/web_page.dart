@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/utils/theme.dart';
+import '../../core/utils/theme_notifier.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebPage extends StatefulWidget {

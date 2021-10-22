@@ -2,7 +2,7 @@ import '../widgets/grid_wallpaper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MainBody extends ConsumerWidget {
+class HomeCollection extends ConsumerWidget {
   bool get wantKeepAlive => true;
 
   @override

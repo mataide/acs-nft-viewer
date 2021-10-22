@@ -1,4 +1,4 @@
-import 'package:NFT_View/core/utils/theme.dart';
+import 'package:NFT_View/core/utils/theme_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
