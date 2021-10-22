@@ -7,10 +7,10 @@ import 'package:NFT_View/core/utils/theme.dart';
 import 'package:NFT_View/core/viewmodels/carousel_wallpaper_state.dart';
 import '../../core/utils/constants.dart';
 import 'package:NFT_View/app/widgets/selector.dart';
-import 'package:NFT_View/app/home/search_page/search_results/wallpaper.dart';
+import 'package:NFT_View/app/home/search/search_results/wallpaper.dart';
 import '../../core/client/APIClient.dart';
 
-import '../home/category/general.dart';
+import '../home/collection/general.dart';
 
 class NewWallpapers extends StatefulWidget {
   @override

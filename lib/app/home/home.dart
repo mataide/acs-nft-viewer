@@ -1,11 +1,9 @@
-import 'package:NFT_View/app/home/marketplace.dart';
+import 'package:NFT_View/app/home/home_marketplace.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:NFT_View/app/widgets/bottom_nav_bar.dart';
-import 'package:NFT_View/core/utils/theme.dart';
-import 'search_page.dart';
-import 'category.dart';
-import 'main_page.dart';
-import 'settings.dart';
+import 'home_search.dart';
+import 'home_collection.dart';
+import 'home_settings.dart';
 import 'package:flutter/material.dart';
 
 // Providers
@@ -55,7 +53,6 @@ class HomePage extends ConsumerWidget {
           },
           children: <Widget>[
             MainBody(),
-            Category(),
             Marketplace(),
             SettingsPage(),
           ],
@@ -71,10 +68,6 @@ class HomePage extends ConsumerWidget {
         backgroundColor: state.primaryColor,
         showElevation: false,
         items: [
-          BottomNavyBarItem(
-            icon: Icon(Icons.home_outlined),
-            title: Text('Home'),
-          ),
           BottomNavyBarItem(
             icon: Icon(Icons.palette_outlined),
             title: Text('My collections'),
