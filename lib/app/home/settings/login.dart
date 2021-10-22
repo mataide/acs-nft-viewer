@@ -1,21 +1,14 @@
 import 'package:NFT_View/app/home/settings/login_ethereum_address/login_ethereum_address.dart';
-import 'package:NFT_View/core/utils/theme.dart';
 import 'package:NFT_View/core/method_channel/conectar.dart';
-import 'package:NFT_View/core/providers/new_login_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+// Providers
+import 'package:NFT_View/core/providers/providers.dart';
 
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends ConsumerWidget {
   /// Initialize NetworkStreamWidget with [key].
   static const String EVENT_CHANNEL_WALLET =
       "com.bimsina.re_walls/WalletStreamHandler";
@@ -24,9 +17,9 @@ class _LoginPageState extends State<LoginPage> {
   var address;
 
   @override
-  Widget build(BuildContext context) {
-    final stateData = Provider.of<ThemeNotifier>(context);
-    final ThemeData state = stateData.getTheme();
+  Widget build(BuildContext context, ScopedReader watch) {
+    final ThemeData state = watch(themeNotifierProvider.notifier).state;
+
     return Scaffold(
       backgroundColor: state.primaryColor,
       appBar: AppBar(
@@ -176,7 +169,6 @@ class _LoginPageState extends State<LoginPage> {
           ElevatedButton(
             onPressed: () {
               //sharedRemove();
-              setState(() {});
             },
             child: new Icon(Icons.delete_forever),
           )

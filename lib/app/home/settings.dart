@@ -1,11 +1,9 @@
 
-import 'package:NFT_View/app/home/settings/new_login.dart';
+import 'package:NFT_View/app/home/settings/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'settings/dialog_utils.dart';
-import '../../core/utils/theme.dart';
 import 'category/card_with_children.dart';
 
 // Providers

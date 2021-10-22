@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../../core/utils/theme.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CardWithChildren extends StatelessWidget {
+// Providers
+import 'package:NFT_View/core/providers/providers.dart';
+
+class CardWithChildren extends ConsumerWidget {
   final List<Widget>? children;
   final String title;
   CardWithChildren({Key? key, this.children, this.title = 'Title'})
       : super(key: key);
   @override
-  Widget build(BuildContext context) {
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
-    final ThemeData state = themeNotifier.getTheme();
+  Widget build(BuildContext context, ScopedReader watch) {
+    final ThemeData state = watch(themeNotifierProvider.notifier).state;
     return Card(
       elevation: 0.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
