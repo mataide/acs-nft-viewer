@@ -5,8 +5,8 @@ import 'package:NFT_View/core/utils/constants.dart';
 import 'package:NFT_View/app/widgets/selector.dart';
 import 'package:NFT_View/core/client/APIClient.dart';
 import 'package:NFT_View/core/models/response.dart';
-import '../home/search_page/search_results/wallpaper_list.dart';
-import '../home/category/general.dart';
+import '../home/search/search_results/wallpaper_list.dart';
+import '../home/collection/general.dart';
 
 // Providers
 import 'package:NFT_View/core/providers/providers.dart';

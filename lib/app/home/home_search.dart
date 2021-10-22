@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'search_page/search_results.dart';
+import 'search/search_results.dart';
 
 class WallpaperSearch extends SearchDelegate<void> {
   final ThemeData? themeData;

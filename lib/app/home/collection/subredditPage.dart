@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../../../core/models/response.dart';
 import '../../../core/client/APIClient.dart';
-import '../search_page/search_results/wallpaper_list.dart';
+import '../search/search_results/wallpaper_list.dart';
 
 class SubredditPage extends StatefulWidget {
   final ThemeData? themeData;
