@@ -42,6 +42,7 @@ class SettingsPage extends ConsumerWidget {
               CustomListTile(
                 title: "Login",
                 icon: FontAwesomeIcons.user,
+                subtitle: 'Login to your app.',
                 onTap: (){
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context)=> LoginPage()));
