@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+
+
+//NÃO ESTÁ SENDO USADA.
 class WalletConnect extends ConsumerWidget {
 /// Initialize NetworkStreamWidget with [key].
 const WalletConnect({Key? key}) : super(key: key);
@@ -24,7 +27,9 @@ Widget build(BuildContext context, ScopedReader watch) {
       print(snapshot.data);
       final address = snapshot.data ?? "unknown";
       print(address);
-      return Container();
+      return CircularProgressIndicator(
+        backgroundColor: Colors.blueAccent,
+      );
     }
   );
 }

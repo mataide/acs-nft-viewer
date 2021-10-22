@@ -1,17 +1,25 @@
-import 'package:NFT_View/core/utils/theme_notifier.dart';
+import 'package:NFT_View/core/providers/login_provider.dart';
+import 'package:NFT_View/core/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginAddress extends StatelessWidget {
+// Providers
+import 'package:NFT_View/core/providers/providers.dart';
+
+// Controllers
+import 'package:NFT_View/controllers/home/settings/login_controller.dart';
+
+class LoginAddress extends ConsumerWidget {
   LoginAddress({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
-  final keyCrontollers = TextEditingController();
+  final _keyCrontollers = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    final stateData = Provider.of<ThemeNotifier>(context);
-    final ThemeData state = stateData.getTheme();
+  Widget build(BuildContext context, ScopedReader watch) {
+    final ThemeData state = watch(themeProvider.notifier).state;
+    final key = watch(loginProvider.notifier);
+
     return Scaffold(
       backgroundColor: state.primaryColor,
       appBar: AppBar(
@@ -27,7 +35,7 @@ class LoginAddress extends StatelessWidget {
           children: [
             Expanded(
               child: TextFormField(
-                controller: keyCrontollers,
+                controller: _keyCrontollers,
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   hintText: "Insert Public Key",
@@ -45,14 +53,14 @@ class LoginAddress extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14.0))),
               onPressed: () {
-                if (keyCrontollers.text == "") {
+                if (_keyCrontollers.text == "") {
                   final snackBar = SnackBar(
                     content: Text('Insert a Public Key !'),
                     duration: Duration(seconds: 3),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 } else {
-                  stateLogin.rest = keyCrontollers.text;
+                  key.rest(_keyCrontollers.text);
                 }
               },
               child: Text(
