@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:NFT_View/app/home/home.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:NFT_View/core/providers/ThemeNotifierProvider.dart';
+import 'package:NFT_View/core/providers/theme_notifier_provider.dart';
 import 'package:NFT_View/core/utils/constants.dart';
 
 SharedPreferences? prefs;

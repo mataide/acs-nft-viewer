@@ -1,14 +1,13 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:NFT_View/app/widgets/bottom_nav_bar.dart';
-import 'package:NFT_View/core/utils/theme.dart';
 import 'search_page.dart';
 import 'category.dart';
 import 'main_page.dart';
 import 'settings.dart';
 import 'package:flutter/material.dart';
-import 'package:NFT_View/core/providers/ThemeNotifierProvider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'for_you.dart';
+// Providers
+import 'package:NFT_View/core/providers/providers.dart';
 
 class HomePage extends ConsumerWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -17,11 +16,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final stateData = watch(themeNotifierProvider.notifier);
     final ThemeData state = watch(themeNotifierProvider.notifier).state;
-
-    //final stateData = Provider.of<ThemeNotifier>(context);
-    //final ThemeData state = stateData.getTheme();
 
     return Scaffold(
       key: _scaffoldKey,

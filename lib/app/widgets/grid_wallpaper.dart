@@ -1,48 +1,39 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:NFT_View/core/utils/theme.dart';
-import 'package:NFT_View/core/viewmodels/grid_wallpaper_state.dart';
-import '../../core/utils/constants.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:NFT_View/core/utils/constants.dart';
 import 'package:NFT_View/app/widgets/selector.dart';
-import '../../core/client/APIClient.dart';
-import '../../core/models/response.dart';
+import 'package:NFT_View/core/client/APIClient.dart';
+import 'package:NFT_View/core/models/response.dart';
 import '../home/shearch_page/search_results/wallpaper_list.dart';
 import '../home/category/general.dart';
 
-class PopularWallpapers extends StatefulWidget {
-  @override
-  _PopularWallpapersState createState() => _PopularWallpapersState();
-}
+// Providers
+import 'package:NFT_View/core/providers/providers.dart';
 
-class _PopularWallpapersState extends State<PopularWallpapers>
-    with AutomaticKeepAliveClientMixin<PopularWallpapers> {
-  @override
+// Controllers
+import 'package:NFT_View/controllers/home/grid_wallpaper_controller.dart';
+
+class PopularWallpapers extends ConsumerWidget {
   bool get wantKeepAlive => true;
 
   @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return mainList(context);
-  }
+  Widget build(BuildContext context, ScopedReader watch) {
+    final dataState = watch(gridWallpaperProvider.notifier);
+    final ThemeData themeData = watch(themeNotifierProvider.notifier).state;
+    final List<Post?>? posts = dataState.posts;
 
-  Widget mainList(BuildContext context) {
-    final dataState = Provider.of<GridWallpaperState>(context);
-    final themeState = Provider.of<ThemeNotifier>(context);
-    final themeData = themeState.getTheme();
-    final List<Post?> posts = dataState.posts;
-
-    return dataState.state == kdataFetchState.IS_LOADING
+    return dataState.fetchState == kdataFetchState.IS_LOADING
         ? Container(
             width: double.infinity,
             height: 200,
             child: Center(
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(themeData.accentColor),
+                valueColor: AlwaysStoppedAnimation(themeData.colorScheme.secondary),
               ),
             ),
           )
-        : dataState.state == kdataFetchState.ERROR_ENCOUNTERED
+        : dataState.fetchState == kdataFetchState.ERROR_ENCOUNTERED
             ? ErrorOccured(
                 onTap: () =>
                     dataState.fetchWallPapers(dataState.selectedSubreddit),
@@ -55,7 +46,7 @@ class _PopularWallpapersState extends State<PopularWallpapers>
                   ListTile(
                     dense: true,
                     trailing: Icon(Icons.edit,
-                        color: themeData.textTheme.bodyText1.color),
+                        color: themeData.textTheme.bodyText1!.color),
                     title: Text(
                         '${kfilterValues[dataState.selectedFilter]} on r/${dataState.selectedSubreddit.join(', ')}',
                         maxLines: 2,
