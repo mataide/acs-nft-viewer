@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:NFT_View/core/models/response.dart';
 import 'package:NFT_View/core/utils/theme.dart';
-import 'package:NFT_View/core/viewmodels/carousel_wallpaper_state.dart';
+import 'package:NFT_View/controllers/widgets/carousel_wallpaper_controller.dart';
 import '../../core/utils/constants.dart';
 import 'package:NFT_View/app/widgets/selector.dart';
 import 'package:NFT_View/app/home/search/search_results/wallpaper.dart';
