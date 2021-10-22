@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:NFT_View/core/utils/constants.dart';
 import 'package:NFT_View/core/models/response.dart';
 import 'package:http/http.dart' as http;
-import 'package:NFT_View/app/home/shearch_page/search_results/wallpaper_list.dart';
+import 'package:NFT_View/app/home/search_page/search_results/wallpaper_list.dart';
 import '../category/general.dart';
 
 class SearchResults extends StatefulWidget {
