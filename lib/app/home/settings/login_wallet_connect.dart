@@ -1,16 +1,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WalletConnect extends StatelessWidget {
+class WalletConnect extends ConsumerWidget {
 /// Initialize NetworkStreamWidget with [key].
 const WalletConnect({Key? key}) : super(key: key);
 static const String EVENT_CHANNEL_WALLET = "com.bimsina.re_walls/WalletStreamHandler";
 final _eventChannel = const EventChannel(EVENT_CHANNEL_WALLET);
 
 @override
-Widget build(BuildContext context){
+Widget build(BuildContext context, ScopedReader watch) {
 
   final networkStream = _eventChannel
       .receiveBroadcastStream()
