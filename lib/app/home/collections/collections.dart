@@ -12,13 +12,13 @@ import 'collections_widget.dart';
 import 'package:NFT_View/core/providers/providers.dart';
 
 // Controllers
-import 'package:NFT_View/controllers/widgets/grid_wallpaper_controller.dart';
+import 'package:NFT_View/controllers/home/collections/collections_controller.dart';
 
 class Collections extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final dataState = watch(gridWallpaperProvider.notifier);
+    final dataState = watch(collectionsProvider.notifier);
     final ThemeData themeData = watch(themeProvider.notifier).state;
     final List<Post?>? posts = dataState.posts;
 

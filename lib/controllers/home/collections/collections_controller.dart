@@ -7,26 +7,26 @@ import 'package:NFT_View/core/utils/constants.dart';
 import 'package:NFT_View/core/models/response.dart';
 import 'package:NFT_View/database_helper/database.dart';
 
-class GridWallpaper {
+class Collections {
   final List<Post?>? posts;
   final kdataFetchState fetchState;
   final int? selectedFilter;
   final List<String>? subreddits, selectedSubreddit;
 
-  const GridWallpaper({this.fetchState = kdataFetchState.IS_LOADING, this.posts, this.selectedFilter, this.subreddits, this.selectedSubreddit});
+  const Collections({this.fetchState = kdataFetchState.IS_LOADING, this.posts, this.selectedFilter, this.subreddits, this.selectedSubreddit});
 }
 
-class GridWallpaperController extends StateNotifier<GridWallpaper> {
-  GridWallpaperController([GridWallpaper? state]) : super(GridWallpaper()) {
+class CollectionsController extends StateNotifier<Collections> {
+  CollectionsController([Collections? state]) : super(Collections()) {
     prepareSharedPrefs();
     prepareFromDb();
   }
 
-  get fetchState => GridWallpaper().fetchState;
-  get selectedSubreddit => GridWallpaper().selectedSubreddit;
-  get selectedFilter => GridWallpaper().selectedFilter;
-  get subreddits => GridWallpaper().subreddits;
-  get posts => GridWallpaper().posts;
+  get fetchState => Collections().fetchState;
+  get selectedSubreddit => Collections().selectedSubreddit;
+  get selectedFilter => Collections().selectedFilter;
+  get subreddits => Collections().subreddits;
+  get posts => Collections().posts;
 
   prepareSharedPrefs() async {
     SharedPreferences.getInstance().then((preferences) {
@@ -34,7 +34,7 @@ class GridWallpaperController extends StateNotifier<GridWallpaper> {
       final _selectedFilter = preferences.getInt('list_filter') ?? 0;
       final _selectedSubreddit = preferences.getStringList('list_subreddit') ??
           [_subreddits[4], _subreddits[5]];
-      state = GridWallpaper(subreddits: _subreddits, selectedFilter: _selectedFilter, selectedSubreddit: _selectedSubreddit);
+      state = Collections(subreddits: _subreddits, selectedFilter: _selectedFilter, selectedSubreddit: _selectedSubreddit);
       prepareFromInternet();
     });
   }
@@ -70,7 +70,7 @@ class GridWallpaperController extends StateNotifier<GridWallpaper> {
   void prepareFromDb() async {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
 
-    final eth721Dao = database.eth721Dao;
+    final eth721Dao = database.eth721DAO;
     final result = await eth721Dao.findAll();
     print(result);
   }
@@ -78,6 +78,11 @@ class GridWallpaperController extends StateNotifier<GridWallpaper> {
   void prepareFromInternet() async {
     final List<Eth721> listERC721 = await APIService.instance.getERC721("0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb");
     print(listERC721.toList());
+    final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
+    final eth721Dao = database.eth721DAO;
+    eth721Dao.insertListEth721(listERC721);
+    final _fetchState = kdataFetchState.IS_LOADED;
+    state = Collections(fetchState: _fetchState);
   }
 
   changeSelected(SelectorCallback selected) {
