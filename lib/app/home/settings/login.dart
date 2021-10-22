@@ -9,6 +9,8 @@ import 'package:NFT_View/core/providers/providers.dart';
 // Controllers
 import 'package:NFT_View/controllers/home/settings/login_controller.dart';
 
+import 'login_wallet_connect.dart';
+
 class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -63,6 +65,7 @@ class LoginPage extends ConsumerWidget {
                       SizedBox(
                         width: 45.0,
                       ),
+                      WalletConnect(),
                       Text(
                         "Connect to MetaMask",
                         style: TextStyle(fontSize: 20.0),
@@ -75,6 +78,7 @@ class LoginPage extends ConsumerWidget {
                 SizedBox(
                   height: 10.0,
                 ),
+                WalletConnect(),
                 ElevatedButton(
                   style: TextButton.styleFrom(
                       backgroundColor: Colors.blueAccent,

@@ -5,8 +5,8 @@ import 'package:NFT_View/core/utils/constants.dart';
 import 'package:NFT_View/app/widgets/selector.dart';
 import 'package:NFT_View/core/client/APIClient.dart';
 import 'package:NFT_View/core/models/response.dart';
-import '../home/search/search_results/wallpaper_list.dart';
-import '../home/collection/general.dart';
+import '../search/search_results/wallpaper_list.dart';
+import 'collections_widget.dart';
 
 // Providers
 import 'package:NFT_View/core/providers/providers.dart';
@@ -14,7 +14,7 @@ import 'package:NFT_View/core/providers/providers.dart';
 // Controllers
 import 'package:NFT_View/controllers/widgets/grid_wallpaper_controller.dart';
 
-class PopularWallpapers extends ConsumerWidget {
+class Collections extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {

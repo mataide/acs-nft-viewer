@@ -1,6 +1,7 @@
-import '../widgets/grid_wallpaper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'collections/collections.dart';
 
 class HomeCollection extends ConsumerWidget {
   bool get wantKeepAlive => true;
@@ -19,7 +20,7 @@ class HomeCollection extends ConsumerWidget {
               CarouselWallpaperState(kdataFetchState.IS_LOADING, null),
           child: NewWallpapers(),
         ),*/
-        PopularWallpapers(),
+        Collections(),
       ],
     );
   }

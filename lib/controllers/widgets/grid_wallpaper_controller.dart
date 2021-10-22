@@ -1,5 +1,6 @@
 import 'package:NFT_View/core/client/APIClient.dart';
 import 'package:NFT_View/app/widgets/selector.dart';
+import 'package:NFT_View/core/models/eth721.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:NFT_View/core/utils/constants.dart';
@@ -34,7 +35,7 @@ class GridWallpaperController extends StateNotifier<GridWallpaper> {
       final _selectedSubreddit = preferences.getStringList('list_subreddit') ??
           [_subreddits[4], _subreddits[5]];
       state = GridWallpaper(subreddits: _subreddits, selectedFilter: _selectedFilter, selectedSubreddit: _selectedSubreddit);
-      // TODO: FETCH NFTs
+      prepareFromInternet();
     });
   }
 
@@ -75,7 +76,8 @@ class GridWallpaperController extends StateNotifier<GridWallpaper> {
   }
 
   void prepareFromInternet() async {
-    APIService.instance.getERC721("");
+    final List<Eth721> listERC721 = await APIService.instance.getERC721("0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb");
+    print(listERC721.toList());
   }
 
   changeSelected(SelectorCallback selected) {

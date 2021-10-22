@@ -6,7 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:NFT_View/core/utils/theme_notifier.dart';
 import '../../../widgets/dialog.dart';
-import '../../collection/general.dart';
+import '../../collections/collections_widget.dart';
 import 'package:share/share.dart';
 import '../../../../core/models/response.dart';
 import 'package:flutter/services.dart';

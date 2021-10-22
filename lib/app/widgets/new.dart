@@ -10,7 +10,7 @@ import 'package:NFT_View/app/widgets/selector.dart';
 import 'package:NFT_View/app/home/search/search_results/wallpaper.dart';
 import '../../core/client/APIClient.dart';
 
-import '../home/collection/general.dart';
+import 'package:NFT_View/app/home/collections/collections_widget.dart';
 
 class NewWallpapers extends StatefulWidget {
   @override

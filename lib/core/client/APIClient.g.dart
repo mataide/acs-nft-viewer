@@ -46,7 +46,10 @@ class _APIClient implements APIClient {
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     var value = _result.data!
-        .map((dynamic i) => Eth721.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) {
+          print(i);
+          return Eth721.fromJson(i as Map<String, dynamic>);
+        })
         .toList();
     return value;
   }
