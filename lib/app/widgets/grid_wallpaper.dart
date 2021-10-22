@@ -12,7 +12,7 @@ import '../home/collection/general.dart';
 import 'package:NFT_View/core/providers/providers.dart';
 
 // Controllers
-import 'package:NFT_View/controllers/home/grid_wallpaper_controller.dart';
+import 'package:NFT_View/controllers/widgets/grid_wallpaper_controller.dart';
 
 class PopularWallpapers extends ConsumerWidget {
   bool get wantKeepAlive => true;
