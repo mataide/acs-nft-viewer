@@ -18,7 +18,7 @@ class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final ThemeData state = watch(themeProvider.notifier).state;
-    final keystate = watch (loginProvider.notifier).state;
+    final keystate = watch(loginProvider.notifier).state;
 
     return Scaffold(
       backgroundColor: state.primaryColor,

@@ -15,7 +15,6 @@ import 'package:NFT_View/core/providers/providers.dart';
 import 'package:NFT_View/controllers/widgets/grid_wallpaper_controller.dart';
 
 class PopularWallpapers extends ConsumerWidget {
-  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {

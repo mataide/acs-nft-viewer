@@ -52,7 +52,7 @@ class LoginAddress extends StatelessWidget {
                   );
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 } else {
-                  rest = keyCrontollers.text;
+                  stateLogin.rest = keyCrontollers.text;
                 }
               },
               child: Text(

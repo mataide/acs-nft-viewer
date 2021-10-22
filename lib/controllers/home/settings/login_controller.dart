@@ -1,11 +1,17 @@
 import 'dart:async';
 import 'package:NFT_View/app/home/settings/login.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-late final String rest;
+class Login {
+  final String rest;
+  Login({this.rest = ""});
+}
 
-class ConstantsKey extends LoginPage {
-  Future<void> sharedWrite() async {
+class LoginController extends StateNotifier<Login> {
+  LoginController(Login state) : super(state);
+
+  Future<void> sharedWrite(rest) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('key', rest);
   }
