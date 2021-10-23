@@ -28,6 +28,8 @@ dependencies:
   json_annotation: ^4.1.0
   floor: ^1.2.0
   flutter_riverpod: ^0.14.0+3
+  web3dart: ^2.3.1
+  video_thumbnail: ^0.4.3
 
 dev_dependencies:
   floor_generator: ^1.2.0
@@ -44,9 +46,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/metamask.png
-    - assets/images/ethereum.png
-    - assets/images/walletconnect.png
+    - assets/images/
 
   fonts:
     - family: Sans

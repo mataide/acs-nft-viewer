@@ -1,11 +1,18 @@
+import 'dart:convert';
+
+import 'package:http/http.dart';
 import 'package:NFT_View/core/client/APIClient.dart';
 import 'package:NFT_View/app/widgets/selector.dart';
 import 'package:NFT_View/core/models/eth721.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:web3dart/web3dart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:NFT_View/core/utils/constants.dart';
 import 'package:NFT_View/core/models/response.dart';
 import 'package:NFT_View/database_helper/database.dart';
+import 'package:NFT_View/core/smartcontracts/ERC721.g.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class Collections {
   final List<Post?>? posts;
@@ -81,6 +88,33 @@ class CollectionsController extends StateNotifier<Collections> {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final eth721Dao = database.eth721DAO;
     eth721Dao.insertListEth721(listERC721);
+    //Web3
+    var httpClient = new Client();
+    var ethClient = new Web3Client("https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531", httpClient);
+    final erc = ERC721(address: EthereumAddress.fromHex(listERC721.first.contractAddress), client: ethClient);
+    final tokenURI = await erc.tokenURI(BigInt.parse(listERC721.first.tokenID));
+    print(tokenURI);
+    if(tokenURI.startsWith("http")) {
+      final res = await httpClient.get(Uri.parse(tokenURI), headers: {"Accept": "aplication/json"});
+      final jsonData = json.decode(res.body);
+      print(jsonData);
+      if((jsonData['image'] as String).contains('mp4')) {
+        final fileName = await VideoThumbnail.thumbnailFile(
+          video: jsonData['image'],
+          thumbnailPath: (await getTemporaryDirectory()).path,
+          imageFormat: ImageFormat.PNG,
+          maxHeight: 64, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
+          quality: 75,
+        );
+        print(fileName);
+      }
+
+    }
+
+
+    // String jsonData = await rootBundle.loadString('assets/json/ERC721.abi.json');
+    // DeployedContract contract = DeployedContract(ContractAbi.fromJson(jsonData, "ERC721"), EthereumAddress.fromHex(listERC721.first.contractAddress));
+    // ethClient.call(contract: contract, function: contract.function("tokenURI"), params: );
     final _fetchState = kdataFetchState.IS_LOADED;
     state = Collections(fetchState: _fetchState);
   }

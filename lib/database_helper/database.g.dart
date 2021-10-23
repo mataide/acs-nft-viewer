@@ -86,7 +86,7 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Eth721` (`hash` TEXT NOT NULL, `blockNumber` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `nonce` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `transactionIndex` TEXT NOT NULL, `gas` TEXT NOT NULL, `gasPrice` TEXT NOT NULL, `gasUsed` TEXT NOT NULL, `cumulativeGasUsed` TEXT NOT NULL, `input` TEXT NOT NULL, `confirmations` TEXT NOT NULL, PRIMARY KEY (`hash`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, PRIMARY KEY (`contractAddress`))');
+            'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `thumbnail` TEXT NOT NULL, `image` TEXT NOT NULL, PRIMARY KEY (`contractAddress`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -224,12 +224,12 @@ class _$Eth721DAO extends Eth721DAO {
   @override
   Future<List<int>> insertListEth721(List<Eth721> listEth721) {
     return _eth721InsertionAdapter.insertListAndReturnIds(
-        listEth721, OnConflictStrategy.abort);
+        listEth721, OnConflictStrategy.replace);
   }
 
   @override
   Future<void> createEth721(Eth721 eth721) async {
-    await _eth721InsertionAdapter.insert(eth721, OnConflictStrategy.abort);
+    await _eth721InsertionAdapter.insert(eth721, OnConflictStrategy.replace);
   }
 
   @override

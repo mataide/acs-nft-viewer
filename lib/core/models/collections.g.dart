@@ -17,6 +17,8 @@ Collections _$CollectionsFromJson(Map<String, dynamic> json) => Collections(
       json['tokenName'] as String,
       json['tokenSymbol'] as String,
       json['tokenDecimal'] as String,
+      json['thumbnail'] as String,
+      json['image'] as String,
     );
 
 Map<String, dynamic> _$CollectionsToJson(Collections instance) =>
@@ -31,4 +33,6 @@ Map<String, dynamic> _$CollectionsToJson(Collections instance) =>
       'tokenName': instance.tokenName,
       'tokenSymbol': instance.tokenSymbol,
       'tokenDecimal': instance.tokenDecimal,
+      'thumbnail': instance.thumbnail,
+      'image': instance.image,
     };
