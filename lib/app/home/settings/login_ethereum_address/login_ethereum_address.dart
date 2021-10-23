@@ -60,7 +60,8 @@ class LoginAddress extends ConsumerWidget {
                   );
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 } else {
-                  key.rest(_keyCrontollers.text);
+                  key.sharedWrite(_keyCrontollers.text);
+                  //key.rest(_keyCrontollers.text);
                 }
               },
               child: Text(
