@@ -11,17 +11,17 @@ import 'package:NFT_View/controllers/home/settings/login_controller.dart';
 
 
 
-
-class WalletConnect extends ConsumerWidget {
+class WalletController extends StateNotifier {
   /// Initialize NetworkStreamWidget with [key].
-  const WalletConnect({Key? key}) : super(key: key);
+  //const WalletConnect({Key? key}) : super(key : );
+  WalletController(state) : super(state);
   static const String EVENT_CHANNEL_WALLET = "com.bimsina.re_walls/WalletStreamHandler";
   final _eventChannel = const EventChannel(EVENT_CHANNEL_WALLET);
+
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final key = watch(loginProvider.notifier);
-
 
     final networkStream = _eventChannel
         .receiveBroadcastStream()
@@ -34,7 +34,8 @@ class WalletConnect extends ConsumerWidget {
         builder: (context, snapshot) {
           print(snapshot.data);
           final address = snapshot.data ?? "unknown";
-          key.rest(address);
+          key.sharedWrite(address);
+          print("address: $address");
           return CircularProgressIndicator(
             backgroundColor: Colors.blueAccent,
           );
@@ -42,13 +43,13 @@ class WalletConnect extends ConsumerWidget {
     );
   }
 }
-
-  openMetaMesk() async {
-    const platform = const MethodChannel('com.bimsina.re_walls/MainActivity');
-    try {
-      await platform.invokeMethod('initWalletConnection', null);
-    } on PlatformException catch (e) {
-      print("Failed to initWalletConnection: '${e.message}'.");
-    }
+openMetaMesk() async {
+  const platform = const MethodChannel('com.bimsina.re_walls/MainActivity');
+  try {
+    await platform.invokeMethod('initWalletConnection', null);
+  } on PlatformException catch (e) {
+    print("Failed to initWalletConnection: '${e.message}'.");
   }
+}
+
 

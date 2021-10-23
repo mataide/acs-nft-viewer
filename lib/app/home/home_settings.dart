@@ -1,4 +1,3 @@
-
 import 'package:NFT_View/app/home/settings/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,9 +40,9 @@ class HomeSettings extends ConsumerWidget {
                 title: "Login",
                 icon: FontAwesomeIcons.user,
                 subtitle: 'Login to your app.',
-                onTap: (){
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context)=> LoginPage()));
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => LoginPage()));
                 }, //AGUARDANDO BANCO DE DADOS DE LOGIN
               )
             ],
@@ -51,8 +50,6 @@ class HomeSettings extends ConsumerWidget {
 
           //DESATIVANDO AS OPÇOES DE DESENVOLVIMENTO
           //_supportDev(state),
-
-
         ],
       ),
     );
@@ -71,6 +68,7 @@ class CustomListTile extends ConsumerWidget {
       this.icon = Icons.star,
       this.onTap})
       : super(key: key);
+
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final ThemeData state = watch(themeProvider.notifier).state;

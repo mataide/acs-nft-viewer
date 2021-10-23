@@ -15,10 +15,13 @@ class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final ThemeData state = watch(themeProvider.notifier).state;
-    final keystate = watch(loginProvider.notifier).state;
+    final keystate = watch(loginProvider.notifier).state.rest;
     final key = watch(loginProvider.notifier);
 
-    if (keystate.rest == null) {
+
+
+
+    if (keystate == null ) {
       return Scaffold(
         backgroundColor: state.primaryColor,
         appBar: AppBar(
@@ -65,7 +68,6 @@ class LoginPage extends ConsumerWidget {
                       SizedBox(
                         width: 45.0,
                       ),
-                      WalletConnect(),
                       Text(
                         "Connect to MetaMask",
                         style: TextStyle(fontSize: 20.0),
@@ -73,12 +75,14 @@ class LoginPage extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    {openMetaMesk();
+                    WalletController.EVENT_CHANNEL_WALLET;}
+                  },
                 ),
                 SizedBox(
                   height: 10.0,
                 ),
-                WalletConnect(),
                 ElevatedButton(
                   style: TextButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
@@ -102,7 +106,10 @@ class LoginPage extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    openMetaMesk();
+                    WalletController.EVENT_CHANNEL_WALLET;
+                  },
                 ),
                 SizedBox(
                   height: 10.0,
@@ -164,7 +171,7 @@ class LoginPage extends ConsumerWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  key.sharedRemove();
+                  key.sharedRemove(keystate);
                 },
                 child: new Icon(Icons.delete_forever),
               )
