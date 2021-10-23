@@ -81,7 +81,7 @@ class CarouselWallpaperState extends ChangeNotifier {
   void prepareFromDb() async {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
 
-    final eth721Dao = database.eth721Dao;
+    final eth721Dao = database.eth721DAO;
     final result = await eth721Dao.findAll();
     print(result);
   }
