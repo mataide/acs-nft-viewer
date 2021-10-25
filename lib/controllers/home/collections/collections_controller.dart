@@ -9,31 +9,32 @@ import 'package:path_provider/path_provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:NFT_View/core/utils/constants.dart';
-import 'package:NFT_View/core/models/response.dart';
+import 'package:NFT_View/core/models/index.dart';
 import 'package:NFT_View/database_helper/database.dart';
 import 'package:NFT_View/core/smartcontracts/ERC721.g.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
+import "package:collection/collection.dart";
 
-class Collections {
-  final List<Post?>? posts;
+class CollectionsState {
+  final List<Collections?>? collections;
   final kdataFetchState fetchState;
   final int? selectedFilter;
   final List<String>? subreddits, selectedSubreddit;
 
-  const Collections({this.fetchState = kdataFetchState.IS_LOADING, this.posts, this.selectedFilter, this.subreddits, this.selectedSubreddit});
+  const CollectionsState({this.fetchState = kdataFetchState.IS_LOADING, this.collections, this.selectedFilter, this.subreddits, this.selectedSubreddit});
 }
 
-class CollectionsController extends StateNotifier<Collections> {
-  CollectionsController([Collections? state]) : super(Collections()) {
+class CollectionsController extends StateNotifier<CollectionsState> {
+  CollectionsController([Collections? state]) : super(CollectionsState()) {
     prepareSharedPrefs();
     prepareFromDb();
   }
 
-  get fetchState => Collections().fetchState;
-  get selectedSubreddit => Collections().selectedSubreddit;
-  get selectedFilter => Collections().selectedFilter;
-  get subreddits => Collections().subreddits;
-  get posts => Collections().posts;
+  get fetchState => CollectionsState().fetchState;
+  get selectedSubreddit => CollectionsState().selectedSubreddit;
+  get selectedFilter => CollectionsState().selectedFilter;
+  get subreddits => CollectionsState().subreddits;
+  get collections => CollectionsState().collections;
 
   prepareSharedPrefs() async {
     SharedPreferences.getInstance().then((preferences) {
@@ -41,7 +42,7 @@ class CollectionsController extends StateNotifier<Collections> {
       final _selectedFilter = preferences.getInt('list_filter') ?? 0;
       final _selectedSubreddit = preferences.getStringList('list_subreddit') ??
           [_subreddits[4], _subreddits[5]];
-      state = Collections(subreddits: _subreddits, selectedFilter: _selectedFilter, selectedSubreddit: _selectedSubreddit);
+      state = CollectionsState(subreddits: _subreddits, selectedFilter: _selectedFilter, selectedSubreddit: _selectedSubreddit);
       prepareFromInternet();
     });
   }
@@ -87,7 +88,14 @@ class CollectionsController extends StateNotifier<Collections> {
     print(listERC721.toList());
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final eth721Dao = database.eth721DAO;
-    eth721Dao.insertListEth721(listERC721);
+    eth721Dao.insertList(listERC721);
+    for (var erc721 in listERC721) {
+      final collectionsDAO = database.collectionsDAO;
+      final result = collectionsDAO.create(Collections.fromEth721(erc721));
+      var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
+
+    }
+
     //Web3
     var httpClient = new Client();
     var ethClient = new Web3Client("https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531", httpClient);
@@ -111,12 +119,8 @@ class CollectionsController extends StateNotifier<Collections> {
 
     }
 
-
-    // String jsonData = await rootBundle.loadString('assets/json/ERC721.abi.json');
-    // DeployedContract contract = DeployedContract(ContractAbi.fromJson(jsonData, "ERC721"), EthereumAddress.fromHex(listERC721.first.contractAddress));
-    // ethClient.call(contract: contract, function: contract.function("tokenURI"), params: );
     final _fetchState = kdataFetchState.IS_LOADED;
-    state = Collections(fetchState: _fetchState);
+    state = CollectionsState(fetchState: _fetchState);
   }
 
   changeSelected(SelectorCallback selected) {

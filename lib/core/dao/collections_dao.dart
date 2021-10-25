@@ -1,21 +1,21 @@
 import 'package:floor/floor.dart';
-import 'package:NFT_View/core/models/eth721.dart';
+import 'package:NFT_View/core/models/index.dart';
 
 @dao
 abstract class CollectionsDAO {
 
-  @Query('INSERT INTO * FROM Eth721')
-  Future<List<Eth721?>> findAll();
+  @Query('SELECT INTO * FROM Collections')
+  Future<List<Collections?>> findAll();
 
-  @insert
-  Future<List<int>> insertListEth721(List<Eth721> listEth721);
+  @Insert(onConflict: OnConflictStrategy.rollback)
+  Future<List<int>> insertList(List<Collections> listCollections);
 
-  @insert
-  Future<void> createEth721(Eth721 eth721);
+  @Insert(onConflict: OnConflictStrategy.rollback)
+  Future<int> create(Collections collections);
 
-  @update
-  Future<void> updateEth721(Eth721 eth721);
+  @Update(onConflict: OnConflictStrategy.rollback)
+  Future<void> update(Collections collections);
 
   @delete
-  Future<void> deleteEth721(Eth721 eth721);
+  Future<void> deleteCollections(Collections collections);
 }

@@ -1,3 +1,4 @@
+import 'package:NFT_View/core/models/index.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:floor/floor.dart';
 
@@ -27,12 +28,36 @@ class Collections {
 
   String tokenDecimal;
 
-  String thumbnail;
+  String? amount;
 
-  String image;
+  String? thumbnail;
 
-  Collections(this.hash, this.timeStamp, this.blockHash, this.from, this.contractAddress, this.to, this.tokenID, this.tokenName, this.tokenSymbol, this.tokenDecimal, this.thumbnail, this.image);
+  String? image;
+
+  String? totalSupply;
+
+  Collections(this.hash, this.timeStamp, this.blockHash, this.from, this.contractAddress, this.to, this.tokenID, this.tokenName, this.tokenSymbol, this.tokenDecimal, this.amount, this.thumbnail, this.image, this.totalSupply);
+
+
+  factory Collections.fromEth721(Eth721 eth721) => _$CollectionsFromEth721(eth721);
 
   factory Collections.fromJson(Map<String, dynamic> json) => _$CollectionsFromJson(json);
   Map<String, dynamic> toJson() => _$CollectionsToJson(this);
 }
+
+Collections _$CollectionsFromEth721(Eth721 eth721) => Collections(
+    eth721.contractAddress,
+    eth721.hash,
+    eth721.timeStamp,
+    eth721.blockHash,
+    eth721.from,
+    eth721.to,
+    eth721.tokenID,
+    eth721.tokenName,
+    eth721.tokenSymbol,
+    eth721.tokenDecimal,
+    null,
+    null,
+    null,
+    null
+);

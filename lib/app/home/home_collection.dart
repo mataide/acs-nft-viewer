@@ -20,7 +20,7 @@ class HomeCollection extends ConsumerWidget {
               CarouselWallpaperState(kdataFetchState.IS_LOADING, null),
           child: NewWallpapers(),
         ),*/
-        Collections(),
+        CollectionsView(),
       ],
     );
   }

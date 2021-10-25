@@ -1,6 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:NFT_View/core/models/eth721.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:NFT_View/core/models/index.dart';
 
 @dao
 abstract class Eth721DAO {
@@ -8,15 +7,15 @@ abstract class Eth721DAO {
   @Query('SELECT INTO * FROM Eth721')
   Future<List<Eth721?>> findAll();
 
-  @Insert(onConflict: OnConflictStrategy.replace)
-  Future<List<int>> insertListEth721(List<Eth721> listEth721);
+  @Insert(onConflict: OnConflictStrategy.rollback)
+  Future<List<int>> insertList(List<Eth721> listEth721);
 
-  @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void> createEth721(Eth721 eth721);
+  @Insert(onConflict: OnConflictStrategy.rollback)
+  Future<int> create(Eth721 eth721);
 
-  @update
-  Future<void> updateEth721(Eth721 eth721);
+  @Update(onConflict: OnConflictStrategy.rollback)
+  Future<int> update(Eth721 eth721);
 
   @delete
-  Future<void> deleteEth721(Eth721 eth721);
+  Future<int> deleteEth721(Eth721 eth721);
 }

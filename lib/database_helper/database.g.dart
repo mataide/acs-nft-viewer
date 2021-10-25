@@ -86,7 +86,7 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Eth721` (`hash` TEXT NOT NULL, `blockNumber` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `nonce` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `transactionIndex` TEXT NOT NULL, `gas` TEXT NOT NULL, `gasPrice` TEXT NOT NULL, `gasUsed` TEXT NOT NULL, `cumulativeGasUsed` TEXT NOT NULL, `input` TEXT NOT NULL, `confirmations` TEXT NOT NULL, PRIMARY KEY (`hash`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `thumbnail` TEXT NOT NULL, `image` TEXT NOT NULL, PRIMARY KEY (`contractAddress`))');
+            'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `amount` TEXT, `thumbnail` TEXT, `image` TEXT, `totalSupply` TEXT, PRIMARY KEY (`contractAddress`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -198,7 +198,7 @@ class _$Eth721DAO extends Eth721DAO {
 
   @override
   Future<List<Eth721?>> findAll() async {
-    return _queryAdapter.queryList('INSERT INTO * FROM Eth721',
+    return _queryAdapter.queryList('SELECT INTO * FROM Eth721',
         mapper: (Map<String, Object?> row) => Eth721(
             row['hash'] as String,
             row['blockNumber'] as String,
@@ -222,103 +222,90 @@ class _$Eth721DAO extends Eth721DAO {
   }
 
   @override
-  Future<List<int>> insertListEth721(List<Eth721> listEth721) {
+  Future<List<int>> insertList(List<Eth721> listEth721) {
     return _eth721InsertionAdapter.insertListAndReturnIds(
-        listEth721, OnConflictStrategy.replace);
+        listEth721, OnConflictStrategy.rollback);
   }
 
   @override
-  Future<void> createEth721(Eth721 eth721) async {
-    await _eth721InsertionAdapter.insert(eth721, OnConflictStrategy.replace);
+  Future<int> create(Eth721 eth721) {
+    return _eth721InsertionAdapter.insertAndReturnId(
+        eth721, OnConflictStrategy.rollback);
   }
 
   @override
-  Future<void> updateEth721(Eth721 eth721) async {
-    await _eth721UpdateAdapter.update(eth721, OnConflictStrategy.abort);
+  Future<int> update(Eth721 eth721) {
+    return _eth721UpdateAdapter.updateAndReturnChangedRows(
+        eth721, OnConflictStrategy.rollback);
   }
 
   @override
-  Future<void> deleteEth721(Eth721 eth721) async {
-    await _eth721DeletionAdapter.delete(eth721);
+  Future<int> deleteEth721(Eth721 eth721) {
+    return _eth721DeletionAdapter.deleteAndReturnChangedRows(eth721);
   }
 }
 
 class _$CollectionsDAO extends CollectionsDAO {
   _$CollectionsDAO(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database),
-        _eth721InsertionAdapter = InsertionAdapter(
+        _collectionsInsertionAdapter = InsertionAdapter(
             database,
-            'Eth721',
-            (Eth721 item) => <String, Object?>{
+            'Collections',
+            (Collections item) => <String, Object?>{
+                  'contractAddress': item.contractAddress,
                   'hash': item.hash,
-                  'blockNumber': item.blockNumber,
                   'timeStamp': item.timeStamp,
-                  'nonce': item.nonce,
                   'blockHash': item.blockHash,
                   'from': item.from,
-                  'contractAddress': item.contractAddress,
                   'to': item.to,
                   'tokenID': item.tokenID,
                   'tokenName': item.tokenName,
                   'tokenSymbol': item.tokenSymbol,
                   'tokenDecimal': item.tokenDecimal,
-                  'transactionIndex': item.transactionIndex,
-                  'gas': item.gas,
-                  'gasPrice': item.gasPrice,
-                  'gasUsed': item.gasUsed,
-                  'cumulativeGasUsed': item.cumulativeGasUsed,
-                  'input': item.input,
-                  'confirmations': item.confirmations
+                  'amount': item.amount,
+                  'thumbnail': item.thumbnail,
+                  'image': item.image,
+                  'totalSupply': item.totalSupply
                 }),
-        _eth721UpdateAdapter = UpdateAdapter(
+        _collectionsUpdateAdapter = UpdateAdapter(
             database,
-            'Eth721',
-            ['hash'],
-            (Eth721 item) => <String, Object?>{
+            'Collections',
+            ['contractAddress'],
+            (Collections item) => <String, Object?>{
+                  'contractAddress': item.contractAddress,
                   'hash': item.hash,
-                  'blockNumber': item.blockNumber,
                   'timeStamp': item.timeStamp,
-                  'nonce': item.nonce,
                   'blockHash': item.blockHash,
                   'from': item.from,
-                  'contractAddress': item.contractAddress,
                   'to': item.to,
                   'tokenID': item.tokenID,
                   'tokenName': item.tokenName,
                   'tokenSymbol': item.tokenSymbol,
                   'tokenDecimal': item.tokenDecimal,
-                  'transactionIndex': item.transactionIndex,
-                  'gas': item.gas,
-                  'gasPrice': item.gasPrice,
-                  'gasUsed': item.gasUsed,
-                  'cumulativeGasUsed': item.cumulativeGasUsed,
-                  'input': item.input,
-                  'confirmations': item.confirmations
+                  'amount': item.amount,
+                  'thumbnail': item.thumbnail,
+                  'image': item.image,
+                  'totalSupply': item.totalSupply
                 }),
-        _eth721DeletionAdapter = DeletionAdapter(
+        _collectionsDeletionAdapter = DeletionAdapter(
             database,
-            'Eth721',
-            ['hash'],
-            (Eth721 item) => <String, Object?>{
+            'Collections',
+            ['contractAddress'],
+            (Collections item) => <String, Object?>{
+                  'contractAddress': item.contractAddress,
                   'hash': item.hash,
-                  'blockNumber': item.blockNumber,
                   'timeStamp': item.timeStamp,
-                  'nonce': item.nonce,
                   'blockHash': item.blockHash,
                   'from': item.from,
-                  'contractAddress': item.contractAddress,
                   'to': item.to,
                   'tokenID': item.tokenID,
                   'tokenName': item.tokenName,
                   'tokenSymbol': item.tokenSymbol,
                   'tokenDecimal': item.tokenDecimal,
-                  'transactionIndex': item.transactionIndex,
-                  'gas': item.gas,
-                  'gasPrice': item.gasPrice,
-                  'gasUsed': item.gasUsed,
-                  'cumulativeGasUsed': item.cumulativeGasUsed,
-                  'input': item.input,
-                  'confirmations': item.confirmations
+                  'amount': item.amount,
+                  'thumbnail': item.thumbnail,
+                  'image': item.image,
+                  'totalSupply': item.totalSupply
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -327,20 +314,18 @@ class _$CollectionsDAO extends CollectionsDAO {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<Eth721> _eth721InsertionAdapter;
+  final InsertionAdapter<Collections> _collectionsInsertionAdapter;
 
-  final UpdateAdapter<Eth721> _eth721UpdateAdapter;
+  final UpdateAdapter<Collections> _collectionsUpdateAdapter;
 
-  final DeletionAdapter<Eth721> _eth721DeletionAdapter;
+  final DeletionAdapter<Collections> _collectionsDeletionAdapter;
 
   @override
-  Future<List<Eth721?>> findAll() async {
-    return _queryAdapter.queryList('INSERT INTO * FROM Eth721',
-        mapper: (Map<String, Object?> row) => Eth721(
+  Future<List<Collections?>> findAll() async {
+    return _queryAdapter.queryList('SELECT INTO * FROM Collections',
+        mapper: (Map<String, Object?> row) => Collections(
             row['hash'] as String,
-            row['blockNumber'] as String,
             row['timeStamp'] as String,
-            row['nonce'] as String,
             row['blockHash'] as String,
             row['from'] as String,
             row['contractAddress'] as String,
@@ -349,33 +334,32 @@ class _$CollectionsDAO extends CollectionsDAO {
             row['tokenName'] as String,
             row['tokenSymbol'] as String,
             row['tokenDecimal'] as String,
-            row['transactionIndex'] as String,
-            row['gas'] as String,
-            row['gasPrice'] as String,
-            row['gasUsed'] as String,
-            row['cumulativeGasUsed'] as String,
-            row['input'] as String,
-            row['confirmations'] as String));
+            row['amount'] as String?,
+            row['thumbnail'] as String?,
+            row['image'] as String?,
+            row['totalSupply'] as String?));
   }
 
   @override
-  Future<List<int>> insertListEth721(List<Eth721> listEth721) {
-    return _eth721InsertionAdapter.insertListAndReturnIds(
-        listEth721, OnConflictStrategy.abort);
+  Future<List<int>> insertList(List<Collections> listCollections) {
+    return _collectionsInsertionAdapter.insertListAndReturnIds(
+        listCollections, OnConflictStrategy.rollback);
   }
 
   @override
-  Future<void> createEth721(Eth721 eth721) async {
-    await _eth721InsertionAdapter.insert(eth721, OnConflictStrategy.abort);
+  Future<int> create(Collections collections) {
+    return _collectionsInsertionAdapter.insertAndReturnId(
+        collections, OnConflictStrategy.rollback);
   }
 
   @override
-  Future<void> updateEth721(Eth721 eth721) async {
-    await _eth721UpdateAdapter.update(eth721, OnConflictStrategy.abort);
+  Future<void> update(Collections collections) async {
+    await _collectionsUpdateAdapter.update(
+        collections, OnConflictStrategy.rollback);
   }
 
   @override
-  Future<void> deleteEth721(Eth721 eth721) async {
-    await _eth721DeletionAdapter.delete(eth721);
+  Future<void> deleteCollections(Collections collections) async {
+    await _collectionsDeletionAdapter.delete(collections);
   }
 }

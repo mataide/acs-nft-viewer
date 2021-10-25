@@ -14,7 +14,7 @@ import 'package:NFT_View/core/providers/providers.dart';
 // Controllers
 import 'package:NFT_View/controllers/home/collections/collections_controller.dart';
 
-class Collections extends ConsumerWidget {
+class CollectionsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
