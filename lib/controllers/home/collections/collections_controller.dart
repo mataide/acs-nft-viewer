@@ -27,7 +27,7 @@ class CollectionsState {
 class CollectionsController extends StateNotifier<CollectionsState> {
   CollectionsController([Collections? state]) : super(CollectionsState()) {
     prepareSharedPrefs();
-    prepareFromDb();
+    //prepareFromDb();
   }
 
   get fetchState => CollectionsState().fetchState;

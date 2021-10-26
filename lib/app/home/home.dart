@@ -11,12 +11,12 @@ import 'package:NFT_View/core/providers/providers.dart';
 
 class HomePage extends ConsumerWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  int _selectedIndex = 0;
   final PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final ThemeData state = watch(themeProvider.notifier).state;
+    final dataState = watch(homeProvider.notifier);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -46,10 +46,7 @@ class HomePage extends ConsumerWidget {
         child: PageView(
           controller: _pageController,
           physics: BouncingScrollPhysics(),
-          onPageChanged: (index) {
-            // setState(() {
-            //   _selectedIndex = index;
-            // });
+          onPageChanged: (index) { dataState.setIndex(index);
           },
           children: <Widget>[
             HomeCollection(),
@@ -59,12 +56,12 @@ class HomePage extends ConsumerWidget {
         ),
       ),
       bottomNavigationBar: BottomNavyBar(
-        selectedIndex: _selectedIndex,
+        selectedIndex: dataState.selectedIndex,
         unselectedColor: state.textTheme.bodyText2!.color,
         onItemSelected: (index) {
           _pageController.jumpToPage(index);
         },
-        selectedColor: state.accentColor,
+        selectedColor: state.colorScheme.secondary,
         backgroundColor: state.primaryColor,
         showElevation: false,
         items: [
