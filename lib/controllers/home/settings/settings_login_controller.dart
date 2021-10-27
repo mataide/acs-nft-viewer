@@ -1,38 +1,49 @@
 
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsLoginState {
-  final String rest;
+  final List<String> listAddress;
+  final eventChannel;
 
-  const SettingsLoginState({this.rest = ""});
+  const SettingsLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler")});
 }
 
 class SettingsLoginController extends StateNotifier<SettingsLoginState> {
-  SettingsLoginController([SettingsLoginState? state]) : super(SettingsLoginState()) {
-    sharedRead();
+  SettingsLoginController([SettingsLoginState? state]) : super(SettingsLoginState());
+
+  List<String>? get listAddress => state.listAddress;
+
+  Future<List<String>> sharedWrite(address) async {
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.setStringList('key', address);
+    final listAddress = [...state.listAddress];
+    return listAddress;
   }
 
-  String get rest => state.rest;
-
-
-  Future sharedWrite(val) async {
+  Future<List<String>> sharedRead() async {
     final preferences = await SharedPreferences.getInstance();
-    await preferences.setString('key', val);
-    state = SettingsLoginState(rest: val);
+    final listAddress = preferences.getStringList('key');
+    state = SettingsLoginState(listAddress: listAddress ?? []);
+    return listAddress ?? [];
   }
 
-
-  Future sharedRead() async {
+  Future sharedRemove(address) async {
+    final listAddress = state.listAddress;
+    listAddress.remove(address);
     final preferences = await SharedPreferences.getInstance();
-    final rest = preferences.getString('key');
-    state = SettingsLoginState(rest: rest != null ? rest : "");
+    preferences.setStringList('key', listAddress);
+    state = SettingsLoginState(listAddress: listAddress);
   }
 
-  Future sharedRemove() async {
-    final preferences = await SharedPreferences.getInstance();
-    preferences.remove('key');
-    state = SettingsLoginState(rest: "");
+  openMetaMask() async {
+    const platform = const MethodChannel('com.bimsina.re_walls/MainActivity');
+    try {
+      await platform.invokeMethod('initWalletConnection', null);
+    } on PlatformException catch (e) {
+      print("Failed to initWalletConnection: '${e.message}'.");
+    }
   }
 
 }

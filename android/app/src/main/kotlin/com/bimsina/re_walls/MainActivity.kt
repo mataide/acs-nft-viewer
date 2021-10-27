@@ -24,11 +24,10 @@ private const val HOME = "setWallpaper"
 private const val LOCK = "setLockWallpaper"
 private const val WALLET_CONNECTION = "initWalletConnection"
 private const val WALLET_DISCONNECTION = "initWalletDisconnection"
-private const val KEY_APPROVED = "keyApproved"
 private const val EVENT_CHANNEL_WALLET = "com.bimsina.re_walls/WalletStreamHandler"
 
 
-class MainActivity: FlutterActivity(), Session.Callback {
+class MainActivity: FlutterActivity() {
 
   override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
     super.configureFlutterEngine(flutterEngine)
@@ -41,15 +40,7 @@ class MainActivity: FlutterActivity(), Session.Callback {
       if (call.method == WALLET_CONNECTION) {
         initWalletConnection()
       } else if (call.method == WALLET_DISCONNECTION) {
-        initWalletDisconnection()
-      } else if (call.method == KEY_APPROVED){
-        val setKey = keyApproved()
-        if (setKey != ""){
-          result.success(setKey)
-        }else{
-          result.error("UNAVAILABLE", "", null)
-        }
-
+        //initWalletDisconnection()
       } else if (call.method == HOME || call.method == LOCK) {
         val setWallpaper = setWallpaper(call.arguments as String, applicationContext)
         if (setWallpaper == 0) {
@@ -79,62 +70,14 @@ class MainActivity: FlutterActivity(), Session.Callback {
     return setWallpaper
   }
 
-  override fun onStart() {
-    super.onStart()
-    initialSetup(applicationContext)
-  }
-
-  override fun onStatus(status: Session.Status) {
-    when(status) {
-      Session.Status.Approved -> sessionApproved()
-      Session.Status.Closed -> sessionClosed()
-      Session.Status.Connected -> {
-        requestConnectionToWallet()
-      }
-      Session.Status.Disconnected,
-      is Session.Status.Error -> {
-        // Do Stuff
-      }
-    }
-  }
-
-  private fun requestConnectionToWallet() {
-    val i = Intent(Intent.ACTION_VIEW)
-    i.data = Uri.parse(WalletConnect.getInstance(applicationContext).config.toWCUri())
-    startActivity(i)
-  }
-
-  private fun initialSetup(applicationContext: Context) {
-    if(WalletConnect.getInstance(applicationContext).isSessionInitialized()) {
-      val session = WalletConnect.getInstance(applicationContext).session
-      session.addCallback(this)
-      sessionApproved()
-    }
-  }
-
-  override fun onMethodCall(call: Session.MethodCall) {
-  }
-  private fun sessionApproved(): String {
-    val result = runBlocking {
-      "Connected: ${WalletConnect.getInstance(applicationContext).session.approvedAccounts()}"
-    }
-    return result
-  }
-  private fun keyApproved (): String? = runBlocking {
-     WalletConnect.getInstance(applicationContext).session.approvedAccounts()?.get(0)
-  }
-
-  private fun sessionClosed() {
-  }
-
   private fun initWalletConnection() {
-    WalletConnect.getInstance(applicationContext).resetSession()
-    WalletConnect.getInstance(applicationContext).session.addCallback(this)
+    //WalletConnect.getInstance(applicationContext).initSession()
+    WalletConnect.getInstance(applicationContext).connect()
   }
-
-  private fun initWalletDisconnection() {
-    WalletConnect.getInstance(applicationContext).session.kill()
-  }
+//
+//  private fun initWalletDisconnection() {
+//    WalletConnect.getInstance(applicationContext).session.kill()
+//  }
 
 }
 

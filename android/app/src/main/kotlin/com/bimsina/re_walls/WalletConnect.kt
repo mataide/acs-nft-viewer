@@ -28,6 +28,7 @@ class WalletConnect private constructor(context: Context) : Application() {
         initClient()
         initBridge()
         initSessionStorage(context)
+        initSession()
     }
 
     fun isSessionInitialized() = ::session.isInitialized
@@ -49,8 +50,8 @@ class WalletConnect private constructor(context: Context) : Application() {
         storage = FileWCSessionStore(File(context.cacheDir, "session_store.json").apply { createNewFile() }, moshi)
     }
 
-    fun resetSession() {
-        nullOnThrow { session }?.clearCallbacks()
+    private fun initSession() {
+        //nullOnThrow { session }?.clearCallbacks()
         val key = ByteArray(32).also { Random().nextBytes(it) }.toNoPrefixHexString()
         config = Session.FullyQualifiedConfig(UUID.randomUUID().toString(), "http://localhost:${BridgeServer.PORT}", key)
         // The walletConnect app freezes/crashes if "icons" in passed PeerMeta is not filled, so pass at least an empty list.
@@ -65,7 +66,10 @@ class WalletConnect private constructor(context: Context) : Application() {
                 icons = listOf()
             )
         )
-        session.offer()
+    }
+
+    fun connect() {
+        return session.offer()
     }
 
     companion object : SingletonHolder<WalletConnect, Context>(::WalletConnect)
