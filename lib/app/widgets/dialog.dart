@@ -4,6 +4,45 @@ import '../../core/utils/constants.dart';
 import '../../core/utils/theme_notifier.dart';
 
 
+class ThemeChangerWidget extends StatelessWidget {
+  final List<String> string = ['Light', 'Dark', 'Amoled'];
+  @override
+  Widget build(BuildContext context) {
+    final stateData = Provider.of<ThemeNotifier>(context);
+    final ThemeData state = stateData.getTheme();
+
+    return Theme(
+      data: state.copyWith(unselectedWidgetColor: state.accentColor),
+      child: AlertDialog(
+          backgroundColor: state.primaryColor,
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+          title: Text('Select Theme', style: state.textTheme.bodyText2),
+          content: Container(
+            width: 0.0,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return RadioListTile(
+                  value: index,
+                  groupValue: themes.indexOf(state),
+                  onChanged: (dynamic ind) {
+                    //onThemeChanged(ind, stateData);
+                  },
+                  title: Text(
+                    string[index],
+                    style: state.textTheme.bodyText1,
+                  ),
+                );
+              },
+              itemCount: string.length,
+            ),
+          )),
+    );
+  }
+}
+
+
 //SELEÇÃO DOS TEMAS
 
 void showLoadingDialog(BuildContext context) {
@@ -104,42 +143,4 @@ showThemeChangerDialog(BuildContext context) {
     barrierDismissible: true,
     builder: (BuildContext context) => ThemeChangerWidget(),
   );
-}
-
-class ThemeChangerWidget extends StatelessWidget {
-  final List<String> string = ['Light', 'Dark', 'Amoled'];
-  @override
-  Widget build(BuildContext context) {
-    final stateData = Provider.of<ThemeNotifier>(context);
-    final ThemeData state = stateData.getTheme();
-
-    return Theme(
-      data: state.copyWith(unselectedWidgetColor: state.accentColor),
-      child: AlertDialog(
-          backgroundColor: state.primaryColor,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-          title: Text('Select Theme', style: state.textTheme.bodyText2),
-          content: Container(
-            width: 0.0,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return RadioListTile(
-                  value: index,
-                  groupValue: themes.indexOf(state),
-                  onChanged: (dynamic ind) {
-                    //onThemeChanged(ind, stateData);
-                  },
-                  title: Text(
-                    string[index],
-                    style: state.textTheme.bodyText1,
-                  ),
-                );
-              },
-              itemCount: string.length,
-            ),
-          )),
-    );
-  }
 }

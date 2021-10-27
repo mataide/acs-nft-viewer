@@ -1,4 +1,5 @@
 import 'package:NFT_View/app/home/home_marketplace.dart';
+import 'package:NFT_View/controllers/home/home_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:NFT_View/app/widgets/bottom_nav_bar.dart';
 import 'home_search.dart';
@@ -10,13 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:NFT_View/core/providers/providers.dart';
 
 class HomePage extends ConsumerWidget {
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final ThemeData state = watch(themeProvider.notifier).state;
-    final dataState = watch(homeProvider.notifier);
+    final state = watch(themeProvider);
+    final dataNotifier = watch(homeProvider.notifier);
+    final data = watch(homeProvider);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -46,7 +49,8 @@ class HomePage extends ConsumerWidget {
         child: PageView(
           controller: _pageController,
           physics: BouncingScrollPhysics(),
-          onPageChanged: (index) { dataState.setIndex(index);
+          onPageChanged: (index) {
+            dataNotifier.setIndex(index);
           },
           children: <Widget>[
             HomeCollection(),
@@ -56,7 +60,7 @@ class HomePage extends ConsumerWidget {
         ),
       ),
       bottomNavigationBar: BottomNavyBar(
-        selectedIndex: dataState.selectedIndex,
+        selectedIndex: data.selectedIndex,
         unselectedColor: state.textTheme.bodyText2!.color,
         onItemSelected: (index) {
           _pageController.jumpToPage(index);
