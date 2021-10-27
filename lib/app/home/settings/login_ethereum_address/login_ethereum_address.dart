@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:NFT_View/core/providers/providers.dart';
 
 // Controllers
-import 'package:NFT_View/controllers/home/settings/login_controller.dart';
+import 'package:NFT_View/controllers/home/settings/settings_login_controller.dart';
 
 class LoginAddress extends ConsumerWidget {
   LoginAddress({Key? key}) : super(key: key);

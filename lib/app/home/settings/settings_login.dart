@@ -6,22 +6,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Providers
 import 'package:NFT_View/core/providers/providers.dart';
 
-// Controllers
-import 'package:NFT_View/controllers/home/settings/login_controller.dart';
-
 import 'login_wallet_connect.dart';
 
-class LoginPage extends ConsumerWidget {
+class SettingsLoginView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final ThemeData state = watch(themeProvider.notifier).state;
-    final keystate = watch(loginProvider.notifier).state.rest;
-    final key = watch(loginProvider.notifier);
+    final state = watch(themeProvider);
+    final dataState = watch(loginProvider.notifier);
+    final data = watch(loginProvider);
 
 
-
-
-    if (keystate == null ) {
+    if (data.rest == "") {
       return Scaffold(
         backgroundColor: state.primaryColor,
         appBar: AppBar(
@@ -171,7 +166,7 @@ class LoginPage extends ConsumerWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  key.sharedRemove(keystate);
+                  dataState.sharedRemove();
                 },
                 child: new Icon(Icons.delete_forever),
               )

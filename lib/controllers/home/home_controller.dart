@@ -10,7 +10,7 @@ class HomeState {
 }
 
 class HomeController extends StateNotifier<HomeState> {
-  HomeController([HomeState? state]) : super(HomeState()) {}
+  HomeController([HomeState? state]) : super(HomeState());
 
   int get selectedIndex => state.selectedIndex;
 

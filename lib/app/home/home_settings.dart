@@ -1,4 +1,4 @@
-import 'package:NFT_View/app/home/settings/login.dart';
+import 'package:NFT_View/app/home/settings/settings_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,11 +9,11 @@ import 'package:NFT_View/app/home/settings/card_with_children.dart';
 import 'package:NFT_View/core/providers/providers.dart';
 
 class HomeSettings extends ConsumerWidget {
-  bool get wantKeepAlive => true;
-  String cacheSize = 'N/A';
-
   @override
   Widget build(BuildContext context, ScopedReader watch) {
+    final dataNotifier = watch(homeProvider.notifier);
+    final data = watch(homeProvider);
+
     return Container(
       color: Colors.white,
       child: ListView(
@@ -42,7 +42,7 @@ class HomeSettings extends ConsumerWidget {
                 subtitle: 'Login to your app.',
                 onTap: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => LoginPage()));
+                      MaterialPageRoute(builder: (context) => SettingsLoginView()));
                 }, //AGUARDANDO BANCO DE DADOS DE LOGIN
               )
             ],
@@ -71,7 +71,7 @@ class CustomListTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final ThemeData state = watch(themeProvider.notifier).state;
+    final state = watch(themeProvider);
 
     return ListTile(
       onTap: onTap,
