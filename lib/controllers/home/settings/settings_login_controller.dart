@@ -18,7 +18,7 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
   Future<List<String>> sharedWrite(address) async {
     final preferences = await SharedPreferences.getInstance();
     await preferences.setStringList('key', address);
-    final listAddress = [...state.listAddress];
+    final listAddress = [...{...state.listAddress}];
     return listAddress;
   }
 

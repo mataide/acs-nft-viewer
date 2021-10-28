@@ -1,4 +1,5 @@
 import 'package:NFT_View/app/home/settings/login_ethereum_address/login_ethereum_address.dart';
+import 'package:NFT_View/controllers/home/settings/settings_login_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,14 +26,16 @@ class SettingsLoginView extends ConsumerWidget {
       return event;
     } );
 
+
+
     return _buildUI(state, dataState, data, _deviceHeight, _deviceWidth, navigator, networkStream);
   }
 
-  Widget _buildUI(state, dataState, data, _deviceHeight, _deviceWidth, navigator, networkStream) {
+  Widget _buildUI(state,SettingsLoginController dataState, data,double _deviceHeight,double _deviceWidth, navigator, networkStream) {
     return Scaffold(
       backgroundColor: state.primaryColor,
       appBar: AppBar(
-        title: Text("Acess Wallet"),
+        title: Text("Access Wallet"),
         backgroundColor: state.primaryColor,
         centerTitle: true,
       ),
@@ -61,7 +64,7 @@ class SettingsLoginView extends ConsumerWidget {
                           if (snapshot.hasError)
                             return Center(child: Text('Error: ${snapshot.error}'));
                           else
-                            return _connectedWidget(state, dataState, data, _deviceHeight, _deviceWidth, navigator, networkStream);                        }
+                            return _connectedWidget(state, dataState, snapshot.data, _deviceHeight, _deviceWidth, navigator, networkStream);                        }
                       },
                     );
                   }
@@ -73,7 +76,7 @@ class SettingsLoginView extends ConsumerWidget {
     );
   }
 
-  Widget _listViewWidget(state, dataState, data, _deviceHeight, _deviceWidth, navigator, networkStream) {
+  Widget _listViewWidget(state,SettingsLoginController dataState, data,double _deviceHeight,double _deviceWidth, navigator, networkStream) {
     return ListView(padding: EdgeInsets.all(16.0), children: [
 
       Container(
@@ -194,7 +197,7 @@ class SettingsLoginView extends ConsumerWidget {
     ]);
   }
 
-  Widget _connectedWidget(state, dataState, data, _deviceHeight, _deviceWidth, navigator, networkStream) {
+  Widget _connectedWidget(state,SettingsLoginController dataState, data,double _deviceHeight,double _deviceWidth, navigator, networkStream) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
