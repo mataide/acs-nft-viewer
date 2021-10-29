@@ -1,22 +1,27 @@
 class DataModel {
   int? id, albumId;
-  String? title, url;
+  String title, url;
 
   DataModel({
     this.albumId,
     this.id,
-    this.title,
-    this.url,
+    required this.title,
+    required this.url,
   });
 
-  factory DataModel.fromMap(Map<String, dynamic> map) {
-    return new DataModel(
-      albumId: map['albumId'] as int,
-      id: map['id'] as int,
-      title: map['title'] as String,
-      url: map['url'] as String,
-    );
-  }
+  //factory DataModel.fromMap(Map<String, dynamic> map) {
+  //return new DataModel(
+  //     albumId: map['albumId'] as int,
+  // id: map['id'] as int,
+  // title: map['title'] as String,
+  //  url: map['url'] as String,
+  //);
+  // }
+  static DataModel fromJson(json) => DataModel(
+        id: json['id'],
+        title: json['title'],
+        url: json['url'],
+      );
 
   Map<String, dynamic> tomap() {
     return {

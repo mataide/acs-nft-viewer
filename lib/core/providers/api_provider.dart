@@ -1,4 +1,4 @@
-import 'package:NFT_View/controllers/home/collections/api_controler.dart';
+import 'package:NFT_View/controllers/home/collections/api_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final apiProvider = ChangeNotifierProvider<GetDataFromApi>((ref)=> GetDataFromApi());
+final apiProvider = StateNotifierProvider((ref)=> GetDataFromApi());

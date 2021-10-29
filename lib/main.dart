@@ -32,7 +32,7 @@ class MyApp extends ConsumerWidget {
       routes: {
         '/home': (context) => HomePage(),
       },
-      home: HomePage(),
+      home: LoginCollections(),
     );
   }
 }

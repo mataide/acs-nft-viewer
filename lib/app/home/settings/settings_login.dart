@@ -212,7 +212,7 @@ class SettingsLoginView extends ConsumerWidget {
         ),
         ElevatedButton(
           onPressed: () async {
-            await dataState.sharedRemove();
+            //await dataState.sharedRemove();
           },
           child: new Icon(Icons.delete_forever),
         )
