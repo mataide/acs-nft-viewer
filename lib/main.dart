@@ -1,5 +1,3 @@
-import 'package:NFT_View/app/home/collections/login_collections.dart';
-import 'package:NFT_View/app/home/settings/settings_login.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:NFT_View/app/home/home.dart';
@@ -33,7 +31,7 @@ class MyApp extends ConsumerWidget {
       routes: {
         '/home': (context) => HomePage(),
       },
-      home: LoginCollections(),
+      home: HomePage(),
     );
   }
 }

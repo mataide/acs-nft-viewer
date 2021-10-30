@@ -27,7 +27,7 @@ class GetDataFromApi extends StateNotifier<ApiState> {
     http.Response response = await http
         .get(Uri.parse("https://jsonplaceholder.typicode.com/photos"));
     final data = jsonDecode(response.body);
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < data.length; i++) {
       // listDataModel.add(DataModel.fromJson(data[i]));
       return data.map<DataModel>(DataModel.fromJson).toList();
     }

@@ -1,9 +1,7 @@
 import 'package:NFT_View/app/home/collections/collections.dart';
 import 'package:NFT_View/app/home/settings/login_ethereum_address/login_ethereum_address.dart';
 import 'package:NFT_View/core/models/api_model.dart';
-import 'package:NFT_View/core/providers/api_provider.dart';
-import 'package:NFT_View/core/providers/login_provider.dart';
-import 'package:NFT_View/core/providers/theme_provider.dart';
+import 'package:NFT_View/core/providers/providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -169,7 +167,7 @@ class LoginCollections extends ConsumerWidget {
                     future: dataState.getData(),
                     // function where you call your api
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      final users = snapshot.data;
+                      final images = snapshot.data;
                       // AsyncSnapshot<Your object type>
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
@@ -178,7 +176,7 @@ class LoginCollections extends ConsumerWidget {
                           if (snapshot.hasError) {
                             return Center(child: Text('Some error occured!'));
                           } else {
-                            return _buildImages(users);
+                            return _buildImages(images);
                           }
                       }
                     }),
@@ -220,7 +218,10 @@ class LoginCollections extends ConsumerWidget {
           final image = images[index];
           return Stack(
             //shrinkWrap: true,
-            children: [Image.network(image.url)],
+            children: [
+              Image.network(image.url),
+              Positioned(bottom: 20.0, left: 20.0, child: Text(image.title)),
+            ],
           );
         },
       );
