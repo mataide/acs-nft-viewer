@@ -23,7 +23,7 @@ class GetDataFromApi extends StateNotifier<ApiState> {
 
   get index => null;
 
-  Future<List<DataModel>?> getData(BuildContext context) async {
+  Future<List<DataModel>?> getData() async {
     http.Response response = await http
         .get(Uri.parse("https://jsonplaceholder.typicode.com/photos"));
     final data = jsonDecode(response.body);
