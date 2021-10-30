@@ -50,8 +50,8 @@ class LoginCollections extends ConsumerWidget {
                       snapshot.data ?? dataLogin.listAddress;
                   print("address: $address");
                   if (address.length > 0) {
-                    return CollectionsView();
-                    //return _connectWidget(dataState, stateTheme,dataStateLogin,navigator);
+                    return _connectWidget(
+                        dataState, stateTheme, dataStateLogin, navigator);
                   } else {
                     return FutureBuilder<List<String>>(
                       future: dataStateLogin.sharedWrite(address),
@@ -68,8 +68,7 @@ class LoginCollections extends ConsumerWidget {
                             return Center(
                                 child: Text('Error: ${snapshot.error}'));
                           else
-                            return _connectWidget(dataState, stateTheme,dataStateLogin,navigator);
-                            //return CollectionsView();
+                            return CollectionsView();
                         }
                       },
                     );
@@ -81,7 +80,7 @@ class LoginCollections extends ConsumerWidget {
     );
   }
 
-  Widget _connectWidget(dataState, stateTheme, dataStateLogin,navigator) {
+  Widget _connectWidget(dataState, stateTheme, dataStateLogin, navigator) {
     return ListView(
         padding:
             EdgeInsets.only(left: 10.0, top: 70.0, right: 10.0, bottom: 150.0),

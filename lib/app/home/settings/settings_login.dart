@@ -9,7 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:NFT_View/core/providers/providers.dart';
 
 class SettingsLoginView extends ConsumerWidget {
-  final eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler");
+  final eventChannel =
+      const EventChannel("com.bimsina.re_walls/WalletStreamHandler");
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -19,19 +20,17 @@ class SettingsLoginView extends ConsumerWidget {
     final _deviceHeight = MediaQuery.of(context).size.height;
     final _deviceWidth = MediaQuery.of(context).size.width;
     final navigator = Navigator.of(context);
-    final networkStream = eventChannel
-        .receiveBroadcastStream()
-        .distinct()
-        .map((dynamic event) {
+    final networkStream =
+        eventChannel.receiveBroadcastStream().distinct().map((dynamic event) {
       return event;
-    } );
+    });
 
-
-
-    return _buildUI(state, dataState, data, _deviceHeight, _deviceWidth, navigator, networkStream);
+    return _buildUI(state, dataState, data, _deviceHeight, _deviceWidth,
+        navigator, networkStream);
   }
 
-  Widget _buildUI(state,SettingsLoginController dataState, data,double _deviceHeight,double _deviceWidth, navigator, networkStream) {
+  Widget _buildUI(state, SettingsLoginController dataState, data,
+      double _deviceHeight, double _deviceWidth, navigator, networkStream) {
     return Scaffold(
       backgroundColor: state.primaryColor,
       appBar: AppBar(
@@ -39,7 +38,7 @@ class SettingsLoginView extends ConsumerWidget {
         backgroundColor: state.primaryColor,
         centerTitle: true,
       ),
-      body:Container(
+      body: Container(
         height: _deviceHeight,
         width: _deviceWidth,
         child: Stack(
@@ -50,35 +49,50 @@ class SettingsLoginView extends ConsumerWidget {
                 stream: networkStream,
                 builder: (context, snapshot) {
                   print(snapshot.data);
-                  final List<String> address = snapshot.data ?? data.listAddress;
+                  final List<String> address =
+                      snapshot.data ?? data.listAddress;
                   print("address: $address");
-                  if(address.length > 0) {
-                    return _listViewWidget(state, dataState, data, _deviceHeight, _deviceWidth, navigator, networkStream);
+                  if (address.length > 0) {
+                    return _listViewWidget(state, dataState, data,
+                        _deviceHeight, _deviceWidth, navigator, networkStream);
                   } else {
                     return FutureBuilder<List<String>>(
-                      future: dataState.sharedWrite(address), // function where you call your api
-                      builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {  // AsyncSnapshot<Your object type>
-                        if(snapshot.connectionState == ConnectionState.waiting){
-                          return  Center(child: Text('Please wait its loading...'));
-                        }else{
+                      future: dataState.sharedWrite(address),
+                      // function where you call your api
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<String>> snapshot) {
+                        // AsyncSnapshot<Your object type>
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                              child: Text('Please wait its loading...'));
+                        } else {
                           if (snapshot.hasError)
-                            return Center(child: Text('Error: ${snapshot.error}'));
+                            return Center(
+                                child: Text('Error: ${snapshot.error}'));
                           else
-                            return _connectedWidget(state, dataState, snapshot.data, _deviceHeight, _deviceWidth, navigator, networkStream);                        }
+                            return _connectedWidget(
+                                state,
+                                dataState,
+                                snapshot.data,
+                                _deviceHeight,
+                                _deviceWidth,
+                                navigator,
+                                networkStream);
+                        }
                       },
                     );
                   }
-                }
-            )
+                })
           ],
         ),
       ),
     );
   }
 
-  Widget _listViewWidget(state,SettingsLoginController dataState, data,double _deviceHeight,double _deviceWidth, navigator, networkStream) {
+  Widget _listViewWidget(state, SettingsLoginController dataState, data,
+      double _deviceHeight, double _deviceWidth, navigator, networkStream) {
     return ListView(padding: EdgeInsets.all(16.0), children: [
-
       Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -95,7 +109,7 @@ class SettingsLoginView extends ConsumerWidget {
             ),
             Text(
               "Connect with wallet \n\n Your NFT collections will \n"
-                  "appear here as soon as you \n connect with your wallet",
+              "appear here as soon as you \n connect with your wallet",
               textAlign: TextAlign.center,
             ),
             SizedBox(
@@ -111,8 +125,7 @@ class SettingsLoginView extends ConsumerWidget {
                 children: [
                   new CircleAvatar(
                     radius: 15.0,
-                    backgroundImage:
-                    AssetImage('assets/images/metamask.png'),
+                    backgroundImage: AssetImage('assets/images/metamask.png'),
                   ),
                   SizedBox(
                     width: 45.0,
@@ -142,7 +155,7 @@ class SettingsLoginView extends ConsumerWidget {
                   new CircleAvatar(
                     radius: 15.0,
                     backgroundImage:
-                    AssetImage('assets/images/walletconnect.png'),
+                        AssetImage('assets/images/walletconnect.png'),
                   ),
                   SizedBox(
                     width: 55.0,
@@ -171,8 +184,7 @@ class SettingsLoginView extends ConsumerWidget {
                 children: [
                   new CircleAvatar(
                     radius: 15.0,
-                    backgroundImage:
-                    AssetImage('assets/images/ethereum.png'),
+                    backgroundImage: AssetImage('assets/images/ethereum.png'),
                   ),
                   SizedBox(
                     width: 38.0,
@@ -184,8 +196,8 @@ class SettingsLoginView extends ConsumerWidget {
                 ],
               ),
               onPressed: () {
-                navigator.push(MaterialPageRoute(
-                    builder: (context) => LoginAddress()));
+                navigator.push(
+                    MaterialPageRoute(builder: (context) => LoginAddress()));
               },
             ),
             SizedBox(
@@ -197,7 +209,8 @@ class SettingsLoginView extends ConsumerWidget {
     ]);
   }
 
-  Widget _connectedWidget(state,SettingsLoginController dataState, data,double _deviceHeight,double _deviceWidth, navigator, networkStream) {
+  Widget _connectedWidget(state, SettingsLoginController dataState, data,
+      double _deviceHeight, double _deviceWidth, navigator, networkStream) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
@@ -219,6 +232,4 @@ class SettingsLoginView extends ConsumerWidget {
       ],
     );
   }
-
-
 }
