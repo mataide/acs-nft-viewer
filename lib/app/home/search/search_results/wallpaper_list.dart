@@ -62,10 +62,10 @@ class _WallpaperListState extends State<WallpaperList> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => WallpaperPage(
-                            heroId: 'popular${list[index]!.name}',
-                            posts: list,
-                            index: index,
+                      builder: (context) => WallpaperView(
+                            'popular${list[index]!.name}',
+                            list,
+                            index,
                           )));
             },
             child: Hero(

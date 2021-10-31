@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/utils/constants.dart';
-import '../../core/utils/theme_notifier.dart';
 
+// Providers
+import 'package:NFT_View/core/providers/providers.dart';
 
-class ThemeChangerWidget extends StatelessWidget {
+class ThemeChangerWidget extends ConsumerWidget {
   final List<String> string = ['Light', 'Dark', 'Amoled'];
   @override
-  Widget build(BuildContext context) {
-    final stateData = Provider.of<ThemeNotifier>(context);
-    final ThemeData state = stateData.getTheme();
+  Widget build(BuildContext context, ScopedReader watch) {
+    final state = watch(themeProvider);
 
     return Theme(
       data: state.copyWith(unselectedWidgetColor: state.accentColor),
@@ -45,9 +45,9 @@ class ThemeChangerWidget extends StatelessWidget {
 
 //SELEÇÃO DOS TEMAS
 
-void showLoadingDialog(BuildContext context) {
-  final stateData = Provider.of<ThemeNotifier>(context, listen: false);
-  final ThemeData state = stateData.getTheme();
+void showLoadingDialog(BuildContext context, ScopedReader watch) {
+  final state = watch(themeProvider);
+
   showDialog(
       context: context,
       barrierDismissible: false,
@@ -99,12 +99,10 @@ void showAlertDialog(BuildContext context, String error, String title) {
   );
 }
 
-showConfirmationDialog(
-    BuildContext context, String title, String content) async {
+showConfirmationDialog(BuildContext context, String title, String content, ScopedReader watch) async {
   bool confirm = false;
+  final state = watch(themeProvider);
 
-  final stateData = Provider.of<ThemeNotifier>(context);
-  final ThemeData state = stateData.getTheme();
   await showDialog(
     context: context,
     barrierDismissible: true,

@@ -19,7 +19,7 @@ class CollectionsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final dataState = watch(collectionsProvider.notifier);
-    final ThemeData themeData = watch(themeProvider.notifier).state;
+    final themeData = watch(themeProvider);
     final List<Post?>? posts = null;
 
     return dataState.fetchState == kdataFetchState.IS_LOADING

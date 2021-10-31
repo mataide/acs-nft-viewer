@@ -11,7 +11,7 @@ class CardWithChildren extends ConsumerWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final ThemeData state = watch(themeProvider.notifier).state;
+    final state = watch(themeProvider);
     return Card(
       elevation: 0.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),

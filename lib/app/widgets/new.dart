@@ -86,10 +86,10 @@ class _NewWallpapersState extends State<NewWallpapers>
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => WallpaperPage(
-                                              heroId: '${post.name}',
-                                              posts: posts,
-                                              index: posts.indexOf(post),
+                                        builder: (context) => WallpaperView(
+                                              '${post.name}',
+                                              posts,
+                                              posts.indexOf(post),
                                             )));
                               },
                               child: Card(
