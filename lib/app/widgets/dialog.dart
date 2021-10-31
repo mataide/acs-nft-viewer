@@ -9,15 +9,16 @@ class ThemeChangerWidget extends ConsumerWidget {
   final List<String> string = ['Light', 'Dark', 'Amoled'];
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(themeProvider);
+    final state = watch(themeProvider.notifier);
+    final stateData = watch(themeProvider);
 
     return Theme(
-      data: state.copyWith(unselectedWidgetColor: state.accentColor),
+      data: stateData.copyWith(unselectedWidgetColor: stateData.accentColor),
       child: AlertDialog(
-          backgroundColor: state.primaryColor,
+          backgroundColor: stateData.primaryColor,
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-          title: Text('Select Theme', style: state.textTheme.bodyText2),
+          title: Text('Select Theme', style: stateData.textTheme.bodyText2),
           content: Container(
             width: 0.0,
             child: ListView.builder(
@@ -25,13 +26,13 @@ class ThemeChangerWidget extends ConsumerWidget {
               itemBuilder: (context, index) {
                 return RadioListTile(
                   value: index,
-                  groupValue: themes.indexOf(state),
+                  groupValue: themes.indexOf(stateData),
                   onChanged: (dynamic ind) {
-                    //onThemeChanged(ind, stateData);
+                    state.onThemeChanged(ind, state);
                   },
                   title: Text(
                     string[index],
-                    style: state.textTheme.bodyText1,
+                    style: stateData.textTheme.bodyText1,
                   ),
                 );
               },
