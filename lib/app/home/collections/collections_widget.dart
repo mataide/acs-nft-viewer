@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../core/models/subreddit_exist.dart';
 import '../../../core/utils/theme_notifier.dart';
-import 'package:http/http.dart' as http;
 
 class ColButton extends StatelessWidget {
   final String title;
@@ -153,10 +149,8 @@ class _SubredditAddWidgetState extends State<SubredditAddWidget> {
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            checkSub(
-                                'https://www.reddit.com/search.json?q=${subredditText.text}&type=sr');
-                          }
-                        })
+
+                        }})
                     : CircularProgressIndicator()
               ],
             ),
@@ -164,39 +158,6 @@ class _SubredditAddWidgetState extends State<SubredditAddWidget> {
     );
   }
 
-  void checkSub(String subreddit) async {
-    setState(() {
-      isLoading = true;
-    });
-    http.get(Uri.parse(subreddit)).then((res) async {
-      if (res.statusCode == 200) {
-        Map<String, dynamic> decodeRes = jsonDecode(res.body);
-        print(decodeRes);
-        SubredditTestClass subredditTestClass =
-            SubredditTestClass.fromJson(decodeRes);
-
-        List<bool> list = subredditTestClass.data!.children!
-            .map((item) =>
-                item.data!.displayname!.toLowerCase() ==
-                'r/${subredditText.text.toLowerCase()}')
-            .toList();
-        setState(() {
-          isLoading = false;
-        });
-        if (list.contains(true)) {
-          setState(() {
-            errorSub = false;
-          });
-
-          Navigator.pop(context, subredditText.text);
-        } else {
-          setState(() {
-            errorSub = true;
-          });
-        }
-      }
-    });
-  }
 }
 
 class ErrorOccured extends StatelessWidget {
