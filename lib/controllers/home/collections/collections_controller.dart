@@ -30,11 +30,11 @@ class CollectionsController extends StateNotifier<CollectionsState> {
     //prepareFromDb();
   }
 
-  get fetchState => CollectionsState().fetchState;
-  get selectedSubreddit => CollectionsState().selectedSubreddit;
-  get selectedFilter => CollectionsState().selectedFilter;
-  get subreddits => CollectionsState().subreddits;
-  get collections => CollectionsState().collections;
+  get fetchState => state.fetchState;
+  get selectedSubreddit => state.selectedSubreddit;
+  get selectedFilter => state.selectedFilter;
+  get subreddits => state.subreddits;
+  get collections => state.collections;
 
   prepareSharedPrefs() async {
     SharedPreferences.getInstance().then((preferences) {
@@ -48,31 +48,6 @@ class CollectionsController extends StateNotifier<CollectionsState> {
   }
 
   fetchWallPapers(String subreddit) async {
-    // fetchState = kdataFetchState.IS_LOADING;
-    // notifyListeners();
-    // try {
-    //   http.get(Uri.parse(subreddit)).then((res) {
-    //     if (res.statusCode == 200) {
-    //       var decodeRes = jsonDecode(res.body);
-    //       _posts = [];
-    //       Reddit temp = Reddit.fromJson(decodeRes);
-    //       temp.data!.children!.forEach((children) {
-    //         if (children.post!.postHint == 'image') {
-    //           _posts!.add(children.post);
-    //         }
-    //       });
-    //
-    //       _fetchState = kdataFetchState.IS_LOADED;
-    //       notifyListeners();
-    //     } else {
-    //       _fetchState = kdataFetchState.ERROR_ENCOUNTERED;
-    //       notifyListeners();
-    //     }
-    //   });
-    // } catch (e) {
-    //   _fetchState = kdataFetchState.ERROR_ENCOUNTERED;
-    //   notifyListeners();
-    // }
   }
 
   void prepareFromDb() async {
@@ -84,43 +59,42 @@ class CollectionsController extends StateNotifier<CollectionsState> {
   }
 
   void prepareFromInternet() async {
-    final List<Eth721> listERC721 = await APIService.instance.getERC721("0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb");
-    print(listERC721.toList());
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final eth721Dao = database.eth721DAO;
-    eth721Dao.insertList(listERC721);
-    for (var erc721 in listERC721) {
-      final collectionsDAO = database.collectionsDAO;
-      final result = collectionsDAO.create(Collections.fromEth721(erc721));
-      var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
+    final collectionsDAO = database.collectionsDAO;
 
+    final List<Eth721> listERC721 = await APIService.instance.getERC721("0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb");
+    print(listERC721.toList());
+    eth721Dao.insertList(listERC721);
+    var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
+    for (var erc721 in newMap.entries) {
+      await collectionsDAO.create(Collections.fromEth721(erc721.value.first, erc721.value.length));
     }
+
+    state = CollectionsState(collections: await collectionsDAO.findAll(), fetchState: kdataFetchState.IS_LOADED);
 
     //Web3
-    var httpClient = new Client();
-    var ethClient = new Web3Client("https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531", httpClient);
-    final erc = ERC721(address: EthereumAddress.fromHex(listERC721.first.contractAddress), client: ethClient);
-    final tokenURI = await erc.tokenURI(BigInt.parse(listERC721.first.tokenID));
-    print(tokenURI);
-    if(tokenURI.startsWith("http")) {
-      final res = await httpClient.get(Uri.parse(tokenURI), headers: {"Accept": "aplication/json"});
-      final jsonData = json.decode(res.body);
-      print(jsonData);
-      if((jsonData['image'] as String).contains('mp4')) {
-        final fileName = await VideoThumbnail.thumbnailFile(
-          video: jsonData['image'],
-          thumbnailPath: (await getTemporaryDirectory()).path,
-          imageFormat: ImageFormat.PNG,
-          maxHeight: 64, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
-          quality: 75,
-        );
-        print(fileName);
-      }
-
-    }
-
-    final _fetchState = kdataFetchState.IS_LOADED;
-    state = CollectionsState(fetchState: _fetchState);
+    // var httpClient = new Client();
+    // var ethClient = new Web3Client("https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531", httpClient);
+    // final erc = ERC721(address: EthereumAddress.fromHex(listERC721.first.contractAddress), client: ethClient);
+    // final tokenURI = await erc.tokenURI(BigInt.parse(listERC721.first.tokenID));
+    // print(tokenURI);
+    // if(tokenURI.startsWith("http")) {
+    //   final res = await httpClient.get(Uri.parse(tokenURI), headers: {"Accept": "aplication/json"});
+    //   final jsonData = json.decode(res.body);
+    //   print(jsonData);
+    //   if((jsonData['image'] as String).contains('mp4')) {
+    //     final fileName = await VideoThumbnail.thumbnailFile(
+    //       video: jsonData['image'],
+    //       thumbnailPath: (await getTemporaryDirectory()).path,
+    //       imageFormat: ImageFormat.PNG,
+    //       maxHeight: 64, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
+    //       quality: 75,
+    //     );
+    //     print(fileName);
+    //   }
+    //
+    // }
   }
 
   changeSelected(SelectorCallback selected) {
