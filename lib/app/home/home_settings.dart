@@ -8,7 +8,7 @@ import 'package:NFT_View/app/home/settings/card_with_children.dart';
 // Providers
 import 'package:NFT_View/core/providers/providers.dart';
 
-class HomeSettings extends ConsumerWidget {
+class HomeSettingsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final dataNotifier = watch(homeProvider.notifier);

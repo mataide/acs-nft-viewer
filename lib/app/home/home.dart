@@ -1,9 +1,7 @@
-import 'package:NFT_View/app/home/home_marketplace.dart';
-import 'package:NFT_View/controllers/home/home_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:NFT_View/app/widgets/bottom_nav_bar.dart';
+import 'home_collections.dart';
 import 'home_search.dart';
-import 'home_collection.dart';
 import 'home_settings.dart';
 import 'package:flutter/material.dart';
 
@@ -53,9 +51,9 @@ class HomePage extends ConsumerWidget {
             dataNotifier.setIndex(index);
           },
           children: <Widget>[
-            HomeCollection(),
-            HomeMarketplace(),
-            HomeSettings(),
+            HomeCollectionsView(),
+            //HomeMarketplace(),
+            HomeSettingsView(),
           ],
         ),
       ),

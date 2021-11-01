@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginCollections extends ConsumerWidget {
+class HomeCollectionsView extends ConsumerWidget {
   final eventChannel =
       const EventChannel("com.bimsina.re_walls/WalletStreamHandler");
 
