@@ -18,6 +18,8 @@ class HomePage extends ConsumerWidget {
     final state = watch(themeProvider);
     final dataNotifier = watch(homeProvider.notifier);
     final data = watch(homeProvider);
+    final settingsNotifier = watch(homeSettingsProvider.notifier);
+
 
     return Scaffold(
       key: _scaffoldKey,
@@ -71,13 +73,13 @@ class HomePage extends ConsumerWidget {
             icon: Icon(Icons.palette_outlined),
             title: Text('My collections'),
           ),
-          BottomNavyBarItem(
-            icon: Icon(Icons.work_outline),
-            title: Text('Marketplace'),
-          ),
+          // BottomNavyBarItem(
+          //   icon: Icon(Icons.work_outline),
+          //   title: Text('Marketplace'),
+          // ),
           BottomNavyBarItem(
             icon: Icon(Icons.settings_outlined),
-            title: Text('Settings'),
+            title: Text(settingsNotifier.title),
           ),
         ],
       ),

@@ -8,14 +8,12 @@ class HomeSearch extends SearchDelegate<void> {
 
   @override
   ThemeData appBarTheme(BuildContext context) {
-    assert(context != null);
     final ThemeData theme = themeData!.copyWith(
         hintColor: themeData!.accentColor,
         primaryColor: themeData!.primaryColor,
         textTheme: TextTheme(
           headline6: themeData!.textTheme.bodyText1,
         ));
-    assert(theme != null);
     return theme;
   }
 

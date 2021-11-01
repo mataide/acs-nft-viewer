@@ -22,9 +22,7 @@ class HomeCollectionsView extends ConsumerWidget {
     final _deviceWidth = MediaQuery.of(context).size.width;
     final navigator = Navigator.of(context);
     final networkStream =
-        eventChannel.receiveBroadcastStream().distinct().map((dynamic event) {
-      return event;
-    });
+        eventChannel.receiveBroadcastStream().distinct().map((dynamic event) => event);
 
     return Scaffold(
       backgroundColor: state.primaryColor,
