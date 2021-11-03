@@ -1,3 +1,4 @@
+import 'package:NFT_View/core/models/api_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,7 +6,7 @@ import 'package:NFT_View/core/utils/constants.dart';
 import 'package:NFT_View/app/widgets/selector.dart';
 import 'package:NFT_View/core/client/APIClient.dart';
 import 'package:NFT_View/core/models/response.dart';
-import '../search/search_results/wallpaper_list.dart';
+import '../../widgets/wallpaper_list.dart';
 import 'collections_widget.dart';
 
 // Providers
@@ -20,7 +21,7 @@ class CollectionsView extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final dataState = watch(collectionsProvider.notifier);
     final themeData = watch(themeProvider);
-    final List<Post?>? posts = null;
+    final List<DataModel> images;
 
     return dataState.fetchState == kdataFetchState.IS_LOADING
         ? Container(
@@ -71,10 +72,8 @@ class CollectionsView extends ConsumerWidget {
                       }
                     },
                   ),
-                  WallpaperList(
-                    posts: posts,
-                    themeData: themeData,
-                  ),
+                  WalpaperList( ),
+
                 ],
               );
   }

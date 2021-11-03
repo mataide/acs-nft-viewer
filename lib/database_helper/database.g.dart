@@ -337,7 +337,7 @@ class _$CollectionsDAO extends CollectionsDAO {
             row['amount'] as String?,
             row['thumbnail'] as String?,
             row['image'] as String?,
-            row['totalSupply'] as String?));
+            row['totalSupply'] as int?));//string?
   }
 
   @override

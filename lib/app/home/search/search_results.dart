@@ -1,10 +1,11 @@
 import 'dart:convert';
 
+import 'package:NFT_View/core/models/index.dart';
 import 'package:flutter/material.dart';
 import 'package:NFT_View/core/utils/constants.dart';
 import 'package:NFT_View/core/models/response.dart';
 import 'package:http/http.dart' as http;
-import 'package:NFT_View/app/home/search/search_results/wallpaper_list.dart';
+import 'package:NFT_View/app/widgets/wallpaper_list.dart';
 import 'package:NFT_View/app/home/collections/collections_widget.dart';
 
 class SearchResults extends StatefulWidget {
@@ -18,7 +19,7 @@ class SearchResults extends StatefulWidget {
 
 class _SearchResultsState extends State<SearchResults> {
   kdataFetchState _fetchState = kdataFetchState.IS_LOADING;
-  List<Post?>? posts;
+  late List<DataModel> images;
 
   @override
   void initState() {
@@ -33,11 +34,11 @@ class _SearchResultsState extends State<SearchResults> {
     http.get(Uri.parse(subreddit)).then((res) {
       if (res.statusCode == 200) {
         var decodeRes = jsonDecode(res.body);
-        posts = [];
+       // posts = [];
         Reddit temp = Reddit.fromJson(decodeRes);
         temp.data!.children!.forEach((children) {
           if (children.post!.postHint == 'image') {
-            posts!.add(children.post);
+          //  posts!.add(children.post);
           }
         });
         if (mounted) {
@@ -82,8 +83,11 @@ class _SearchResultsState extends State<SearchResults> {
                     //onTap: () =>
                         //fetchWallPapers(EndPoints.getSearch(widget.searchTerm!)),
                   )
-                : WallpaperList(posts: posts, themeData: widget.themeData),
-      ),
+            : WallpaperList( themeData: widget.themeData),
+      )
     );
   }
+}
+
+WallpaperList({posts, ThemeData? themeData}) {
 }
