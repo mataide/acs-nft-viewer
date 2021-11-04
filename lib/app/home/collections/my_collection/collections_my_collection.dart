@@ -51,7 +51,14 @@ class MyCollection extends ConsumerWidget {
           SingleChildScrollView( child:
           Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-            child: WalpaperList(),),
+            child: GridView(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 10,
+                crossAxisCount: 2,
+              ),
+            ),
+          ),
           )]),
     )
     );

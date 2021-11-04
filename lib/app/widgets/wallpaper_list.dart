@@ -4,7 +4,7 @@ import 'package:NFT_View/core/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WalpaperList extends ConsumerWidget {
+class WallpaperList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final dataState = watch(apiProvider.notifier);
@@ -23,41 +23,20 @@ class WalpaperList extends ConsumerWidget {
               if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else {
-                return Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: SingleChildScrollView(
-                      child: GridView.builder(
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: 5,
-                      mainAxisSpacing: 10,
-                      crossAxisCount: 2,
-                    ),
-                    itemCount: 6,
-                    itemBuilder: (context, index) {
-                      final image = images[index];
-                      return GestureDetector(
-                          onTap: () {
-                            print('apertado');
-                          },
-                          child: Stack(
-                            children: [
-                              Image.network(image.url),
-                              Positioned(
-                                bottom: 15.0,
-                                left: 20.0,
-                                child: Text(
-                                  image.title,
-                                ),
-                              ),
-                            ],
-                          ));
-                    },
-                  )),
-                );
+                return
+                  ListView.builder(
+                      itemCount: 60,
+                      itemBuilder: (context, index) {
+                        final image = images[index];
+                        print(images);
+                        return Image.network(image.url);
+
+                      }
+                  );
               }
           }
-        });
-  }
-}
+        }
+        );
+              }
+          }
+

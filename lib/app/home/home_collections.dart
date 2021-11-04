@@ -21,8 +21,10 @@ class HomeCollectionsView extends ConsumerWidget {
     final _deviceHeight = MediaQuery.of(context).size.height;
     final _deviceWidth = MediaQuery.of(context).size.width;
     final navigator = Navigator.of(context);
-    final networkStream =
-        eventChannel.receiveBroadcastStream().distinct().map((dynamic event) => event);
+    final networkStream = eventChannel
+        .receiveBroadcastStream()
+        .distinct()
+        .map((dynamic event) => event);
 
     return Scaffold(
       backgroundColor: state.primaryColor,
@@ -45,7 +47,7 @@ class HomeCollectionsView extends ConsumerWidget {
                   final List<String> address =
                       snapshot.data ?? dataLogin.listAddress;
                   print("address: $address");
-                  if (address.length > 0) {
+                  if (address.length == 0) {
                     return _connectWidget(
                         dataState, stateTheme, dataStateLogin, navigator);
                   } else {
@@ -182,43 +184,28 @@ class HomeCollectionsView extends ConsumerWidget {
               SizedBox(
                 width: 10.0,
               ),
-              Expanded(
-                child: FutureBuilder<List<DataModel>?>(
-                    future: dataState.getData(),
-                    // function where you call your api
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      final images = snapshot.data;
-                      // AsyncSnapshot<Your object type>
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.waiting:
-                          return Center(child: CircularProgressIndicator());
-                        default:
-                          if (snapshot.hasError) {
-                            return Center(
-                                child: Text('Error: ${snapshot.error}'));
-                          } else {
-                            return _buildImages(images);
-                          }
-                      }
-                    }),
-              )
             ])
           ])
         ]);
   }
 
-  Widget _buildImages(List<DataModel> images) => ListView.builder(
+  Widget _buildImages(List<DataModel> images) => GridView.builder(
         shrinkWrap: true,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisSpacing: 5,
+          mainAxisSpacing: 10,
+          crossAxisCount: 2,
+        ),
         //Se passa para 2 o itemCount ele coloca a 1ª e 2ª imagem da Api uma embaixo da outra dos dois lados,
         // e não a 1ª de um lado e a 2ª do outro
         itemCount: 2,
         itemBuilder: (context, index) {
           final image = images[index];
           return Stack(
-            //shrinkWrap: true,
             children: [
               Image.network(image.url),
-              Positioned(bottom: 20.0, left: 20.0, child: Text(image.title)),
+              Positioned(bottom: 30.0, left: 20.0, child: Text(image.title)),
+              Positioned(bottom: 10.0, left: 20.0, child: Text(image.id.toString())),
             ],
           );
         },

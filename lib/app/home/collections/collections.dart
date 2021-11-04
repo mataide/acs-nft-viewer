@@ -72,7 +72,7 @@ class CollectionsView extends ConsumerWidget {
                       }
                     },
                   ),
-                  WalpaperList( ),
+                  WallpaperList( ),
 
                 ],
               );
