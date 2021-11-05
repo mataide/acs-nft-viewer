@@ -30,7 +30,6 @@ class GetDataFromApi extends StateNotifier<ApiState> {
     for (int i = 0; i < data.length; i++) {
       // listDataModel.add(DataModel.fromJson(data[i]));
       return data.map<DataModel>(DataModel.fromJson).toList();
-
     }
     state = ApiState(data: data);
   }

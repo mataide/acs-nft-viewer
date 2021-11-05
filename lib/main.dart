@@ -1,7 +1,4 @@
 import 'package:NFT_View/app/home/collections/my_collection/collections_my_collection.dart';
-import 'package:NFT_View/app/home/home_collections.dart';
-import 'package:NFT_View/app/widgets/wallpaper_list.dart';
-import 'package:NFT_View/teste.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:NFT_View/app/home/home.dart';
@@ -17,8 +14,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.getInstance().then((shared) {
     prefs = shared;
-    runApp(ProviderScope(
-    child: MyApp()));
+    runApp(ProviderScope(child: MyApp()));
   });
 }
 
@@ -35,7 +31,7 @@ class MyApp extends ConsumerWidget {
       routes: {
         '/home': (context) => HomePage(),
       },
-      home: WallpaperList(),
+      home: HomePage(),
     );
   }
 }

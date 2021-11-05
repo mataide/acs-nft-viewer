@@ -205,7 +205,8 @@ class HomeCollectionsView extends ConsumerWidget {
             children: [
               Image.network(image.url),
               Positioned(bottom: 30.0, left: 20.0, child: Text(image.title)),
-              Positioned(bottom: 10.0, left: 20.0, child: Text(image.id.toString())),
+              Positioned(
+                  bottom: 10.0, left: 20.0, child: Text(image.id.toString())),
             ],
           );
         },

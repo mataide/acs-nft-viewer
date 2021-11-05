@@ -23,20 +23,46 @@ class WallpaperList extends ConsumerWidget {
               if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else {
-                return
-                  ListView.builder(
-                      itemCount: 60,
-                      itemBuilder: (context, index) {
-                        final image = images[index];
-                        print(images);
-                        return Image.network(image.url);
-
-                      }
-                  );
+                return Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: SingleChildScrollView(
+                      child: GridView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 10,
+                      crossAxisCount: 2,
+                    ),
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      final image = images[index];
+                      return GestureDetector(
+                          onTap: () {
+                            print('apertado');
+                          },
+                          child: Stack(
+                            children: [
+                              Image.network(image.url),
+                              Positioned(
+                                bottom: 23.0,
+                                left: 20.0,
+                                child: Text(
+                                  image.title,
+                                ),
+                              ),
+                              Positioned(
+                                  bottom: 5.0,
+                                  left: 20.0,
+                                  child: Text(image.id.toString()))
+                            ],
+                          ));
+                    },
+                  )),
+                );
               }
           }
-        }
-        );
-              }
-          }
-
+        });
+  }
+}

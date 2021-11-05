@@ -11,7 +11,6 @@ class MyCollection extends ConsumerWidget {
     final ThemeData state = watch(themeProvider.notifier).state;
     final dataState = watch(apiProvider.notifier);
 
-
     return Scaffold(
         backgroundColor: state.primaryColor,
         appBar: AppBar(
@@ -23,7 +22,9 @@ class MyCollection extends ConsumerWidget {
           child: Column(children: [
             ListTile(
               title: Text('Author'),
-              subtitle: Text("BUSCAR DA API O NOME DO AUTOR",),
+              subtitle: Text(
+                "BUSCAR DA API O NOME DO AUTOR",
+              ),
               contentPadding:
                   EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
               dense: true,
@@ -33,7 +34,9 @@ class MyCollection extends ConsumerWidget {
             ),
             ListTile(
               title: Text("About"),
-              subtitle: Text("BUSCAR DA API DESCRIÇÃO DA COLEÇÃO",),
+              subtitle: Text(
+                "BUSCAR DA API DESCRIÇÃO DA COLEÇÃO",
+              ),
               contentPadding:
                   EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
               dense: true,
@@ -48,21 +51,10 @@ class MyCollection extends ConsumerWidget {
             SizedBox(
               height: 28.0,
             ),
-          SingleChildScrollView( child:
-          Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-            child: GridView(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisSpacing: 5,
-                mainAxisSpacing: 10,
-                crossAxisCount: 2,
-              ),
+            Container(
+              child: WallpaperList(),
             ),
-          ),
-          )]),
-    )
-    );
-
+          ]),
+        ));
   }
 }
-
