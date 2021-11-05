@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:NFT_View/core/smartcontracts/CurseNFT.g.dart';
 import 'package:http/http.dart';
 import 'package:NFT_View/core/client/APIClient.dart';
 import 'package:NFT_View/app/widgets/selector.dart';
@@ -24,10 +25,9 @@ class CollectionsState {
   const CollectionsState({this.fetchState = kdataFetchState.IS_LOADING, this.collections, this.selectedFilter, this.subreddits, this.selectedSubreddit});
 }
 
-class CollectionsController extends StateNotifier<CollectionsState> {
-  CollectionsController([Collections? state]) : super(CollectionsState()) {
-    prepareSharedPrefs();
-    //prepareFromDb();
+class HomeCollectionsController extends StateNotifier<CollectionsState> {
+  HomeCollectionsController([Collections? state]) : super(CollectionsState()) {
+    prepareFromInternet();
   }
 
   get fetchState => state.fetchState;
@@ -50,12 +50,10 @@ class CollectionsController extends StateNotifier<CollectionsState> {
   fetchWallPapers(String subreddit) async {
   }
 
-  void prepareFromDb() async {
+  Future<List<Collections?>> prepareFromDb() async {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
-
-    final eth721Dao = database.eth721DAO;
-    final result = await eth721Dao.findAll();
-    print(result);
+    final collectionsDAO = database.collectionsDAO;
+    return await collectionsDAO.findAll();
   }
 
   void prepareFromInternet() async {
@@ -72,13 +70,18 @@ class CollectionsController extends StateNotifier<CollectionsState> {
     }
 
     state = CollectionsState(collections: await collectionsDAO.findAll(), fetchState: kdataFetchState.IS_LOADED);
+  }
 
+  Future<String?> getCollectionImage(Collections collections) async {
     //Web3
-    // var httpClient = new Client();
-    // var ethClient = new Web3Client("https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531", httpClient);
-    // final erc = ERC721(address: EthereumAddress.fromHex(listERC721.first.contractAddress), client: ethClient);
-    // final tokenURI = await erc.tokenURI(BigInt.parse(listERC721.first.tokenID));
-    // print(tokenURI);
+    var httpClient = new Client();
+    var ethClient = new Web3Client("https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531", httpClient);
+    final erc = CurseNFT(address: EthereumAddress.fromHex(collections.contractAddress), client: ethClient);
+    final bigbig = BigInt.parse(collections.tokenID);
+    print(bigbig);
+
+    final tokenURI = await erc.totalSupply();
+    print(tokenURI);
     // if(tokenURI.startsWith("http")) {
     //   final res = await httpClient.get(Uri.parse(tokenURI), headers: {"Accept": "aplication/json"});
     //   final jsonData = json.decode(res.body);
@@ -92,8 +95,10 @@ class CollectionsController extends StateNotifier<CollectionsState> {
     //       quality: 75,
     //     );
     //     print(fileName);
+    //     return fileName;
+    //   } else {
+    //     return jsonData['image'];
     //   }
-    //
     // }
   }
 

@@ -1,6 +1,7 @@
 import 'package:NFT_View/app/home/collections/collections.dart';
 import 'package:NFT_View/app/home/settings/login_ethereum_address/login_ethereum_address.dart';
-import 'package:NFT_View/core/models/api_model.dart';
+import 'package:NFT_View/controllers/home/home_collections_controller.dart';
+import 'package:NFT_View/core/models/index.dart';
 import 'package:NFT_View/core/providers/providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,8 @@ class HomeCollectionsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final ThemeData state = watch(themeProvider.notifier).state;
-    final dataState = watch(apiProvider.notifier);
+    final state = watch(themeProvider);
+    final dataState = watch(homeCollectionsProvider.notifier);
     final stateTheme = watch(themeProvider);
     final dataStateLogin = watch(loginProvider.notifier);
     final dataLogin = watch(loginProvider);
@@ -28,11 +29,6 @@ class HomeCollectionsView extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: state.primaryColor,
-      appBar: AppBar(
-        title: Text('My collections'),
-        backgroundColor: state.primaryColor,
-        centerTitle: true,
-      ),
       body: Container(
         height: _deviceHeight,
         width: _deviceWidth,
@@ -78,7 +74,7 @@ class HomeCollectionsView extends ConsumerWidget {
     );
   }
 
-  Widget _connectWidget(dataState, stateTheme, dataStateLogin, navigator) {
+  Widget _connectWidget(HomeCollectionsController dataState, stateTheme, dataStateLogin, navigator) {
     return ListView(
         padding:
             EdgeInsets.only(left: 10.0, top: 70.0, right: 10.0, bottom: 150.0),
@@ -163,8 +159,8 @@ class HomeCollectionsView extends ConsumerWidget {
             Row(children: <Widget>[
               Container(
                   child: Expanded(
-                child: FutureBuilder<List<DataModel>?>(
-                    future: dataState.getData(),
+                child: FutureBuilder<List<Collections?>>(
+                    future: dataState.prepareFromDb(),
                     // function where you call your api
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       final images = snapshot.data;
@@ -174,9 +170,9 @@ class HomeCollectionsView extends ConsumerWidget {
                           return Center(child: CircularProgressIndicator());
                         default:
                           if (snapshot.hasError) {
-                            return Center(child: Text('Some error occured!'));
+                            return Center(child: Text('prepareFromDb error: ${snapshot.error}'));
                           } else {
-                            return _buildImages(images);
+                            return _buildImages(images, dataState);
                           }
                       }
                     }),
@@ -189,25 +185,40 @@ class HomeCollectionsView extends ConsumerWidget {
         ]);
   }
 
-  Widget _buildImages(List<DataModel> images) => GridView.builder(
+  Widget _buildImages(List<Collections> collectionsList, HomeCollectionsController dataState) => GridView.builder(
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisSpacing: 5,
           mainAxisSpacing: 10,
           crossAxisCount: 2,
         ),
-        //Se passa para 2 o itemCount ele coloca a 1ª e 2ª imagem da Api uma embaixo da outra dos dois lados,
-        // e não a 1ª de um lado e a 2ª do outro
-        itemCount: 2,
+        itemCount: collectionsList.length,
         itemBuilder: (context, index) {
-          final image = images[index];
-          return Stack(
-            children: [
-              Image.network(image.url),
-              Positioned(bottom: 30.0, left: 20.0, child: Text(image.title)),
-              Positioned(
-                  bottom: 10.0, left: 20.0, child: Text(image.id.toString())),
-            ],
+          return FutureBuilder<String?>(
+            future: dataState.getCollectionImage(collectionsList[index]),
+            // function where you call your api
+            builder:
+                (BuildContext context, AsyncSnapshot<String?> snapshot) {
+              // AsyncSnapshot<Your object type>
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: Text('Please wait its loading...'));
+              } else {
+                if (snapshot.hasError)
+                  return Center(child: Text('getCollectionImage: ${snapshot.error}'));
+                else
+                  return Stack(
+                    children: [
+                      Image.network(snapshot.data!),
+                      Positioned(
+                          bottom: 30.0, left: 20.0, child: Text(collectionsList[index].tokenName)),
+                      Positioned(
+                          bottom: 10.0,
+                          left: 20.0,
+                          child: Text('#${collectionsList[index].tokenID}')),
+                    ],
+                  );
+              }
+            },
           );
         },
       );

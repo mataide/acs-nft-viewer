@@ -13,7 +13,7 @@ class HomeSettingsView extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final dataNotifier = watch(homeProvider.notifier);
     final data = watch(homeProvider);
-    final ThemeData state = watch(themeProvider.notifier).state;
+    final state = watch(themeProvider);
 
     return Container(
       padding: const EdgeInsets.only(top: 50.0),

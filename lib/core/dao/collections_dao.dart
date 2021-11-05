@@ -4,16 +4,16 @@ import 'package:NFT_View/core/models/index.dart';
 @dao
 abstract class CollectionsDAO {
 
-  @Query('SELECT INTO * FROM Collections')
+  @Query('SELECT * FROM Collections')
   Future<List<Collections?>> findAll();
 
-  @Insert(onConflict: OnConflictStrategy.rollback)
+  @Insert(onConflict: OnConflictStrategy.ignore)
   Future<List<int>> insertList(List<Collections> listCollections);
 
-  @Insert(onConflict: OnConflictStrategy.rollback)
+  @Insert(onConflict: OnConflictStrategy.ignore)
   Future<int> create(Collections collections);
 
-  @Update(onConflict: OnConflictStrategy.rollback)
+  @Update(onConflict: OnConflictStrategy.ignore)
   Future<void> update(Collections collections);
 
   @delete

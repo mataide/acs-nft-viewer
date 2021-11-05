@@ -13,13 +13,13 @@ import 'collections_widget.dart';
 import 'package:NFT_View/core/providers/providers.dart';
 
 // Controllers
-import 'package:NFT_View/controllers/home/collections/collections_controller.dart';
+import 'package:NFT_View/controllers/home/home_collections_controller.dart';
 
 class CollectionsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final dataState = watch(collectionsProvider.notifier);
+    final dataState = watch(homeCollectionsProvider.notifier);
     final themeData = watch(themeProvider);
     final List<DataModel> images;
 

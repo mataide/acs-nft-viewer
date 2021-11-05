@@ -20,7 +20,7 @@ Collections _$CollectionsFromJson(Map<String, dynamic> json) => Collections(
       json['amount'] as String?,
       json['thumbnail'] as String?,
       json['image'] as String?,
-      json['totalSupply'] as int?,//string?
+      json['totalSupply'] as int?,
     );
 
 Map<String, dynamic> _$CollectionsToJson(Collections instance) =>

@@ -4,7 +4,7 @@ import 'package:NFT_View/core/models/index.dart';
 @dao
 abstract class Eth721DAO {
 
-  @Query('SELECT INTO * FROM Eth721')
+  @Query('SELECT * FROM Eth721')
   Future<List<Eth721?>> findAll();
 
   @Insert(onConflict: OnConflictStrategy.rollback)

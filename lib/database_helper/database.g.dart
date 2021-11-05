@@ -86,7 +86,7 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Eth721` (`hash` TEXT NOT NULL, `blockNumber` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `nonce` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `transactionIndex` TEXT NOT NULL, `gas` TEXT NOT NULL, `gasPrice` TEXT NOT NULL, `gasUsed` TEXT NOT NULL, `cumulativeGasUsed` TEXT NOT NULL, `input` TEXT NOT NULL, `confirmations` TEXT NOT NULL, PRIMARY KEY (`hash`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `amount` TEXT, `thumbnail` TEXT, `image` TEXT, `totalSupply` TEXT, PRIMARY KEY (`contractAddress`))');
+            'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `amount` TEXT, `thumbnail` TEXT, `image` TEXT, `totalSupply` INTEGER, PRIMARY KEY (`contractAddress`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -198,7 +198,7 @@ class _$Eth721DAO extends Eth721DAO {
 
   @override
   Future<List<Eth721?>> findAll() async {
-    return _queryAdapter.queryList('SELECT INTO * FROM Eth721',
+    return _queryAdapter.queryList('SELECT * FROM Eth721',
         mapper: (Map<String, Object?> row) => Eth721(
             row['hash'] as String,
             row['blockNumber'] as String,
@@ -322,7 +322,7 @@ class _$CollectionsDAO extends CollectionsDAO {
 
   @override
   Future<List<Collections?>> findAll() async {
-    return _queryAdapter.queryList('SELECT INTO * FROM Collections',
+    return _queryAdapter.queryList('SELECT * FROM Collections',
         mapper: (Map<String, Object?> row) => Collections(
             row['hash'] as String,
             row['timeStamp'] as String,
@@ -337,25 +337,25 @@ class _$CollectionsDAO extends CollectionsDAO {
             row['amount'] as String?,
             row['thumbnail'] as String?,
             row['image'] as String?,
-            row['totalSupply'] as int?));//string?
+            row['totalSupply'] as int?));
   }
 
   @override
   Future<List<int>> insertList(List<Collections> listCollections) {
     return _collectionsInsertionAdapter.insertListAndReturnIds(
-        listCollections, OnConflictStrategy.rollback);
+        listCollections, OnConflictStrategy.ignore);
   }
 
   @override
   Future<int> create(Collections collections) {
     return _collectionsInsertionAdapter.insertAndReturnId(
-        collections, OnConflictStrategy.rollback);
+        collections, OnConflictStrategy.ignore);
   }
 
   @override
   Future<void> update(Collections collections) async {
     await _collectionsUpdateAdapter.update(
-        collections, OnConflictStrategy.rollback);
+        collections, OnConflictStrategy.ignore);
   }
 
   @override
