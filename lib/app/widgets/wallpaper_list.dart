@@ -42,7 +42,8 @@ class WallpaperList extends ConsumerWidget {
                           onTap: () {
                             print('apertado');
                           },
-                          child: Stack(
+                          child:Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                          child:Stack(
                             children: [
                               Image.network(image.url),
                               Positioned(
@@ -57,7 +58,7 @@ class WallpaperList extends ConsumerWidget {
                                   left: 20.0,
                                   child: Text(image.id.toString()))
                             ],
-                          ));
+                          )));
                     },
                   )),
                 );

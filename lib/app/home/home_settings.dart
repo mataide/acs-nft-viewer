@@ -13,43 +13,77 @@ class HomeSettingsView extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final dataNotifier = watch(homeProvider.notifier);
     final data = watch(homeProvider);
+    final ThemeData state = watch(themeProvider.notifier).state;
 
     return Container(
-      color: Colors.white,
+      padding: const EdgeInsets.only(top: 50.0),
+      color: state.primaryColor,
       child: ListView(
         physics: BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        children: <Widget>[
-          CardWithChildren(
-            title: 'Select Theme',
-            children: <Widget>[
-              CustomListTile(
-                title: 'Themes',
-                icon: FontAwesomeIcons.palette,
-                subtitle: 'Select the way you app looks.',
-                onTap: () {
-                  showThemeChangerDialog(context);
-                },
-              ),
-            ],
+        //padding: const EdgeInsets.only(top: 40.0),
+        children: [
+          Text(
+            'Settings',
+            style: TextStyle(
+                color: Colors.white,
+                decoration: TextDecoration.none,
+                fontSize: 40.0),
           ),
-          CardWithChildren(
-            title: "User",
-            children: <Widget>[
-              CustomListTile(
-                title: "Login",
-                icon: FontAwesomeIcons.user,
-                subtitle: 'Login to your app.',
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => SettingsLoginView()));
-                }, //AGUARDANDO BANCO DE DADOS DE LOGIN
-              )
-            ],
-          )
-
-          //DESATIVANDO AS OPÇOES DE DESENVOLVIMENTO
-          //_supportDev(state),
+          SizedBox(
+            height: 50.0,
+          ),
+          Card(
+              color: state.primaryColor,
+              child: ListTile(
+                  leading: const Icon(
+                    Icons.perm_identity_rounded,
+                    color: Colors.white,
+                    size: 40.0,
+                  ),
+                  title: const Text(
+                    "Profile",
+                    style: TextStyle(color: Colors.white, fontSize: 20.0),
+                  ),
+                  onTap: () {})),
+          Card(
+              color: state.primaryColor,
+              child: ListTile(
+                  leading: const Icon(
+                    Icons.account_balance_wallet_outlined,
+                    color: Colors.white,
+                    size: 40.0,
+                  ),
+                  title: const Text(
+                    "Wallets",
+                    style: TextStyle(color: Colors.white, fontSize: 20.0),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios_sharp,
+                    color: Colors.white,
+                  ),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => SettingsLoginView()));
+                  })),
+          Card(
+              color: state.primaryColor,
+              child: ListTile(
+                  leading: const Icon(
+                    Icons.bedtime_outlined,
+                    color: Colors.white,
+                    size: 40.0,
+                  ),
+                  title: const Text(
+                    "Theme",
+                    style: TextStyle(color: Colors.white, fontSize: 20.0),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios_sharp,
+                    color: Colors.white,
+                  ),
+                  onTap: () {
+                    showThemeChangerDialog(context);
+                  })),
         ],
       ),
     );
