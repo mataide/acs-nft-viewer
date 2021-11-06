@@ -5,7 +5,7 @@ import 'package:NFT_View/core/models/index.dart';
 abstract class CollectionsDAO {
 
   @Query('SELECT * FROM Collections')
-  Future<List<Collections?>> findAll();
+  Future<List<Collections>> findAll();
 
   @Insert(onConflict: OnConflictStrategy.ignore)
   Future<List<int>> insertList(List<Collections> listCollections);

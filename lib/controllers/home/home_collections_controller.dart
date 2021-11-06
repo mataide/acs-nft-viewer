@@ -12,7 +12,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:NFT_View/core/utils/constants.dart';
 import 'package:NFT_View/core/models/index.dart';
 import 'package:NFT_View/database_helper/database.dart';
-import 'package:NFT_View/core/smartcontracts/ERC721.g.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import "package:collection/collection.dart";
 
@@ -50,7 +49,7 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
   fetchWallPapers(String subreddit) async {
   }
 
-  Future<List<Collections?>> prepareFromDb() async {
+  Future<List<Collections>> prepareFromDb() async {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final collectionsDAO = database.collectionsDAO;
     return await collectionsDAO.findAll();
@@ -66,7 +65,8 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
     eth721Dao.insertList(listERC721);
     var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
     for (var erc721 in newMap.entries) {
-      await collectionsDAO.create(Collections.fromEth721(erc721.value.first, erc721.value.length));
+      var collections = Collections.fromEth721(erc721.value.first, erc721.value.length);
+      await collectionsDAO.create(collections);
     }
 
     state = CollectionsState(collections: await collectionsDAO.findAll(), fetchState: kdataFetchState.IS_LOADED);
@@ -77,29 +77,33 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
     var httpClient = new Client();
     var ethClient = new Web3Client("https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531", httpClient);
     final erc = CurseNFT(address: EthereumAddress.fromHex(collections.contractAddress), client: ethClient);
-    final bigbig = BigInt.parse(collections.tokenID);
-    print(bigbig);
 
-    final tokenURI = await erc.totalSupply();
+    var tokenURI = await erc.tokenURI(BigInt.parse(collections.tokenID));
     print(tokenURI);
-    // if(tokenURI.startsWith("http")) {
-    //   final res = await httpClient.get(Uri.parse(tokenURI), headers: {"Accept": "aplication/json"});
-    //   final jsonData = json.decode(res.body);
-    //   print(jsonData);
-    //   if((jsonData['image'] as String).contains('mp4')) {
-    //     final fileName = await VideoThumbnail.thumbnailFile(
-    //       video: jsonData['image'],
-    //       thumbnailPath: (await getTemporaryDirectory()).path,
-    //       imageFormat: ImageFormat.PNG,
-    //       maxHeight: 64, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
-    //       quality: 75,
-    //     );
-    //     print(fileName);
-    //     return fileName;
-    //   } else {
-    //     return jsonData['image'];
-    //   }
-    // }
+    if(tokenURI.startsWith('ipfs')) {
+      tokenURI = tokenURI.replaceAll("ipfs://", "https://ipfs.io/ipfs/");
+    }
+
+    final res = await httpClient.get(Uri.parse(tokenURI), headers: {"Accept": "aplication/json"});
+    final jsonData = json.decode(res.body);
+    print(jsonData);
+    if((jsonData['image'] as String).contains('mp4')) {
+      final fileName = await VideoThumbnail.thumbnailFile(
+        video: jsonData['image'],
+        thumbnailPath: (await getTemporaryDirectory()).path,
+        imageFormat: ImageFormat.PNG,
+        maxHeight: 64, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
+        quality: 75,
+      );
+
+      print(fileName);
+      return fileName;
+    } else if((jsonData['image'] as String).startsWith('ipfs')) {
+      //var filename = (jsonData['image'] as String).replaceAll("ipfs://", "https://ipfs.io/ipfs/").split("/");
+      return (jsonData['image'] as String).replaceAll("ipfs://", "https://ipfs.io/ipfs/");
+    } else {
+      return jsonData['image'];
+    }
   }
 
   changeSelected(SelectorCallback selected) {

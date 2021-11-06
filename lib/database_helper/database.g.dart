@@ -321,7 +321,7 @@ class _$CollectionsDAO extends CollectionsDAO {
   final DeletionAdapter<Collections> _collectionsDeletionAdapter;
 
   @override
-  Future<List<Collections?>> findAll() async {
+  Future<List<Collections>> findAll() async {
     return _queryAdapter.queryList('SELECT * FROM Collections',
         mapper: (Map<String, Object?> row) => Collections(
             row['hash'] as String,

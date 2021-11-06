@@ -159,7 +159,7 @@ class HomeCollectionsView extends ConsumerWidget {
             Row(children: <Widget>[
               Container(
                   child: Expanded(
-                child: FutureBuilder<List<Collections?>>(
+                child: FutureBuilder<List<Collections>>(
                     future: dataState.prepareFromDb(),
                     // function where you call your api
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -208,7 +208,11 @@ class HomeCollectionsView extends ConsumerWidget {
                 else
                   return Stack(
                     children: [
-                      Image.network(snapshot.data!),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.network(snapshot.data!,fit: BoxFit.cover,
+                        ),
+                      ),
                       Positioned(
                           bottom: 30.0, left: 20.0, child: Text(collectionsList[index].tokenName)),
                       Positioned(
