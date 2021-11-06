@@ -25,7 +25,7 @@ class HomeSettingsView extends ConsumerWidget {
           Text(
             'Settings',
             style: TextStyle(
-                color: Colors.white,
+                color: state.textTheme.bodyText1!.color,
                 decoration: TextDecoration.none,
                 fontSize: 40.0),
           ),
@@ -35,31 +35,31 @@ class HomeSettingsView extends ConsumerWidget {
           Card(
               color: state.primaryColor,
               child: ListTile(
-                  leading: const Icon(
+                  leading: Icon(
                     Icons.perm_identity_rounded,
-                    color: Colors.white,
+                    color: state.textTheme.bodyText1!.color,
                     size: 40.0,
                   ),
-                  title: const Text(
+                  title: Text(
                     "Profile",
-                    style: TextStyle(color: Colors.white, fontSize: 20.0),
+                    style: TextStyle(color: state.textTheme.bodyText1!.color, fontSize: 20.0),
                   ),
                   onTap: () {})),
           Card(
               color: state.primaryColor,
               child: ListTile(
-                  leading: const Icon(
+                  leading: Icon(
                     Icons.account_balance_wallet_outlined,
-                    color: Colors.white,
+                    color: state.textTheme.bodyText1!.color,
                     size: 40.0,
                   ),
-                  title: const Text(
+                  title: Text(
                     "Wallets",
-                    style: TextStyle(color: Colors.white, fontSize: 20.0),
+                    style: TextStyle(color: state.textTheme.bodyText1!.color, fontSize: 20.0),
                   ),
                   trailing: Icon(
                     Icons.arrow_forward_ios_sharp,
-                    color: Colors.white,
+                    color: state.textTheme.bodyText1!.color,
                   ),
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
@@ -68,18 +68,18 @@ class HomeSettingsView extends ConsumerWidget {
           Card(
               color: state.primaryColor,
               child: ListTile(
-                  leading: const Icon(
+                  leading: Icon(
                     Icons.bedtime_outlined,
-                    color: Colors.white,
+                    color: state.textTheme.bodyText1!.color,
                     size: 40.0,
                   ),
-                  title: const Text(
+                  title: Text(
                     "Theme",
-                    style: TextStyle(color: Colors.white, fontSize: 20.0),
+                    style: TextStyle(color: state.textTheme.bodyText1!.color, fontSize: 20.0),
                   ),
                   trailing: Icon(
                     Icons.arrow_forward_ios_sharp,
-                    color: Colors.white,
+                    color: state.textTheme.bodyText1!.color,
                   ),
                   onTap: () {
                     showThemeChangerDialog(context);

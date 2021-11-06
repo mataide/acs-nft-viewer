@@ -45,7 +45,7 @@ class HomeCollectionsView extends ConsumerWidget {
                   print("address: $address");
                   if (address.length == 0) {
                     return _connectWidget(
-                        dataState, stateTheme, dataStateLogin, navigator);
+                        dataState, stateTheme, dataStateLogin, navigator,state);
                   } else {
                     return FutureBuilder<List<String>>(
                       future: dataStateLogin.sharedWrite(address),
@@ -74,7 +74,7 @@ class HomeCollectionsView extends ConsumerWidget {
     );
   }
 
-  Widget _connectWidget(HomeCollectionsController dataState, stateTheme, dataStateLogin, navigator) {
+  Widget _connectWidget(HomeCollectionsController dataState, stateTheme, dataStateLogin, navigator,state) {
     return ListView(
         padding:
             EdgeInsets.only(left: 10.0, top: 70.0, right: 10.0, bottom: 150.0),
@@ -84,7 +84,8 @@ class HomeCollectionsView extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                      "You've made it! \n\n Your NFT collections will \n appear here as soon as you \n connect with your wallet."),
+                      "You've made it! \n\n Your NFT collections will \n appear here as soon as you \n connect with your wallet.",
+                    style: TextStyle(color: state.textTheme.bodyText1!.color),),
                   SizedBox(
                     height: 30.0,
                   ),

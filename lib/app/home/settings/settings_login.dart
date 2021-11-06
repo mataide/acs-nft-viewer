@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:NFT_View/app/home/settings/login_ethereum_address/login_ethereum_address.dart';
 import 'package:NFT_View/controllers/home/settings/settings_login_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -211,23 +213,105 @@ class SettingsLoginView extends ConsumerWidget {
 
   Widget _connectedWidget(state, SettingsLoginController dataState, data,
       double _deviceHeight, double _deviceWidth, navigator, networkStream) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Expanded(
-          child: Text(
-            "Connected",
-            textAlign: TextAlign.center,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 15.0,
+        ),
+        Row(
+          children: [
+            SizedBox(
+              width: 10.0,
+            ),
+            Text(
+              'Wallets',
+              style: TextStyle(
+                  color: state.textTheme.bodyText1!.color,
+                  decoration: TextDecoration.none,
+                  fontSize: 40.0),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 20.0,
+        ),
+        Row(
+          children: [
+            SizedBox(
+              width: 10.0,
+            ),
+            Text(
+              'Connected wallet',
+              style: TextStyle(
+                color: state.textTheme.bodyText1!.color,
+                decoration: TextDecoration.none,
+                fontSize: 20.0,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
+        Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: state.textTheme.bodyText1!.color),
+              borderRadius: BorderRadius.circular(8.0)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                width: 10.0,
+              ),
+              Text(
+                'Address ',
+                style: TextStyle(color: state.textTheme.bodyText1!.color),
+              ),
+              Expanded(
+                  child: Text(
+                dataState.listAddress.toString(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: false,
+              )),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                    Platform.isAndroid ? Icons.more_vert : Icons.more_horiz),
+                color: state.textTheme.bodyText1!.color,
+              ),
+            ],
           ),
         ),
         SizedBox(
-          width: 10.0,
+          height: 15.0,
         ),
-        ElevatedButton(
-          onPressed: () async {
-            //dataState.sharedRemove();
-          },
-          child: new Icon(Icons.delete_forever),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              width: 10.0,
+            ),
+            Text(
+              dataState.listAddress!.length.toString() + "  " + 'wallets',
+              style: TextStyle(
+                color: state.textTheme.bodyText1!.color,
+                decoration: TextDecoration.none,
+                fontSize: 20.0,
+              ),
+            ),
+            TextButton(
+                onPressed: () {},
+                child: Text(
+                  "View all",
+                  style: TextStyle(
+                    color: Colors.orange,
+                    decoration: TextDecoration.none,
+                    fontSize: 20.0,
+                  ),
+                )),
+          ],
         )
       ],
     );
