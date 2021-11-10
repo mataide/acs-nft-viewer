@@ -66,22 +66,22 @@ final amoledTheme = ThemeData(
   primaryIconTheme: IconThemeData(color: Colors.white),
   textTheme: TextTheme(
     headline5: TextStyle(
-        fontFamily: 'Sans',
+        fontFamily: 'MavenPro',
         fontWeight: FontWeight.bold,
         color: Colors.white,
         fontSize: 24),
     bodyText2: TextStyle(
-        fontFamily: 'Sans',
+        fontFamily: 'MavenPro',
         fontWeight: FontWeight.bold,
         color: Colors.white,
         fontSize: 18),
     bodyText1: TextStyle(
-        fontFamily: 'Sans',
+        fontFamily: 'MavenPro',
         fontWeight: FontWeight.bold,
         color: Colors.white,
         fontSize: 16),
     caption: TextStyle(
-        fontFamily: 'Sans',
+        fontFamily: 'MavenPro',
         fontWeight: FontWeight.bold,
         color: Colors.white,
         fontSize: 13),
@@ -96,22 +96,22 @@ final lightTheme = ThemeData(
   primaryIconTheme: IconThemeData(color: Colors.black),
   textTheme: TextTheme(
     headline5: TextStyle(
-        fontFamily: 'Sans',
+        fontFamily: 'MavenPro',
         fontWeight: FontWeight.bold,
         color: Colors.black,
         fontSize: 24),
     bodyText2: TextStyle(
-        fontFamily: 'Sans',
+        fontFamily: 'MavenPro',
         fontWeight: FontWeight.bold,
         color: Colors.black,
         fontSize: 18),
     bodyText1: TextStyle(
-        fontFamily: 'Sans',
+        fontFamily: 'MavenPro',
         fontWeight: FontWeight.bold,
         color: Colors.black,
         fontSize: 16),
     caption: TextStyle(
-        fontFamily: 'Sans',
+        fontFamily: 'MavenPro',
         fontWeight: FontWeight.bold,
         color: Colors.black,
         fontSize: 13),

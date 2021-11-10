@@ -50,10 +50,17 @@ flutter:
     - assets/images/
 
   fonts:
-    - family: Sans
+    - family: MavenPro
       fonts:
-        - asset: assets/fonts/PTSans-Regular.ttf
-        - asset: assets/fonts/PTSans-RegularItalic.ttf
-          style: italic
-        - asset: assets/fonts/PTSans-Bold.ttf
+        - asset: assets/fonts/MavenPro-Black.ttf
+          weight: 900
+        - asset: assets/fonts/MavenPro-Bold.ttf
           weight: 700
+        - asset: assets/fonts/MavenPro-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/MavenPro-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/MavenPro-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/MavenPro-SemiBold.ttf
+          weight: 600

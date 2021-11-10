@@ -35,7 +35,7 @@ class SettingsLoginView extends ConsumerWidget {
     return Scaffold(
       backgroundColor: state.primaryColor,
       appBar: AppBar(
-        title: Text("Access Wallet"),
+        title: Text("Access Wallet", style: TextStyle(fontFamily: 'MavenPro-Medium', fontWeight: FontWeight.w900),),
         backgroundColor: state.primaryColor,
         centerTitle: true,
       ),
@@ -250,6 +250,8 @@ class SettingsLoginView extends ConsumerWidget {
               style: TextStyle(
                   color: state.textTheme.bodyText1!.color,
                   decoration: TextDecoration.none,
+                  fontFamily: 'MavenPro-Medium',
+                  fontWeight: FontWeight.w500,
                   fontSize: 40.0),
             ),
           ],
@@ -298,85 +300,7 @@ class SettingsLoginView extends ConsumerWidget {
               )),
               IconButton(
                 onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Container(
-                            margin: EdgeInsets.only(
-                                left: 7.0, right: 7.0, bottom: 1.0, top: 15.0),
-                            //padding: const EdgeInsets.all(30.0),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: state.primaryColor),
-                                borderRadius: BorderRadius.circular(30.0)),
-                            child: Wrap(children: <Widget>[
-                              Center(
-                                child: Text(
-                                  'Wallet  ' + dataState.listAddress.toString(),
-                                  style: TextStyle(
-                                    color: state.textTheme.bodyText1!.color,
-                                    fontSize: 20.0,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: false,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 40.0,
-                              ),
-                              Card(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(15.0)),
-                                  child: Center(
-                                      child: Container(
-                                    padding: EdgeInsets.only(
-                                        left: 140.0,
-                                        top: 20.0,
-                                        right: 140.0,
-                                        bottom: 20.0),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                      color: state.textTheme.bodyText1!.color,
-                                    ),
-                                    child: Text(
-                                      "Disconnect",
-                                      style: TextStyle(
-                                          color: state.primaryColor,
-                                          fontSize: 15.0),
-                                    ),
-                                  ))),
-                              SizedBox(height: 70.0),
-                              Center(
-                                child: ElevatedButton(
-                                  style: TextButton.styleFrom(
-                                      backgroundColor: state.primaryColor,
-                                      padding: EdgeInsets.only(
-                                          left: 140.0,
-                                          top: 20.0,
-                                          right: 120.0,
-                                          bottom: 20.0),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0)),
-                                      side: BorderSide(color: Colors.red)),
-                                  child: Row(children: [
-                                    Icon(Icons.delete_outlined,
-                                        color: Colors.red),
-                                    SizedBox(width: 10.0,),
-                                    Text(
-                                      "Remove wallet",
-                                      style: TextStyle(
-                                          color:
-                                              state.textTheme.bodyText1!.color),
-                                    ),
-                                  ]),
-                                  onPressed: () {},
-                                ),
-                              ),
-                            ]));
-                      });
+                  _modalConnected(context, state, dataState);
                 },
                 icon: Icon(
                     Platform.isAndroid ? Icons.more_vert : Icons.more_horiz),
@@ -413,8 +337,98 @@ class SettingsLoginView extends ConsumerWidget {
                   ),
                 )),
           ],
-        )
+        ),
+        ElevatedButton(
+            style: TextButton.styleFrom(
+                backgroundColor: Colors.orange,
+                padding: EdgeInsets.only(
+                    left: 150.0, top: 20.0, right: 150.0, bottom: 20.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                ),
+            onPressed: (){
+                    ()=>LoginAddress();
+            },
+            child: Text(
+              'Connect new', style: TextStyle(color: state.textTheme.bodyText1!.color, fontFamily: 'MavenPro-Regular',
+            fontSize: 18.0),
+            )),
       ],
     );
   }
+
+  Widget _modalConnected(BuildContext context, state, dataState) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+              margin: EdgeInsets.only(
+                  left: 7.0, right: 7.0, bottom: 1.0, top: 15.0),
+              //padding: const EdgeInsets.all(30.0),
+              decoration: BoxDecoration(
+                  border: Border.all(color: state.primaryColor),
+                  borderRadius: BorderRadius.circular(30.0)),
+              child: Wrap(children: <Widget>[
+                Center(
+                  child: Text(
+                    'Wallet  ' + dataState.listAddress.toString(),
+                    style: TextStyle(
+                      color: state.textTheme.bodyText1!.color,
+                      fontSize: 20.0,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                  ),
+                ),
+                SizedBox(
+                  height: 40.0,
+                ),
+                Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
+                    child: Center(
+                        child: Container(
+                      padding: EdgeInsets.only(
+                          left: 140.0, top: 20.0, right: 140.0, bottom: 20.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: state.textTheme.bodyText1!.color,
+                      ),
+                      child: Text(
+                        "Disconnect",
+                        style: TextStyle(
+                            color: state.primaryColor, fontSize: 15.0),
+                      ),
+                    ))),
+                SizedBox(height: 70.0),
+                Center(
+                  child: ElevatedButton(
+                    style: TextButton.styleFrom(
+                        backgroundColor: state.primaryColor,
+                        padding: EdgeInsets.only(
+                            left: 140.0, top: 20.0, right: 120.0, bottom: 20.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
+                        side: BorderSide(color: Colors.red)),
+                    child: Row(children: [
+                      Icon(Icons.delete_outlined, color: Colors.red),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Text(
+                        "Remove wallet",
+                        style:
+                            TextStyle(color: state.textTheme.bodyText1!.color),
+                      ),
+                    ]),
+                    onPressed: () {},
+                  ),
+                ),
+              ]));
+        });
+    return Container();
+  }
+
 }
