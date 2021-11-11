@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:NFT_View/app/home/settings/login_ethereum_address/login_ethereum_address.dart';
+import 'package:NFT_View/app/home/settings/login_ethereum_address/login_modal_address.dart';
 import 'package:NFT_View/controllers/home/settings/settings_login_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,76 +27,89 @@ class SettingsLoginView extends ConsumerWidget {
     });
 
     return _buildUI(state, dataState, data, _deviceHeight, _deviceWidth,
-        navigator, networkStream);
+        navigator, networkStream, context);
   }
 
-  Widget _buildUI(state, SettingsLoginController dataState, data,
-      double _deviceHeight, double _deviceWidth, navigator, networkStream) {
+  Widget _buildUI(
+      state,
+      SettingsLoginController dataState,
+      data,
+      double _deviceHeight,
+      double _deviceWidth,
+      navigator,
+      networkStream,
+      BuildContext context) {
     return Scaffold(
-      backgroundColor: state.primaryColor,
-      appBar: AppBar(
-        title: Text("Access Wallet", style: TextStyle(fontFamily: 'MavenPro-Medium', fontWeight: FontWeight.w900),),
         backgroundColor: state.primaryColor,
-        centerTitle: true,
-      ),
-      body: Container(
-        height: _deviceHeight,
-        width: _deviceWidth,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            StreamBuilder<dynamic>(
-                initialData: data.listAddress,
-                stream: networkStream,
-                builder: (context, snapshot) {
-                  print(snapshot.data);
-                  final List<String> address =
-                      snapshot.data ?? data.listAddress;
-                  print("address: $address");
-                  if (address.length > 0) {
-                    return _listViewWidget(
-                        state,
-                        dataState,
-                        data,
-                        _deviceHeight,
-                        _deviceWidth,
-                        navigator,
-                        networkStream,
-                        context);
-                  } else {
-                    return FutureBuilder<List<String>>(
-                      future: dataState.sharedWrite(address),
-                      // function where you call your api
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<String>> snapshot) {
-                        // AsyncSnapshot<Your object type>
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(
-                              child: Text('Please wait its loading...'));
-                        } else {
-                          if (snapshot.hasError)
-                            return Center(
-                                child: Text('Error: ${snapshot.error}'));
-                          else
-                            return _connectedWidget(
-                                state,
-                                dataState,
-                                snapshot.data,
-                                _deviceHeight,
-                                _deviceWidth,
-                                navigator,
-                                networkStream,
-                                context);
-                        }
-                      },
-                    );
-                  }
-                })
-          ],
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: state.textTheme.bodyText1!.color),
+          title: Text(
+            "Access Wallet",
+            style: TextStyle(
+                fontFamily: 'MavenPro-Medium', fontWeight: FontWeight.w900),
+          ),
+          backgroundColor: state.primaryColor,
+          centerTitle: true,
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+          child: Container(
+            height: _deviceHeight,
+            width: _deviceWidth,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                StreamBuilder<dynamic>(
+                    initialData: data.listAddress,
+                    stream: networkStream,
+                    builder: (context, snapshot) {
+                      print(snapshot.data);
+                      final List<String> address =
+                          snapshot.data ?? data.listAddress;
+                      print("address: $address");
+                      if (address.length > 0) {
+                        return _listViewWidget(
+                            state,
+                            dataState,
+                            data,
+                            _deviceHeight,
+                            _deviceWidth,
+                            navigator,
+                            networkStream,
+                            context);
+                      } else {
+                        return FutureBuilder<List<String>>(
+                          future: dataState.sharedWrite(address),
+                          // function where you call your api
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<String>> snapshot) {
+                            // AsyncSnapshot<Your object type>
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                  child: Text('Please wait its loading...'));
+                            } else {
+                              if (snapshot.hasError)
+                                return Center(
+                                    child: Text('Error: ${snapshot.error}'));
+                              else
+                                return _connectedWidget(
+                                    state,
+                                    dataState,
+                                    snapshot.data,
+                                    _deviceHeight,
+                                    _deviceWidth,
+                                    navigator,
+                                    networkStream,
+                                    context);
+                            }
+                          },
+                        );
+                      }
+                    })
+              ],
+            ),
+          ),
+        ));
   }
 
   Widget _listViewWidget(
@@ -108,6 +121,7 @@ class SettingsLoginView extends ConsumerWidget {
       navigator,
       networkStream,
       BuildContext context) {
+    ModalAdrress modal = ModalAdrress();
     return ListView(padding: EdgeInsets.all(16.0), children: [
       Container(
         child: Column(
@@ -211,10 +225,7 @@ class SettingsLoginView extends ConsumerWidget {
                   ),
                 ],
               ),
-              onPressed: () {
-                navigator.push(
-                    MaterialPageRoute(builder: (context) => LoginAddress()));
-              },
+              onPressed: () => modal.modalAddress(context, state, dataState),
             ),
             SizedBox(
               height: 10.0,
@@ -291,12 +302,31 @@ class SettingsLoginView extends ConsumerWidget {
                 'Address ',
                 style: TextStyle(color: state.textTheme.bodyText1!.color),
               ),
+              Spacer(),
               Expanded(
                   child: Text(
-                dataState.listAddress.toString(),
+                //dataState.listAddress.toString(),
+                dataState.listAddress.toString().length > 8
+                    ? dataState.listAddress.toString().substring(
+                        0, dataState.listAddress.toString().length - 8)
+                    : dataState.listAddress.toString(),
                 maxLines: 1,
+                textAlign: TextAlign.end,
                 overflow: TextOverflow.ellipsis,
                 softWrap: false,
+                     style: TextStyle(color: state.textTheme.bodyText1!.color),
+              )),
+              Expanded(
+                  child: Text(
+                dataState.listAddress.toString().length > 8
+                    ? dataState.listAddress
+                        .toString()
+                        .substring(dataState.listAddress.toString().length - 8)
+                    : '',
+                maxLines: 1,
+                textAlign: TextAlign.start,
+                softWrap: false,
+                    style: TextStyle(color: state.textTheme.bodyText1!.color),
               )),
               IconButton(
                 onPressed: () {
@@ -338,21 +368,10 @@ class SettingsLoginView extends ConsumerWidget {
                 )),
           ],
         ),
-        ElevatedButton(
-            style: TextButton.styleFrom(
-                backgroundColor: Colors.orange,
-                padding: EdgeInsets.only(
-                    left: 150.0, top: 20.0, right: 150.0, bottom: 20.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                ),
-            onPressed: (){
-                    ()=>LoginAddress();
-            },
-            child: Text(
-              'Connect new', style: TextStyle(color: state.textTheme.bodyText1!.color, fontFamily: 'MavenPro-Regular',
-            fontSize: 18.0),
-            )),
+        SizedBox(
+          height: 40.0,
+        ),
+        _connectWidget(context, dataState, navigator, state),
       ],
     );
   }
@@ -369,66 +388,130 @@ class SettingsLoginView extends ConsumerWidget {
                   border: Border.all(color: state.primaryColor),
                   borderRadius: BorderRadius.circular(30.0)),
               child: Wrap(children: <Widget>[
-                Center(
-                  child: Text(
-                    'Wallet  ' + dataState.listAddress.toString(),
-                    style: TextStyle(
-                      color: state.textTheme.bodyText1!.color,
-                      fontSize: 20.0,
-                    ),
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                  ),
+                Row(
+                  children: [
+                    Spacer(),
+                    Text("wallet"),
+                    Expanded(
+                        child: Text(
+                      dataState.listAddress.toString().length > 8
+                          ? dataState.listAddress.toString().substring(
+                              0, dataState.listAddress.toString().length - 8)
+                          : dataState.listAddress.toString(),
+                      maxLines: 1,
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                    )),
+                    Expanded(
+                        child: Text(
+                      dataState.listAddress.toString().length > 8
+                          ? dataState.listAddress.toString().substring(
+                              dataState.listAddress.toString().length - 8)
+                          : '',
+                      maxLines: 1,
+                      textAlign: TextAlign.start,
+                      softWrap: false,
+                    )),
+                  ],
                 ),
                 SizedBox(
                   height: 40.0,
                 ),
-                Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-                    child: Center(
-                        child: Container(
-                      padding: EdgeInsets.only(
-                          left: 140.0, top: 20.0, right: 140.0, bottom: 20.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: state.textTheme.bodyText1!.color,
-                      ),
-                      child: Text(
-                        "Disconnect",
-                        style: TextStyle(
-                            color: state.primaryColor, fontSize: 15.0),
-                      ),
-                    ))),
-                SizedBox(height: 70.0),
                 Center(
+                    child: SizedBox(
+                  width: 350,
+                  height: 62,
                   child: ElevatedButton(
                     style: TextButton.styleFrom(
                         backgroundColor: state.primaryColor,
-                        padding: EdgeInsets.only(
-                            left: 140.0, top: 20.0, right: 120.0, bottom: 20.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15.0)),
                         side: BorderSide(color: Colors.red)),
-                    child: Row(children: [
-                      Icon(Icons.delete_outlined, color: Colors.red),
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Text(
-                        "Remove wallet",
-                        style:
-                            TextStyle(color: state.textTheme.bodyText1!.color),
-                      ),
-                    ]),
+                    child: Expanded(
+                        child: Padding(
+                            padding: const EdgeInsets.only(left: 95.0),
+                            child: Row(children: [
+                              Icon(Icons.delete_outlined, color: Colors.red),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Text(
+                                "Remove wallet",
+                                style: TextStyle(
+                                    color: state.textTheme.bodyText1!.color),
+                              ),
+                            ]))),
                     onPressed: () {},
                   ),
+                )),
+                SizedBox(
+                  height: 90,
                 ),
               ]));
         });
     return Container();
   }
 
+  Widget _connectWidget(BuildContext context, dataState, navigator, state) {
+    ModalAdrress modal = ModalAdrress();
+    return Container(
+      child:
+          Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            dataState.openMetaMask();
+          },
+          style: TextButton.styleFrom(
+              backgroundColor: Colors.blueAccent,
+              padding: const EdgeInsets.all(10.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14.0))),
+          child: Row(children: [
+            new CircleAvatar(
+              radius: 15.0,
+              backgroundImage: AssetImage('assets/images/walletconnect.png'),
+            ),
+            SizedBox(
+              width: 55.0,
+            ),
+            Text(
+              "Use WalletConnect",
+              style: TextStyle(fontSize: 20.0),
+              textAlign: TextAlign.center,
+            ),
+          ]),
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
+        ElevatedButton(
+          onPressed: () => modal.modalAddress(context, state, dataState),
+          style: TextButton.styleFrom(
+              backgroundColor: Colors.grey,
+              padding: const EdgeInsets.all(10.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14.0))),
+          child: Row(
+            children: [
+              new CircleAvatar(
+                radius: 15.0,
+                backgroundImage: AssetImage('assets/images/ethereum.png'),
+              ),
+              SizedBox(
+                width: 38.0,
+              ),
+              Text(
+                "Enter ethereum address",
+                style: TextStyle(fontSize: 20.0),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 20.0,
+        ),
+      ]),
+    );
+  }
 }

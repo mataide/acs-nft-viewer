@@ -1,5 +1,5 @@
 import 'package:NFT_View/app/home/collections/collections.dart';
-import 'package:NFT_View/app/home/settings/login_ethereum_address/login_ethereum_address.dart';
+import 'package:NFT_View/app/home/settings/login_ethereum_address/login_modal_address.dart';
 import 'package:NFT_View/controllers/home/home_collections_controller.dart';
 import 'package:NFT_View/core/models/index.dart';
 import 'package:NFT_View/core/providers/providers.dart';
@@ -44,8 +44,8 @@ class HomeCollectionsView extends ConsumerWidget {
                       snapshot.data ?? dataLogin.listAddress;
                   print("address: $address");
                   if (address.length == 0) {
-                    return _connectWidget(
-                        dataState, stateTheme, dataStateLogin, navigator,state);
+                    return _connectWidget(dataState, stateTheme, dataStateLogin,
+                        navigator, state, context);
                   } else {
                     return FutureBuilder<List<String>>(
                       future: dataStateLogin.sharedWrite(address),
@@ -74,7 +74,9 @@ class HomeCollectionsView extends ConsumerWidget {
     );
   }
 
-  Widget _connectWidget(HomeCollectionsController dataState, stateTheme, dataStateLogin, navigator,state) {
+  Widget _connectWidget(HomeCollectionsController dataState, stateTheme,
+      dataStateLogin, navigator, state, BuildContext context) {
+    ModalAdrress modal = ModalAdrress();
     return ListView(
         padding:
             EdgeInsets.only(left: 10.0, top: 70.0, right: 10.0, bottom: 150.0),
@@ -84,8 +86,9 @@ class HomeCollectionsView extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                      "You've made it! \n\n Your NFT collections will \n appear here as soon as you \n connect with your wallet.",
-                    style: TextStyle(color: state.textTheme.bodyText1!.color),),
+                    "You've made it! \n\n Your NFT collections will \n appear here as soon as you \n connect with your wallet.",
+                    style: TextStyle(color: state.textTheme.bodyText1!.color),
+                  ),
                   SizedBox(
                     height: 30.0,
                   ),
@@ -118,10 +121,8 @@ class HomeCollectionsView extends ConsumerWidget {
                     height: 10.0,
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      navigator.push(MaterialPageRoute(
-                          builder: (context) => LoginAddress()));
-                    },
+                    onPressed: () =>
+                        modal.modalAddress(context, state, dataState),
                     style: TextButton.styleFrom(
                         backgroundColor: Colors.grey,
                         padding: const EdgeInsets.all(10.0),
@@ -171,7 +172,9 @@ class HomeCollectionsView extends ConsumerWidget {
                           return Center(child: CircularProgressIndicator());
                         default:
                           if (snapshot.hasError) {
-                            return Center(child: Text('prepareFromDb error: ${snapshot.error}'));
+                            return Center(
+                                child: Text(
+                                    'prepareFromDb error: ${snapshot.error}'));
                           } else {
                             return _buildImages(images, dataState);
                           }
@@ -186,7 +189,9 @@ class HomeCollectionsView extends ConsumerWidget {
         ]);
   }
 
-  Widget _buildImages(List<Collections> collectionsList, HomeCollectionsController dataState) => GridView.builder(
+  Widget _buildImages(List<Collections> collectionsList,
+          HomeCollectionsController dataState) =>
+      GridView.builder(
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisSpacing: 5,
@@ -198,24 +203,28 @@ class HomeCollectionsView extends ConsumerWidget {
           return FutureBuilder<String?>(
             future: dataState.getCollectionImage(collectionsList[index]),
             // function where you call your api
-            builder:
-                (BuildContext context, AsyncSnapshot<String?> snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
               // AsyncSnapshot<Your object type>
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: Text('Please wait its loading...'));
               } else {
                 if (snapshot.hasError)
-                  return Center(child: Text('getCollectionImage: ${snapshot.error}'));
+                  return Center(
+                      child: Text('getCollectionImage: ${snapshot.error}'));
                 else
                   return Stack(
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
-                        child: Image.network(snapshot.data!,fit: BoxFit.cover,
+                        child: Image.network(
+                          snapshot.data!,
+                          fit: BoxFit.cover,
                         ),
                       ),
                       Positioned(
-                          bottom: 30.0, left: 20.0, child: Text(collectionsList[index].tokenName)),
+                          bottom: 30.0,
+                          left: 20.0,
+                          child: Text(collectionsList[index].tokenName)),
                       Positioned(
                           bottom: 10.0,
                           left: 20.0,
