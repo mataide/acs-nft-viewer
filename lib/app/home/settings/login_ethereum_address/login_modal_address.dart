@@ -6,36 +6,46 @@ class ModalAdrress {
   modalAddress(BuildContext context, state, dataState) {
     final _formKey = GlobalKey<FormState>();
     final _keyCrontollers = TextEditingController();
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
 
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
           return Container(
-              padding: const EdgeInsets.all(30.0),
+              margin: EdgeInsets.only(left: (width * 0.02), right: (width * 0.02)),
+              //padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/10),
               decoration: BoxDecoration(
+                  color: state.primaryColor,
                   border: Border.all(color: state.primaryColor),
-                  borderRadius: BorderRadius.circular(30.0)),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0))),
               child: Padding(
                   padding: EdgeInsets.only(
                       bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: Wrap(children: <Widget>[
-                    Center(
-                      child: Text('Connect Wallet'),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        SizedBox(height: height * 0.0185),
+                        Center(
+                      child: Text('Connect Wallet', style: TextStyle(fontFamily: "MavenPro-Regular", fontWeight: FontWeight.w400),),
                     ),
                     SizedBox(
-                      height: 43.0,
+                      height: height * 0.0185,
                     ),
-                    Form(
+                      Form(
                         key: _formKey,
                         //FORM é para validar os campos
                         child: Container(
-                            padding: const EdgeInsets.all(3.0),
+                            margin: EdgeInsets.only(left: (width * 0.04), right: (width * 0.04)),
                             decoration: BoxDecoration(
+                              border: Border.all(color: state.primaryColorDark),
                                 color: state.primaryColor,
                                 borderRadius: BorderRadius.circular(15.0)),
                             child: Center(
                               child: TextFormField(
+                                //autofocus: true,
                                 textAlign: TextAlign.center,
                                 controller: _keyCrontollers,
                                 style: TextStyle(
@@ -50,22 +60,21 @@ class ModalAdrress {
                               ),
                             ))),
                     SizedBox(
-                      height: 65.0,
+                      height: height * 0.02,
                     ),
-                    ElevatedButton(
+                    Container(
+                        margin: EdgeInsets.only(left: (width * 0.04), right: (width * 0.04)),
+                        child: ElevatedButton(
                       style: TextButton.styleFrom(
                           backgroundColor: Colors.orange,
-                          padding: EdgeInsets.only(
-                              left: 135.0,
-                              top: 18.0,
-                              right: 146.0,
-                              bottom: 18.0),
+                          fixedSize: Size((width * 1.1), (height * 0.08)),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0))),
+                              borderRadius: BorderRadius.circular(8.0))),
                       onPressed: () {
                         if (_keyCrontollers.text == "") {
                           final snackBar = SnackBar(
                             content: Text('Insert a Public Key !'),
+                            backgroundColor: state.primaryColor,
                             duration: Duration(seconds: 3),
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -74,14 +83,19 @@ class ModalAdrress {
                           //key.rest(_keyCrontollers.text);
                         }
                       },
-                      child: Text(
-                        "Connect",
+                      child:Text(
+                        "Connect", textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 16.0,
-                            color: state.textTheme.bodyText1!.color),
-                      ),
-                    ),
-                  ])));
+                            color: state.textTheme.bodyText1!.color,),
+                      )),
+                        ),
+                        SizedBox(height: height * 0.024,),
+                  ]
+                  )
+
+
+              ));
         });
     //return Container();
   }

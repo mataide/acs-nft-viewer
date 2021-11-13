@@ -23,27 +23,6 @@ class HomePage extends ConsumerWidget {
 
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        centerTitle: false,
-        backgroundColor: state.primaryColor,
-        elevation: 0,
-        title: Text(
-          'NTF-View',
-          style: state.textTheme.headline5,
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.search,
-              color: state.textTheme.bodyText2!.color,
-            ),
-            onPressed: () =>
-                showSearch(
-                    context: context,
-                    delegate: HomeSearch(themeData: state)),
-          )
-        ],
-      ),
       body: Container(
         color: state.primaryColor,
         child: PageView(

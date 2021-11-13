@@ -77,116 +77,161 @@ class HomeCollectionsView extends ConsumerWidget {
   Widget _connectWidget(HomeCollectionsController dataState, stateTheme,
       dataStateLogin, navigator, state, BuildContext context) {
     ModalAdrress modal = ModalAdrress();
-    return ListView(
-        padding:
-            EdgeInsets.only(left: 10.0, top: 70.0, right: 10.0, bottom: 150.0),
-        children: [
-          Container(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "You've made it! \n\n Your NFT collections will \n appear here as soon as you \n connect with your wallet.",
-                    style: TextStyle(color: state.textTheme.bodyText1!.color),
-                  ),
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      dataStateLogin.openMetaMask();
-                    },
-                    style: TextButton.styleFrom(
-                        backgroundColor: Colors.blueAccent,
-                        padding: const EdgeInsets.all(10.0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14.0))),
-                    child: Row(children: [
-                      new CircleAvatar(
-                        radius: 15.0,
-                        backgroundImage:
-                            AssetImage('assets/images/walletconnect.png'),
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: state.primaryColor,
+          iconTheme: IconThemeData(color: state.textTheme.bodyText1!.color),
+        ),
+        body: Container(
+            margin:
+                EdgeInsets.only(left: (width * 0.02), right: (width * 0.02)),
+            child: ListView(children: [
+              SizedBox(
+                height: height * 0.02,
+              ),
+              Text(
+                'My Collections',
+                style: TextStyle(
+                    color: state.textTheme.bodyText1!.color,
+                    fontFamily: "MavenPro-Bold",
+                    fontWeight: FontWeight.w700,
+                    fontSize: 32.0),
+                textAlign: TextAlign.left,
+              ),
+              SizedBox(height: height * 0.05),
+              Container(
+                decoration: BoxDecoration(
+                    color: state.primaryColorDark,
+                    borderRadius: BorderRadius.circular(12.0)),
+                child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(height: height * 0.032),
+                      Text(
+                        "Hello!",
+                        style: TextStyle(
+                            color: state.textTheme.bodyText1!.color,
+                            fontFamily: "MavenPro-Bold",
+                            fontWeight: FontWeight.w700,
+                            fontSize: 27.0),
+                      ),
+                      SizedBox(height: height * 0.02),
+                      Text(
+                        "Your NFT collections will display \n once you connect your wallet.",
+                        style: TextStyle(
+                            color: state.textTheme.bodyText1!.color,
+                            fontFamily: "MavenPro-Regular",
+                            fontWeight: FontWeight.w400),
                       ),
                       SizedBox(
-                        width: 55.0,
+                        height: height * 0.095,
                       ),
-                      Text(
-                        "Use WalletConnect",
-                        style: TextStyle(fontSize: 20.0),
-                        textAlign: TextAlign.center,
+                      ElevatedButton(
+                        onPressed: () {
+                          dataStateLogin.openMetaMask();
+                        },
+                        style: TextButton.styleFrom(
+                            backgroundColor: Colors.blueAccent,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0)),
+                            fixedSize: Size((width * 0.90), (height * 0.08))),
+                        child: Row(children: [
+                          new CircleAvatar(
+                            radius: 15.0,
+                            backgroundImage:
+                                AssetImage('assets/images/walletconnect.png'),
+                          ),
+                          SizedBox(
+                            width: width * 0.10,
+                          ),
+                          Text(
+                            "Use WalletConnect",
+                            style: TextStyle(fontSize: 20.0),
+                            textAlign: TextAlign.center,
+                          ),
+                        ]),
+                      ),
+                      SizedBox(
+                        height: height * 0.008,
+                      ),
+                      ElevatedButton(
+                        onPressed: () =>
+                            modal.modalAddress(context, state, dataState),
+                        style: TextButton.styleFrom(
+                            backgroundColor: Colors.grey,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0)),
+                            fixedSize: Size((width * 0.90), (height * 0.08))),
+                        child: Row(
+                          children: [
+                            new CircleAvatar(
+                              radius: 15.0,
+                              backgroundImage:
+                                  AssetImage('assets/images/ethereum.png'),
+                            ),
+                            SizedBox(
+                              width: width * 0.10,
+                            ),
+                            Text(
+                              "Enter ethereum address",
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: height * 0.011,
                       ),
                     ]),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  ElevatedButton(
-                    onPressed: () =>
-                        modal.modalAddress(context, state, dataState),
-                    style: TextButton.styleFrom(
-                        backgroundColor: Colors.grey,
-                        padding: const EdgeInsets.all(10.0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14.0))),
-                    child: Row(
-                      children: [
-                        new CircleAvatar(
-                          radius: 15.0,
-                          backgroundImage:
-                              AssetImage('assets/images/ethereum.png'),
-                        ),
-                        SizedBox(
-                          width: 38.0,
-                        ),
-                        Text(
-                          "Enter ethereum address",
-                          style: TextStyle(fontSize: 20.0),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                ]),
-          ),
-          Text(
-            "Example",
-            textAlign: TextAlign.left,
-          ),
-          SizedBox(
-            height: 28.0,
-          ),
-          Column(children: [
-            Row(children: <Widget>[
-              Container(
-                  child: Expanded(
-                child: FutureBuilder<List<Collections>>(
-                    future: dataState.prepareFromDb(),
-                    // function where you call your api
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      final images = snapshot.data;
-                      // AsyncSnapshot<Your object type>
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.waiting:
-                          return Center(child: CircularProgressIndicator());
-                        default:
-                          if (snapshot.hasError) {
-                            return Center(
-                                child: Text(
-                                    'prepareFromDb error: ${snapshot.error}'));
-                          } else {
-                            return _buildImages(images, dataState);
-                          }
-                      }
-                    }),
-              )),
-              SizedBox(
-                width: 10.0,
               ),
-            ])
-          ])
-        ]);
+              SizedBox(
+                height: height * 0.022,
+              ),
+              Text(
+                "Examples",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                    color: state.textTheme.bodyText1!.color,
+                    fontFamily: "MavenPro-Black",
+                    fontWeight: FontWeight.w900,
+                    fontSize: 27.0),
+              ),
+              SizedBox(
+                height: height * 0.012,
+              ),
+              Column(children: [
+                Row(children: <Widget>[
+                  Container(
+                      child: Expanded(
+                    child: FutureBuilder<List<Collections>>(
+                        future: dataState.prepareFromDb(),
+                        // function where you call your api
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          final images = snapshot.data;
+                          // AsyncSnapshot<Your object type>
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.waiting:
+                              return Center(child: CircularProgressIndicator());
+                            default:
+                              if (snapshot.hasError) {
+                                return Center(
+                                    child: Text(
+                                        'prepareFromDb error: ${snapshot.error}'));
+                              } else {
+                                return _buildImages(images, dataState);
+                              }
+                          }
+                        }),
+                  )),
+                  SizedBox(
+                    width: width * 0.02,
+                  ),
+                ])
+              ])
+            ])));
   }
 
   Widget _buildImages(List<Collections> collectionsList,

@@ -14,79 +14,102 @@ class HomeSettingsView extends ConsumerWidget {
     final dataNotifier = watch(homeProvider.notifier);
     final data = watch(homeProvider);
     final state = watch(themeProvider);
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
-    return Container(
-      padding: const EdgeInsets.only(top: 50.0),
-      color: state.primaryColor,
-      child: ListView(
-        physics: BouncingScrollPhysics(),
-        //padding: const EdgeInsets.only(top: 40.0),
-        children: [
-          Text(
-            'Settings',
-            style: TextStyle(
-                color: state.textTheme.bodyText1!.color,
-                decoration: TextDecoration.none,
-                fontSize: 40.0),
+    return Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: state.textTheme.bodyText1!.color),
+          backgroundColor: state.primaryColor,
+        ),
+        body: Container(
+          margin: EdgeInsets.only(left: (width * 0.02), right: (width * 0.02)),
+          color: state.primaryColor,
+          child: ListView(
+            physics: BouncingScrollPhysics(),
+            children: [
+              SizedBox(
+                height: height * 0.02,
+              ),
+              Text(
+                'Settings',
+                style: TextStyle(
+                    color: state.textTheme.bodyText1!.color,
+                    decoration: TextDecoration.none,
+                    fontSize: 40.0,
+                    fontFamily: "MavenPro-Bold",
+                    fontWeight: FontWeight.w700),
+              ),
+              SizedBox(
+                height: height * 0.0768,
+              ),
+              Card(
+                  color: state.primaryColor,
+                  child: ListTile(
+                      leading: Icon(
+                        Icons.perm_identity_rounded,
+                        color: state.textTheme.bodyText1!.color,
+                        size: 40.0,
+                      ),
+                      title: Text(
+                        "Profile",
+                        style: TextStyle(
+                            color: state.textTheme.bodyText1!.color,
+                            fontSize: 20.0,
+                            fontFamily: "MavenPro-Regular",
+                            fontWeight: FontWeight.w400),
+                      ),
+                      onTap: () {})),
+              Card(
+                  color: state.primaryColor,
+                  child: ListTile(
+                      leading: Icon(
+                        Icons.account_balance_wallet_outlined,
+                        color: state.textTheme.bodyText1!.color,
+                        size: 40.0,
+                      ),
+                      title: Text(
+                        "Wallets",
+                        style: TextStyle(
+                            color: state.textTheme.bodyText1!.color,
+                            fontSize: 20.0,
+                            fontFamily: "MavenPro-Regular",
+                            fontWeight: FontWeight.w400),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_sharp,
+                        color: state.textTheme.bodyText1!.color,
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => SettingsLoginView()));
+                      })),
+              Card(
+                  color: state.primaryColor,
+                  child: ListTile(
+                      leading: Icon(
+                        Icons.bedtime_outlined,
+                        color: state.textTheme.bodyText1!.color,
+                        size: 40.0,
+                      ),
+                      title: Text(
+                        "Theme",
+                        style: TextStyle(
+                            color: state.textTheme.bodyText1!.color,
+                            fontSize: 20.0,
+                            fontFamily: "MavenPro-Regular",
+                            fontWeight: FontWeight.w400),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_sharp,
+                        color: state.textTheme.bodyText1!.color,
+                      ),
+                      onTap: () {
+                        showThemeChangerDialog(context);
+                      })),
+            ],
           ),
-          SizedBox(
-            height: 50.0,
-          ),
-          Card(
-              color: state.primaryColor,
-              child: ListTile(
-                  leading: Icon(
-                    Icons.perm_identity_rounded,
-                    color: state.textTheme.bodyText1!.color,
-                    size: 40.0,
-                  ),
-                  title: Text(
-                    "Profile",
-                    style: TextStyle(color: state.textTheme.bodyText1!.color, fontSize: 20.0),
-                  ),
-                  onTap: () {})),
-          Card(
-              color: state.primaryColor,
-              child: ListTile(
-                  leading: Icon(
-                    Icons.account_balance_wallet_outlined,
-                    color: state.textTheme.bodyText1!.color,
-                    size: 40.0,
-                  ),
-                  title: Text(
-                    "Wallets",
-                    style: TextStyle(color: state.textTheme.bodyText1!.color, fontSize: 20.0),
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios_sharp,
-                    color: state.textTheme.bodyText1!.color,
-                  ),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => SettingsLoginView()));
-                  })),
-          Card(
-              color: state.primaryColor,
-              child: ListTile(
-                  leading: Icon(
-                    Icons.bedtime_outlined,
-                    color: state.textTheme.bodyText1!.color,
-                    size: 40.0,
-                  ),
-                  title: Text(
-                    "Theme",
-                    style: TextStyle(color: state.textTheme.bodyText1!.color, fontSize: 20.0),
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios_sharp,
-                    color: state.textTheme.bodyText1!.color,
-                  ),
-                  onTap: () {
-                    showThemeChangerDialog(context);
-                  })),
-        ],
-      ),
-    );
+        ));
   }
 }
 
