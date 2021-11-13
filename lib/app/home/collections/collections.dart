@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:NFT_View/core/utils/constants.dart';
 import 'package:NFT_View/app/widgets/selector.dart';
 import 'package:NFT_View/core/client/APIClient.dart';
-import 'package:NFT_View/core/models/response.dart';
 import '../../widgets/wallpaper_list.dart';
 import 'collections_widget.dart';
 

@@ -31,7 +31,6 @@ dependencies:
   web3dart: ^2.3.1
   video_thumbnail: ^0.4.3
 
-
 dev_dependencies:
   floor_generator: ^1.2.0
   retrofit_generator: ^2.0.1

@@ -245,10 +245,10 @@ class HomeCollectionsView extends ConsumerWidget {
         ),
         itemCount: collectionsList.length,
         itemBuilder: (context, index) {
-          return FutureBuilder<String?>(
-            future: dataState.getCollectionImage(collectionsList[index]),
+          return FutureBuilder<CollectionsItem?>(
+            future: dataState.getCollectionItem(collectionsList[index]),
             // function where you call your api
-            builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<CollectionsItem?> snapshot) {
               // AsyncSnapshot<Your object type>
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: Text('Please wait its loading...'));
@@ -262,7 +262,7 @@ class HomeCollectionsView extends ConsumerWidget {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Image.network(
-                          snapshot.data!,
+                          snapshot.data!.image,
                           fit: BoxFit.cover,
                         ),
                       ),

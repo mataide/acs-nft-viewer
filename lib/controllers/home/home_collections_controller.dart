@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:NFT_View/core/smartcontracts/CurseNFT.g.dart';
+import 'package:NFT_View/core/utils/util.dart';
 import 'package:http/http.dart';
 import 'package:NFT_View/core/client/APIClient.dart';
 import 'package:NFT_View/app/widgets/selector.dart';
@@ -72,7 +73,9 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
     state = CollectionsState(collections: await collectionsDAO.findAll(), fetchState: kdataFetchState.IS_LOADED);
   }
 
-  Future<String?> getCollectionItem(Collections collections) async {
+  Future<CollectionsItem> getCollectionItem(Collections collections) async {
+    final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
+    final collectionsItemDAO = database.collectionsItemDAO;
     //Web3
     var httpClient = new Client();
     var ethClient = new Web3Client("https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531", httpClient);
@@ -80,32 +83,29 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
 
     var tokenURI = await erc.tokenURI(BigInt.parse(collections.tokenID));
     print(tokenURI);
-    if(tokenURI.startsWith('ipfs')) {
-      tokenURI = tokenURI.replaceAll("ipfs://", "https://ipfs.io/ipfs/");
-    }
+    tokenURI = ipfsToHTTP(tokenURI);
 
-    final res = await httpClient.head(Uri.parse("https://faktura.mypinata.cloud/ipfs/QmVn2Qrw7rkeb6RLBAsu84Cxn1a5e5tzNMVVcWMwtcmUXf/"), headers: {"Accept": "aplication/json"});
-    final jsonData = json.decode(res.body); //content-type
-    print(jsonData);
-    var image;
-    if((jsonData['image'] as String).startsWith('ipfs')) {
-      image = (jsonData['image'] as String).replaceAll("ipfs://", "https://ipfs.io/ipfs/");
-    }
+    final head = await httpClient.head(Uri.parse(tokenURI), headers: {"Accept": "aplication/json"});
+    final jsonHead = json.decode(head.body); //content-type
+    final contentType = jsonHead['content-type'] as String;
 
-    if(image.contains('mp4')) {
-      final fileName = await VideoThumbnail.thumbnailFile(
+    final res = await httpClient.get(Uri.parse(tokenURI), headers: {"Accept": "aplication/json"});
+    final jsonData = json.decode(res.body);
+    var image = ipfsToHTTP((jsonData['image'] as String));
+    var thumbnail;
+    if(contentType.contains('video')) {
+      thumbnail = await VideoThumbnail.thumbnailFile(
         video: image,
         thumbnailPath: (await getTemporaryDirectory()).path,
         imageFormat: ImageFormat.PNG,
         maxHeight: 64, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
         quality: 75,
       );
-
-      print(fileName);
-      return fileName;
-    } else {
-      return jsonData['image'];
     }
+
+    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.tokenID, '${jsonData['name']} #${collections.tokenID}', jsonData['description'], contentType, thumbnail, image);
+    collectionsItemDAO.create(collectionsItem);
+    return collectionsItem;
   }
 
   changeSelected(SelectorCallback selected) {
