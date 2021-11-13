@@ -85,13 +85,13 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
     print(tokenURI);
     tokenURI = ipfsToHTTP(tokenURI);
 
-    final head = await httpClient.head(Uri.parse(tokenURI), headers: {"Accept": "aplication/json"});
-    final jsonHead = json.decode(head.body); //content-type
-    final contentType = jsonHead['content-type'] as String;
-
     final res = await httpClient.get(Uri.parse(tokenURI), headers: {"Accept": "aplication/json"});
     final jsonData = json.decode(res.body);
     var image = ipfsToHTTP((jsonData['image'] as String));
+
+    final head = await httpClient.head(Uri.parse(image), headers: {"Accept": "aplication/json"});
+    final contentType = head.headers['content-type'] as String;
+
     var thumbnail;
     if(contentType.contains('video')) {
       thumbnail = await VideoThumbnail.thumbnailFile(
