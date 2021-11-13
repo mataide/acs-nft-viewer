@@ -65,6 +65,8 @@ class _$FlutterDatabase extends FlutterDatabase {
 
   CollectionsDAO? _collectionsDAOInstance;
 
+  CollectionsItemDAO? _collectionsItemDAOInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -87,6 +89,8 @@ class _$FlutterDatabase extends FlutterDatabase {
             'CREATE TABLE IF NOT EXISTS `Eth721` (`hash` TEXT NOT NULL, `blockNumber` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `nonce` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `transactionIndex` TEXT NOT NULL, `gas` TEXT NOT NULL, `gasPrice` TEXT NOT NULL, `gasUsed` TEXT NOT NULL, `cumulativeGasUsed` TEXT NOT NULL, `input` TEXT NOT NULL, `confirmations` TEXT NOT NULL, PRIMARY KEY (`hash`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `amount` TEXT, `thumbnail` TEXT, `image` TEXT, `totalSupply` INTEGER, PRIMARY KEY (`contractAddress`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `CollectionsItem` (`id` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `contentType` TEXT NOT NULL, `thumbnail` TEXT, `image` TEXT NOT NULL, FOREIGN KEY (`contractAddress`) REFERENCES `Collections` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -103,6 +107,12 @@ class _$FlutterDatabase extends FlutterDatabase {
   CollectionsDAO get collectionsDAO {
     return _collectionsDAOInstance ??=
         _$CollectionsDAO(database, changeListener);
+  }
+
+  @override
+  CollectionsItemDAO get collectionsItemDAO {
+    return _collectionsItemDAOInstance ??=
+        _$CollectionsItemDAO(database, changeListener);
   }
 }
 
@@ -361,5 +371,100 @@ class _$CollectionsDAO extends CollectionsDAO {
   @override
   Future<void> deleteCollections(Collections collections) async {
     await _collectionsDeletionAdapter.delete(collections);
+  }
+}
+
+class _$CollectionsItemDAO extends CollectionsItemDAO {
+  _$CollectionsItemDAO(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _collectionsItemInsertionAdapter = InsertionAdapter(
+            database,
+            'CollectionsItem',
+            (CollectionsItem item) => <String, Object?>{
+                  'id': item.id,
+                  'contractAddress': item.contractAddress,
+                  'hash': item.hash,
+                  'name': item.name,
+                  'description': item.description,
+                  'contentType': item.contentType,
+                  'thumbnail': item.thumbnail,
+                  'image': item.image
+                }),
+        _collectionsItemUpdateAdapter = UpdateAdapter(
+            database,
+            'CollectionsItem',
+            ['id'],
+            (CollectionsItem item) => <String, Object?>{
+                  'id': item.id,
+                  'contractAddress': item.contractAddress,
+                  'hash': item.hash,
+                  'name': item.name,
+                  'description': item.description,
+                  'contentType': item.contentType,
+                  'thumbnail': item.thumbnail,
+                  'image': item.image
+                }),
+        _collectionsItemDeletionAdapter = DeletionAdapter(
+            database,
+            'CollectionsItem',
+            ['id'],
+            (CollectionsItem item) => <String, Object?>{
+                  'id': item.id,
+                  'contractAddress': item.contractAddress,
+                  'hash': item.hash,
+                  'name': item.name,
+                  'description': item.description,
+                  'contentType': item.contentType,
+                  'thumbnail': item.thumbnail,
+                  'image': item.image
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<CollectionsItem> _collectionsItemInsertionAdapter;
+
+  final UpdateAdapter<CollectionsItem> _collectionsItemUpdateAdapter;
+
+  final DeletionAdapter<CollectionsItem> _collectionsItemDeletionAdapter;
+
+  @override
+  Future<List<CollectionsItem>> findAll() async {
+    return _queryAdapter.queryList('SELECT * FROM CollectionsItem',
+        mapper: (Map<String, Object?> row) => CollectionsItem(
+            row['contractAddress'] as String,
+            row['hash'] as String,
+            row['id'] as String,
+            row['name'] as String,
+            row['description'] as String,
+            row['contentType'] as String,
+            row['thumbnail'] as String?,
+            row['image'] as String));
+  }
+
+  @override
+  Future<List<int>> insertList(List<CollectionsItem> listCollectionsItem) {
+    return _collectionsItemInsertionAdapter.insertListAndReturnIds(
+        listCollectionsItem, OnConflictStrategy.ignore);
+  }
+
+  @override
+  Future<int> create(CollectionsItem collectionsItem) {
+    return _collectionsItemInsertionAdapter.insertAndReturnId(
+        collectionsItem, OnConflictStrategy.ignore);
+  }
+
+  @override
+  Future<void> update(CollectionsItem collectionsItem) async {
+    await _collectionsItemUpdateAdapter.update(
+        collectionsItem, OnConflictStrategy.ignore);
+  }
+
+  @override
+  Future<void> deleteCollectionsItem(CollectionsItem collectionsItem) async {
+    await _collectionsItemDeletionAdapter.delete(collectionsItem);
   }
 }

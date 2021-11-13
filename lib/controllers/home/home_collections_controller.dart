@@ -72,7 +72,7 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
     state = CollectionsState(collections: await collectionsDAO.findAll(), fetchState: kdataFetchState.IS_LOADED);
   }
 
-  Future<String?> getCollectionImage(Collections collections) async {
+  Future<String?> getCollectionItem(Collections collections) async {
     //Web3
     var httpClient = new Client();
     var ethClient = new Web3Client("https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531", httpClient);
@@ -84,12 +84,17 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
       tokenURI = tokenURI.replaceAll("ipfs://", "https://ipfs.io/ipfs/");
     }
 
-    final res = await httpClient.get(Uri.parse(tokenURI), headers: {"Accept": "aplication/json"});
-    final jsonData = json.decode(res.body);
+    final res = await httpClient.head(Uri.parse("https://faktura.mypinata.cloud/ipfs/QmVn2Qrw7rkeb6RLBAsu84Cxn1a5e5tzNMVVcWMwtcmUXf/"), headers: {"Accept": "aplication/json"});
+    final jsonData = json.decode(res.body); //content-type
     print(jsonData);
-    if((jsonData['image'] as String).contains('mp4')) {
+    var image;
+    if((jsonData['image'] as String).startsWith('ipfs')) {
+      image = (jsonData['image'] as String).replaceAll("ipfs://", "https://ipfs.io/ipfs/");
+    }
+
+    if(image.contains('mp4')) {
       final fileName = await VideoThumbnail.thumbnailFile(
-        video: jsonData['image'],
+        video: image,
         thumbnailPath: (await getTemporaryDirectory()).path,
         imageFormat: ImageFormat.PNG,
         maxHeight: 64, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
@@ -98,9 +103,6 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
 
       print(fileName);
       return fileName;
-    } else if((jsonData['image'] as String).startsWith('ipfs')) {
-      //var filename = (jsonData['image'] as String).replaceAll("ipfs://", "https://ipfs.io/ipfs/").split("/");
-      return (jsonData['image'] as String).replaceAll("ipfs://", "https://ipfs.io/ipfs/");
     } else {
       return jsonData['image'];
     }
