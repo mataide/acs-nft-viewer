@@ -6,43 +6,202 @@ import '../../core/utils/constants.dart';
 import 'package:NFT_View/core/providers/providers.dart';
 
 class ThemeChangerWidget extends ConsumerWidget {
-  final List<String> string = ['Light', 'Dark', 'Amoled'];
+  final List<String> string = ['Light', 'Dark'];
+
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final state = watch(themeProvider.notifier);
     final stateData = watch(themeProvider);
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Theme(
-      data: stateData.copyWith(unselectedWidgetColor: stateData.accentColor),
-      child: AlertDialog(
+        data: stateData.copyWith(
+          disabledColor: stateData.primaryColor,
+          splashColor: Colors.white,
+        ),
+        child: AlertDialog(
+          insetPadding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          elevation: 0.0,
           backgroundColor: stateData.primaryColor,
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
           title: Text('Select Theme', style: stateData.textTheme.bodyText2),
-          content: Container(
-            width: 0.0,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return RadioListTile(
-                  value: index,
-                  groupValue: themes.indexOf(stateData),
-                  onChanged: (dynamic ind) {
-                    state.onThemeChanged(ind, state);
-                  },
-                  title: Text(
-                    string[index],
-                    style: stateData.textTheme.bodyText1,
-                  ),
-                );
-              },
-              itemCount: string.length,
+          content: Column(mainAxisSize: MainAxisSize.min, children: [
+            Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Dark',
+                  style: stateData.textTheme.caption,
+                )),
+            SizedBox(
+              height: height * 0.004,
             ),
-          )),
-    );
+            Container(
+                width: width * 0.62,
+                height: height * 0.064,
+                decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(8.0)),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Align(
+                          alignment: Alignment.centerLeft,
+                          child: Theme(
+                              data: stateData.copyWith(
+                                  unselectedWidgetColor: Color(0xff565656)),
+                              child: Radio(
+                                  value: 1,
+                                  groupValue: themes.indexOf(stateData),
+                                  onChanged: (dynamic ind) {
+                                    state.onThemeChanged(ind, state);
+                                  }))),
+                      Stack(
+                        children: [
+                          Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                  height: height * 0.05,
+                                  width: width * 0.47,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(8.0),
+                                        topLeft: Radius.circular(8.0)),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                              left: width * 0.04,
+                                              right: 15,
+                                              top: height * 0.008),
+                                          child: Image.asset(
+                                            'assets/images/accursed.png',
+                                            color: Color(0xff9d9d9d),
+                                          )),
+                                      //SizedBox(width: width * 0.045, height: height * 0.02,),
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                              left: width * 0.03,
+                                              right: width * 0.02,
+                                              top: height * 0.02),
+                                          child: Container(
+                                            height: height * 0.007,
+                                            width: width * 0.10,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(8.0)),
+                                                color: Color(0xff9d9d9d)),
+                                          )),
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                              top: height * 0.02),
+                                          child: Container(
+                                            height: height * 0.007,
+                                            width: width * 0.10,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(8.0)),
+                                                color: Color(0xff565656)),
+                                          ))
+                                    ],
+                                  ))),
+                        ],
+                      )
+                    ])),
+            SizedBox(
+              height: height * 0.013,
+            ),
+            Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Ligth',
+                  style: stateData.textTheme.caption,
+                )),
+            SizedBox(
+              height: height * 0.004,
+            ),
+            Container(
+                width: width * 0.62,
+                height: height * 0.064,
+                decoration: BoxDecoration(
+                    color: Color(0xffC2C2C2),
+                    border: Border.all(color: stateData.primaryColorDark),
+                    borderRadius: BorderRadius.circular(8.0)),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Align(
+                          alignment: Alignment.centerLeft,
+                          child: Theme(
+                              data: stateData.copyWith(
+                                  unselectedWidgetColor: Color(0xffFAFAFA)),
+                              child: Radio(
+                                  value: 0,
+                                  groupValue: themes.indexOf(stateData),
+                                  onChanged: (dynamic ind) {
+                                    state.onThemeChanged(ind, state);
+                                  }))),
+                      Stack(
+                        children: [
+                          Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                  height: height * 0.05,
+                                  width: width * 0.47,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(8.0),
+                                        topLeft: Radius.circular(8.0)),
+                                    color: Color(0xffFAFAFA),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                              left: width * 0.04,
+                                              right: 15,
+                                              top: height * 0.008),
+                                          child: Image.asset(
+                                            'assets/images/accursed.png',
+                                          )),
+                                      //SizedBox(width: width * 0.045, height: height * 0.02,),
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                              left: width * 0.03,
+                                              right: width * 0.02,
+                                              top: height * 0.02),
+                                          child: Container(
+                                            height: height * 0.007,
+                                            width: width * 0.10,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(8.0)),
+                                                color: Color(0xff232323)),
+                                          )),
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                              top: height * 0.02),
+                                          child: Container(
+                                            height: height * 0.007,
+                                            width: width * 0.10,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(8.0)),
+                                                color: Color(0xffc4c4c4)),
+                                          ))
+                                    ],
+                                  ))),
+                        ],
+                      )
+                    ]))
+          ]),
+          //),
+        ));
   }
 }
-
 
 //SELEÇÃO DOS TEMAS
 
@@ -100,7 +259,8 @@ void showAlertDialog(BuildContext context, String error, String title) {
   );
 }
 
-showConfirmationDialog(BuildContext context, String title, String content, ScopedReader watch) async {
+showConfirmationDialog(BuildContext context, String title, String content,
+    ScopedReader watch) async {
   bool confirm = false;
   final state = watch(themeProvider);
 

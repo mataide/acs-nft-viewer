@@ -4,15 +4,15 @@ enum kdataFetchState { IS_LOADING, IS_LOADED, ERROR_ENCOUNTERED }
 
 const Color lightThemePrimaryColor = Color(0xffFFFFFF);
 const Color lightThemePrimaryColorDark = Color(0xffE5EBF0);
-const Color lightThemeAccentColor = Color(0xff5B37B7);
+const Color lightThemeAccentColor = Color(0xfff4663c);
 
 const Color darkThemePrimaryColor = Color(0xff212121);
 const Color darkThemePrimaryColorDark = Color(0xff2B2B2B);
-const Color darkThemeAccentColor = Color(0xff68F0AE);
+const Color darkThemeAccentColor = Color(0xfff4663c);
 
 const Color amoledThemePrimaryColor = Color(0xff000000);
 const Color amoledThemePrimaryColorDark = Color(0xff2B2B2B);
-const Color amoledThemeAccentColor = Color(0xff68F0AE);
+const Color amoledThemeAccentColor = Color(0xfff4663c);
 
 final List<ThemeData> themes = [lightTheme, darkTheme, amoledTheme];
 
@@ -52,9 +52,9 @@ final darkTheme = ThemeData(
         fontSize: 16),
     caption: TextStyle(
         fontFamily: 'Sans',
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w400,
         color: Colors.white,
-        fontSize: 13),
+        fontSize: 16),
   ),
 );
 
@@ -82,9 +82,9 @@ final amoledTheme = ThemeData(
         fontSize: 16),
     caption: TextStyle(
         fontFamily: 'MavenPro',
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w400,
         color: Colors.white,
-        fontSize: 13),
+        fontSize: 16),
   ),
 );
 
@@ -112,9 +112,9 @@ final lightTheme = ThemeData(
         fontSize: 16),
     caption: TextStyle(
         fontFamily: 'MavenPro',
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w400,
         color: Colors.black,
-        fontSize: 13),
+        fontSize: 16),
   ),
 );
 
