@@ -11,17 +11,17 @@ import 'package:NFT_View/core/models/index.dart';
 import 'package:NFT_View/database_helper/database.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
-class WallpaperListState {
+class FlagListState {
   final List<CollectionsItem>? collectionsItem;
   final kdataFetchState fetchState;
   final int? selectedFilter;
   final List<String>? subreddits, selectedSubreddit;
 
-  const WallpaperListState({this.fetchState = kdataFetchState.IS_LOADING, this.collectionsItem, this.selectedFilter, this.subreddits, this.selectedSubreddit});
+  const FlagListState({this.fetchState = kdataFetchState.IS_LOADING, this.collectionsItem, this.selectedFilter, this.subreddits, this.selectedSubreddit});
 }
 
-class WallpaperListController extends StateNotifier<WallpaperListState> {
-  WallpaperListController([WallpaperListState? state]) : super(WallpaperListState()) {
+class FlagListController extends StateNotifier<FlagListState> {
+  FlagListController([FlagListState? state]) : super(FlagListState()) {
     prepareFromDb();
   }
 
@@ -35,7 +35,7 @@ class WallpaperListController extends StateNotifier<WallpaperListState> {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final collectionsItemDAO = database.collectionsItemDAO;
     final List<CollectionsItem> collectionsItem = await collectionsItemDAO.findAll();
-    state = WallpaperListState(collectionsItem: collectionsItem);
+    state = FlagListState(collectionsItem: collectionsItem);
     return collectionsItem;
   }
 

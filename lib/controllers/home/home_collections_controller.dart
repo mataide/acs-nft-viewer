@@ -60,7 +60,7 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
   void prepareFromInternet() async {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final eth721Dao = database.eth721DAO;
-    final collectionsDAO = database.collectionsDAO;
+    final collectionsItemDAO = database.collectionsItemDAO;
 
     final List<Eth721> listERC721 = await APIService.instance.getERC721("0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb");
     print(listERC721.toList());
@@ -73,8 +73,9 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
     final collectionsItem = CollectionsItem(erc721.value.first.contractAddress, erc721.value.first.hash, erc721.value.first.tokenID, erc721.value.first.tokenName);
       listCollectionsItem.add(collectionsItem);
       listCollections.add(collections);
-      await collectionsDAO.create(collections);
     }
+    await collectionsItemDAO.insertList(listCollectionsItem);
+
 
     state = CollectionsState(collections: listCollections, collectionsItem: listCollectionsItem, fetchState: kdataFetchState.IS_LOADED);
   }
