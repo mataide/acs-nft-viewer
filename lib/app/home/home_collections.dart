@@ -1,6 +1,5 @@
-import 'package:NFT_View/app/home/collections/collections.dart';
 import 'package:NFT_View/app/home/settings/login_ethereum_address/login_modal_address.dart';
-import 'package:NFT_View/app/widgets/wallpaper_list.dart';
+import 'package:NFT_View/app/widgets/flag_list.dart';
 import 'package:NFT_View/controllers/home/home_collections_controller.dart';
 import 'package:NFT_View/core/models/index.dart';
 import 'package:NFT_View/core/providers/providers.dart';
@@ -8,6 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'collections/collections_my_collection.dart';
 
 class HomeCollectionsView extends ConsumerWidget {
   final eventChannel =
@@ -63,7 +64,7 @@ class HomeCollectionsView extends ConsumerWidget {
                             return Center(
                                 child: Text('Error: ${snapshot.error}'));
                           else
-                            return CollectionsView();
+                            return MyCollectionView();
                         }
                       },
                     );
@@ -222,7 +223,7 @@ class HomeCollectionsView extends ConsumerWidget {
                                     child: Text(
                                         'prepareFromDb error: ${snapshot.error}'));
                               } else {
-                                return WallpaperListWidget(images);
+                                return FlagListWidget(images);
                               }
                           }
                         }),

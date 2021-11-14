@@ -2,11 +2,12 @@ import 'package:NFT_View/core/models/index.dart';
 import 'package:NFT_View/core/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:io';
 
 class FlagListWidget extends ConsumerWidget {
-  final List<CollectionsItem> collectionsItemList;
+  final List<Collections> collectionsList;
 
-  FlagListWidget(this.collectionsItemList);
+  FlagListWidget(this.collectionsList);
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -25,12 +26,12 @@ class FlagListWidget extends ConsumerWidget {
                 mainAxisSpacing: 10,
                 crossAxisCount: 2,
               ),
-              itemCount: collectionsItemList.length,
+              itemCount: collectionsList.length,
               itemBuilder: (context, index) {
-                return FutureBuilder<CollectionsItem>(
-                  future: dataState.getCollectionItem(collectionsItemList[index]),
+                return FutureBuilder<String>(
+                  future: dataState.getCollectionImage(collectionsList[index]),
                   // function where you call your api
-                  builder: (BuildContext context, AsyncSnapshot<CollectionsItem> snapshot) {
+                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                     // AsyncSnapshot<Your object type>
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: Text('Please wait its loading...'));
@@ -47,19 +48,22 @@ class FlagListWidget extends ConsumerWidget {
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    snapshot.data!.image!,
+                                  child: snapshot.data!.contains('http') ? Image.network(
+                                    snapshot.data!,
+                                    fit: BoxFit.cover,
+                                  ) : Image.file(
+                                    File(snapshot.data!),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                                 Positioned(
                                     bottom: 30.0,
                                     left: 20.0,
-                                    child: Text(collectionsItemList[index].name)),
+                                    child: Text(collectionsList[index].tokenName)),
                                 Positioned(
                                     bottom: 10.0,
                                     left: 20.0,
-                                    child: Text('#${collectionsItemList[index].id}')),
+                                    child: Text('${collectionsList[index].totalSupply}')),
                               ],
                             )
                         );

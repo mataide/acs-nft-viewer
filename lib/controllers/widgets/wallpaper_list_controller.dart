@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:NFT_View/core/smartcontracts/CurseNFT.g.dart';
+import 'package:NFT_View/core/smartcontracts/ERC721.g.dart';
 import 'package:NFT_View/core/utils/util.dart';
 import 'package:http/http.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,7 +45,7 @@ class WallpaperListController extends StateNotifier<WallpaperListState> {
     //Web3
     var httpClient = new Client();
     var ethClient = new Web3Client("https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531", httpClient);
-    final erc = CurseNFT(address: EthereumAddress.fromHex(collections.contractAddress), client: ethClient);
+    final erc = ERC721(address: EthereumAddress.fromHex(collections.contractAddress), client: ethClient);
 
     var tokenURI = await erc.tokenURI(BigInt.parse(collections.id));
     print(tokenURI);
@@ -69,7 +69,7 @@ class WallpaperListController extends StateNotifier<WallpaperListState> {
       );
     }
 
-    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.id, '${jsonData['name']} #${collections.id}', description: jsonData['description'], contentType: contentType, thumbnail: thumbnail, image: image);
+    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.id, '${jsonData['name']} #${collections.id}', description: jsonData['description'], contentType: contentType, image: image);
     collectionsItemDAO.create(collectionsItem);
     return collectionsItem;
   }

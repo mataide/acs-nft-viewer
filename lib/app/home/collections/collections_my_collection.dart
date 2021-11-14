@@ -1,15 +1,15 @@
-import 'package:NFT_View/app/widgets/wallpaper_list.dart';
+import 'package:NFT_View/app/widgets/flag_list.dart';
 import 'package:NFT_View/core/models/index.dart';
 import 'package:NFT_View/core/providers/providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MyCollection extends ConsumerWidget {
+class MyCollectionView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final state = watch(themeProvider);
-    final dataState = watch(apiProvider.notifier);
+    final dataState = watch(homeCollectionsProvider.notifier);
 
     return Scaffold(
         backgroundColor: state.primaryColor,
@@ -52,7 +52,26 @@ class MyCollection extends ConsumerWidget {
               height: 28.0,
             ),
             Container(
-              child: WallpaperList(),
+              child: FutureBuilder<List<Collections>>(
+                  future: dataState.prepareFromDb(),
+                  // function where you call your api
+                  builder:
+                      (BuildContext context, AsyncSnapshot snapshot) {
+                    final images = snapshot.data;
+                    // AsyncSnapshot<Your object type>
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return Center(child: CircularProgressIndicator());
+                      default:
+                        if (snapshot.hasError) {
+                          return Center(
+                              child: Text(
+                                  'prepareFromDb error: ${snapshot.error}'));
+                        } else {
+                          return FlagListWidget(images);
+                        }
+                    }
+                  }),
             ),
           ]),
         ));

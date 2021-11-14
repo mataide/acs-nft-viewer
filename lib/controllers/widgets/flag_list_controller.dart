@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:NFT_View/core/smartcontracts/CurseNFT.g.dart';
+import 'package:NFT_View/core/smartcontracts/ERC721.g.dart';
 import 'package:NFT_View/core/utils/util.dart';
 import 'package:http/http.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,12 +12,11 @@ import 'package:NFT_View/database_helper/database.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 class FlagListState {
-  final List<CollectionsItem>? collectionsItem;
+  final List<Collections>? collections;
   final kdataFetchState fetchState;
   final int? selectedFilter;
-  final List<String>? subreddits, selectedSubreddit;
 
-  const FlagListState({this.fetchState = kdataFetchState.IS_LOADING, this.collectionsItem, this.selectedFilter, this.subreddits, this.selectedSubreddit});
+  const FlagListState({this.fetchState = kdataFetchState.IS_LOADING, this.collections, this.selectedFilter});
 }
 
 class FlagListController extends StateNotifier<FlagListState> {
@@ -26,28 +25,28 @@ class FlagListController extends StateNotifier<FlagListState> {
   }
 
   get fetchState => state.fetchState;
-  get selectedSubreddit => state.selectedSubreddit;
   get selectedFilter => state.selectedFilter;
-  get subreddits => state.subreddits;
-  get collections => state.collectionsItem;
+  get collections => state.collections;
 
-  Future<List<CollectionsItem>> prepareFromDb() async {
+  Future<List<Collections>> prepareFromDb() async {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
-    final collectionsItemDAO = database.collectionsItemDAO;
-    final List<CollectionsItem> collectionsItem = await collectionsItemDAO.findAll();
-    state = FlagListState(collectionsItem: collectionsItem);
-    return collectionsItem;
+    final collectionsDAO = database.collectionsDAO;
+    final List<Collections> collections = await collectionsDAO.findAll();
+    state = FlagListState(collections: collections);
+    return collections;
   }
 
-  Future<CollectionsItem> getCollectionItem(CollectionsItem collections) async {
+  Future<String> getCollectionImage(Collections collections) async {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final collectionsItemDAO = database.collectionsItemDAO;
+    final collectionsDAO = database.collectionsDAO;
+
     //Web3
     var httpClient = new Client();
     var ethClient = new Web3Client("https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531", httpClient);
-    final erc = CurseNFT(address: EthereumAddress.fromHex(collections.contractAddress), client: ethClient);
+    final erc = ERC721(address: EthereumAddress.fromHex(collections.contractAddress), client: ethClient);
 
-    var tokenURI = await erc.tokenURI(BigInt.parse(collections.id));
+    var tokenURI = await erc.tokenURI(BigInt.parse(collections.tokenID));
     print(tokenURI);
     tokenURI = ipfsToHTTP(tokenURI);
 
@@ -58,19 +57,21 @@ class FlagListController extends StateNotifier<FlagListState> {
     final head = await httpClient.head(Uri.parse(image), headers: {"Accept": "aplication/json"});
     final contentType = head.headers['content-type'] as String;
 
-    var thumbnail;
     if(contentType.contains('video')) {
-      thumbnail = await VideoThumbnail.thumbnailFile(
+      image = (await VideoThumbnail.thumbnailFile(
         video: image,
         thumbnailPath: (await getTemporaryDirectory()).path,
         imageFormat: ImageFormat.PNG,
-        maxHeight: 64, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
+        maxHeight: 400, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
         quality: 75,
-      );
+      ))!;
     }
+    print('image: $image');
 
-    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.id, '${jsonData['name']} #${collections.id}', description: jsonData['description'], contentType: contentType, thumbnail: thumbnail, image: image);
+    collections.image = image;
+    collectionsDAO.update(collections);
+    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.tokenID, '${jsonData['name']} #${collections.tokenID}', description: jsonData['description'], contentType: contentType, image: image);
     collectionsItemDAO.create(collectionsItem);
-    return collectionsItem;
+    return image;
   }
 }
