@@ -90,7 +90,7 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `amount` TEXT, `image` TEXT, `totalSupply` INTEGER, PRIMARY KEY (`contractAddress`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `CollectionsItem` (`id` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `contentType` TEXT NOT NULL, `thumbnail` TEXT, `image` TEXT NOT NULL, FOREIGN KEY (`contractAddress`) REFERENCES `Collections` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `CollectionsItem` (`hash` TEXT NOT NULL, `id` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `contentType` TEXT, `thumbnail` TEXT, `image` TEXT, FOREIGN KEY (`contractAddress`) REFERENCES `Collections` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`hash`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -377,9 +377,9 @@ class _$CollectionsItemDAO extends CollectionsItemDAO {
             database,
             'CollectionsItem',
             (CollectionsItem item) => <String, Object?>{
+                  'hash': item.hash,
                   'id': item.id,
                   'contractAddress': item.contractAddress,
-                  'hash': item.hash,
                   'name': item.name,
                   'description': item.description,
                   'contentType': item.contentType,
@@ -389,11 +389,11 @@ class _$CollectionsItemDAO extends CollectionsItemDAO {
         _collectionsItemUpdateAdapter = UpdateAdapter(
             database,
             'CollectionsItem',
-            ['id'],
+            ['hash'],
             (CollectionsItem item) => <String, Object?>{
+                  'hash': item.hash,
                   'id': item.id,
                   'contractAddress': item.contractAddress,
-                  'hash': item.hash,
                   'name': item.name,
                   'description': item.description,
                   'contentType': item.contentType,
@@ -403,11 +403,11 @@ class _$CollectionsItemDAO extends CollectionsItemDAO {
         _collectionsItemDeletionAdapter = DeletionAdapter(
             database,
             'CollectionsItem',
-            ['id'],
+            ['hash'],
             (CollectionsItem item) => <String, Object?>{
+                  'hash': item.hash,
                   'id': item.id,
                   'contractAddress': item.contractAddress,
-                  'hash': item.hash,
                   'name': item.name,
                   'description': item.description,
                   'contentType': item.contentType,
@@ -435,10 +435,10 @@ class _$CollectionsItemDAO extends CollectionsItemDAO {
             row['hash'] as String,
             row['id'] as String,
             row['name'] as String,
-            row['description'] as String,
-            row['contentType'] as String,
-            row['thumbnail'] as String?,
-            row['image'] as String));
+            description: row['description'] as String?,
+            contentType: row['contentType'] as String?,
+            thumbnail: row['thumbnail'] as String?,
+            image: row['image'] as String?));
   }
 
   @override

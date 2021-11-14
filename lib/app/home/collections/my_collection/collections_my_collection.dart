@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class MyCollection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final ThemeData state = watch(themeProvider.notifier).state;
+    final state = watch(themeProvider);
     final dataState = watch(apiProvider.notifier);
 
     return Scaffold(

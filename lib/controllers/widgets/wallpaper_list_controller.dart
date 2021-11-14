@@ -16,18 +16,17 @@ import 'package:NFT_View/database_helper/database.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import "package:collection/collection.dart";
 
-class CollectionsState {
+class WallpaperListState {
   final List<Collections?>? collections;
-  final List<CollectionsItem>? collectionsItem;
   final kdataFetchState fetchState;
   final int? selectedFilter;
   final List<String>? subreddits, selectedSubreddit;
 
-  const CollectionsState({this.fetchState = kdataFetchState.IS_LOADING, this.collections, this.collectionsItem, this.selectedFilter, this.subreddits, this.selectedSubreddit});
+  const WallpaperListState({this.fetchState = kdataFetchState.IS_LOADING, this.collections, this.selectedFilter, this.subreddits, this.selectedSubreddit});
 }
 
-class HomeCollectionsController extends StateNotifier<CollectionsState> {
-  HomeCollectionsController([Collections? state]) : super(CollectionsState()) {
+class WallpaperListController extends StateNotifier<WallpaperListState> {
+  WallpaperListController([WallpaperListState? state]) : super(WallpaperListState()) {
     prepareFromInternet();
   }
 
@@ -43,12 +42,9 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
       final _selectedFilter = preferences.getInt('list_filter') ?? 0;
       final _selectedSubreddit = preferences.getStringList('list_subreddit') ??
           [_subreddits[4], _subreddits[5]];
-      state = CollectionsState(subreddits: _subreddits, selectedFilter: _selectedFilter, selectedSubreddit: _selectedSubreddit);
+      state = WallpaperListState(subreddits: _subreddits, selectedFilter: _selectedFilter, selectedSubreddit: _selectedSubreddit);
       prepareFromInternet();
     });
-  }
-
-  fetchWallPapers(String subreddit) async {
   }
 
   Future<List<Collections>> prepareFromDb() async {
@@ -57,29 +53,7 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
     return await collectionsDAO.findAll();
   }
 
-  void prepareFromInternet() async {
-    final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
-    final eth721Dao = database.eth721DAO;
-    final collectionsDAO = database.collectionsDAO;
-
-    final List<Eth721> listERC721 = await APIService.instance.getERC721("0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb");
-    print(listERC721.toList());
-    eth721Dao.insertList(listERC721);
-    var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
-    late List<Collections> listCollections = [];
-    late List<CollectionsItem> listCollectionsItem = [];
-    for (var erc721 in newMap.entries) {
-    final collections = Collections.fromEth721(erc721.value.first, erc721.value.length);
-    final collectionsItem = CollectionsItem(erc721.value.first.contractAddress, erc721.value.first.hash, erc721.value.first.tokenID, erc721.value.first.tokenName);
-      listCollectionsItem.add(collectionsItem);
-      listCollections.add(collections);
-      await collectionsDAO.create(collections);
-    }
-
-    state = CollectionsState(collections: listCollections, collectionsItem: listCollectionsItem, fetchState: kdataFetchState.IS_LOADED);
-  }
-
-  Future<CollectionsItem> getCollectionItem(Collections collections) async {
+  Future<CollectionsItem> getCollectionItem(CollectionsItem collections) async {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final collectionsItemDAO = database.collectionsItemDAO;
     //Web3
@@ -87,7 +61,7 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
     var ethClient = new Web3Client("https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531", httpClient);
     final erc = CurseNFT(address: EthereumAddress.fromHex(collections.contractAddress), client: ethClient);
 
-    var tokenURI = await erc.tokenURI(BigInt.parse(collections.tokenID));
+    var tokenURI = await erc.tokenURI(BigInt.parse(collections.id));
     print(tokenURI);
     tokenURI = ipfsToHTTP(tokenURI);
 
@@ -109,18 +83,8 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
       );
     }
 
-    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.tokenID, '${jsonData['name']} #${collections.tokenID}', description: jsonData['description'], contentType: contentType, thumbnail: thumbnail, image: image);
+    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.id, '${jsonData['name']} #${collections.id}', description: jsonData['description'], contentType: contentType, thumbnail: thumbnail, image: image);
     collectionsItemDAO.create(collectionsItem);
     return collectionsItem;
-  }
-
-  changeSelected(SelectorCallback selected) {
-    final _selectedFilter = selected.selectedFilter;
-    final _selectedSubreddit = selected.selectedSubreddits;
-    SharedPreferences.getInstance().then((preferences) {
-      preferences.setInt('list_filter', _selectedFilter!);
-      preferences.setStringList('list_subreddit', _selectedSubreddit!);
-      prepareSharedPrefs();
-    });
   }
 }

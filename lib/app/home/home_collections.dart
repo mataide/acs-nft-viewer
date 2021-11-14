@@ -1,5 +1,6 @@
 import 'package:NFT_View/app/home/collections/collections.dart';
 import 'package:NFT_View/app/home/settings/login_ethereum_address/login_modal_address.dart';
+import 'package:NFT_View/app/widgets/wallpaper_list.dart';
 import 'package:NFT_View/controllers/home/home_collections_controller.dart';
 import 'package:NFT_View/core/models/index.dart';
 import 'package:NFT_View/core/providers/providers.dart';
@@ -221,7 +222,7 @@ class HomeCollectionsView extends ConsumerWidget {
                                     child: Text(
                                         'prepareFromDb error: ${snapshot.error}'));
                               } else {
-                                return _buildImages(images, dataState);
+                                return WallpaperListWidget(images);
                               }
                           }
                         }),
@@ -233,52 +234,4 @@ class HomeCollectionsView extends ConsumerWidget {
               ])
             ])));
   }
-
-  Widget _buildImages(List<Collections> collectionsList,
-          HomeCollectionsController dataState) =>
-      GridView.builder(
-        shrinkWrap: true,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisSpacing: 5,
-          mainAxisSpacing: 10,
-          crossAxisCount: 2,
-        ),
-        itemCount: collectionsList.length,
-        itemBuilder: (context, index) {
-          return FutureBuilder<CollectionsItem?>(
-            future: dataState.getCollectionItem(collectionsList[index]),
-            // function where you call your api
-            builder: (BuildContext context, AsyncSnapshot<CollectionsItem?> snapshot) {
-              // AsyncSnapshot<Your object type>
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: Text('Please wait its loading...'));
-              } else {
-                if (snapshot.hasError)
-                  return Center(
-                      child: Text('getCollectionImage: ${snapshot.error}'));
-                else
-                  return Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.network(
-                          snapshot.data!.image,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Positioned(
-                          bottom: 30.0,
-                          left: 20.0,
-                          child: Text(collectionsList[index].tokenName)),
-                      Positioned(
-                          bottom: 10.0,
-                          left: 20.0,
-                          child: Text('#${collectionsList[index].tokenID}')),
-                    ],
-                  );
-              }
-            },
-          );
-        },
-      );
 }

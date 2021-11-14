@@ -17,24 +17,24 @@ part 'collections_item.g.dart';
 @JsonSerializable()
 class CollectionsItem {
   @PrimaryKey()
+  String hash;
+
   String id;
 
   @ColumnInfo(name: 'contractAddress')
   String contractAddress;
 
-  String hash;
-
   String name;
 
-  String description;
+  String? description;
 
-  String contentType;
+  String? contentType;
 
   String? thumbnail;
 
-  String image;
+  String? image;
 
-  CollectionsItem(this.contractAddress, this.hash, this.id, this.name, this.description, this.contentType, this.thumbnail, this.image);
+  CollectionsItem(this.contractAddress, this.hash, this.id, this.name,{this.description, this.contentType, this.thumbnail, this.image});
 
 
   factory CollectionsItem.fromJson(Map<String, dynamic> json) => _$CollectionsItemFromJson(json);
