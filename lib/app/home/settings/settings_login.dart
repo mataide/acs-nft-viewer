@@ -18,23 +18,23 @@ class SettingsLoginView extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final state = watch(themeProvider);
     final dataState = watch(loginProvider.notifier);
-    final data = watch(loginProvider);
+    final dataLogin = watch(loginProvider);
     final _deviceHeight = MediaQuery.of(context).size.height;
     final _deviceWidth = MediaQuery.of(context).size.width;
     final navigator = Navigator.of(context);
-    final networkStream =
-        eventChannel.receiveBroadcastStream().distinct().map((dynamic event) {
-      return event;
-    });
+    final networkStream = eventChannel
+        .receiveBroadcastStream()
+        .distinct()
+        .map((dynamic event) => event == "disconnected" || event == null ? [].cast<String>() : [event] );
 
-    return _buildUI(state, dataState, data, _deviceHeight, _deviceWidth,
+    return _buildUI(state, dataState, dataLogin, _deviceHeight, _deviceWidth,
         navigator, networkStream, context);
   }
 
   Widget _buildUI(
       state,
       SettingsLoginController dataState,
-      data,
+      dataLogin,
       double _deviceHeight,
       double _deviceWidth,
       navigator,
@@ -54,18 +54,18 @@ class SettingsLoginView extends ConsumerWidget {
               alignment: Alignment.center,
               children: [
                 StreamBuilder<dynamic>(
-                    initialData: data.listAddress,
+                    initialData: dataLogin.listAddress,
                     stream: networkStream,
                     builder: (context, snapshot) {
                       print(snapshot.data);
-                      final List<String> address =
-                          snapshot.data ?? data.listAddress;
+                      final List<String> address = snapshot.data != null ? List<String>.from(snapshot.data).length > 0 ? List<String>.from(snapshot.data) : dataLogin.listAddress : [].cast<String>();
+
                       print("address: $address");
                       if (address.length > 0) {
                         return _listViewWidget(
                             state,
                             dataState,
-                            data,
+                            dataLogin,
                             _deviceHeight,
                             _deviceWidth,
                             navigator,

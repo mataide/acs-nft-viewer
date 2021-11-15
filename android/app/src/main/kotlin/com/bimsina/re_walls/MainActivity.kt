@@ -3,20 +3,13 @@ package com.bimsina.re_walls
 import android.annotation.TargetApi
 import android.app.WallpaperManager
 import android.content.Context
-import android.content.Intent
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Build
-import android.view.View
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import org.walletconnect.Session
-import org.walletconnect.nullOnThrow
 import java.io.IOException
 
 private const val CHANNEL = "com.bimsina.re_walls/MainActivity"
@@ -40,7 +33,7 @@ class MainActivity: FlutterActivity() {
       if (call.method == WALLET_CONNECTION) {
         initWalletConnection()
       } else if (call.method == WALLET_DISCONNECTION) {
-        //initWalletDisconnection()
+        initWalletDisconnection()
       } else if (call.method == HOME || call.method == LOCK) {
         val setWallpaper = setWallpaper(call.arguments as String, applicationContext)
         if (setWallpaper == 0) {
@@ -71,13 +64,12 @@ class MainActivity: FlutterActivity() {
   }
 
   private fun initWalletConnection() {
-    //WalletConnect.getInstance(applicationContext).initSession()
     WalletConnect.getInstance(applicationContext).connect()
   }
-//
-//  private fun initWalletDisconnection() {
-//    WalletConnect.getInstance(applicationContext).session.kill()
-//  }
+
+  private fun initWalletDisconnection() {
+    WalletConnect.getInstance(applicationContext).session.kill()
+  }
 
 }
 

@@ -27,7 +27,8 @@ class HomeCollectionsView extends ConsumerWidget {
     final networkStream = eventChannel
         .receiveBroadcastStream()
         .distinct()
-        .map((dynamic event) => event);
+        .map((dynamic event) => event == "disconnected" || event == null ? [].cast<String>() : [event] );
+
 
     return Scaffold(
       backgroundColor: state.primaryColor,
@@ -42,8 +43,9 @@ class HomeCollectionsView extends ConsumerWidget {
                 stream: networkStream,
                 builder: (context, snapshot) {
                   print(snapshot.data);
-                  final List<String> address =
-                      snapshot.data ?? dataLogin.listAddress;
+
+                  final List<String> address = snapshot.data != null ? List<String>.from(snapshot.data).length > 0 ? List<String>.from(snapshot.data) : dataLogin.listAddress : [].cast<String>();
+
                   print("address: $address");
                   if (address.length == 0) {
                     return _connectWidget(dataState, stateTheme, dataStateLogin,

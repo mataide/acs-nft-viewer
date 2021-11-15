@@ -69,6 +69,7 @@ class WalletConnect private constructor(context: Context) : Application() {
     }
 
     fun connect() {
+        session.kill()
         return session.offer()
     }
 

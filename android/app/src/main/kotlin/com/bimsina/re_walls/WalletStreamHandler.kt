@@ -42,7 +42,8 @@ class WalletStreamHandler(private var activity: Activity) : EventChannel.StreamH
     }
 
     private fun keyApproved () {
-        activity.runOnUiThread { eventSink?.success(WalletConnect.getInstance(activity.applicationContext).session.approvedAccounts()) }
+        activity.runOnUiThread { eventSink?.success(WalletConnect.getInstance(activity.applicationContext).session.approvedAccounts()
+            ?.get(0)) }
     }
 
 
