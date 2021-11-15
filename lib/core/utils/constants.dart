@@ -36,25 +36,25 @@ final darkTheme = ThemeData(
   primaryIconTheme: IconThemeData(color: Colors.white),
   textTheme: TextTheme(
     headline5: TextStyle(
-        fontFamily: 'Sans',
+        fontFamily: 'MavenPro',
         fontWeight: FontWeight.bold,
         color: Colors.white,
         fontSize: 24),
     bodyText2: TextStyle(
-        fontFamily: 'Sans',
-        fontWeight: FontWeight.bold,
+        fontFamily: 'MavenPro-Medium',
+        fontWeight: FontWeight.w500,
         color: Colors.white,
         fontSize: 18),
     bodyText1: TextStyle(
-        fontFamily: 'Sans',
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-        fontSize: 16),
-    caption: TextStyle(
-        fontFamily: 'Sans',
+        fontFamily: 'MavenPro-Regular',
         fontWeight: FontWeight.w400,
         color: Colors.white,
         fontSize: 16),
+    caption: TextStyle(
+        fontFamily: 'MavenPro-Black',
+        fontWeight: FontWeight.w800,
+        color: Colors.white,
+        fontSize: 20),
   ),
 );
 
@@ -71,20 +71,20 @@ final amoledTheme = ThemeData(
         color: Colors.white,
         fontSize: 24),
     bodyText2: TextStyle(
-        fontFamily: 'MavenPro',
-        fontWeight: FontWeight.bold,
+        fontFamily: 'MavenPro-Medium',
+        fontWeight: FontWeight.w500,
         color: Colors.white,
         fontSize: 18),
     bodyText1: TextStyle(
-        fontFamily: 'MavenPro',
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-        fontSize: 16),
-    caption: TextStyle(
-        fontFamily: 'MavenPro',
+        fontFamily: 'MavenPro-Regular',
         fontWeight: FontWeight.w400,
         color: Colors.white,
         fontSize: 16),
+    caption: TextStyle(
+        fontFamily: 'MavenPro-Black',
+        fontWeight: FontWeight.w800,
+        color: Colors.white,
+        fontSize: 20),
   ),
 );
 
@@ -101,20 +101,20 @@ final lightTheme = ThemeData(
         color: Colors.black,
         fontSize: 24),
     bodyText2: TextStyle(
-        fontFamily: 'MavenPro',
-        fontWeight: FontWeight.bold,
+        fontFamily: 'MavenPro-Medium',
+        fontWeight: FontWeight.w500,
         color: Colors.black,
         fontSize: 18),
     bodyText1: TextStyle(
-        fontFamily: 'MavenPro',
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
-        fontSize: 16),
-    caption: TextStyle(
-        fontFamily: 'MavenPro',
+        fontFamily: 'MavenPro-Regular',
         fontWeight: FontWeight.w400,
         color: Colors.black,
         fontSize: 16),
+    caption: TextStyle(
+        fontFamily: 'MavenPro-Black',
+        fontWeight: FontWeight.w800,
+        color: Colors.black,
+        fontSize: 20),
   ),
 );
 

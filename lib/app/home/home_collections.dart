@@ -1,5 +1,6 @@
 import 'package:NFT_View/app/home/settings/login_ethereum_address/login_modal_address.dart';
 import 'package:NFT_View/app/widgets/flag_list.dart';
+import 'package:NFT_View/app/widgets/wallpaper_list.dart';
 import 'package:NFT_View/controllers/home/home_collections_controller.dart';
 import 'package:NFT_View/core/models/index.dart';
 import 'package:NFT_View/core/providers/providers.dart';
@@ -24,6 +25,7 @@ class HomeCollectionsView extends ConsumerWidget {
     final _deviceHeight = MediaQuery.of(context).size.height;
     final _deviceWidth = MediaQuery.of(context).size.width;
     final navigator = Navigator.of(context);
+    final wallpaper = watch(wallpaperProvider.notifier);
     final networkStream = eventChannel
         .receiveBroadcastStream()
         .distinct()
@@ -45,7 +47,7 @@ class HomeCollectionsView extends ConsumerWidget {
                   final List<String> address =
                       snapshot.data ?? dataLogin.listAddress;
                   print("address: $address");
-                  if (address.length == 0) {
+                  if (address.length > 0) {
                     return _connectWidget(dataState, stateTheme, dataStateLogin,
                         navigator, state, context);
                   } else {
@@ -65,6 +67,7 @@ class HomeCollectionsView extends ConsumerWidget {
                                 child: Text('Error: ${snapshot.error}'));
                           else
                             return MyCollectionView();
+
                         }
                       },
                     );
