@@ -19,8 +19,9 @@ class HomeSettingsView extends ConsumerWidget {
 
     return Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: state.textTheme.bodyText1!.color),
-          backgroundColor: state.primaryColor,
+          iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
         ),
         body: Container(
           margin: EdgeInsets.only(left: (width * 0.02), right: (width * 0.02)),

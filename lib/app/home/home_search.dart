@@ -23,7 +23,7 @@ class HomeSearch extends SearchDelegate<void> {
       IconButton(
         icon: Icon(
           Icons.clear,
-          color: themeData!.textTheme.bodyText2!.color,
+          color: themeData!.textTheme.bodyText1!.color,
         ),
         onPressed: () {
           query = '';
@@ -37,7 +37,7 @@ class HomeSearch extends SearchDelegate<void> {
     return IconButton(
       icon: Icon(
         Icons.arrow_back,
-        color: themeData!.textTheme.bodyText2!.color,
+        color: themeData!.textTheme.bodyText1!.color,
       ),
       onPressed: () {
         close(context, null);

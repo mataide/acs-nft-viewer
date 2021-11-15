@@ -22,7 +22,7 @@ class _WebPageState extends State<SearchWeb> {
       appBar: AppBar(
         backgroundColor: themeData.primaryColor,
         leading: IconButton(
-            color: themeData.textTheme.bodyText2!.color,
+            color: themeData.textTheme.bodyText1!.color,
             icon: Icon(Icons.close),
             onPressed: () => Navigator.pop(context)),
         title: Text(

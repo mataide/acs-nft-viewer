@@ -12,7 +12,6 @@ class WallpaperListWidget extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final dataState = watch(wallpaperListProvider.notifier);
     final state = watch(themeProvider);
-
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: SingleChildScrollView(
@@ -33,7 +32,7 @@ class WallpaperListWidget extends ConsumerWidget {
                   builder: (BuildContext context, AsyncSnapshot<CollectionsItem> snapshot) {
                     // AsyncSnapshot<Your object type>
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: Text('Please wait its loading...'));
+                      return Center(child: Text('Please wait its loading...', style: TextStyle(color: state.textTheme.bodyText1!.color),));
                     } else {
                       if (snapshot.hasError)
                         return Center(

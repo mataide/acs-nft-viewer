@@ -25,7 +25,7 @@ class ColButton extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Icon(
                 icon,
-                color: theme.textTheme.bodyText2!.color,
+                color: theme.textTheme.bodyText1!.color,
               ),
             ),
             Text(title,

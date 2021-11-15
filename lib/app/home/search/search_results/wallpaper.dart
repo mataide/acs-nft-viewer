@@ -165,7 +165,7 @@ class WallpaperView extends ConsumerWidget implements TickerProvider {
                           child: IconButton(
                             icon: Icon(
                               Icons.arrow_back,
-                              color: themeData.textTheme.bodyText2!.color,
+                              color: themeData.textTheme.bodyText1!.color,
                             ),
                             onPressed: () {
                               Navigator.pop(context);
@@ -177,7 +177,7 @@ class WallpaperView extends ConsumerWidget implements TickerProvider {
                             fit == BoxFit.contain
                                 ? Icons.fullscreen
                                 : Icons.fullscreen_exit,
-                            color: themeData.textTheme.bodyText2!.color,
+                            color: themeData.textTheme.bodyText1!.color,
                           ),
                           onPressed: () {
                             if (fit == BoxFit.contain) {

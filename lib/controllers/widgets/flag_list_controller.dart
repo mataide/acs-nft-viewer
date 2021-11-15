@@ -28,6 +28,8 @@ class FlagListController extends StateNotifier<FlagListState> {
   get selectedFilter => state.selectedFilter;
   get collections => state.collections;
 
+
+
   Future<List<Collections>> prepareFromDb() async {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final collectionsDAO = database.collectionsDAO;
