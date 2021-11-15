@@ -18,8 +18,8 @@ class ModalAdrress {
               margin: EdgeInsets.only(left: (width * 0.02), right: (width * 0.02)),
               //padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/10),
               decoration: BoxDecoration(
-                  color: state.primaryColor,
-                  border: Border.all(color: state.primaryColor),
+                  color: state.primaryColorDark,
+                  border: Border.all(color: state.primaryColorDark),
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0))),
               child: Padding(
                   padding: EdgeInsets.only(
@@ -29,7 +29,7 @@ class ModalAdrress {
                       children: <Widget>[
                         SizedBox(height: height * 0.0185),
                         Center(
-                      child: Text('Connect Wallet', style: TextStyle(fontFamily: "MavenPro-Regular", fontWeight: FontWeight.w400),),
+                      child: Text('Connect Wallet', style: state.textTheme.headline5,),
                     ),
                     SizedBox(
                       height: height * 0.0185,
@@ -40,7 +40,7 @@ class ModalAdrress {
                         child: Container(
                             margin: EdgeInsets.only(left: (width * 0.04), right: (width * 0.04)),
                             decoration: BoxDecoration(
-                              border: Border.all(color: state.primaryColorDark),
+                              border: Border.all(color: state.primaryColor),
                                 color: state.primaryColor,
                                 borderRadius: BorderRadius.circular(15.0)),
                             child: Center(
@@ -48,17 +48,14 @@ class ModalAdrress {
                                 //autofocus: true,
                                 textAlign: TextAlign.center,
                                 controller: _keyCrontollers,
-                                style: TextStyle(
-                                    color: state.textTheme.bodyText1!.color),
+                                style:state.textTheme.headline5,
                                 decoration: InputDecoration(
                                   hintText: "Paste your wallet address here",
-                                  hintStyle: TextStyle(
-                                    fontSize: 18.0,
-                                    color: state.textTheme.bodyText1!.color,
+                                  hintStyle: state.textTheme.headline5,
                                   ),
                                 ),
                               ),
-                            ))),
+                            )),
                     SizedBox(
                       height: height * 0.02,
                     ),
@@ -73,7 +70,7 @@ class ModalAdrress {
                       onPressed: () {
                         if (_keyCrontollers.text == "") {
                           final snackBar = SnackBar(
-                            content: Text('Insert a Public Key !'),
+                            content: Text('Insert a Public Key !', style: state.textTheme.headline5,),
                             backgroundColor: state.primaryColor,
                             duration: Duration(seconds: 3),
                           );
@@ -85,9 +82,7 @@ class ModalAdrress {
                       },
                       child:Text(
                         "Connect", textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 16.0,
-                            color: state.textTheme.bodyText1!.color,),
+                        style: state.textTheme.headline5,
                       )),
                         ),
                         SizedBox(height: height * 0.024,),

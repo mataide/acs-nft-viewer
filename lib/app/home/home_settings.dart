@@ -34,12 +34,8 @@ class HomeSettingsView extends ConsumerWidget {
               ),
               Text(
                 'Settings',
-                style: TextStyle(
-                    color: state.textTheme.bodyText1!.color,
-                    decoration: TextDecoration.none,
-                    fontSize: 40.0,
-                    fontFamily: "MavenPro-Bold",
-                    fontWeight: FontWeight.w700),
+                style: state.textTheme.caption,
+
               ),
               SizedBox(
                 height: height * 0.0768,
@@ -54,12 +50,7 @@ class HomeSettingsView extends ConsumerWidget {
                       ),
                       title: Text(
                         "Profile",
-                        style: TextStyle(
-                            color: state.textTheme.bodyText1!.color,
-                            fontSize: 20.0,
-                            fontFamily: "MavenPro-Regular",
-                            fontWeight: FontWeight.w400),
-                      ),
+                        style: state.textTheme.headline5,),
                       onTap: () {})),
               Card(
                   color: state.primaryColor,
@@ -71,11 +62,7 @@ class HomeSettingsView extends ConsumerWidget {
                       ),
                       title: Text(
                         "Wallets",
-                        style: TextStyle(
-                            color: state.textTheme.bodyText1!.color,
-                            fontSize: 20.0,
-                            fontFamily: "MavenPro-Regular",
-                            fontWeight: FontWeight.w400),
+                        style: state.textTheme.headline5,
                       ),
                       trailing: Icon(
                         Icons.arrow_forward_ios_sharp,
@@ -95,11 +82,7 @@ class HomeSettingsView extends ConsumerWidget {
                       ),
                       title: Text(
                         "Theme",
-                        style: TextStyle(
-                            color: state.textTheme.bodyText1!.color,
-                            fontSize: 20.0,
-                            fontFamily: "MavenPro-Regular",
-                            fontWeight: FontWeight.w400),
+                        style: state.textTheme.headline5,
                       ),
                       trailing: Icon(
                         Icons.arrow_forward_ios_sharp,

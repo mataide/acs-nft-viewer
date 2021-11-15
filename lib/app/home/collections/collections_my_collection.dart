@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:NFT_View/core/models/index.dart';
 import 'package:NFT_View/core/providers/providers.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,14 +10,13 @@ import 'package:readmore/readmore.dart';
 import '../home_collections.dart';
 
 class MyCollectionView extends ConsumerWidget {
-  List<CollectionsItem> get collectionsItemList => collectionsItemList;
-
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final state = watch(themeProvider);
     final dataState = watch(homeCollectionsProvider.notifier);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final flagState = watch(flagListProvider.notifier);
 
     return Scaffold(
         appBar: AppBar(
@@ -23,7 +24,8 @@ class MyCollectionView extends ConsumerWidget {
           backgroundColor: Colors.transparent,
           elevation: 0.0,
         ),
-        body: Container(
+        body: SingleChildScrollView(
+            child: Container(
           decoration: BoxDecoration(
               gradient: RadialGradient(
             colors: [Colors.brown, Colors.black54, Colors.black],
@@ -60,7 +62,7 @@ class MyCollectionView extends ConsumerWidget {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               "BUSCAR DA API O NOME DO AUTOR",
-                              style: state.textTheme.bodyText1,
+                              style: state.textTheme.headline5,
                               textAlign: TextAlign.start,
                             )),
                         SizedBox(
@@ -77,9 +79,11 @@ class MyCollectionView extends ConsumerWidget {
                             child: ReadMoreText(
                               "BUSCAR DA API DESCRIÇÃO DA COLEÇÃOsdfffffffffffffffffffffffffffffffffffffff"
                               "sfddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
-                              "dsfsfawwwwwwwwwwwwwwwwwwwwwwwwwtreeeeeeeeeehhhhhhhhhhhhhdsfwefwefwerfreferferferfefer",
-                              style: TextStyle(
-                                  color: state.textTheme.bodyText1!.color),
+                              "dsfsfawwwwwwwwwwwwwwwwwwwwwwwwwtreeeeeeeeeehhhhhhhhhhhhhdsfwefwefwerfreferferferfefergfdgbdfsbdfsbdfsb"
+                              "dfsdafsdkjflhnhnhnhnhnhnhnhnhnhnhnhnhnhnhnhnhnsadiçwafwerrrrrrrrrf"
+                              "wefkençççççççççççççççççoiiiiiiiiiiiiiiiiiiioíiiiiii"
+                              "sdfjnnnnnnnnnnnnnnnnnnnnnn",
+                              style: state.textTheme.headline5,
                               trimLines: 4,
                               colorClickableText: Colors.green,
                               trimMode: TrimMode.Line,
@@ -101,9 +105,220 @@ class MyCollectionView extends ConsumerWidget {
                         SizedBox(
                           height: height * 0.01,
                         ),
+                        _owned(context, dataState, flagState, state, width),
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'More NFTs',
+                              style: state.textTheme.caption,
+                            )),
+                        SizedBox(
+                          height: height * 0.01,
+                        ),
+                        _more(context, dataState, flagState, state, width),
                       ])))
             ],
           ),
-        ));
+        )));
+  }
+
+  Widget _owned(context, dataState, flagState, state, width) {
+    return Column(children: [
+      Row(children: <Widget>[
+        Container(
+            child: Expanded(
+          child: FutureBuilder<List<Collections>>(
+              future: dataState.prepareFromDb(),
+              // function where you call your api
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                final images = snapshot.data;
+                // AsyncSnapshot<Your object type>
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return Center(child: CircularProgressIndicator());
+                  default:
+                    if (snapshot.hasError) {
+                      return Center(
+                          child:
+                              Text('prepareFromDb error: ${snapshot.error}'));
+                    } else {
+                      return GridView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 10,
+                            crossAxisCount: 2,
+                          ),
+                          itemCount: 2,
+                          itemBuilder: (context, index) {
+                            return FutureBuilder<String>(
+                              future:
+                                  flagState.getCollectionImage(images[index]),
+                              // function where you call your api
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<String> snapshot) {
+                                // AsyncSnapshot<Your object type>
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                      child: Text(
+                                    'Please wait its loading...',
+                                    style: TextStyle(
+                                        color:
+                                            state.textTheme.bodyText1!.color),
+                                  ));
+                                } else {
+                                  if (snapshot.hasError)
+                                    return Center(
+                                        child: Text(
+                                            'getCollectionImage: ${snapshot.error}'));
+                                  else
+                                    return GestureDetector(
+                                        onTap: () {
+                                          print('apertado');
+                                        },
+                                        child: Stack(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child: snapshot.data!
+                                                      .contains('http')
+                                                  ? Image.network(
+                                                      snapshot.data!,
+                                                      fit: BoxFit.cover,
+                                                    )
+                                                  : Image.file(
+                                                      File(snapshot.data!),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                            ),
+                                            Positioned(
+                                                bottom: 30.0,
+                                                left: 20.0,
+                                                child: Text(
+                                                    images[index].tokenName)),
+                                            Positioned(
+                                                bottom: 10.0,
+                                                left: 20.0,
+                                                child: Text(
+                                                    '${images[index].totalSupply}')),
+                                          ],
+                                        ));
+                                }
+                              },
+                            );
+                          });
+                    }
+                }
+              }),
+        )),
+        SizedBox(
+          width: width * 0.02,
+        ),
+      ])
+    ]);
+  }
+
+  Widget _more(context, dataState, flagState, state, width) {
+    return Column(children: [
+      Row(children: <Widget>[
+        Container(
+            child: Expanded(
+          child: FutureBuilder<List<Collections>>(
+              future: dataState.prepareFromDb(),
+              // function where you call your api
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                final images = snapshot.data;
+                // AsyncSnapshot<Your object type>
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return Center(child: CircularProgressIndicator());
+                  default:
+                    if (snapshot.hasError) {
+                      return Center(
+                          child:
+                              Text('prepareFromDb error: ${snapshot.error}'));
+                    } else {
+                      return GridView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 10,
+                            crossAxisCount: 3,
+                          ),
+                          itemCount: images.length,
+                          itemBuilder: (context, index) {
+                            return FutureBuilder<String>(
+                              future:
+                                  flagState.getCollectionImage(images[index]),
+                              // function where you call your api
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<String> snapshot) {
+                                // AsyncSnapshot<Your object type>
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                      child: Text(
+                                    'Please wait its loading...',
+                                    style: TextStyle(
+                                        color:
+                                            state.textTheme.bodyText1!.color),
+                                  ));
+                                } else {
+                                  if (snapshot.hasError)
+                                    return Center(
+                                        child: Text(
+                                            'getCollectionImage: ${snapshot.error}'));
+
+                                  return GestureDetector(
+                                      onTap: () {
+                                        print('apertado');
+                                      },
+                                      child: Stack(
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                            child:
+                                                snapshot.data!.contains('http')
+                                                    ? Image.network(
+                                                        snapshot.data!,
+                                                        fit: BoxFit.cover,
+                                                      )
+                                                    : Image.file(
+                                                        File(snapshot.data!),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                          ),
+                                          Positioned(
+                                              bottom: 30.0,
+                                              left: 20.0,
+                                              child: Text(
+                                                  images[index].tokenName)),
+                                          Positioned(
+                                              bottom: 10.0,
+                                              left: 20.0,
+                                              child: Text(
+                                                  '${images[index].totalSupply}')),
+                                        ],
+                                      ));
+                                }
+                              },
+                            );
+                          });
+                    }
+                }
+              }),
+        )),
+        SizedBox(
+          width: width * 0.02,
+        ),
+      ])
+    ]);
   }
 }

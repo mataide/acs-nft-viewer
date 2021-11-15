@@ -62,7 +62,7 @@ class HomeCollectionsView extends ConsumerWidget {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return Center(
-                              child: Text('Please wait its loading...'));
+                              child: Text('Please wait its loading...', style: state.textTheme.bodyText1,));
                         } else {
                           if (snapshot.hasError)
                             return Center(
@@ -100,11 +100,7 @@ class HomeCollectionsView extends ConsumerWidget {
               ),
               Text(
                 'My Collections',
-                style: TextStyle(
-                    color: state.textTheme.bodyText1!.color,
-                    fontFamily: "MavenPro-Bold",
-                    fontWeight: FontWeight.w700,
-                    fontSize: 32.0),
+                style: state.textTheme.caption,
                 textAlign: TextAlign.left,
               ),
               SizedBox(height: height * 0.05),
@@ -118,19 +114,12 @@ class HomeCollectionsView extends ConsumerWidget {
                       SizedBox(height: height * 0.032),
                       Text(
                         "Hello!",
-                        style: TextStyle(
-                            color: state.textTheme.bodyText1!.color,
-                            fontFamily: "MavenPro-Bold",
-                            fontWeight: FontWeight.w700,
-                            fontSize: 27.0),
+                        style: state.textTheme.caption
                       ),
                       SizedBox(height: height * 0.02),
                       Text(
                         "Your NFT collections will display \n once you connect your wallet.",
-                        style: TextStyle(
-                            color: state.textTheme.bodyText1!.color,
-                            fontFamily: "MavenPro-Regular",
-                            fontWeight: FontWeight.w400),
+                        style: state.textTheme.headline5,
                       ),
                       SizedBox(
                         height: height * 0.095,
@@ -155,7 +144,7 @@ class HomeCollectionsView extends ConsumerWidget {
                           ),
                           Text(
                             "Use WalletConnect",
-                            style: TextStyle(fontSize: 20.0),
+                            style: state.textTheme.headline5,
                             textAlign: TextAlign.center,
                           ),
                         ]),
@@ -183,7 +172,7 @@ class HomeCollectionsView extends ConsumerWidget {
                             ),
                             Text(
                               "Enter ethereum address",
-                              style: TextStyle(fontSize: 20.0),
+                              style: state.textTheme.headline5,
                             ),
                           ],
                         ),
@@ -199,11 +188,7 @@ class HomeCollectionsView extends ConsumerWidget {
               Text(
                 "Examples",
                 textAlign: TextAlign.left,
-                style: TextStyle(
-                    color: state.textTheme.bodyText1!.color,
-                    fontFamily: "MavenPro-Black",
-                    fontWeight: FontWeight.w900,
-                    fontSize: 27.0),
+                style: state.textTheme.caption,
               ),
               SizedBox(
                 height: height * 0.012,

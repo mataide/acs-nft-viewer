@@ -13,8 +13,8 @@ class ModalConnected {
                   EdgeInsets.only(left: (width * 0.02), right: (width * 0.02)),
               //padding: const EdgeInsets.all(30.0),
               decoration: BoxDecoration(
-                  color: state.primaryColor,
-                  border: Border.all(color: state.primaryColor),
+                  color: state.primaryColorDark,
+                  border: Border.all(color: state.primaryColorDark),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30.0),
                       topRight: Radius.circular(30.0))),
@@ -24,10 +24,7 @@ class ModalConnected {
                   children: [
                     SizedBox(width: width * 0.13),
                     Text("wallet",
-                        style: TextStyle(
-                            fontFamily: "MavenPro-Regular",
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12.0)),
+                        style: state.textTheme.bodyText1),
                     Expanded(
                         child: Text(
                             dataState.listAddress.toString().length > 8
@@ -38,10 +35,7 @@ class ModalConnected {
                             textAlign: TextAlign.end,
                             overflow: TextOverflow.ellipsis,
                             softWrap: false,
-                            style: TextStyle(
-                                fontFamily: "MavenPro-Regular",
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12.0))),
+                            style: state.textTheme.bodyText1)),
                     Expanded(
                         child: Text(
                       dataState.listAddress.toString().length > 8
@@ -51,6 +45,7 @@ class ModalConnected {
                       maxLines: 1,
                       textAlign: TextAlign.start,
                       softWrap: false,
+                          style: state.textTheme.bodyText1,
                     )),
                   ],
                 ),
@@ -78,11 +73,7 @@ class ModalConnected {
                       ),
                       Text(
                         "Remove wallet",
-                        style: TextStyle(
-                            color: state.textTheme.bodyText1!.color,
-                            fontSize: 16.0,
-                            fontFamily: "MavenPro-Regular",
-                            fontWeight: FontWeight.w400),
+                        style: state.textTheme.headline5,
                         textAlign: TextAlign.center,
                       ),
                     ]),

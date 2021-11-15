@@ -51,17 +51,13 @@ flutter:
     - assets/images/
 
   fonts:
-    - family: MavenPro
+    - family: Futura
       fonts:
-        - asset: assets/fonts/MavenPro-Black.ttf
-          weight: 900
-        - asset: assets/fonts/MavenPro-Bold.ttf
+        - asset: assets/fonts/FuturaPTBold.otf
           weight: 700
-        - asset: assets/fonts/MavenPro-ExtraBold.ttf
-          weight: 800
-        - asset: assets/fonts/MavenPro-Medium.ttf
+        - asset: assets/fonts/FuturaPTMedium.otf
           weight: 500
-        - asset: assets/fonts/MavenPro-Regular.ttf
+        - asset: assets/fonts/FuturaPTLight.otf
           weight: 400
-        - asset: assets/fonts/MavenPro-SemiBold.ttf
-          weight: 600
+        - asset: assets/fonts/FuturaPTBook.otf
+          weight: 400
