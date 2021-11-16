@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:NFT_View/controllers/widgets/wallpaper_list_controller.dart';
 import 'package:NFT_View/core/models/index.dart';
 import 'package:NFT_View/core/providers/providers.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,11 +17,12 @@ class MyCollectionView extends ConsumerWidget {
     final dataState = watch(homeCollectionsProvider.notifier);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final flagState = watch(flagListProvider.notifier);
+    final wallpaper = watch(wallpaperListProvider.notifier);
+    final wall = watch(wallpaperProvider.notifier);
 
     return Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: state.primaryColor),
+          iconTheme: state.primaryIconTheme,
           backgroundColor: Colors.transparent,
           elevation: 0.0,
         ),
@@ -42,9 +44,10 @@ class MyCollectionView extends ConsumerWidget {
                         SizedBox(height: height * 0.008),
                         Align(
                             alignment: Alignment.centerLeft,
-                            child: Text("Nome da Coleção",
-                                style: state.textTheme.caption,
-                                )),
+                            child: Text(
+                              "Nome da Coleção",
+                              style: state.textTheme.caption,
+                            )),
                         SizedBox(
                           height: height * 0.01,
                         ),
@@ -102,7 +105,14 @@ class MyCollectionView extends ConsumerWidget {
                         SizedBox(
                           height: height * 0.01,
                         ),
-                        _owned(context, dataState, flagState, state, width),
+                        _owned(
+                          context,
+                          dataState,
+                          wallpaper,
+                          state,
+                          width,
+                          wall,
+                        ),
                         /*Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -119,7 +129,7 @@ class MyCollectionView extends ConsumerWidget {
         )));
   }
 
-  Widget _owned(context, dataState, flagState, state, width) {
+  Widget _owned(context, dataState, wallpaper, state, width, wall) {
     return Column(children: [
       Row(children: <Widget>[
         Container(
@@ -144,15 +154,15 @@ class MyCollectionView extends ConsumerWidget {
                           physics: NeverScrollableScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisSpacing: 5,
-                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
                             crossAxisCount: 2,
                           ),
-                          itemCount: 2,
+                          itemCount: images.length,
                           itemBuilder: (context, index) {
                             return FutureBuilder<String>(
                               future:
-                                  flagState.getCollectionImage(images[index]),
+                                  wallpaper.getCollectionItem(images[index]),
                               // function where you call your api
                               builder: (BuildContext context,
                                   AsyncSnapshot<String> snapshot) {
@@ -174,7 +184,10 @@ class MyCollectionView extends ConsumerWidget {
                                   else
                                     return GestureDetector(
                                         onTap: () {
-                                          print('apertado');
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MyCollectionView()));
                                         },
                                         child: Stack(
                                           children: [
@@ -218,7 +231,7 @@ class MyCollectionView extends ConsumerWidget {
       ])
     ]);
   }
-
+}
 /* Widget _more(context, dataState, flagState, state, width) {
     return Column(children: [
       Row(children: <Widget>[
@@ -317,5 +330,3 @@ class MyCollectionView extends ConsumerWidget {
         ),
       ])
     ]);*/
-  }
-

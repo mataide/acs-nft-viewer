@@ -25,7 +25,6 @@ class HomeCollectionsView extends ConsumerWidget {
     final dataLogin = watch(loginProvider);
     final navigator = Navigator.of(context);
     final flagState = watch(flagListProvider.notifier);
-    final wallpaper = watch(wallpaperProvider.notifier);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final networkStream = eventChannel.receiveBroadcastStream().distinct().map(
@@ -96,7 +95,7 @@ class HomeCollectionsView extends ConsumerWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: state.primaryColor,
-          iconTheme: IconThemeData(color: state.textTheme.bodyText1!.color),
+          iconTheme: state.primaryIconTheme,
         ),
         body: Container(
             margin:
@@ -234,7 +233,7 @@ class HomeCollectionsView extends ConsumerWidget {
       HomeCollectionsController dataState, width, height, flagState, state) {
     return Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: state.primaryColor),
+          iconTheme: state.primaryIconTheme,
           backgroundColor: Colors.transparent,
           elevation: 0.0,
         ),
