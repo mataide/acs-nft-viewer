@@ -20,7 +20,7 @@ class MyCollectionView extends ConsumerWidget {
 
     return Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: IconThemeData(color: state.primaryColor),
           backgroundColor: Colors.transparent,
           elevation: 0.0,
         ),
@@ -43,11 +43,8 @@ class MyCollectionView extends ConsumerWidget {
                         Align(
                             alignment: Alignment.centerLeft,
                             child: Text("Nome da Coleção",
-                                style: TextStyle(
-                                  color: state.textTheme.bodyText2!.color,
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w700,
-                                ))),
+                                style: state.textTheme.caption,
+                                )),
                         SizedBox(
                           height: height * 0.01,
                         ),
@@ -106,16 +103,16 @@ class MyCollectionView extends ConsumerWidget {
                           height: height * 0.01,
                         ),
                         _owned(context, dataState, flagState, state, width),
-                        Align(
+                        /*Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
                               'More NFTs',
                               style: state.textTheme.caption,
-                            )),
+                            )),*/
                         SizedBox(
                           height: height * 0.01,
                         ),
-                        _more(context, dataState, flagState, state, width),
+                        //_more(context, dataState, flagState, state, width),
                       ])))
             ],
           ),
@@ -222,7 +219,7 @@ class MyCollectionView extends ConsumerWidget {
     ]);
   }
 
-  Widget _more(context, dataState, flagState, state, width) {
+/* Widget _more(context, dataState, flagState, state, width) {
     return Column(children: [
       Row(children: <Widget>[
         Container(
@@ -319,6 +316,6 @@ class MyCollectionView extends ConsumerWidget {
           width: width * 0.02,
         ),
       ])
-    ]);
+    ]);*/
   }
-}
+
