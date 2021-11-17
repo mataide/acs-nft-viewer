@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:NFT_View/app/home/collections/nft_page.dart';
+import 'package:NFT_View/app/widgets/flag_list.dart';
+import 'package:NFT_View/controllers/widgets/flag_list_controller.dart';
 import 'package:NFT_View/controllers/widgets/wallpaper_list_controller.dart';
 import 'package:NFT_View/core/models/index.dart';
 import 'package:NFT_View/core/providers/providers.dart';
@@ -12,13 +15,19 @@ import '../home_collections.dart';
 
 class MyCollectionView extends ConsumerWidget {
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(
+    BuildContext context,
+    ScopedReader watch,
+  ) {
     final state = watch(themeProvider);
     final dataState = watch(homeCollectionsProvider.notifier);
+
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final wallpaper = watch(wallpaperListProvider.notifier);
-    final wall = watch(wallpaperProvider.notifier);
+
+    final wall = watch(wallpaperListProvider.notifier);
+
+    final List<Collections> collectionsList;
 
     return Scaffold(
         appBar: AppBar(
@@ -108,7 +117,6 @@ class MyCollectionView extends ConsumerWidget {
                         _owned(
                           context,
                           dataState,
-                          wallpaper,
                           state,
                           width,
                           wall,
@@ -129,109 +137,83 @@ class MyCollectionView extends ConsumerWidget {
         )));
   }
 
-  Widget _owned(context, dataState, wallpaper, state, width, wall) {
+  Widget _owned(context, dataState, state, width, wall) {
     return Column(children: [
       Row(children: <Widget>[
         Container(
             child: Expanded(
-          child: FutureBuilder<List<Collections>>(
-              future: dataState.prepareFromDb(),
-              // function where you call your api
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                final images = snapshot.data;
-                // AsyncSnapshot<Your object type>
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return Center(child: CircularProgressIndicator());
-                  default:
-                    if (snapshot.hasError) {
+                child: SingleChildScrollView(
+          child: GridView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 10,
+                crossAxisCount: 2,
+              ),
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return FutureBuilder<String>(
+                  future: wall.getCollectionItem(wall.collections),
+                  // function where you call your api
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    // AsyncSnapshot<Your object type>
+                    if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
-                          child:
-                              Text('prepareFromDb error: ${snapshot.error}'));
+                          child: Text(
+                        'Please wait its loading...',
+                        style:
+                            TextStyle(color: state.textTheme.bodyText1!.color),
+                      ));
                     } else {
-                      return GridView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
-                            crossAxisCount: 2,
-                          ),
-                          itemCount: images.length,
-                          itemBuilder: (context, index) {
-                            return FutureBuilder<String>(
-                              future:
-                                  wallpaper.getCollectionItem(images[index]),
-                              // function where you call your api
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<String> snapshot) {
-                                // AsyncSnapshot<Your object type>
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return Center(
-                                      child: Text(
-                                    'Please wait its loading...',
-                                    style: TextStyle(
-                                        color:
-                                            state.textTheme.bodyText1!.color),
-                                  ));
-                                } else {
-                                  if (snapshot.hasError)
-                                    return Center(
-                                        child: Text(
-                                            'getCollectionImage: ${snapshot.error}'));
-                                  else
-                                    return GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MyCollectionView()));
-                                        },
-                                        child: Stack(
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                              child: snapshot.data!
-                                                      .contains('http')
-                                                  ? Image.network(
-                                                      snapshot.data!,
-                                                      fit: BoxFit.cover,
-                                                    )
-                                                  : Image.file(
-                                                      File(snapshot.data!),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                            ),
-                                            Positioned(
-                                                bottom: 30.0,
-                                                left: 20.0,
-                                                child: Text(
-                                                    images[index].tokenName)),
-                                            Positioned(
-                                                bottom: 10.0,
-                                                left: 20.0,
-                                                child: Text(
-                                                    '${images[index].totalSupply}')),
-                                          ],
-                                        ));
-                                }
-                              },
-                            );
-                          });
+                      if (snapshot.hasError)
+                        return Center(
+                            child:
+                                Text('getCollectionImage: ${snapshot.error}'));
+                      else
+                        return GestureDetector(
+                            onTap: () {
+                              NftPageView();
+                            },
+                            child: Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: snapshot.data!.contains('http')
+                                      ? Image.network(
+                                          snapshot.data!,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.file(
+                                          File(snapshot.data!),
+                                          fit: BoxFit.cover,
+                                        ),
+                                ),
+                                Positioned(
+                                    bottom: 30.0,
+                                    left: 20.0,
+                                    child: Text(
+                                        wall.collections[index].tokenName)),
+                                Positioned(
+                                    bottom: 10.0,
+                                    left: 20.0,
+                                    child: Text(
+                                        '${wall.collections[index].totalSupply}')),
+                              ],
+                            ));
                     }
-                }
+                  },
+                );
               }),
-        )),
+        ))),
         SizedBox(
           width: width * 0.02,
         ),
-      ])
+      ]),
     ]);
   }
-}
+
 /* Widget _more(context, dataState, flagState, state, width) {
     return Column(children: [
       Row(children: <Widget>[
@@ -330,3 +312,4 @@ class MyCollectionView extends ConsumerWidget {
         ),
       ])
     ]);*/
+}
