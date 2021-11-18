@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:NFT_View/app/widgets/bottom_nav_bar.dart';
+import 'package:faktura_nft_viewer/app/widgets/bottom_nav_bar.dart';
 import 'home_collections.dart';
 import 'home_search.dart';
 import 'home_settings.dart';
 import 'package:flutter/material.dart';
 
 // Providers
-import 'package:NFT_View/core/providers/providers.dart';
+import 'package:faktura_nft_viewer/core/providers/providers.dart';
 
 class HomePage extends ConsumerWidget {
 

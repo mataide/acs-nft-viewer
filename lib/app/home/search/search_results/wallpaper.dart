@@ -1,6 +1,6 @@
-import 'package:NFT_View/app/widgets/dialog.dart';
-import 'package:NFT_View/controllers/home/search/wallpaper_controller.dart';
-import 'package:NFT_View/core/models/response.dart';
+import 'package:faktura_nft_viewer/app/widgets/dialog.dart';
+import 'package:faktura_nft_viewer/controllers/home/search/wallpaper_controller.dart';
+import 'package:faktura_nft_viewer/core/models/response.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
@@ -9,15 +9,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_downloader/image_downloader.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../collections/collections_widget.dart';
+import 'package:faktura_nft_viewer/app/home/collections/collections_widget.dart';
 import 'package:share/share.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-
-import '../search_web.dart';
+import 'package:faktura_nft_viewer/app/home/search/search_web.dart';
 
 // Providers
-import 'package:NFT_View/core/providers/providers.dart';
+import 'package:faktura_nft_viewer/core/providers/providers.dart';
 
 class WallpaperView extends ConsumerWidget implements TickerProvider {
 

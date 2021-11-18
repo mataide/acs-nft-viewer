@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:NFT_View/app/widgets/selector.dart';
+import 'package:faktura_nft_viewer/app/widgets/selector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:NFT_View/core/utils/constants.dart';
-import 'package:NFT_View/core/models/response.dart';
+import 'package:faktura_nft_viewer/core/utils/constants.dart';
+import 'package:faktura_nft_viewer/core/models/response.dart';
 import 'package:http/http.dart' as http;
-import 'package:NFT_View/database_helper/database.dart';
+import 'package:faktura_nft_viewer/database_helper/database.dart';
 
 class CarouselWallpaperState extends ChangeNotifier {
   List<Post?> _posts;

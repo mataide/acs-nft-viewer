@@ -1,11 +1,11 @@
-import 'package:NFT_View/core/client/APIClient.dart';
-import 'package:NFT_View/app/widgets/selector.dart';
-import 'package:NFT_View/core/models/eth721.dart';
+import 'package:faktura_nft_viewer/core/client/APIClient.dart';
+import 'package:faktura_nft_viewer/app/widgets/selector.dart';
+import 'package:faktura_nft_viewer/core/models/eth721.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:NFT_View/core/utils/constants.dart';
-import 'package:NFT_View/core/models/index.dart';
-import 'package:NFT_View/database_helper/database.dart';
+import 'package:faktura_nft_viewer/core/utils/constants.dart';
+import 'package:faktura_nft_viewer/core/models/index.dart';
+import 'package:faktura_nft_viewer/database_helper/database.dart';
 import "package:collection/collection.dart";
 
 class CollectionsState {

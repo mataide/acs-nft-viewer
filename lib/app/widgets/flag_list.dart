@@ -1,5 +1,5 @@
-import 'package:NFT_View/core/models/index.dart';
-import 'package:NFT_View/core/providers/providers.dart';
+import 'package:faktura_nft_viewer/core/models/index.dart';
+import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';

@@ -1,12 +1,10 @@
 import 'dart:convert';
 
-import 'package:NFT_View/core/models/index.dart';
 import 'package:flutter/material.dart';
-import 'package:NFT_View/core/utils/constants.dart';
-import 'package:NFT_View/core/models/response.dart';
+import 'package:faktura_nft_viewer/core/utils/constants.dart';
+import 'package:faktura_nft_viewer/core/models/response.dart';
 import 'package:http/http.dart' as http;
-import 'package:NFT_View/app/widgets/wallpaper_list.dart';
-import 'package:NFT_View/app/home/collections/collections_widget.dart';
+import 'package:faktura_nft_viewer/app/home/collections/collections_widget.dart';
 
 class SearchResults extends StatefulWidget {
   final ThemeData? themeData;
@@ -19,7 +17,6 @@ class SearchResults extends StatefulWidget {
 
 class _SearchResultsState extends State<SearchResults> {
   kdataFetchState _fetchState = kdataFetchState.IS_LOADING;
-  late List<DataModel> images;
 
   @override
   void initState() {

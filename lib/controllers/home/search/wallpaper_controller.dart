@@ -1,4 +1,4 @@
-import 'package:NFT_View/core/models/response.dart';
+import 'package:faktura_nft_viewer/core/models/response.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WallPaperState {

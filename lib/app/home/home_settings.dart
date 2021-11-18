@@ -1,12 +1,10 @@
-import 'package:NFT_View/app/home/settings/settings_login.dart';
+import 'package:faktura_nft_viewer/app/home/settings/settings_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../widgets/dialog.dart';
-import 'package:NFT_View/app/home/settings/card_with_children.dart';
+import 'package:faktura_nft_viewer/app/widgets/dialog.dart';
 
 // Providers
-import 'package:NFT_View/core/providers/providers.dart';
+import 'package:faktura_nft_viewer/core/providers/providers.dart';
 
 class HomeSettingsView extends ConsumerWidget {
   @override

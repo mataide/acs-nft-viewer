@@ -1,17 +1,12 @@
 import 'dart:io';
 
-import 'package:NFT_View/app/home/collections/nft_page.dart';
-import 'package:NFT_View/app/widgets/flag_list.dart';
-import 'package:NFT_View/controllers/widgets/flag_list_controller.dart';
-import 'package:NFT_View/controllers/widgets/wallpaper_list_controller.dart';
-import 'package:NFT_View/core/models/index.dart';
-import 'package:NFT_View/core/providers/providers.dart';
+import 'package:faktura_nft_viewer/app/home/collections/nft_page.dart';
+import 'package:faktura_nft_viewer/core/models/index.dart';
+import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:readmore/readmore.dart';
-
-import '../home_collections.dart';
 
 class MyCollectionView extends ConsumerWidget {
   @override

@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:NFT_View/core/models/index.dart';
+import 'package:faktura_nft_viewer/core/models/index.dart';
 
 @dao
 abstract class CollectionsDAO {

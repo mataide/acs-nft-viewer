@@ -1,4 +1,4 @@
-import 'package:NFT_View/core/models/index.dart';
+import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:floor/floor.dart';
 

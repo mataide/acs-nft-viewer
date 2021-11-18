@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:NFT_View/core/dao/index.dart';
-import 'package:NFT_View/core/models/index.dart';
+import 'package:faktura_nft_viewer/core/dao/index.dart';
+import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 

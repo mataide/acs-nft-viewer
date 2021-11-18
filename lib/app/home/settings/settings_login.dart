@@ -1,14 +1,14 @@
 import 'dart:io';
-import 'package:NFT_View/app/home/settings/login_ethereum_address/login_modal_address.dart';
-import 'package:NFT_View/app/home/settings/login_modal_connected.dart';
-import 'package:NFT_View/controllers/home/settings/settings_login_controller.dart';
+import 'package:faktura_nft_viewer/app/home/settings/login_ethereum_address/login_modal_address.dart';
+import 'package:faktura_nft_viewer/app/home/settings/login_modal_connected.dart';
+import 'package:faktura_nft_viewer/controllers/home/settings/settings_login_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Providers
-import 'package:NFT_View/core/providers/providers.dart';
+import 'package:faktura_nft_viewer/core/providers/providers.dart';
 
 class SettingsLoginView extends ConsumerWidget {
   final eventChannel =

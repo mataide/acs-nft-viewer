@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/utils/constants.dart';
 
 // Providers
-import 'package:NFT_View/core/providers/providers.dart';
+import 'package:faktura_nft_viewer/core/providers/providers.dart';
 
 class ThemeChangerWidget extends ConsumerWidget {
   final List<String> string = ['Light', 'Dark'];

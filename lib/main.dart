@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:NFT_View/app/home/home.dart';
+import 'package:faktura_nft_viewer/app/home/home.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:NFT_View/core/utils/constants.dart';
+import 'package:faktura_nft_viewer/core/utils/constants.dart';
 
 // Providers
-import 'package:NFT_View/core/providers/providers.dart';
+import 'package:faktura_nft_viewer/core/providers/providers.dart';
 
 SharedPreferences? prefs;
 

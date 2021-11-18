@@ -1,11 +1,10 @@
 import 'dart:io';
 
-import 'package:NFT_View/app/home/settings/login_ethereum_address/login_modal_address.dart';
-import 'package:NFT_View/app/widgets/flag_list.dart';
-import 'package:NFT_View/app/widgets/wallpaper_list.dart';
-import 'package:NFT_View/controllers/home/home_collections_controller.dart';
-import 'package:NFT_View/core/models/index.dart';
-import 'package:NFT_View/core/providers/providers.dart';
+import 'package:faktura_nft_viewer/app/home/settings/login_ethereum_address/login_modal_address.dart';
+import 'package:faktura_nft_viewer/app/widgets/flag_list.dart';
+import 'package:faktura_nft_viewer/controllers/home/home_collections_controller.dart';
+import 'package:faktura_nft_viewer/core/models/index.dart';
+import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

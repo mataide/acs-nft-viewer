@@ -1,12 +1,9 @@
-import 'package:NFT_View/core/providers/providers.dart';
+import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_downloader/image_downloader.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:share/share.dart';
 
 class NftPageView extends ConsumerWidget {
   final eventChannel =
