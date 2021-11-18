@@ -6,5 +6,6 @@ export 'home_settings_provider.dart' show homeSettingsProvider;
 export 'wallpaper_provider.dart' show wallpaperProvider;
 export 'wallpaper_list_provider.dart' show wallpaperListProvider;
 export 'flag_list_provider.dart' show flagListProvider;
+export 'item_nft_provider.dart' show itemNftProvider;
 
 

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:faktura_nft_viewer/app/home/collections/nft_page.dart';
+import 'package:faktura_nft_viewer/app/home/collections/item/nft_page.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:flutter/cupertino.dart';
