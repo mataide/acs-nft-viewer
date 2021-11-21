@@ -1,13 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ModalAdrress {
-  modalAddress(BuildContext context, state, dataState) {
+  modalAddress(BuildContext context, state, dataStateLogin) {
     final _formKey = GlobalKey<FormState>();
     final _keyCrontollers = TextEditingController();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    var text = _keyCrontollers.text;
 
 
     showModalBottomSheet(
@@ -53,6 +56,7 @@ class ModalAdrress {
                                   hintText: "Paste your wallet address here",
                                   hintStyle: state.textTheme.headline5,
                                   ),
+
                                 ),
                               ),
                             )),
@@ -76,7 +80,8 @@ class ModalAdrress {
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else {
-                          dataState.sharedWrite(_keyCrontollers.text);
+                          print(_keyCrontollers.text);
+                          dataStateLogin.sharedWrite(_keyCrontollers.text);
                           //key.rest(_keyCrontollers.text);
                         }
                       },

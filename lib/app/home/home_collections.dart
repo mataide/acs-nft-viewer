@@ -40,7 +40,7 @@ class HomeCollectionsView extends ConsumerWidget {
           alignment: Alignment.center,
           children: [
             StreamBuilder<dynamic>(
-                initialData: dataLogin.listAddress,
+                initialData: dataStateLogin.listAddress,
                 stream: networkStream,
                 builder: (context, snapshot) {
                   print(snapshot.data);
@@ -56,7 +56,7 @@ class HomeCollectionsView extends ConsumerWidget {
                         navigator, state, context);
                   } else {
                     return FutureBuilder<List<String>>(
-                      future: dataStateLogin.sharedWrite(address),
+                      future: dataStateLogin.sharedRead(),
                       // function where you call your api
                       builder: (BuildContext context,
                           AsyncSnapshot<List<String>> snapshot) {

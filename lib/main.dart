@@ -7,6 +7,8 @@ import 'package:faktura_nft_viewer/core/utils/constants.dart';
 // Providers
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 
+import 'app/home/settings/settings_login.dart';
+
 SharedPreferences? prefs;
 
 void main() {

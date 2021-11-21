@@ -21,13 +21,13 @@ class SettingsLoginView extends ConsumerWidget {
     final _deviceHeight = MediaQuery.of(context).size.height;
     final _deviceWidth = MediaQuery.of(context).size.width;
     final navigator = Navigator.of(context);
-    final networkStream = eventChannel
-        .receiveBroadcastStream()
-        .distinct()
-        .map((dynamic event) => event == "disconnected" || event == null ? [].cast<String>() : [event] );
+    final networkStream = eventChannel.receiveBroadcastStream().distinct().map(
+        (dynamic event) => event == "disconnected" || event == null
+            ? [].cast<String>()
+            : [event]);
 
-    return _buildUI(state, dataState, _deviceHeight, _deviceWidth,
-        navigator, networkStream, context);
+    return _buildUI(state, dataState, _deviceHeight, _deviceWidth, navigator,
+        networkStream, context);
   }
 
   Widget _buildUI(
@@ -51,14 +51,8 @@ class SettingsLoginView extends ConsumerWidget {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                _walletsWidget(
-                  state,
-                  dataState,
-                  _deviceHeight,
-                  _deviceWidth,
-                  navigator,
-                  networkStream,
-                  context)
+                _walletsWidget(state, dataState, _deviceHeight, _deviceWidth,
+                    navigator, networkStream, context)
               ],
             ),
           ),
@@ -76,7 +70,8 @@ class SettingsLoginView extends ConsumerWidget {
     ModalConnected modalConnected = ModalConnected();
 
     return Container(
-        margin: EdgeInsets.only(left: (_deviceWidth * 0.02), right: (_deviceWidth * 0.02)),
+        margin: EdgeInsets.only(
+            left: (_deviceWidth * 0.02), right: (_deviceWidth * 0.02)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -121,8 +116,11 @@ class SettingsLoginView extends ConsumerWidget {
                 stream: networkStream,
                 builder: (context, snapshot) {
                   print(snapshot.data);
-                  final List<String> address = snapshot.data != null ? List<String>.from(snapshot.data).length > 0 ? List<String>.from(snapshot.data) : dataState.listAddress : [].cast<String>();
-
+                  final List<String> address = snapshot.data != null
+                      ? List<String>.from(snapshot.data).length > 0
+                          ? List<String>.from(snapshot.data)
+                          : dataState.listAddress
+                      : [].cast<String>();
                   print("address: $address");
                   if (List<String>.from(snapshot.data).length > 0) {
                     return FutureBuilder<List<String>>(
@@ -136,15 +134,15 @@ class SettingsLoginView extends ConsumerWidget {
                           return Center(
                               child: Text('Please wait its loading...',
                                   style: TextStyle(
-                                      color: state
-                                          .textTheme.bodyText1!.color)));
+                                      color:
+                                          state.textTheme.bodyText1!.color)));
                         } else {
                           if (snapshot.hasError)
                             return Center(
                                 child: Text('Error: ${snapshot.error}',
                                     style: TextStyle(
-                                        color: state
-                                            .textTheme.bodyText1!.color)));
+                                        color:
+                                            state.textTheme.bodyText1!.color)));
                           else
                             return _listAddressWidget(
                                 state,
@@ -158,29 +156,34 @@ class SettingsLoginView extends ConsumerWidget {
                       },
                     );
                   } else if (address.length > 0 && address.isNotEmpty) {
-                    return _listAddressWidget(
-                        state,
-                        dataState,
-                        _deviceHeight,
-                        _deviceWidth,
-                        navigator,
-                        networkStream,
-                        context);
+                    return _listAddressWidget(state, dataState, _deviceHeight,
+                        _deviceWidth, navigator, networkStream, context);
                   } else {
                     //TODO: Replace with empty placeholder
-                    return _listAddressWidget(
-                        state,
-                        dataState,
-                        _deviceHeight,
-                        _deviceWidth,
-                        navigator,
-                        networkStream,
-                        context);
+                    return Column(children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                            left: (_deviceWidth * 0.02),
+                            right: (_deviceWidth * 0.02)),
+                        height: _deviceHeight * 0.09,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: state.primaryColor),
+                            color: state.primaryColorDark,
+                            borderRadius: BorderRadius.circular(15.0)),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "No connected wallet",
+                            style: state.textTheme.headline5,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: _deviceHeight * 0.06,
+                      )
+                    ]);
                   }
                 }),
-            SizedBox(
-              height: 100.0,
-            ),
             Row(
               children: [
                 Text(
@@ -202,7 +205,8 @@ class SettingsLoginView extends ConsumerWidget {
         ));
   }
 
-  Widget _listAddressWidget(state,
+  Widget _listAddressWidget(
+      state,
       SettingsLoginController dataState,
       double _deviceHeight,
       double _deviceWidth,
@@ -210,7 +214,8 @@ class SettingsLoginView extends ConsumerWidget {
       networkStream,
       BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(left: (_deviceWidth * 0.02), right: (_deviceWidth * 0.02)),
+        margin: EdgeInsets.only(
+            left: (_deviceWidth * 0.02), right: (_deviceWidth * 0.02)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -234,35 +239,21 @@ class SettingsLoginView extends ConsumerWidget {
                   Spacer(),
                   Expanded(
                       child: Text(
-                        // dataState.listAddress.first,
-                        dataState.listAddress.toString().length > 8
-                            ? dataState.listAddress.toString().substring(
-                            0, dataState.listAddress.toString().length - 8)
-                            : dataState.listAddress.toString(),
-                        maxLines: 1,
-                        textAlign: TextAlign.end,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: false,
-                        style: TextStyle(
-                            color: state.textTheme.bodyText1!.color,
-                            fontFamily: "MavenPro-Regular",
-                            fontWeight: FontWeight.w400),
-                      )),
-                  Expanded(
-                      child: Text(
-                        dataState.listAddress.toString().length > 8
-                            ? dataState.listAddress.toString().substring(
-                            dataState.listAddress.toString().length - 8)
-                            : '',
-                        maxLines: 1,
-                        textAlign: TextAlign.start,
-                        softWrap: false,
-                        style: TextStyle(
-                          color: state.textTheme.bodyText1!.color,
-                          fontFamily: "MavenPro-Regular",
-                          fontWeight: FontWeight.w400,
-                        ),
-                      )),
+                    // dataState.listAddress.first,
+                    dataState.listAddress.toString().length > 8
+                        ? dataState.listAddress.toString().substring(
+                              1,
+                            )
+                        : dataState.listAddress.toString(),
+                    maxLines: 1,
+                    textAlign: TextAlign.end,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    style: TextStyle(
+                        color: state.textTheme.bodyText1!.color,
+                        fontFamily: "MavenPro-Regular",
+                        fontWeight: FontWeight.w400),
+                  )),
                   IconButton(
                     onPressed: () {
                       //_modalConnected(context, state, dataState);
@@ -309,13 +300,19 @@ class SettingsLoginView extends ConsumerWidget {
               ],
             ),
             SizedBox(
-              height: 100.0,
+              height: _deviceHeight * 0.0175,
             ),
+            dataState.listAddress.length > 1
+                ? _listWalletsWidget(
+                    context, dataState, state, _deviceHeight, _deviceWidth)
+                : SizedBox(
+                    height: _deviceHeight * 0.112,
+                  ),
           ],
         ));
   }
 
-    Widget _connectWidget(BuildContext context, dataState, navigator, state) {
+  Widget _connectWidget(BuildContext context, dataState, navigator, state) {
     ModalAdrress modal = ModalAdrress();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -375,10 +372,63 @@ class SettingsLoginView extends ConsumerWidget {
             ],
           ),
         ),
-        SizedBox(
-          height: 20.0,
-        ),
       ]),
     );
+  }
+
+  Widget _listWalletsWidget(
+      BuildContext context, dataState, state, _deviceHeight, _deviceWidth) {
+    return ListView(shrinkWrap: true, children: [
+      Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: state.primaryColorDark),
+            borderRadius: BorderRadius.circular(8.0)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              width: _deviceWidth * 0.04,
+            ),
+            Text(
+              'Address ',
+              style: TextStyle(
+                  color: state.textTheme.bodyText1!.color,
+                  fontFamily: "MavenPro-Regular",
+                  fontWeight: FontWeight.w400),
+            ),
+            Spacer(),
+            Expanded(
+                child: Text(
+              // dataState.listAddress.first,
+              dataState.listAddress.toString().length > 8
+                  ? dataState.listAddress.toString().substring(
+                        1,
+                      )
+                  : dataState.listAddress.toString(),
+              maxLines: 1,
+              textAlign: TextAlign.end,
+              overflow: TextOverflow.ellipsis,
+              softWrap: false,
+              style: TextStyle(
+                  color: state.textTheme.bodyText1!.color,
+                  fontFamily: "MavenPro-Regular",
+                  fontWeight: FontWeight.w400),
+            )),
+            IconButton(
+              onPressed: () {
+                //_modalConnected(context, state, dataState);
+                //modalConnected.modalConnected(context, state, dataState);
+              },
+              icon:
+                  Icon(Platform.isAndroid ? Icons.more_vert : Icons.more_horiz),
+              color: state.textTheme.bodyText1!.color,
+            ),
+          ],
+        ),
+      ),
+      SizedBox(
+        height: _deviceHeight * 0.15,
+      ),
+    ]);
   }
 }
