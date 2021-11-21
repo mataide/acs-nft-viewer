@@ -7,10 +7,10 @@ import 'package:flutter/widgets.dart';
 class ModalAdrress {
   modalAddress(BuildContext context, state, dataStateLogin) {
     final _formKey = GlobalKey<FormState>();
-    final _keyCrontollers = TextEditingController();
+    final _keyCrontoller = TextEditingController();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    var text = _keyCrontollers.text;
+    List<String> stringList = [];
 
 
     showModalBottomSheet(
@@ -50,13 +50,12 @@ class ModalAdrress {
                               child: TextFormField(
                                 //autofocus: true,
                                 textAlign: TextAlign.center,
-                                controller: _keyCrontollers,
+                                controller: _keyCrontoller,
                                 style:state.textTheme.headline5,
                                 decoration: InputDecoration(
                                   hintText: "Paste your wallet address here",
                                   hintStyle: state.textTheme.headline5,
                                   ),
-
                                 ),
                               ),
                             )),
@@ -72,7 +71,7 @@ class ModalAdrress {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0))),
                       onPressed: () {
-                        if (_keyCrontollers.text == "") {
+                        if (_keyCrontoller.text == "") {
                           final snackBar = SnackBar(
                             content: Text('Insert a Public Key !', style: state.textTheme.headline5,),
                             backgroundColor: state.primaryColor,
@@ -80,8 +79,8 @@ class ModalAdrress {
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else {
-                          print(_keyCrontollers.text);
-                          dataStateLogin.sharedWrite(_keyCrontollers.text);
+                          stringList.add(_keyCrontoller.text);
+                          dataStateLogin.sharedWrite(stringList);
                           //key.rest(_keyCrontollers.text);
                         }
                       },

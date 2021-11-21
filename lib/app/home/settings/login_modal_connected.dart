@@ -1,4 +1,6 @@
+import 'package:faktura_nft_viewer/controllers/home/settings/settings_login_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ModalConnected {
   modalConnected(BuildContext context, state, dataState) {
@@ -24,18 +26,19 @@ class ModalConnected {
                   children: [
                     SizedBox(width: width * 0.13),
                     Text("wallet",
-                        style: state.textTheme.bodyText1),
+                        style: state.textTheme.bodyText2),
+                    SizedBox(width: width * 0.08,),
                     Expanded(
                         child: Text(
                             dataState.listAddress.toString().length > 8
-                                ? dataState.listAddress.toString().substring(0,
+                                ? dataState.listAddress.toString().substring(1,
                                     dataState.listAddress.toString().length - 8)
                                 : dataState.listAddress.toString(),
                             maxLines: 1,
                             textAlign: TextAlign.end,
                             overflow: TextOverflow.ellipsis,
                             softWrap: false,
-                            style: state.textTheme.bodyText1)),
+                            style: state.textTheme.bodyText2)),
                     Expanded(
                         child: Text(
                       dataState.listAddress.toString().length > 8
@@ -45,7 +48,7 @@ class ModalConnected {
                       maxLines: 1,
                       textAlign: TextAlign.start,
                       softWrap: false,
-                          style: state.textTheme.bodyText1,
+                          style: state.textTheme.bodyText2,
                     )),
                   ],
                 ),
@@ -77,11 +80,18 @@ class ModalConnected {
                         textAlign: TextAlign.center,
                       ),
                     ]),
-                    onPressed: () {},
+                    onPressed: (){
+
+                    }
+
                   ),
                 ),
                 SizedBox(height: height * 0.0185),
               ]));
+
+
         });
+
   }
+
 }

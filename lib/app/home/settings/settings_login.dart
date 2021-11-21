@@ -213,6 +213,7 @@ class SettingsLoginView extends ConsumerWidget {
       navigator,
       networkStream,
       BuildContext context) {
+    ModalConnected modalConnected = ModalConnected();
     return Container(
         margin: EdgeInsets.only(
             left: (_deviceWidth * 0.02), right: (_deviceWidth * 0.02)),
@@ -257,7 +258,7 @@ class SettingsLoginView extends ConsumerWidget {
                   IconButton(
                     onPressed: () {
                       //_modalConnected(context, state, dataState);
-                      //modalConnected.modalConnected(context, state, dataState);
+                      modalConnected.modalConnected(context, state, dataState);
                     },
                     icon: Icon(Platform.isAndroid
                         ? Icons.more_vert
