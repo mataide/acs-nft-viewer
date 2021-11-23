@@ -29,7 +29,7 @@ class FlagListWidget extends ConsumerWidget {
               itemCount: collectionsList.length,
               itemBuilder: (context, index) {
                 return FutureBuilder<String>(
-                  future: dataState.getCollectionImage(collectionsList[index]),
+                  future: dataState.prepareFromDb(collectionsList[index]),
                   // function where you call your api
                   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                     // AsyncSnapshot<Your object type>

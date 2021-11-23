@@ -13,7 +13,6 @@ class NftPageView extends ConsumerWidget {
   ) {
     final state = watch(themeProvider);
     final dataState = watch(itemNftProvider.notifier);
-
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 

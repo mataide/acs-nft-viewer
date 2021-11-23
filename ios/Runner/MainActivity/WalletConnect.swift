@@ -14,24 +14,34 @@ protocol WalletConnectDelegate {
 class WalletConnect {
     var client: Client!
     var session: Session!
-    var delegate: WalletConnectDelegate
 
     let sessionKey = "sessionKey"
 
-    init(delegate: WalletConnectDelegate) {
-        self.delegate = delegate
+    /// The static field that controls the access to the singleton instance.
+    ///
+    /// This implementation let you extend the Singleton class while keeping
+    /// just one instance of each subclass around.
+    static var shared: WalletConnect = {
+        let instance = WalletConnect()
+        // ... configure the instance
+        // ...
+        return instance
+    }()
+    
+    private init() {
+    
     }
 
     func connect() -> String {
         // gnosis wc bridge: https://safe-walletconnect.gnosis.io/
         // test bridge with latest protocol version: https://bridge.walletconnect.org
         let wcUrl =  WCURL(topic: UUID().uuidString,
-                           bridgeURL: URL(string: "https://safe-walletconnect.gnosis.io/")!,
+                           bridgeURL: URL(string: "http://localhost")!,
                            key: try! randomKey())
-        let clientMeta = Session.ClientMeta(name: "ExampleDApp",
-                                            description: "WalletConnectSwift ",
+        let clientMeta = Session.ClientMeta(name: "ACC: NFT Viewer",
+                                            description: "Login with wallet connect. Permission required: Public Address",
                                             icons: [],
-                                            url: URL(string: "https://safe.gnosis.io")!)
+                                            url: URL(string: "www.faktura.art")!)
         let dAppInfo = Session.DAppInfo(peerId: UUID().uuidString, peerMeta: clientMeta)
         client = Client(delegate: self, dAppInfo: dAppInfo)
 
@@ -65,28 +75,4 @@ class WalletConnect {
     }
 }
 
-extension WalletConnect: ClientDelegate {
-    func client(_ client: Client, didFailToConnect url: WCURL) {
-        delegate.failedToConnect()
-    }
 
-    func client(_ client: Client, didConnect url: WCURL) {
-        // do nothing
-    }
-
-    func client(_ client: Client, didConnect session: Session) {
-        self.session = session
-        let sessionData = try! JSONEncoder().encode(session)
-        UserDefaults.standard.set(sessionData, forKey: sessionKey)
-        delegate.didConnect()
-    }
-
-    func client(_ client: Client, didDisconnect session: Session) {
-        UserDefaults.standard.removeObject(forKey: sessionKey)
-        delegate.didDisconnect()
-    }
-
-    func client(_ client: Client, didUpdate session: Session) {
-        // do nothing
-    }
-}

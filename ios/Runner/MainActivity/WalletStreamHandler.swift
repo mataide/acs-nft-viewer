@@ -1,19 +1,19 @@
 //
-//  NetworkStreamHandler.swift
+//  WalletStreamHandler.swift
 //  Runner
 //
-//  Created by Wilberforce Uwadiegwu on 26/12/2020.
 //
 
-import Reachability
+import WalletConnectSwift
 
 
-class NetworkStreamHandler: NSObject, FlutterStreamHandler {
-    let reachability: Reachability
+class WalletStreamHandler: NSObject, FlutterStreamHandler {
+    var delegate: WalletConnectDelegate
+
     private var eventSink: FlutterEventSink? = nil
 
-    init(reachability: Reachability) {
-        self.reachability = reachability
+    init() {
+        WalletConnect.shared.session.
     }
     
     func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
@@ -49,4 +49,30 @@ class NetworkStreamHandler: NSObject, FlutterStreamHandler {
     }
 
     
+}
+
+extension WalletStreamHandler: ClientDelegate {
+    func client(_ client: Client, didFailToConnect url: WCURL) {
+        delegate.failedToConnect()
+    }
+
+    func client(_ client: Client, didConnect url: WCURL) {
+        // do nothing
+    }
+
+    func client(_ client: Client, didConnect session: Session) {
+        self.session = session
+        let sessionData = try! JSONEncoder().encode(session)
+        UserDefaults.standard.set(sessionData, forKey: sessionKey)
+        delegate.didConnect()
+    }
+
+    func client(_ client: Client, didDisconnect session: Session) {
+        UserDefaults.standard.removeObject(forKey: sessionKey)
+        delegate.didDisconnect()
+    }
+
+    func client(_ client: Client, didUpdate session: Session) {
+        // do nothing
+    }
 }

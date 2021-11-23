@@ -17,9 +17,7 @@ class CollectionsState {
 }
 
 class HomeCollectionsController extends StateNotifier<CollectionsState> {
-  HomeCollectionsController([Collections? state]) : super(CollectionsState()) {
-    prepareFromInternet();
-  }
+  HomeCollectionsController([Collections? state]) : super(CollectionsState());
 
   get fetchState => state.fetchState;
   get selectedFilter => state.selectedFilter;
@@ -28,15 +26,22 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
   Future<List<Collections>> prepareFromDb() async {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final collectionsDAO = database.collectionsDAO;
-    return await collectionsDAO.findAll();
+    List<Collections> collections = await collectionsDAO.findAll();
+
+    if(collections.isEmpty) {
+      final preferences = await SharedPreferences.getInstance();
+      final listAddress = preferences.getStringList('key');
+      if (listAddress == null) return await prepareFromInternet("0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb");
+    }
+    return collections;
   }
 
-  void prepareFromInternet() async {
+  Future<List<Collections>> prepareFromInternet(String address) async {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final eth721Dao = database.eth721DAO;
     final collectionsDAO = database.collectionsDAO;
 
-    final List<Eth721> listERC721 = await APIService.instance.getERC721("0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb");
+    final List<Eth721> listERC721 = await APIService.instance.getERC721(address);
     eth721Dao.insertList(listERC721);
     var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
     late List<Collections> listCollections = [];
@@ -46,6 +51,7 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
     }
     await collectionsDAO.insertList(listCollections);
     state = CollectionsState(collections: listCollections, fetchState: kdataFetchState.IS_LOADED);
+    return listCollections;
   }
 
   changeSelected(SelectorCallback selected) {

@@ -2,12 +2,11 @@ import UIKit
 import Flutter
 import Vapor
 
-private let networkEventChannel = "com.bimsina.re_walls/WalletStreamHandler"
+private let EVENT_CHANNEL_WALLET = "com.bimsina.re_walls/WalletStreamHandler"
 private let CHANNEL = "com.bimsina.re_walls/MainActivity"
 private let WALLET_CONNECTION = "initWalletConnection"
 private let WALLET_DISCONNECTION = "initWalletDisconnection"
 
-var walletConnect: WalletConnect!
 //var handshakeController: HandshakeViewController!
 
 @UIApplicationMain
@@ -25,14 +24,16 @@ var walletConnect: WalletConnect!
           // Note: this method is invoked on the UI thread.
             if(call.method == WALLET_CONNECTION) {
                 self.initWalletConnection()
+            } else if(call.method == WALLET_DISCONNECTION) {
+                self.initWalletConnection()
             } else {
               result(FlutterMethodNotImplemented)
               return
             }
         })
 
-        FlutterEventChannel(name: networkEventChannel, binaryMessenger: controller.binaryMessenger)
-                            .setStreamHandler(NetworkStreamHandler(reachability: reachability))
+        FlutterEventChannel(name: EVENT_CHANNEL_WALLET, binaryMessenger: controller.binaryMessenger)
+                            .setStreamHandler(WalletStreamHandler(reachability: reachability))
 
         GeneratedPluginRegistrant.register(with: self)
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -42,8 +43,7 @@ var walletConnect: WalletConnect!
         let thread = Thread.init(target: self, selector: #selector(longRunningProcess), object: nil)
         thread.start()
         
-        walletConnect = WalletConnect(delegate: self)
-        let connectionUrl = walletConnect.connect()
+        let connectionUrl = WalletConnect.shared.connect()
 
         /// https://docs.walletconnect.org/mobile-linking#for-ios
         /// **NOTE**: Majority of wallets support universal links that you should normally use in production application

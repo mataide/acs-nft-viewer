@@ -51,12 +51,9 @@ class HomeCollectionsView extends ConsumerWidget {
                       : [].cast<String>();
 
                   print("address: $address");
-                  if (address.length > 0) {
-                    return _connectWidget(dataState, stateTheme, dataStateLogin,
-                        navigator, state, context);
-                  } else {
+                  if(List<String>.from(snapshot.data).length > 0){
                     return FutureBuilder<List<String>>(
-                      future: dataStateLogin.sharedRead(),
+                      future: dataStateLogin.sharedWrite(address),
                       // function where you call your api
                       builder: (BuildContext context,
                           AsyncSnapshot<List<String>> snapshot) {
@@ -78,8 +75,11 @@ class HomeCollectionsView extends ConsumerWidget {
                         }
                       },
                     );
+                  } else {
+                    return _connectWidget(dataState, stateTheme, dataStateLogin,
+                        navigator, state, context);
                   }
-                })
+                  })
           ],
         ),
       ),

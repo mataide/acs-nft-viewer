@@ -5,6 +5,7 @@ import 'package:faktura_nft_viewer/core/utils/util.dart';
 import 'package:http/http.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:faktura_nft_viewer/core/utils/constants.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
@@ -20,25 +21,17 @@ class FlagListState {
 }
 
 class FlagListController extends StateNotifier<FlagListState> {
-  FlagListController([FlagListState? state]) : super(FlagListState()) {
-    prepareFromDb();
-  }
+  FlagListController([FlagListState? state]) : super(FlagListState());
 
   get fetchState => state.fetchState;
   get selectedFilter => state.selectedFilter;
   get collections => state.collections;
 
-
-
-  Future<List<Collections>> prepareFromDb() async {
-    final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
-    final collectionsDAO = database.collectionsDAO;
-    final List<Collections> collections = await collectionsDAO.findAll();
-    state = FlagListState(collections: collections);
-    return collections;
+  Future<String> prepareFromDb(Collections collections) async {
+    return collections.image ?? await prepareFromInternet(collections);
   }
 
-  Future<String> getCollectionImage(Collections collections) async {
+  Future<String> prepareFromInternet(Collections collections) async {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final collectionsItemDAO = database.collectionsItemDAO;
     final collectionsDAO = database.collectionsDAO;

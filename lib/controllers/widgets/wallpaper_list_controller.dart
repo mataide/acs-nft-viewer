@@ -21,9 +21,7 @@ class WallpaperListState {
 }
 
 class WallpaperListController extends StateNotifier<WallpaperListState> {
-  WallpaperListController([WallpaperListState? state]) : super(WallpaperListState()) {
-    prepareFromDb();
-  }
+  WallpaperListController([WallpaperListState? state]) : super(WallpaperListState());
 
   get fetchState => state.fetchState;
   get selectedSubreddit => state.selectedSubreddit;
