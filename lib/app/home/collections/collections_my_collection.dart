@@ -9,6 +9,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:readmore/readmore.dart';
 
 class MyCollectionView extends ConsumerWidget {
+
+  final Collections collections;
+
+  MyCollectionView(this.collections);
+
   @override
   Widget build(
     BuildContext context,

@@ -20,7 +20,7 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
   Future<List<String>> sharedWrite(address) async {
     final preferences = await SharedPreferences.getInstance();
     var listAddress = preferences.getStringList('key');
-    listAddress != null ? listAddress.add(address) : listAddress = [address];
+    listAddress != null ? listAddress.addAllUnique(address) : listAddress = [address];
     await preferences.setStringList('key', listAddress);
     return listAddress;
   }
@@ -49,4 +49,14 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
     }
   }
 
+}
+
+extension ListExtension<E> on List<E> {
+  void addAllUnique(Iterable<E> iterable) {
+    for (var element in iterable) {
+      if (!contains(element)) {
+        add(element);
+      }
+    }
+  }
 }

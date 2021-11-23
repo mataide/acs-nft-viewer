@@ -1,3 +1,5 @@
+import 'package:faktura_nft_viewer/app/home/collections/collections_my_collection.dart';
+import 'package:faktura_nft_viewer/controllers/widgets/slide_right_route.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +44,7 @@ class FlagListWidget extends ConsumerWidget {
                       else
                         return GestureDetector(
                             onTap: () {
-                              print('apertado');
+                              Navigator.of(context).push(SlideRightRoute(MyCollectionView(collectionsList[index])));
                             },
                             child: Stack(
                               children: [

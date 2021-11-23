@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:faktura_nft_viewer/app/home/settings/login_ethereum_address/login_modal_address.dart';
-import 'package:faktura_nft_viewer/app/home/settings/login_modal_connected.dart';
 import 'package:faktura_nft_viewer/controllers/home/settings/settings_login_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +9,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 // Providers
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 
+import 'login_modal/login_modal.dart';
+
 class SettingsLoginView extends ConsumerWidget {
   final eventChannel =
       const EventChannel("com.bimsina.re_walls/WalletStreamHandler");
+  final LoginModal modal = LoginModal();
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -68,7 +69,6 @@ class SettingsLoginView extends ConsumerWidget {
       navigator,
       networkStream,
       BuildContext context) {
-    ModalConnected modalConnected = ModalConnected();
 
     return Container(
         margin: EdgeInsets.only(
@@ -214,7 +214,7 @@ class SettingsLoginView extends ConsumerWidget {
       navigator,
       networkStream,
       BuildContext context) {
-    ModalConnected modalConnected = ModalConnected();
+
     return Container(
         margin: EdgeInsets.only(
             left: (_deviceWidth * 0.02), right: (_deviceWidth * 0.02)),
@@ -259,7 +259,7 @@ class SettingsLoginView extends ConsumerWidget {
                   IconButton(
                     onPressed: () {
                       //_modalConnected(context, state, dataState);
-                      modalConnected.modalConnected(context, state, dataState);
+                      modal.connected(context, state, dataState);
                     },
                     icon: Icon(Platform.isAndroid
                         ? Icons.more_vert
@@ -315,7 +315,7 @@ class SettingsLoginView extends ConsumerWidget {
   }
 
   Widget _connectWidget(BuildContext context, dataState, navigator, state) {
-    ModalAdrress modal = ModalAdrress();
+
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -353,7 +353,7 @@ class SettingsLoginView extends ConsumerWidget {
         ),
         SizedBox(width: width * 0.005),
         ElevatedButton(
-          onPressed: () => modal.modalAddress(context, state, dataState),
+          onPressed: () => modal.address(context, state, dataState),
           style: TextButton.styleFrom(
               backgroundColor: Colors.grey,
               shape: RoundedRectangleBorder(
@@ -421,8 +421,7 @@ class SettingsLoginView extends ConsumerWidget {
             )),
             IconButton(
               onPressed: () {
-                //_modalConnected(context, state, dataState);
-                //modalConnected.modalConnected(context, state, dataState);
+                modal.connected(context, state, dataState);
               },
               icon:
                   Icon(Platform.isAndroid ? Icons.more_vert : Icons.more_horiz),
