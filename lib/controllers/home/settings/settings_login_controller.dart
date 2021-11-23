@@ -11,14 +11,17 @@ class SettingsLoginState {
 }
 
 class SettingsLoginController extends StateNotifier<SettingsLoginState> {
-  SettingsLoginController([SettingsLoginState? state]) : super(SettingsLoginState());
+  SettingsLoginController([SettingsLoginState? state]) : super(SettingsLoginState()) {
+    sharedRead();
+  }
 
   List<String> get listAddress => state.listAddress;
 
   Future<List<String>> sharedWrite(address) async {
     final preferences = await SharedPreferences.getInstance();
-    await preferences.setStringList('key', address);
-    final listAddress = [...{...state.listAddress}];
+    var listAddress = preferences.getStringList('key');
+    listAddress != null ? listAddress.add(address) : listAddress = [address];
+    await preferences.setStringList('key', listAddress);
     return listAddress;
   }
 

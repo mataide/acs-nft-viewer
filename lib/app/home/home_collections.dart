@@ -287,7 +287,7 @@ class HomeCollectionsView extends ConsumerWidget {
                                         itemBuilder: (context, index) {
                                           return FutureBuilder<String>(
                                             future:
-                                                flagState.getCollectionImage(
+                                                flagState.prepareFromDb(
                                                     images[index]),
                                             // function where you call your api
                                             builder: (BuildContext context,

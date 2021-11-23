@@ -125,7 +125,7 @@ class SettingsLoginView extends ConsumerWidget {
                   print("address: $address");
                   if (List<String>.from(snapshot.data).length > 0) {
                     return FutureBuilder<List<String>>(
-                      future: dataState.sharedWrite(address),
+                      future: dataState.sharedWrite(address.first),
                       // function where you call your api
                       builder: (BuildContext context,
                           AsyncSnapshot<List<String>> snapshot) {
@@ -404,12 +404,12 @@ class SettingsLoginView extends ConsumerWidget {
             Spacer(),
             Expanded(
                 child: Text(
-              // dataState.listAddress.first,
-              dataState.listAddress.toString().length > 8
-                  ? dataState.listAddress.toString().substring(
-                        1,
-                      )
-                  : dataState.listAddress.toString(),
+              dataState.listAddress.first,
+              // dataState.listAddress.toString().length > 8
+              //     ? dataState.listAddress.toString().substring(
+              //           1,
+              //         )
+              //     : dataState.listAddress.toString(),
               maxLines: 1,
               textAlign: TextAlign.end,
               overflow: TextOverflow.ellipsis,
