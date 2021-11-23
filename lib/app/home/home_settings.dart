@@ -1,4 +1,5 @@
 import 'package:faktura_nft_viewer/app/home/settings/settings_login.dart';
+import 'package:faktura_nft_viewer/controllers/widgets/slide_right_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:faktura_nft_viewer/app/widgets/dialog.dart';
@@ -67,8 +68,7 @@ class HomeSettingsView extends ConsumerWidget {
                         color: state.textTheme.bodyText1!.color,
                       ),
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SettingsLoginView()));
+                        Navigator.of(context).push(SlideRightRoute(SettingsLoginView()));
                       })),
               Card(
                   color: state.primaryColor,
