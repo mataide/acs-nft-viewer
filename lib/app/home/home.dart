@@ -50,7 +50,7 @@ class HomePage extends ConsumerWidget {
         items: [
           BottomNavyBarItem(
             icon: Icon(Icons.palette_outlined),
-            title: Text('My collections', style: state.textTheme.bodyText2),
+            title: Text('My Collections', style: state.textTheme.bodyText2),
           ),
           // BottomNavyBarItem(
           //   icon: Icon(Icons.work_outline),

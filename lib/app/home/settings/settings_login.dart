@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 // Providers
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
@@ -330,19 +331,20 @@ class SettingsLoginView extends ConsumerWidget {
               backgroundColor: Colors.blueAccent,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0)),
-              fixedSize: Size((width * 1.1), (height * 0.08))),
+              fixedSize: Size((width * 1.1), (height * 0.07))),
           child: Row(children: [
-            new CircleAvatar(
-              radius: 15.0,
-              backgroundImage: AssetImage('assets/images/walletconnect.png'),
+            SvgPicture.asset(
+                'assets/images/walletconnect.svg',
+                semanticsLabel: 'Wallet Connect icon',
+                width: 24
             ),
             SizedBox(
-              width: width * 0.10,
+              width: width * 0.025,
             ),
             Text(
               "Use WalletConnect",
-              style: TextStyle(fontSize: 20.0),
-              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16.0),
+              textAlign: TextAlign.left,
             ),
           ]),
         ),
@@ -356,19 +358,21 @@ class SettingsLoginView extends ConsumerWidget {
               backgroundColor: Colors.grey,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0)),
-              fixedSize: Size((width * 1.1), (height * 0.08))),
+              fixedSize: Size((width * 1.1), (height * 0.07))),
           child: Row(
             children: [
-              new CircleAvatar(
-                radius: 15.0,
-                backgroundImage: AssetImage('assets/images/ethereum.png'),
+              SvgPicture.asset(
+                  'assets/images/ethereum.svg',
+                  color: Colors.white,
+                  semanticsLabel: 'Ethereum icon'
               ),
               SizedBox(
-                width: width * 0.10,
+                width: width * 0.025,
               ),
               Text(
-                "Enter ethereum address",
-                style: TextStyle(fontSize: 20.0),
+                "Enter ETH address",
+                style: TextStyle(fontSize: 16.0),
+                textAlign: TextAlign.left,
               ),
             ],
           ),

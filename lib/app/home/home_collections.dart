@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'collections/collections_my_collection.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeCollectionsView extends ConsumerWidget {
   final eventChannel =
@@ -124,7 +125,7 @@ class HomeCollectionsView extends ConsumerWidget {
                         style: state.textTheme.headline5,
                       ),
                       SizedBox(
-                        height: height * 0.095,
+                        height: height * 0.032,
                       ),
                       ElevatedButton(
                         onPressed: () {
@@ -134,20 +135,20 @@ class HomeCollectionsView extends ConsumerWidget {
                             backgroundColor: Colors.blueAccent,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.0)),
-                            fixedSize: Size((width * 0.90), (height * 0.08))),
+                            fixedSize: Size((width * 0.90), (height * 0.07))),
                         child: Row(children: [
-                          new CircleAvatar(
-                            radius: 15.0,
-                            backgroundImage:
-                                AssetImage('assets/images/walletconnect.png'),
+                          SvgPicture.asset(
+                              'assets/images/walletconnect.svg',
+                              semanticsLabel: 'Wallet Connect icon',
+                              width: 24
                           ),
                           SizedBox(
-                            width: width * 0.10,
+                            width: width * 0.025,
                           ),
                           Text(
                             "Use WalletConnect",
-                            style: state.textTheme.headline5,
-                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 16.0),
+                            textAlign: TextAlign.left,
                           ),
                         ]),
                       ),
@@ -161,20 +162,21 @@ class HomeCollectionsView extends ConsumerWidget {
                             backgroundColor: Colors.grey,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.0)),
-                            fixedSize: Size((width * 0.90), (height * 0.08))),
+                            fixedSize: Size((width * 0.90), (height * 0.07))),
                         child: Row(
                           children: [
-                            new CircleAvatar(
-                              radius: 15.0,
-                              backgroundImage:
-                                  AssetImage('assets/images/ethereum.png'),
+                            SvgPicture.asset(
+                                'assets/images/ethereum.svg',
+                                color: Colors.white,
+                                semanticsLabel: 'Ethereum icon'
                             ),
                             SizedBox(
-                              width: width * 0.10,
+                              width: width * 0.025,
                             ),
                             Text(
                               "Enter ethereum address",
-                              style: state.textTheme.headline5,
+                              style: TextStyle(fontSize: 16.0),
+                              textAlign: TextAlign.left,
                             ),
                           ],
                         ),
