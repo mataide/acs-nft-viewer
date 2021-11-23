@@ -335,6 +335,7 @@ class SettingsLoginView extends ConsumerWidget {
           child: Row(children: [
             SvgPicture.asset(
                 'assets/images/walletconnect.svg',
+                color: Colors.white,
                 semanticsLabel: 'Wallet Connect icon',
                 width: 24
             ),
