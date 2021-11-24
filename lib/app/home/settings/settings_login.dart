@@ -117,79 +117,103 @@ class SettingsLoginView extends ConsumerWidget {
             SizedBox(
               height: _deviceHeight * 0.008,
             ),
-            StreamBuilder<dynamic>(
-                initialData: dataState.listAddress,
-                stream: networkStream,
-                builder: (context, snapshot) {
-                  print(snapshot.data);
-                  final List<String> address = snapshot.data != null
-                      ? List<String>.from(snapshot.data).length > 0
-                          ? List<String>.from(snapshot.data)
-                          : dataState.listAddress
-                      : [].cast<String>();
-                  print("address: $address");
-                  if (List<String>.from(snapshot.data).length > 0) {
-                    return FutureBuilder<List<String>>(
-                      future: dataState.sharedWrite(address.first),
-                      // function where you call your api
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<String>> snapshot) {
-                        // AsyncSnapshot<Your object type>
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(
-                              child: Text('Please wait its loading...',
-                                  style: TextStyle(
-                                      color:
-                                          state.textTheme.bodyText1!.color)));
-                        } else {
-                          if (snapshot.hasError)
-                            return Center(
-                                child: Text('Error: ${snapshot.error}',
-                                    style: TextStyle(
-                                        color:
-                                            state.textTheme.bodyText1!.color)));
-                          else
-                            return _listAddressWidget(
-                                state,
-                                dataState,
-                                _deviceHeight,
-                                _deviceWidth,
-                                navigator,
-                                networkStream,
-                                context);
-                        }
-                      },
-                    );
-                  } else if (address.length > 0 && address.isNotEmpty) {
-                    return _listAddressWidget(state, dataState, _deviceHeight,
-                        _deviceWidth, navigator, networkStream, context);
-                  } else {
-                    //TODO: Replace with empty placeholder
-                    return Column(children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: (_deviceWidth * 0.02),
-                            right: (_deviceWidth * 0.02)),
-                        height: _deviceHeight * 0.09,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: state.primaryColor),
-                            color: state.primaryColorDark,
-                            borderRadius: BorderRadius.circular(15.0)),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "No connected wallet",
-                            style: state.textTheme.headline5,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: _deviceHeight * 0.06,
-                      )
-                    ]);
-                  }
-                }),
+            FutureBuilder<List<String>>(
+              future: dataState.sharedRead(),
+              // function where you call your api
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<String>> snapshot) {
+                // AsyncSnapshot<Your object type>
+                if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
+                  return Center(
+                      child: Text('Please wait its loading...',
+                          style: TextStyle(
+                              color:
+                              state.textTheme.bodyText1!.color)));
+                } else {
+                  if (snapshot.hasError)
+                    return Center(
+                        child: Text('Error: ${snapshot.error}',
+                            style: TextStyle(
+                                color:
+                                state.textTheme.bodyText1!.color)));
+                  else
+                    return StreamBuilder<dynamic>(
+                        initialData: snapshot.data,
+                        stream: networkStream,
+                        builder: (context, snapshot) {
+                          print(snapshot.data);
+                          final List<String> address = snapshot.data != null
+                              ? List<String>.from(snapshot.data).length > 0
+                              ? List<String>.from(snapshot.data)
+                              : dataState.listAddress
+                              : [].cast<String>();
+                          print("address: $address");
+                          if (List<String>.from(snapshot.data).length > 0) {
+                            return FutureBuilder<List<String>>(
+                              future: dataState.sharedWrite(address.first),
+                              // function where you call your api
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<List<String>> snapshot) {
+                                // AsyncSnapshot<Your object type>
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                      child: Text('Please wait its loading...',
+                                          style: TextStyle(
+                                              color:
+                                              state.textTheme.bodyText1!.color)));
+                                } else {
+                                  if (snapshot.hasError)
+                                    return Center(
+                                        child: Text('Error: ${snapshot.error}',
+                                            style: TextStyle(
+                                                color:
+                                                state.textTheme.bodyText1!.color)));
+                                  else
+                                    return _listAddressWidget(
+                                        state,
+                                        dataState,
+                                        _deviceHeight,
+                                        _deviceWidth,
+                                        navigator,
+                                        networkStream,
+                                        context);
+                                }
+                              },
+                            );
+                          } else if (address.length > 0 && address.isNotEmpty) {
+                            return _listAddressWidget(state, dataState, _deviceHeight,
+                                _deviceWidth, navigator, networkStream, context);
+                          } else {
+                            //TODO: Replace with empty placeholder
+                            return Column(children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: (_deviceWidth * 0.02),
+                                    right: (_deviceWidth * 0.02)),
+                                height: _deviceHeight * 0.09,
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: state.primaryColor),
+                                    color: state.primaryColorDark,
+                                    borderRadius: BorderRadius.circular(15.0)),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "No connected wallet",
+                                    style: state.textTheme.headline5,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: _deviceHeight * 0.06,
+                              )
+                            ]);
+                          }
+                        });
+                }
+              },
+            ),
             SizedBox(
               height: _deviceHeight * 0.021,
             ),
