@@ -13,7 +13,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 class HomeCollectionsView extends ConsumerWidget {
   final eventChannel =
   const EventChannel("com.bimsina.re_walls/WalletStreamHandler");
-  final LoginModal modal = LoginModal();
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -201,7 +200,7 @@ class HomeCollectionsView extends ConsumerWidget {
                   ),
                   ElevatedButton(
                     onPressed: () =>
-                        modal.address(context, state, dataState),
+                        showModalAddress(context, state, dataState),
                     style: TextButton.styleFrom(
                         backgroundColor: Colors.grey,
                         shape: RoundedRectangleBorder(

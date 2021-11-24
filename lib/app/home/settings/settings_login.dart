@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:faktura_nft_viewer/controllers/home/settings/settings_login_controller.dart';
+import 'package:faktura_nft_viewer/app/home/settings/login_modal/login_modal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,13 +15,13 @@ import 'login_modal/login_modal.dart';
 class SettingsLoginView extends ConsumerWidget {
   final eventChannel =
       const EventChannel("com.bimsina.re_walls/WalletStreamHandler");
-  final LoginModal modal = LoginModal();
   bool isExpanded = false;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final state = watch(themeProvider);
     final dataState = watch(loginProvider.notifier);
+
     final _deviceHeight = MediaQuery.of(context).size.height;
     final _deviceWidth = MediaQuery.of(context).size.width;
     final navigator = Navigator.of(context);
@@ -29,10 +30,8 @@ class SettingsLoginView extends ConsumerWidget {
             ? [].cast<String>()
             : [event]);
 
-
     return _buildUI(state, dataState, _deviceHeight, _deviceWidth, navigator,
         networkStream, context);
-
   }
 
   Widget _buildUI(
@@ -143,15 +142,10 @@ class SettingsLoginView extends ConsumerWidget {
                         stream: networkStream,
                         builder: (context, snapshot) {
                           print(snapshot.data);
-                          final List<String> address = snapshot.data != null
-                              ? List<String>.from(snapshot.data).length > 0
-                              ? List<String>.from(snapshot.data)
-                              : dataState.listAddress
-                              : [].cast<String>();
-                          print("address: $address");
+                          print("address: $dataState.listAddress");
                           if (List<String>.from(snapshot.data).length > 0) {
                             return FutureBuilder<List<String>>(
-                              future: dataState.sharedWrite(address.first),
+                              future: dataState.sharedWrite(snapshot.data),
                               // function where you call your api
                               builder: (BuildContext context,
                                   AsyncSnapshot<List<String>> snapshot) {
@@ -182,7 +176,7 @@ class SettingsLoginView extends ConsumerWidget {
                                 }
                               },
                             );
-                          } else if (address.length > 0 && address.isNotEmpty) {
+                          } else if (dataState.listAddress.length > 0 && dataState.listAddress.isNotEmpty) {
                             return _listAddressWidget(state, dataState, _deviceHeight,
                                 _deviceWidth, navigator, networkStream, context);
                           } else {
@@ -290,10 +284,8 @@ class SettingsLoginView extends ConsumerWidget {
                         fontWeight: FontWeight.w400),
                   )),
                   IconButton(
-                    onPressed: () {
-                      //_modalConnected(context, state, dataState);
-                      modal.connected(context, state, dataState);
-                    },
+                    onPressed: () =>
+                        showModalConnected(context, state, dataState, dataState.listAddress.first),
                     icon: Icon(Platform.isAndroid
                         ? Icons.more_vert
                         : Icons.more_horiz),
@@ -390,7 +382,7 @@ class SettingsLoginView extends ConsumerWidget {
         ),
         SizedBox(width: width * 0.005),
         ElevatedButton(
-          onPressed: () => modal.address(context, state, dataState),
+          onPressed: () => showModalAddress(context, state, dataState),
           style: TextButton.styleFrom(
               backgroundColor: Colors.grey,
               shape: RoundedRectangleBorder(
@@ -463,9 +455,7 @@ class SettingsLoginView extends ConsumerWidget {
                             fontWeight: FontWeight.w400),
                       )),
                   IconButton(
-                    onPressed: () {
-                      modal.connected(context, state, dataState);
-                    },
+                    onPressed: () => showModalConnected(context, state, dataState, dataState.listAddress[index]),
                     icon:
                     Icon(Platform.isAndroid ? Icons.more_vert : Icons.more_horiz),
                     color: state.textTheme.bodyText1!.color,
@@ -527,9 +517,7 @@ class SettingsLoginView extends ConsumerWidget {
                                   fontWeight: FontWeight.w400),
                             )),
                         IconButton(
-                          onPressed: () {
-                            modal.connected(context, state, dataState);
-                          },
+                          onPressed: () => showModalConnected(context, state, dataState, dataState.listAddress[index]),
                           icon: Icon(Platform.isAndroid
                               ? Icons.more_vert
                               : Icons.more_horiz),
