@@ -32,12 +32,13 @@ class SettingsLoginView extends ConsumerWidget {
             ? [].cast<String>()
             : [event]);
 
-    return _buildUI(state, dataState, _deviceHeight, _deviceWidth, navigator,
+    return _buildUI(state, data, dataState, _deviceHeight, _deviceWidth, navigator,
         networkStream, context);
   }
 
   Widget _buildUI(
       state,
+      SettingsLoginState data,
       SettingsLoginController dataState,
       double _deviceHeight,
       double _deviceWidth,
@@ -59,7 +60,7 @@ class SettingsLoginView extends ConsumerWidget {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                _walletsWidget(state, dataState, _deviceHeight, _deviceWidth,
+                _walletsWidget(state, data, dataState, _deviceHeight, _deviceWidth,
                     navigator, networkStream, context)
               ],
             ),
@@ -69,6 +70,7 @@ class SettingsLoginView extends ConsumerWidget {
 
   Widget _walletsWidget(
       state,
+      SettingsLoginState data,
       SettingsLoginController dataState,
       double _deviceHeight,
       double _deviceWidth,
@@ -170,6 +172,7 @@ class SettingsLoginView extends ConsumerWidget {
                                   else
                                     return _listAddressWidget(
                                         state,
+                                        data,
                                         dataState,
                                         _deviceHeight,
                                         _deviceWidth,
@@ -179,8 +182,8 @@ class SettingsLoginView extends ConsumerWidget {
                                 }
                               },
                             );
-                          } else if (dataState.listAddress.length > 0 && dataState.listAddress.isNotEmpty) {
-                            return _listAddressWidget(state, dataState, _deviceHeight,
+                          } else if (data.listAddress.length > 0 && data.listAddress.isNotEmpty) {
+                            return _listAddressWidget(state, data, dataState, _deviceHeight,
                                 _deviceWidth, navigator, networkStream, context);
                           } else {
                             //TODO: Replace with empty placeholder
@@ -237,6 +240,7 @@ class SettingsLoginView extends ConsumerWidget {
 
   Widget _listAddressWidget(
       state,
+      SettingsLoginState data,
       SettingsLoginController dataState,
       double _deviceHeight,
       double _deviceWidth,
@@ -271,12 +275,11 @@ class SettingsLoginView extends ConsumerWidget {
                   Spacer(),
                   Expanded(
                       child: Text(
-                    // dataState.listAddress.first,
-                    dataState.listAddress.first.toString().length > 8
-                        ? dataState.listAddress.first.toString().substring(
+                    data.listAddress.first.toString().length > 8
+                        ? data.listAddress.first.toString().substring(
                               0,
                             )
-                        : dataState.listAddress.first.toString(),
+                        : data.listAddress.first.toString(),
                     maxLines: 1,
                     textAlign: TextAlign.end,
                     overflow: TextOverflow.ellipsis,
@@ -288,7 +291,7 @@ class SettingsLoginView extends ConsumerWidget {
                   )),
                   IconButton(
                     onPressed: () =>
-                        showModalConnected(context, state, dataState, dataState.listAddress.first),
+                        showModalConnected(context, state, dataState, data.listAddress.first),
                     icon: Icon(Platform.isAndroid
                         ? Icons.more_vert
                         : Icons.more_horiz),
@@ -304,7 +307,7 @@ class SettingsLoginView extends ConsumerWidget {
               //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  dataState.listAddress.length.toString() + "  " + 'wallets',
+                  data.listAddress.length.toString() + "  " + 'wallets',
                   style: TextStyle(
                     color: state.textTheme.bodyText1!.color,
                     decoration: TextDecoration.none,
@@ -334,9 +337,9 @@ class SettingsLoginView extends ConsumerWidget {
             SizedBox(
               height: _deviceHeight * 0.0175,
             ),
-            dataState.listAddress.length > 1
+            data.listAddress.length > 1
                 ? _listWalletsWidget(
-                    context, dataState, state, _deviceHeight, _deviceWidth)
+                    context, data, dataState, state, _deviceHeight, _deviceWidth)
                 : SizedBox(
                     height: _deviceHeight * 0.112,
                   ),
@@ -413,11 +416,12 @@ class SettingsLoginView extends ConsumerWidget {
   }
 
   Widget _listWalletsWidget(
-      BuildContext context, SettingsLoginController dataState, state, _deviceHeight, _deviceWidth) {
+      BuildContext context, SettingsLoginState data,
+      SettingsLoginController dataState, state, _deviceHeight, _deviceWidth) {
     return Column(children: [
       ListView.builder(
         shrinkWrap: true,
-        itemCount: dataState.isExpanded == false ? 2 : dataState.listAddress.length,
+        itemCount: data.isExpanded == false ? 2 : data.listAddress.length,
         itemBuilder: (BuildContext context, int index){
           return Column(
             children: [
@@ -441,11 +445,11 @@ class SettingsLoginView extends ConsumerWidget {
                     Spacer(),
                     Expanded(
                         child: Text(
-                          dataState.listAddress.toString().length > 8
-                              ? dataState.listAddress[index].toString().substring(
+                          data.listAddress.toString().length > 8
+                              ? data.listAddress[index].toString().substring(
                             0,
                           )
-                              : dataState.listAddress[index].toString(),
+                              : data.listAddress[index].toString(),
                           maxLines: 1,
                           textAlign: TextAlign.end,
                           overflow: TextOverflow.ellipsis,
@@ -482,10 +486,10 @@ class SettingsLoginView extends ConsumerWidget {
                                       SizedBox(width: width * 0.08,),
                                       Expanded(
                                           child: Text(
-                                              dataState.listAddress[index].toString().length > 8
-                                                  ? dataState.listAddress[index].toString().substring(0,
-                                                  dataState.listAddress[index].toString().length - 8)
-                                                  : dataState.listAddress[index].toString(),
+                                              data.listAddress[index].toString().length > 8
+                                                  ? data.listAddress[index].toString().substring(0,
+                                                  data.listAddress[index].toString().length - 8)
+                                                  : data.listAddress[index].toString(),
                                               maxLines: 1,
                                               textAlign: TextAlign.end,
                                               overflow: TextOverflow.ellipsis,
@@ -493,9 +497,9 @@ class SettingsLoginView extends ConsumerWidget {
                                               style: state.textTheme.bodyText2)),
                                       Expanded(
                                           child: Text(
-                                            dataState.listAddress[index].toString().length > 8
-                                                ? dataState.listAddress[index].toString().substring(
-                                                dataState.listAddress[index].toString().length - 8)
+                                            data.listAddress[index].toString().length > 8
+                                                ? data.listAddress[index].toString().substring(
+                                                data.listAddress[index].toString().length - 8)
                                                 : '',
                                             maxLines: 1,
                                             textAlign: TextAlign.start,
@@ -533,7 +537,7 @@ class SettingsLoginView extends ConsumerWidget {
                                           ),
                                         ]),
                                         onPressed: () {
-                                          dataState.sharedRemove(dataState.listAddress[index]);
+                                          dataState.sharedRemove(data.listAddress[index]);
                                           Navigator.pop(context);
                                         }
                                     ),

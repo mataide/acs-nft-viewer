@@ -19,7 +19,9 @@ class HomeCollectionsView extends ConsumerWidget {
     final state = ref.watch(themeProvider);
     final dataState = ref.watch(homeCollectionsProvider.notifier);
     final stateTheme = ref.watch(themeProvider);
-    final dataLogin = ref.watch(loginProvider.notifier);
+    final controllerLogin = ref.read(loginProvider.notifier);
+    final stateLogin = ref.watch(loginProvider);
+
     final navigator = Navigator.of(context);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -37,18 +39,16 @@ class HomeCollectionsView extends ConsumerWidget {
           alignment: Alignment.center,
           children: [
             _connectWidget(dataState, stateTheme,
-                dataLogin, navigator, state, context, networkStream, width, height)
+                stateLogin,
+                controllerLogin, navigator, state, context, networkStream, width, height)
           ],
         ),
       ),
     );
   }
 
-  Widget _connectWidget(HomeCollectionsController dataState, stateTheme,
-      SettingsLoginController dataLogin, navigator, state, BuildContext context, networkStream, width, height) {
-
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+  Widget _connectWidget(HomeCollectionsController dataState, stateTheme, stateLogin,
+      SettingsLoginController controllerLogin, navigator, state, BuildContext context, networkStream, width, height) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: state.primaryColor,
@@ -68,20 +68,20 @@ class HomeCollectionsView extends ConsumerWidget {
               ),
               SizedBox(height: height * 0.05),
               StreamBuilder<dynamic>(
-                  initialData: dataLogin.listAddress,
+                  initialData: stateLogin.listAddress,
                   stream: networkStream,
                   builder: (context, snapshot) {
                     print(snapshot.data);
                     final List<String> address = snapshot.data != null
                         ? List<String>.from(snapshot.data).length > 0
                         ? List<String>.from(snapshot.data)
-                        : dataLogin.listAddress
+                        : stateLogin.listAddress
                         : [].cast<String>();
 
                     print("address: $address");
                     if(List<String>.from(snapshot.data).length > 0){
                       return FutureBuilder<List<String>>(
-                        future: dataLogin.sharedWrite(address),
+                        future: controllerLogin.sharedWrite(address),
                         // function where you call your api
                         builder: (BuildContext context,
                             AsyncSnapshot<List<String>> snapshot) {
@@ -110,7 +110,7 @@ class HomeCollectionsView extends ConsumerWidget {
                       );
                     } else {
                       return _connectedWidget(dataState, stateTheme,
-                          dataLogin, navigator, state, context, networkStream, width, height);
+                          controllerLogin, navigator, state, context, networkStream, width, height);
                     }
                   }),
               Column(children: [

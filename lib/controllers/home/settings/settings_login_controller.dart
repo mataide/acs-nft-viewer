@@ -16,15 +16,13 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
     sharedRead();
   }
 
-  List<String> get listAddress => state.listAddress;
-  bool get isExpanded => state.isExpanded;
-
   Future<List<String>> sharedWrite(address) async {
     print("address: '$address'.");
     final preferences = await SharedPreferences.getInstance();
     var listAddress = preferences.getStringList('key');
     listAddress != null ? listAddress.addUnique(address) : listAddress = [address];
     await preferences.setStringList('key', listAddress);
+    state = SettingsLoginState(listAddress: listAddress, isExpanded: state.isExpanded);
     return listAddress;
   }
 
@@ -33,19 +31,19 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
     var listAddress = preferences.getStringList('key');
     listAddress!.remove(address);
     await preferences.setStringList('key', listAddress);
-    //state = SettingsLoginState(listAddress: listAddress);
-    return await sharedRead();
+    state = SettingsLoginState(listAddress: listAddress, isExpanded: state.isExpanded);
+    return listAddress;
   }
 
   Future<List<String>> sharedRead() async {
     final preferences = await SharedPreferences.getInstance();
     final listAddress = preferences.getStringList('key');
-    state = SettingsLoginState(listAddress: listAddress ?? []);
+    //state = SettingsLoginState(listAddress: listAddress ?? []);
     return listAddress ?? [];
   }
 
-   setExpanded() {
-     state = SettingsLoginState(isExpanded: !state.isExpanded);
+  setExpanded() {
+     state = SettingsLoginState(listAddress: state.listAddress, isExpanded: !state.isExpanded);
   }
 
   openMetaMask() async {
