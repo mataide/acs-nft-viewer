@@ -34,11 +34,11 @@ class WallpaperView extends ConsumerWidget implements TickerProvider {
   PageController? _pageController;
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(themeProvider);
-    final dataState = watch(wallpaperProvider.notifier);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(themeProvider);
+    final dataState = ref.watch(wallpaperProvider.notifier);
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      context.read(wallpaperProvider.notifier).setInitialData(_posts, _index, _heroId, _posts[_index]);
+      ref.read(wallpaperProvider.notifier).setInitialData(_posts, _index, _heroId, _posts[_index]);
     });
 
     _pageController = PageController(initialPage: dataState.index);
@@ -48,7 +48,7 @@ class WallpaperView extends ConsumerWidget implements TickerProvider {
     );
 
     return Scaffold(
-      body: _buildUI(state, context, watch, dataState),
+      body: _buildUI(state, context, dataState, state),
     );
   }
 
@@ -75,7 +75,7 @@ class WallpaperView extends ConsumerWidget implements TickerProvider {
     return _ticker!;
   }
 
-  Widget _buildUI(ThemeData themeData, context, watch,WallPaperController dataState) {
+  Widget _buildUI(ThemeData themeData, context, WallPaperController dataState, state) {
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) => Stack(
@@ -192,7 +192,7 @@ class WallpaperView extends ConsumerWidget implements TickerProvider {
                 ),
                 Transform.translate(
                   offset: Offset(0, _controller.value * 150),
-                  child: bottomSheet(themeData, context, watch, dataState),
+                  child: bottomSheet(themeData, context, dataState, state),
                 ),
               ],
             ),
@@ -203,7 +203,7 @@ class WallpaperView extends ConsumerWidget implements TickerProvider {
   }
 
 
-  void downloadImage(ThemeData themeData, context, watch,WallPaperController dataState) async {
+  void downloadImage(ThemeData themeData, context, WallPaperController dataState) async {
     try {
       PermissionStatus status = await Permission.storage.status;
 
@@ -220,22 +220,22 @@ class WallpaperView extends ConsumerWidget implements TickerProvider {
           print(error);
         }
       } else {
-        askForPermission(themeData, context, watch, dataState);
+        askForPermission(themeData, context, dataState);
       }
     } catch (e) {
       print(e);
     }
   }
 
-  void askForPermission(ThemeData themeData, context, watch,WallPaperController dataState) async {
+  void askForPermission(ThemeData themeData, context, WallPaperController dataState) async {
     if (await Permission.storage.request().isGranted) {
-      downloadImage(themeData, context, watch, dataState);
+      downloadImage(themeData, context, dataState);
     } else {
       showToast('Please grant storage permission.');
     }
   }
 
-  void _setWallpaper(ThemeData themeData, context, watch,WallPaperController dataState) async {
+  void _setWallpaper(ThemeData themeData, context, WallPaperController dataState) async {
     var file = await DefaultCacheManager().getSingleFile(dataState.currentPost!.url!);
     try {
       final int? result = await platform.invokeMethod('setWallpaper', file.path);
@@ -254,7 +254,7 @@ class WallpaperView extends ConsumerWidget implements TickerProvider {
       textColor: Colors.white,
       fontSize: 16.0);
 
-  Widget bottomSheet(ThemeData themeData, context, watch,WallPaperController dataState) {
+  Widget bottomSheet(ThemeData themeData, context, WallPaperController dataState, state) {
     return Container(
       padding: const EdgeInsets.all(8.0),
       width: double.infinity,
@@ -288,16 +288,16 @@ class WallpaperView extends ConsumerWidget implements TickerProvider {
                 title: 'Set Wallpaper',
                 icon: Icons.wallpaper,
                 onTap: () async {
-                  showLoadingDialog(context, watch);
+                  showLoadingDialog(context, state);
                   await Future.delayed(Duration(seconds: 1));
-                  _setWallpaper(themeData, context, watch, dataState);
+                  _setWallpaper(themeData, context, dataState);
                 },
               ),
               ColButton(
                 title: 'Download',
                 icon: Icons.file_download,
                 onTap: () {
-                  downloadImage(themeData, context, watch, dataState);
+                  downloadImage(themeData, context, dataState);
                 },
               ),
               ColButton(

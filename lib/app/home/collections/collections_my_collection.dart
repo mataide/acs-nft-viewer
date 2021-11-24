@@ -15,17 +15,15 @@ class MyCollectionView extends ConsumerWidget {
   MyCollectionView(this.collections);
 
   @override
-  Widget build(
-    BuildContext context,
-    ScopedReader watch,
-  ) {
-    final state = watch(themeProvider);
-    final dataState = watch(homeCollectionsProvider.notifier);
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    final state = ref.watch(themeProvider);
+    final dataState = ref.watch(homeCollectionsProvider.notifier);
 
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    final wall = watch(wallpaperListProvider.notifier);
+    final wall = ref.watch(wallpaperListProvider.notifier);
 
     final List<Collections> collectionsList;
 

@@ -14,11 +14,11 @@ class HomePage extends ConsumerWidget {
   final PageController _pageController = PageController();
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(themeProvider);
-    final dataNotifier = watch(homeProvider.notifier);
-    final data = watch(homeProvider);
-    final settingsNotifier = watch(homeSettingsProvider.notifier);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(themeProvider);
+    final dataNotifier = ref.watch(homeProvider.notifier);
+    final data = ref.watch(homeProvider);
+    final settingsNotifier = ref.watch(homeSettingsProvider.notifier);
 
 
     return Scaffold(

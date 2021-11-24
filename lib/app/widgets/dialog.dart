@@ -9,9 +9,9 @@ class ThemeChangerWidget extends ConsumerWidget {
   final List<String> string = ['Light', 'Dark'];
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(themeProvider.notifier);
-    final stateData = watch(themeProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(themeProvider.notifier);
+    final stateData = ref.watch(themeProvider);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -205,9 +205,7 @@ class ThemeChangerWidget extends ConsumerWidget {
 
 //SELEÇÃO DOS TEMAS
 
-void showLoadingDialog(BuildContext context, ScopedReader watch) {
-  final state = watch(themeProvider);
-
+void showLoadingDialog(BuildContext context, state) {
   showDialog(
       context: context,
       barrierDismissible: false,
@@ -260,9 +258,8 @@ void showAlertDialog(BuildContext context, String error, String title) {
 }
 
 showConfirmationDialog(BuildContext context, String title, String content,
-    ScopedReader watch) async {
+    state) async {
   bool confirm = false;
-  final state = watch(themeProvider);
 
   await showDialog(
     context: context,

@@ -9,9 +9,9 @@ class WallpaperListWidget extends ConsumerWidget {
   WallpaperListWidget(this.collectionsItemList);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final dataState = watch(wallpaperListProvider.notifier);
-    final state = watch(themeProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dataState = ref.watch(wallpaperListProvider.notifier);
+    final state = ref.watch(themeProvider);
 
     return Padding(
       padding: EdgeInsets.all(8.0),

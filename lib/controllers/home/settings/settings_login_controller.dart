@@ -6,8 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SettingsLoginState {
   final List<String> listAddress;
   final eventChannel;
+  final bool isExpanded;
 
-  const SettingsLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler")});
+  const SettingsLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler"), this.isExpanded = false});
 }
 
 class SettingsLoginController extends StateNotifier<SettingsLoginState> {
@@ -16,22 +17,24 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
   }
 
   List<String> get listAddress => state.listAddress;
+  bool get isExpanded => state.isExpanded;
 
   Future<List<String>> sharedWrite(address) async {
+    print("address: '$address'.");
     final preferences = await SharedPreferences.getInstance();
     var listAddress = preferences.getStringList('key');
-    listAddress != null ? listAddress.addAllUnique(address) : listAddress = [address];
+    listAddress != null ? listAddress.addUnique(address) : listAddress = [address];
     await preferences.setStringList('key', listAddress);
     return listAddress;
   }
 
   Future<List<String>> sharedRemove(address) async {
-    final listAddress = state.listAddress;
-    listAddress.remove(address);
     final preferences = await SharedPreferences.getInstance();
+    var listAddress = preferences.getStringList('key');
+    listAddress!.remove(address);
     await preferences.setStringList('key', listAddress);
     //state = SettingsLoginState(listAddress: listAddress);
-    return listAddress;
+    return await sharedRead();
   }
 
   Future<List<String>> sharedRead() async {
@@ -39,6 +42,10 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
     final listAddress = preferences.getStringList('key');
     state = SettingsLoginState(listAddress: listAddress ?? []);
     return listAddress ?? [];
+  }
+
+   setExpanded() {
+     state = SettingsLoginState(isExpanded: !state.isExpanded);
   }
 
   openMetaMask() async {
@@ -52,11 +59,9 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
 }
 
 extension ListExtension<E> on List<E> {
-  void addAllUnique(Iterable<E> iterable) {
-    for (var element in iterable) {
-      if (!contains(element)) {
-        add(element);
-      }
+  void addUnique(E element) {
+    if (!contains(element)) {
+      add(element);
     }
   }
 }

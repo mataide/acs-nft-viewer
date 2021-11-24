@@ -7,8 +7,6 @@ import 'package:faktura_nft_viewer/core/utils/constants.dart';
 // Providers
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 
-import 'app/home/settings/settings_login.dart';
-
 SharedPreferences? prefs;
 
 void main() {
@@ -21,8 +19,8 @@ void main() {
 
 class MyApp extends ConsumerWidget {
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final themesNotifier = watch(themeProvider.notifier);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themesNotifier = ref.watch(themeProvider.notifier);
     themesNotifier.setTheme(themes[prefs!.getInt("theme") ?? 1]);
 
     return MaterialApp(

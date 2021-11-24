@@ -10,10 +10,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeSettingsView extends ConsumerWidget {
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final dataNotifier = watch(homeProvider.notifier);
-    final data = watch(homeProvider);
-    final state = watch(themeProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dataNotifier = ref.watch(homeProvider.notifier);
+    final data = ref.watch(homeProvider);
+    final state = ref.watch(themeProvider);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -116,8 +116,8 @@ class CustomListTile extends ConsumerWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(themeProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(themeProvider);
 
     return ListTile(
       onTap: onTap,

@@ -8,16 +8,16 @@ import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/database_helper/database.dart';
 import "package:collection/collection.dart";
 
-class CollectionsState {
+class HomeCollectionsState {
   final List<Collections?>? collections;
   final kdataFetchState fetchState;
   final int? selectedFilter;
 
-  const CollectionsState({this.fetchState = kdataFetchState.IS_LOADING, this.collections, this.selectedFilter});
+  const HomeCollectionsState({this.fetchState = kdataFetchState.IS_LOADING, this.collections, this.selectedFilter});
 }
 
-class HomeCollectionsController extends StateNotifier<CollectionsState> {
-  HomeCollectionsController([Collections? state]) : super(CollectionsState());
+class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
+  HomeCollectionsController([Collections? state]) : super(HomeCollectionsState());
 
   get fetchState => state.fetchState;
   get selectedFilter => state.selectedFilter;
@@ -50,7 +50,7 @@ class HomeCollectionsController extends StateNotifier<CollectionsState> {
       listCollections.add(collections);
     }
     await collectionsDAO.insertList(listCollections);
-    state = CollectionsState(collections: listCollections, fetchState: kdataFetchState.IS_LOADED);
+    state = HomeCollectionsState(collections: listCollections, fetchState: kdataFetchState.IS_LOADED);
     return listCollections;
   }
 

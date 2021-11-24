@@ -12,9 +12,9 @@ class FlagListWidget extends ConsumerWidget {
   FlagListWidget(this.collectionsList);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final dataState = watch(flagListProvider.notifier);
-    final state = watch(themeProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dataState = ref.watch(flagListProvider.notifier);
+    final ThemeData state = ref.watch(themeProvider);
 
     return Padding(
       padding: EdgeInsets.all(8.0),

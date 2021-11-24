@@ -7,12 +7,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 class NftPageView extends ConsumerWidget {
 
   @override
-  Widget build(
-    BuildContext context,
-    ScopedReader watch,
-  ) {
-    final state = watch(themeProvider);
-    final dataState = watch(itemNftProvider.notifier);
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    final state = ref.watch(themeProvider);
+    final dataState = ref.watch(itemNftProvider.notifier);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -23,7 +21,7 @@ class NftPageView extends ConsumerWidget {
             IconButton(
               icon: Icon(
                 Icons.wallpaper,
-                color: state.textTheme.caption.color,
+                color: state.textTheme.caption!.color,
               ),
               onPressed: () {
                 //dataState.setWallpaper(file);
@@ -32,7 +30,7 @@ class NftPageView extends ConsumerWidget {
             IconButton(
               icon: Icon(
                 Icons.download_outlined,
-                color: state.textTheme.caption.color,
+                color: state.textTheme.caption!.color,
               ),
               onPressed: () {
                 // downloadImage();
@@ -41,7 +39,7 @@ class NftPageView extends ConsumerWidget {
             IconButton(
               icon: Icon(
                 Icons.share,
-                color: state.textTheme.caption.color,
+                color: state.textTheme.caption!.color,
               ),
               onPressed: () {
                 // Share.share(
@@ -89,7 +87,7 @@ class NftPageView extends ConsumerWidget {
                           alignment: Alignment.centerLeft,
                           child: Text("Details",
                               style: TextStyle(
-                                  color: state.textTheme.caption.color,
+                                  color: state.textTheme.caption!.color,
                                   fontSize: 20.0,
                                   fontFamily: 'FuturaPTBold.otf',
                                   fontWeight: FontWeight.w700)),
@@ -101,7 +99,7 @@ class NftPageView extends ConsumerWidget {
                           alignment: Alignment.centerLeft,
                           child: Text('Contract Address',
                               style: TextStyle(
-                                  color: state.textTheme.headline5.color,
+                                  color: state.textTheme.headline5!.color,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'FuturaPTMedium.otf',
                                   fontSize: 16.0)),
@@ -139,7 +137,7 @@ class NftPageView extends ConsumerWidget {
                           alignment: Alignment.centerLeft,
                           child: Text('Token ID',
                               style: TextStyle(
-                                  color: state.textTheme.headline5.color,
+                                  color: state.textTheme.headline5!.color,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'FuturaPTMedium.otf',
                                   fontSize: 16.0)),
@@ -158,7 +156,7 @@ class NftPageView extends ConsumerWidget {
                           alignment: Alignment.centerLeft,
                           child: Text('Token Standard',
                               style: TextStyle(
-                                  color: state.textTheme.headline5.color,
+                                  color: state.textTheme.headline5!.color,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'FuturaPTMedium.otf',
                                   fontSize: 16.0)),
@@ -177,7 +175,7 @@ class NftPageView extends ConsumerWidget {
                           alignment: Alignment.centerLeft,
                           child: Text('Blockchain',
                               style: TextStyle(
-                                  color: state.textTheme.headline5.color,
+                                  color: state.textTheme.headline5!.color,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'FuturaPTMedium.otf',
                                   fontSize: 16.0)),

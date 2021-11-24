@@ -15,11 +15,11 @@ class HomeCollectionsView extends ConsumerWidget {
   const EventChannel("com.bimsina.re_walls/WalletStreamHandler");
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(themeProvider);
-    final dataState = watch(homeCollectionsProvider.notifier);
-    final stateTheme = watch(themeProvider);
-    final dataLogin = watch(loginProvider.notifier);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(themeProvider);
+    final dataState = ref.watch(homeCollectionsProvider.notifier);
+    final stateTheme = ref.watch(themeProvider);
+    final dataLogin = ref.watch(loginProvider.notifier);
     final navigator = Navigator.of(context);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;

@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 
 void showModalAddress(BuildContext context, state, dataStateLogin) {
   final _formKey = GlobalKey<FormState>();
-  final _keyCrontoller = TextEditingController();
+  final _keyController = TextEditingController();
   final width = MediaQuery.of(context).size.width;
   final height = MediaQuery.of(context).size.height;
-  List<String> stringList = [];
-
 
   showModalBottomSheet(
       isScrollControlled: true,
@@ -45,7 +43,7 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
                               child: TextFormField(
                                 //autofocus: true,
                                 textAlign: TextAlign.center,
-                                controller: _keyCrontoller,
+                                controller: _keyController,
                                 style:state.textTheme.headline5,
                                 decoration: InputDecoration(
                                   hintText: "Paste your wallet address here",
@@ -66,7 +64,7 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0))),
                             onPressed: () {
-                              if (_keyCrontoller.text == "") {
+                              if (_keyController.text == "") {
                                 final snackBar = SnackBar(
                                   content: Text('Insert a Public Key !', style: state.textTheme.headline5,),
                                   backgroundColor: state.primaryColor,
@@ -74,8 +72,7 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               } else {
-                                stringList.add(_keyCrontoller.text);
-                                dataStateLogin.sharedWrite(stringList);
+                                dataStateLogin.sharedWrite(_keyController.text);
                                 Navigator.pop(context);
                               }
                             },

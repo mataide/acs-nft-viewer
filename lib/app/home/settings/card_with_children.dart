@@ -10,8 +10,8 @@ class CardWithChildren extends ConsumerWidget {
   CardWithChildren({Key? key, this.children, this.title = 'Title'})
       : super(key: key);
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(themeProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(themeProvider);
     return Card(
       elevation: 0.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
