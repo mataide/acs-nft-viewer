@@ -169,35 +169,41 @@ class HomeCollectionsView extends ConsumerWidget {
                   SizedBox(
                     height: height * 0.032,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      dataLogin.openMetaMask();
-                    },
-                    style: TextButton.styleFrom(
-                        backgroundColor: Colors.blueAccent,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0)),
-                        fixedSize: Size((width * 0.90), (height * 0.07))),
-                    child: Row(children: [
-                      SvgPicture.asset(
-                          'assets/images/walletconnect.svg',
-                          color: Colors.white,
-                          semanticsLabel: 'Wallet Connect icon',
-                          width: 24
-                      ),
-                      SizedBox(
-                        width: width * 0.025,
-                      ),
-                      Text(
-                        "Use WalletConnect",
-                        style: TextStyle(fontSize: 16.0),
-                        textAlign: TextAlign.left,
-                      ),
-                    ]),
-                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: width * 0.0225, right: width * 0.0225),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        dataLogin.openMetaMask();
+                      },
+                      style: TextButton.styleFrom(
+                          backgroundColor: Colors.blueAccent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
+                          fixedSize: Size((width * 0.90), (height * 0.07))),
+                      child: Row(children: [
+                        SvgPicture.asset(
+                            'assets/images/walletconnect.svg',
+                            color: Colors.white,
+                            semanticsLabel: 'Wallet Connect icon',
+                            width: 24
+                        ),
+                        SizedBox(
+                          width: width * 0.025,
+                        ),
+                        Text(
+                          "Use WalletConnect",
+                          style: TextStyle(fontSize: 16.0),
+                          textAlign: TextAlign.left,
+                        ),
+                      ]),
+                    ),),
+
                   SizedBox(
                     height: height * 0.008,
                   ),
+                  Container(
+                      margin: EdgeInsets.only(left: width * 0.0225, right: width * 0.0225),
+                    child:
                   ElevatedButton(
                     onPressed: () =>
                         showModalAddress(context, state, dataState),
@@ -223,6 +229,7 @@ class HomeCollectionsView extends ConsumerWidget {
                         ),
                       ],
                     ),
+                  )
                   ),
                   SizedBox(
                     height: height * 0.011,

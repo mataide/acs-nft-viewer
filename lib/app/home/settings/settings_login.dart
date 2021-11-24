@@ -197,16 +197,19 @@ class SettingsLoginView extends ConsumerWidget {
                                     border: Border.all(color: state.primaryColor),
                                     color: state.primaryColorDark,
                                     borderRadius: BorderRadius.circular(15.0)),
-                                child: Align(
+                                child: Container(
+                          margin: EdgeInsets.only(
+                          left: (_deviceWidth * 0.04)),
+                          child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     "No connected wallet",
                                     style: state.textTheme.headline5,
                                   ),
                                 ),
-                              ),
+                              )),
                               SizedBox(
-                                height: _deviceHeight * 0.06,
+                                height: _deviceHeight * 0.018,
                               )
                             ]);
                           }

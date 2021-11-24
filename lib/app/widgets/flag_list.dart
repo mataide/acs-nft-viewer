@@ -15,6 +15,7 @@ class FlagListWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final dataState = ref.watch(flagListProvider.notifier);
     final ThemeData state = ref.watch(themeProvider);
+    final data = ref.watch(loginProvider);
 
     return Padding(
       padding: EdgeInsets.all(8.0),
@@ -44,8 +45,11 @@ class FlagListWidget extends ConsumerWidget {
                       else
                         return GestureDetector(
                             onTap: () {
-                              Navigator.of(context).push(SlideRightRoute(MyCollectionView(collectionsList[index])));
-                            },
+                              if (data.listAddress.length > 0) {
+                                Navigator.of(context).push(SlideRightRoute(
+                                    MyCollectionView(collectionsList[index])));
+                              }
+                              },
                             child: Stack(
                               children: [
                                 ClipRRect(
