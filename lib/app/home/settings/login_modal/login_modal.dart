@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginModal {
   address(BuildContext context, state, dataStateLogin) {
@@ -77,6 +78,7 @@ class LoginModal {
                                 } else {
                                   stringList.add(_keyCrontoller.text);
                                   dataStateLogin.sharedWrite(stringList);
+                                  dataStateLogin.sharedRead();
                                   //key.rest(_keyCrontollers.text);
                                 }
                               },
@@ -98,7 +100,7 @@ class LoginModal {
   connected(BuildContext context, state, dataState) {
     showModalBottomSheet(
         context: context,
-        builder: (BuildContext context) {
+        builder: (BuildContext context,) {
           final width = MediaQuery.of(context).size.width;
           final height = MediaQuery.of(context).size.height;
 
@@ -162,7 +164,12 @@ class LoginModal {
                       SizedBox(
                         width: width * 0.24,
                       ),
-                      Icon(Icons.delete_outlined, color: Colors.red),
+                      SvgPicture.asset(
+                          'assets/images/trash.svg',
+                          color: Colors.red,
+                          semanticsLabel: 'trash icon',
+                          width: 24
+                      ),
                       SizedBox(
                         width: width * 0.03,
                       ),
