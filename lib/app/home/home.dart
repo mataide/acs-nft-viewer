@@ -49,7 +49,7 @@ class HomePage extends ConsumerWidget {
         showElevation: false,
         items: [
           BottomNavyBarItem(
-            icon: Icon(Icons.palette_outlined),
+            icon: Icon(Icons.palette_outlined, size: 23.3,),
             title: Text('My Collections', style: state.textTheme.bodyText2),
           ),
           // BottomNavyBarItem(
@@ -57,7 +57,7 @@ class HomePage extends ConsumerWidget {
           //   title: Text('Marketplace'),
           // ),
           BottomNavyBarItem(
-            icon: Icon(Icons.settings_outlined),
+            icon: Icon(Icons.settings_outlined, size: 23.3,),
             title: Text(settingsNotifier.title, style: state.textTheme.bodyText2,),
           ),
         ],
