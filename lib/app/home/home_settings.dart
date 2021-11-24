@@ -6,6 +6,7 @@ import 'package:faktura_nft_viewer/app/widgets/dialog.dart';
 
 // Providers
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeSettingsView extends ConsumerWidget {
   @override
@@ -42,10 +43,12 @@ class HomeSettingsView extends ConsumerWidget {
               Card(
                   color: state.primaryColor,
                   child: ListTile(
-                      leading: Icon(
-                        Icons.perm_identity_rounded,
-                        color: state.textTheme.bodyText1!.color,
-                        size: 40.0,
+                      leading: SvgPicture.asset(
+                          'assets/images/profile.svg',
+                          color: state.textTheme.bodyText1!.color,
+                          semanticsLabel: 'profile icon',
+                          width: 24,
+                        height: 24,
                       ),
                       title: Text(
                         "Profile",
@@ -54,10 +57,12 @@ class HomeSettingsView extends ConsumerWidget {
               Card(
                   color: state.primaryColor,
                   child: ListTile(
-                      leading: Icon(
-                        Icons.account_balance_wallet_outlined,
-                        color: state.textTheme.bodyText1!.color,
-                        size: 40.0,
+                      leading: SvgPicture.asset(
+                          'assets/images/wallets.svg',
+                          color: state.textTheme.bodyText1!.color,
+                          semanticsLabel: 'wallets icon',
+                          width: 24,
+                        height: 24,
                       ),
                       title: Text(
                         "Wallets",
@@ -73,10 +78,12 @@ class HomeSettingsView extends ConsumerWidget {
               Card(
                   color: state.primaryColor,
                   child: ListTile(
-                      leading: Icon(
-                        Icons.bedtime_outlined,
-                        color: state.textTheme.bodyText1!.color,
-                        size: 40.0,
+                      leading: SvgPicture.asset(
+                          'assets/images/theme.svg',
+                          color: state.textTheme.bodyText1!.color,
+                          semanticsLabel: 'theme icon',
+                          width: 24,
+                        height: 24,
                       ),
                       title: Text(
                         "Theme",

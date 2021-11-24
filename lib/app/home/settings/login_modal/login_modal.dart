@@ -77,6 +77,7 @@ class LoginModal {
                                 } else {
                                   stringList.add(_keyCrontoller.text);
                                   dataStateLogin.sharedWrite(stringList);
+                                  Navigator.pop(context);
                                   //key.rest(_keyCrontollers.text);
                                 }
                               },
@@ -173,14 +174,14 @@ class LoginModal {
                       ),
                     ]),
                     onPressed: (){
-
+                      dataState.sharedRemove(address);
+                      Navigator.pop(context);
                     }
 
                   ),
                 ),
                 SizedBox(height: height * 0.0185),
               ]));
-
 
         });
 
