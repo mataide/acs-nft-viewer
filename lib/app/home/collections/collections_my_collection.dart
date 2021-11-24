@@ -30,7 +30,6 @@ class MyCollectionView extends ConsumerWidget {
     final List<Collections> collectionsList;
 
     return Scaffold(
-        backgroundColor: state.primaryColor,
         appBar: AppBar(
           iconTheme: state.primaryIconTheme,
           backgroundColor: Colors.transparent,
@@ -39,11 +38,10 @@ class MyCollectionView extends ConsumerWidget {
         body: SingleChildScrollView(
             child: Container(
           decoration: BoxDecoration(
-              //gradient: RadialGradient(
-           // colors: [Colors.brown, Colors.black54, Colors.black],
-           // center: Alignment.topCenter,
-          //),
-                color: state.primaryColor),
+              gradient: RadialGradient(
+            colors: [Colors.brown, Colors.black54, Colors.black],
+            center: Alignment.topCenter,
+          )),
           child: Column(
             children: [
               SizedBox(height: height * 0.024),

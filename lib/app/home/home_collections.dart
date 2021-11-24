@@ -78,10 +78,11 @@ class HomeCollectionsView extends ConsumerWidget {
                         ? List<String>.from(snapshot.data)
                         : dataLogin.listAddress
                         : [].cast<String>();
+
                     print("address: $address");
                     if(List<String>.from(snapshot.data).length > 0){
                       return FutureBuilder<List<String>>(
-                        future: dataLogin.sharedRead(),
+                        future: dataLogin.sharedWrite(address),
                         // function where you call your api
                         builder: (BuildContext context,
                             AsyncSnapshot<List<String>> snapshot) {

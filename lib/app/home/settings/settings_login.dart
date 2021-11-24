@@ -304,7 +304,7 @@ class SettingsLoginView extends ConsumerWidget {
                     child: Text(
                       "View all",
                       style: TextStyle(
-                        color: Color(0xFFE88A3A),
+                        color: Colors.orange,
                         decoration: TextDecoration.none,
                         fontSize: 20.0,
                         fontFamily: "MavenPro-SemiBold",
@@ -396,14 +396,12 @@ class SettingsLoginView extends ConsumerWidget {
 
   Widget _listWalletsWidget(
       BuildContext context, dataState, state, _deviceHeight, _deviceWidth) {
-
     if(isExpanded == false){
     return Column(children: [
       ListView.builder(
       shrinkWrap: true,
       itemCount: 2,
       itemBuilder: (BuildContext context, int index){
-        var indx = index+1;
         return Column(
           children: [
             Container(
@@ -427,10 +425,10 @@ class SettingsLoginView extends ConsumerWidget {
                   Expanded(
                       child: Text(
                         dataState.listAddress.toString().length > 8
-                            ? dataState.listAddress[indx].toString().substring(
+                            ? dataState.listAddress[index].toString().substring(
                           0,
                         )
-                            : dataState.listAddress[indx].toString(),
+                            : dataState.listAddress[index].toString(),
                         maxLines: 1,
                         textAlign: TextAlign.end,
                         overflow: TextOverflow.ellipsis,
@@ -458,8 +456,7 @@ class SettingsLoginView extends ConsumerWidget {
         );
       },
     ),
-      ]);
-    } else {
+      ]);} else {
       return Column(children: [
            ListView.builder(
             shrinkWrap: true,
