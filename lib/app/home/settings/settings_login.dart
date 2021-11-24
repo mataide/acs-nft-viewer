@@ -15,6 +15,7 @@ class SettingsLoginView extends ConsumerWidget {
   final eventChannel =
       const EventChannel("com.bimsina.re_walls/WalletStreamHandler");
   final LoginModal modal = LoginModal();
+  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -28,8 +29,10 @@ class SettingsLoginView extends ConsumerWidget {
             ? [].cast<String>()
             : [event]);
 
+
     return _buildUI(state, dataState, _deviceHeight, _deviceWidth, navigator,
         networkStream, context);
+
   }
 
   Widget _buildUI(
@@ -40,6 +43,8 @@ class SettingsLoginView extends ConsumerWidget {
       navigator,
       networkStream,
       BuildContext context) {
+
+
     return Scaffold(
         backgroundColor: state.primaryColor,
         appBar: AppBar(
@@ -185,6 +190,9 @@ class SettingsLoginView extends ConsumerWidget {
                     ]);
                   }
                 }),
+            SizedBox(
+              height: _deviceHeight * 0.021,
+            ),
             Row(
               children: [
                 Text(
@@ -215,6 +223,7 @@ class SettingsLoginView extends ConsumerWidget {
       networkStream,
       BuildContext context) {
 
+
     return Container(
         margin: EdgeInsets.only(
             left: (_deviceWidth * 0.02), right: (_deviceWidth * 0.02)),
@@ -242,11 +251,11 @@ class SettingsLoginView extends ConsumerWidget {
                   Expanded(
                       child: Text(
                     // dataState.listAddress.first,
-                    dataState.listAddress.toString().length > 8
-                        ? dataState.listAddress.toString().substring(
-                              1,
+                    dataState.listAddress.first.toString().length > 8
+                        ? dataState.listAddress.first.toString().substring(
+                              0,
                             )
-                        : dataState.listAddress.toString(),
+                        : dataState.listAddress.first.toString(),
                     maxLines: 1,
                     textAlign: TextAlign.end,
                     overflow: TextOverflow.ellipsis,
@@ -288,7 +297,10 @@ class SettingsLoginView extends ConsumerWidget {
                 ),
                 Spacer(),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                        isExpanded = true;
+
+                    },
                     child: Text(
                       "View all",
                       style: TextStyle(
@@ -384,56 +396,132 @@ class SettingsLoginView extends ConsumerWidget {
 
   Widget _listWalletsWidget(
       BuildContext context, dataState, state, _deviceHeight, _deviceWidth) {
-    return ListView(shrinkWrap: true, children: [
-      Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: state.primaryColorDark),
-            borderRadius: BorderRadius.circular(8.0)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    if(isExpanded == false){
+    return Column(children: [
+      ListView.builder(
+      shrinkWrap: true,
+      itemCount: 2,
+      itemBuilder: (BuildContext context, int index){
+        return Column(
           children: [
+            Container(
+              decoration: BoxDecoration(
+                  border: Border.all(color: state.primaryColorDark),
+                  borderRadius: BorderRadius.circular(8.0)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: _deviceWidth * 0.04,
+                  ),
+                  Text(
+                    'Address ',
+                    style: TextStyle(
+                        color: state.textTheme.bodyText1!.color,
+                        fontFamily: "MavenPro-Regular",
+                        fontWeight: FontWeight.w400),
+                  ),
+                  Spacer(),
+                  Expanded(
+                      child: Text(
+                        dataState.listAddress.toString().length > 8
+                            ? dataState.listAddress[index].toString().substring(
+                          0,
+                        )
+                            : dataState.listAddress[index].toString(),
+                        maxLines: 1,
+                        textAlign: TextAlign.end,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        style: TextStyle(
+                            color: state.textTheme.bodyText1!.color,
+                            fontFamily: "MavenPro-Regular",
+                            fontWeight: FontWeight.w400),
+                      )),
+                  IconButton(
+                    onPressed: () {
+                      modal.connected(context, state, dataState);
+                    },
+                    icon:
+                    Icon(Platform.isAndroid ? Icons.more_vert : Icons.more_horiz),
+                    color: state.textTheme.bodyText1!.color,
+                  ),
+                ],
+              ),
+            ),
             SizedBox(
-              width: _deviceWidth * 0.04,
-            ),
-            Text(
-              'Address ',
-              style: TextStyle(
-                  color: state.textTheme.bodyText1!.color,
-                  fontFamily: "MavenPro-Regular",
-                  fontWeight: FontWeight.w400),
-            ),
-            Spacer(),
-            Expanded(
-                child: Text(
-              dataState.listAddress.first,
-              // dataState.listAddress.toString().length > 8
-              //     ? dataState.listAddress.toString().substring(
-              //           1,
-              //         )
-              //     : dataState.listAddress.toString(),
-              maxLines: 1,
-              textAlign: TextAlign.end,
-              overflow: TextOverflow.ellipsis,
-              softWrap: false,
-              style: TextStyle(
-                  color: state.textTheme.bodyText1!.color,
-                  fontFamily: "MavenPro-Regular",
-                  fontWeight: FontWeight.w400),
-            )),
-            IconButton(
-              onPressed: () {
-                modal.connected(context, state, dataState);
-              },
-              icon:
-                  Icon(Platform.isAndroid ? Icons.more_vert : Icons.more_horiz),
-              color: state.textTheme.bodyText1!.color,
+              height: _deviceHeight * 0.007,
             ),
           ],
-        ),
-      ),
-      SizedBox(
-        height: _deviceHeight * 0.15,
-      ),
-    ]);
+        );
+      },
+    ),
+      ]);} else {
+      return Column(children: [
+           ListView.builder(
+            shrinkWrap: true,
+            itemCount: dataState.listAddress.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: state.primaryColorDark),
+                        borderRadius: BorderRadius.circular(8.0)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          width: _deviceWidth * 0.04,
+                        ),
+                        Text(
+                          'Address ',
+                          style: TextStyle(
+                              color: state.textTheme.bodyText1!.color,
+                              fontFamily: "MavenPro-Regular",
+                              fontWeight: FontWeight.w400),
+                        ),
+                        Spacer(),
+                        Expanded(
+                            child: Text(
+                              dataState.listAddress
+                                  .toString()
+                                  .length > 8
+                                  ? dataState.listAddress[index]
+                                  .toString()
+                                  .substring(
+                                0,
+                              )
+                                  : dataState.listAddress[index].toString(),
+                              maxLines: 1,
+                              textAlign: TextAlign.end,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                              style: TextStyle(
+                                  color: state.textTheme.bodyText1!.color,
+                                  fontFamily: "MavenPro-Regular",
+                                  fontWeight: FontWeight.w400),
+                            )),
+                        IconButton(
+                          onPressed: () {
+                            modal.connected(context, state, dataState);
+                          },
+                          icon: Icon(Platform.isAndroid
+                              ? Icons.more_vert
+                              : Icons.more_horiz),
+                          color: state.textTheme.bodyText1!.color,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: _deviceHeight * 0.007,
+                  ),
+                ],
+              );
+            },
+          )]);
   }
+  }
+
 }
