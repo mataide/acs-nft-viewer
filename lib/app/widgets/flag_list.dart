@@ -62,6 +62,16 @@ class FlagListWidget extends ConsumerWidget {
                                     fit: BoxFit.cover,
                                   ),
                                 ),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Container(
+                                    decoration: BoxDecoration(gradient: new LinearGradient(colors: <Color>[
+                                      const Color(0xCC000000),
+                                      Color(0x66000000),
+                                      Color(0x00000000),
+                                    ], begin: Alignment.bottomCenter, end: Alignment.topCenter)),
+                                  ),
+                                ),
                                 Positioned(
                                     bottom: 30.0,
                                     left: 20.0,
