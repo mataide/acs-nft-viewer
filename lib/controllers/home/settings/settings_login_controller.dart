@@ -38,7 +38,6 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
   Future<List<String>> sharedRead() async {
     final preferences = await SharedPreferences.getInstance();
     final listAddress = preferences.getStringList('key');
-    //state = SettingsLoginState(listAddress: listAddress ?? []);
     return listAddress ?? [];
   }
 

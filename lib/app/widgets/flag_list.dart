@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faktura_nft_viewer/app/home/collections/collections_my_collection.dart';
 import 'package:faktura_nft_viewer/controllers/widgets/slide_right_route.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
@@ -52,14 +53,23 @@ class FlagListWidget extends ConsumerWidget {
                               },
                             child: Stack(
                               children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: snapshot.data!.contains('http') ? Image.network(
-                                    snapshot.data!,
-                                    fit: BoxFit.cover,
+                                ClipPath(
+                                  clipper: CustomTriangleClipper(),
+                                  child: snapshot.data!.contains('http') ? CachedNetworkImage(
+                                    imageUrl: snapshot.data!,
+                                    imageBuilder: (context, imageProvider) => Container(
+                                      decoration: BoxDecoration(
+
+                                        shape: BoxShape.rectangle,
+                                        image: DecorationImage(
+                                            image: imageProvider, fit: BoxFit.fitHeight),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) => CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
                                   ) : Image.file(
                                     File(snapshot.data!),
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.fitHeight,
                                   ),
                                 ),
                                 Positioned(
@@ -79,5 +89,22 @@ class FlagListWidget extends ConsumerWidget {
               }
           )),
     );
+  }
+}
+
+class CustomTriangleClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    path.lineTo(0, size.height/1.2);
+    path.lineTo(size.width/2, size.height);
+    path.lineTo(size.width, size.height/1.2);
+    path.lineTo(size.width, 0);
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return false;
   }
 }
