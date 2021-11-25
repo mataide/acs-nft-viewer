@@ -232,6 +232,11 @@ class _$Eth721DAO extends Eth721DAO {
   }
 
   @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('DELETE FROM Eth721');
+  }
+
+  @override
   Future<List<int>> insertList(List<Eth721> listEth721) {
     return _eth721InsertionAdapter.insertListAndReturnIds(
         listEth721, OnConflictStrategy.rollback);
@@ -347,6 +352,11 @@ class _$CollectionsDAO extends CollectionsDAO {
   }
 
   @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('DELETE FROM Collections');
+  }
+
+  @override
   Future<List<int>> insertList(List<Collections> listCollections) {
     return _collectionsInsertionAdapter.insertListAndReturnIds(
         listCollections, OnConflictStrategy.ignore);
@@ -439,6 +449,11 @@ class _$CollectionsItemDAO extends CollectionsItemDAO {
             contentType: row['contentType'] as String?,
             thumbnail: row['thumbnail'] as String?,
             image: row['image'] as String?));
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('DELETE FROM CollectionsItem');
   }
 
   @override

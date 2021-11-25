@@ -7,6 +7,9 @@ abstract class Eth721DAO {
   @Query('SELECT * FROM Eth721')
   Future<List<Eth721?>> findAll();
 
+  @Query('DELETE FROM Eth721')
+  Future<void> deleteAll();
+
   @Insert(onConflict: OnConflictStrategy.rollback)
   Future<List<int>> insertList(List<Eth721> listEth721);
 

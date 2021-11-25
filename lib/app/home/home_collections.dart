@@ -12,7 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeCollectionsView extends ConsumerWidget {
   final eventChannel =
-  const EventChannel("com.bimsina.re_walls/WalletStreamHandler");
+      const EventChannel("com.bimsina.re_walls/WalletStreamHandler");
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,8 +26,8 @@ class HomeCollectionsView extends ConsumerWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final networkStream = eventChannel.receiveBroadcastStream().distinct().map(
-            (dynamic event) => event == "disconnected" || event == null
-        ? [].cast<String>()
+        (dynamic event) => event == "disconnected" || event == null
+            ? [].cast<String>()
             : [event]);
 
     return Scaffold(
@@ -38,17 +38,25 @@ class HomeCollectionsView extends ConsumerWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            _connectWidget(dataState, stateTheme,
-                stateLogin,
-                controllerLogin, navigator, state, context, networkStream, width, height)
+            _connectWidget(dataState, stateTheme, stateLogin, controllerLogin,
+                navigator, state, context, networkStream, width, height)
           ],
         ),
       ),
     );
   }
 
-  Widget _connectWidget(HomeCollectionsController dataState, stateTheme, stateLogin,
-      SettingsLoginController controllerLogin, navigator, state, BuildContext context, networkStream, width, height) {
+  Widget _connectWidget(
+      HomeCollectionsController dataState,
+      stateTheme,
+      stateLogin,
+      SettingsLoginController controllerLogin,
+      navigator,
+      state,
+      BuildContext context,
+      networkStream,
+      width,
+      height) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: state.primaryColor,
@@ -56,7 +64,7 @@ class HomeCollectionsView extends ConsumerWidget {
         ),
         body: Container(
             margin:
-            EdgeInsets.only(left: (width * 0.02), right: (width * 0.02)),
+                EdgeInsets.only(left: (width * 0.02), right: (width * 0.02)),
             child: ListView(children: [
               SizedBox(
                 height: height * 0.02,
@@ -74,12 +82,12 @@ class HomeCollectionsView extends ConsumerWidget {
                     print(snapshot.data);
                     final List<String> address = snapshot.data != null
                         ? List<String>.from(snapshot.data).length > 0
-                        ? List<String>.from(snapshot.data)
-                        : stateLogin.listAddress
+                            ? List<String>.from(snapshot.data)
+                            : stateLogin.listAddress
                         : [].cast<String>();
 
                     print("address: $address");
-                    if(List<String>.from(snapshot.data).length > 0){
+                    if (List<String>.from(snapshot.data).length > 0) {
                       return FutureBuilder<List<String>>(
                         future: controllerLogin.sharedWrite(address),
                         // function where you call your api
@@ -90,9 +98,9 @@ class HomeCollectionsView extends ConsumerWidget {
                               ConnectionState.waiting) {
                             return Center(
                                 child: Text(
-                                  'Please wait its loading...',
-                                  style: state.textTheme.bodyText1,
-                                ));
+                              'Please wait its loading...',
+                              style: state.textTheme.bodyText1,
+                            ));
                           } else {
                             if (snapshot.hasError)
                               return Center(
@@ -104,40 +112,49 @@ class HomeCollectionsView extends ConsumerWidget {
                           }
                         },
                       );
-                    } else if(address.isNotEmpty) {
+                    } else if (address.isNotEmpty) {
                       return SizedBox(
                         height: height * 0.012,
                       );
                     } else {
-                      return _connectedWidget(dataState, stateTheme,
-                          controllerLogin, navigator, state, context, networkStream, width, height);
+                      return _connectedWidget(
+                          dataState,
+                          stateTheme,
+                          stateLogin,
+                          controllerLogin,
+                          navigator,
+                          state,
+                          context,
+                          networkStream,
+                          width,
+                          height);
                     }
                   }),
               Column(children: [
                 Row(children: <Widget>[
                   Container(
                       child: Expanded(
-                        child: FutureBuilder<List<Collections>>(
-                            future: dataState.prepareFromDb(),
-                            // function where you call your api
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              final images = snapshot.data;
-                              // AsyncSnapshot<Your object type>
-                              switch (snapshot.connectionState) {
-                                case ConnectionState.waiting:
-                                  return Center(child: CircularProgressIndicator());
-                                default:
-                                  if (snapshot.hasError) {
-                                    return Center(
-                                        child: Text(
-                                            'prepareFromDb error: ${snapshot.error}'));
-                                  } else {
-                                    return FlagListWidget(images);
-                                  }
+                    child: FutureBuilder<List<Collections>>(
+                        future: dataState.prepareFromDb(),
+                        // function where you call your api
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          final images = snapshot.data;
+                          // AsyncSnapshot<Your object type>
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.waiting:
+                              return Center(child: CircularProgressIndicator());
+                            default:
+                              if (snapshot.hasError) {
+                                return Center(
+                                    child: Text(
+                                        'prepareFromDb error: ${snapshot.error}'));
+                              } else {
+                                return FlagListWidget(images);
                               }
-                            }),
-                      )),
+                          }
+                        }),
+                  )),
                   SizedBox(
                     width: width * 0.02,
                   ),
@@ -146,18 +163,26 @@ class HomeCollectionsView extends ConsumerWidget {
             ])));
   }
 
-  Widget _connectedWidget(HomeCollectionsController dataState, stateTheme,
-      SettingsLoginController dataLogin, navigator, state, BuildContext context, networkStream, width, height) {
+  Widget _connectedWidget(
+      HomeCollectionsController dataState,
+      stateTheme,
+      stateLogin,
+      SettingsLoginController controllerLogin,
+      navigator,
+      state,
+      BuildContext context,
+      networkStream,
+      width,
+      height) {
     return Container(
-        margin: EdgeInsets.only(
-            left: (width * 0.02), right: (width * 0.02)),
+        margin: EdgeInsets.only(left: (width * 0.02), right: (width * 0.02)),
         child: Column(children: [
           Container(
             decoration: BoxDecoration(
                 color: state.primaryColorDark,
                 borderRadius: BorderRadius.circular(12.0)),
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(height: height * 0.032),
                   Text("Hello!", style: state.textTheme.caption),
@@ -170,10 +195,11 @@ class HomeCollectionsView extends ConsumerWidget {
                     height: height * 0.032,
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: width * 0.0225, right: width * 0.0225),
+                    margin: EdgeInsets.only(
+                        left: width * 0.0225, right: width * 0.0225),
                     child: ElevatedButton(
                       onPressed: () {
-                        dataLogin.openMetaMask();
+                        controllerLogin.openMetaMask();
                       },
                       style: TextButton.styleFrom(
                           backgroundColor: Colors.blueAccent,
@@ -181,12 +207,10 @@ class HomeCollectionsView extends ConsumerWidget {
                               borderRadius: BorderRadius.circular(8.0)),
                           fixedSize: Size((width * 0.90), (height * 0.07))),
                       child: Row(children: [
-                        SvgPicture.asset(
-                            'assets/images/walletconnect.svg',
+                        SvgPicture.asset('assets/images/walletconnect.svg',
                             color: Colors.white,
                             semanticsLabel: 'Wallet Connect icon',
-                            width: 24
-                        ),
+                            width: 24),
                         SizedBox(
                           width: width * 0.025,
                         ),
@@ -196,41 +220,38 @@ class HomeCollectionsView extends ConsumerWidget {
                           textAlign: TextAlign.left,
                         ),
                       ]),
-                    ),),
-
+                    ),
+                  ),
                   SizedBox(
                     height: height * 0.008,
                   ),
                   Container(
-                      margin: EdgeInsets.only(left: width * 0.0225, right: width * 0.0225),
-                    child:
-                  ElevatedButton(
-                    onPressed: () =>
-                        showModalAddress(context, state, dataState),
-                    style: TextButton.styleFrom(
-                        backgroundColor: Colors.grey,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0)),
-                        fixedSize: Size((width * 0.90), (height * 0.07))),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                            'assets/images/ethereum.svg',
-                            color: Colors.white,
-                            semanticsLabel: 'Ethereum icon'
+                      margin: EdgeInsets.only(
+                          left: width * 0.0225, right: width * 0.0225),
+                      child: ElevatedButton(
+                        onPressed: () =>
+                            showModalAddress(context, state, controllerLogin),
+                        style: TextButton.styleFrom(
+                            backgroundColor: Colors.grey,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0)),
+                            fixedSize: Size((width * 0.90), (height * 0.07))),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset('assets/images/ethereum.svg',
+                                color: Colors.white,
+                                semanticsLabel: 'Ethereum icon'),
+                            SizedBox(
+                              width: width * 0.025,
+                            ),
+                            Text(
+                              "Enter ethereum address",
+                              style: TextStyle(fontSize: 16.0),
+                              textAlign: TextAlign.left,
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          width: width * 0.025,
-                        ),
-                        Text(
-                          "Enter ethereum address",
-                          style: TextStyle(fontSize: 16.0),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
-                    ),
-                  )
-                  ),
+                      )),
                   SizedBox(
                     height: height * 0.011,
                   ),

@@ -1,8 +1,8 @@
+import 'package:faktura_nft_viewer/core/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../styles.dart';
-
-class CardRenderer extends StatelessWidget {
+class CardRenderer extends ConsumerWidget {
   final double offset;
   final double cardWidth;
   final double cardHeight;
@@ -11,7 +11,9 @@ class CardRenderer extends StatelessWidget {
   const CardRenderer(this.offset, {required Key key, this.cardWidth = 250, required this.city, required this.cardHeight}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ThemeData state = ref.watch(themeProvider);
+
     return Container(
       width: cardWidth,
       margin: EdgeInsets.only(top: 8),
@@ -34,7 +36,7 @@ class CardRenderer extends StatelessWidget {
           // City image, out of card by 15px
           Positioned(top: -15, child: _buildCityImage()),
           // City information
-          _buildCityData()
+          _buildCityData(state)
         ],
       ),
     );
@@ -59,7 +61,7 @@ class CardRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildCityData() {
+  Widget _buildCityData(state) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -67,17 +69,17 @@ class CardRenderer extends StatelessWidget {
         SizedBox(width: double.infinity, height: cardHeight * .57),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: Text(city.title, style: Styles.cardTitle, textAlign: TextAlign.center),
+          child: Text(city.title, style: state.textTheme.headline4, textAlign: TextAlign.center),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          child: Text(city.description, style: Styles.cardSubtitle, textAlign: TextAlign.center),
+          child: Text(city.description, style: state.textTheme.headline4, textAlign: TextAlign.center),
         ),
         Expanded(child: SizedBox(),),
         FlatButton(
           disabledColor: Colors.transparent,
           color: Colors.transparent,
-          child: Text('Learn More'.toUpperCase(), style: Styles.cardAction),
+          child: Text('Learn More'.toUpperCase(), style: state.textTheme.headline4),
           onPressed: null,
         ),
         SizedBox(height: 8)

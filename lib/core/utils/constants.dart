@@ -35,6 +35,11 @@ final darkTheme = ThemeData(
   canvasColor: Colors.transparent,
   primaryIconTheme: IconThemeData(color: Colors.white),
   textTheme: TextTheme(
+    headline4: TextStyle(
+        fontFamily: 'FuturaPTMedium.otf',
+        fontWeight: FontWeight.w500,
+        color: Colors.white,
+        fontSize: 16),
     headline5: TextStyle(
         fontFamily: 'FuturaPTBook.otf',
         fontWeight: FontWeight.w400,
@@ -95,6 +100,11 @@ final lightTheme = ThemeData(
   canvasColor: Colors.transparent,
   primaryIconTheme: IconThemeData(color: Colors.black),
   textTheme: TextTheme(
+    headline4: TextStyle(
+        fontFamily: 'FuturaPTMedium.otf',
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+        fontSize: 16),
     headline5: TextStyle(
         fontFamily: 'FuturaPTBook.otf',
         fontWeight: FontWeight.w400,

@@ -24,25 +24,32 @@ class FlagListWidget extends ConsumerWidget {
           child: GridView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              gridDelegate:
-              const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisSpacing: 5,
                 mainAxisSpacing: 10,
                 crossAxisCount: 2,
+                childAspectRatio: 0.9,
               ),
               itemCount: collectionsList.length,
               itemBuilder: (context, index) {
                 return FutureBuilder<String>(
                   future: dataState.prepareFromDb(collectionsList[index]),
                   // function where you call your api
-                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
                     // AsyncSnapshot<Your object type>
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: Text('Please wait its loading...', style: TextStyle(color: state.textTheme.bodyText1!.color),));
+                      return Center(
+                          child: Text(
+                        'Please wait its loading...',
+                        style:
+                            TextStyle(color: state.textTheme.bodyText1!.color),
+                      ));
                     } else {
                       if (snapshot.hasError)
                         return Center(
-                            child: Text('getCollectionImage: ${snapshot.error}'));
+                            child:
+                                Text('getCollectionImage: ${snapshot.error}'));
                       else
                         return GestureDetector(
                             onTap: () {
@@ -50,54 +57,58 @@ class FlagListWidget extends ConsumerWidget {
                                 Navigator.of(context).push(SlideRightRoute(
                                     MyCollectionView(collectionsList[index])));
                               }
-                              },
-                            child: Stack(
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 ClipPath(
                                   clipper: CustomTriangleClipper(),
-                                  child: snapshot.data!.contains('http') ? CachedNetworkImage(
-                                    imageUrl: snapshot.data!,
-                                    imageBuilder: (context, imageProvider) => Container(
-                                      decoration: BoxDecoration(
-
-                                        shape: BoxShape.rectangle,
-                                        image: DecorationImage(
-                                            image: imageProvider, fit: BoxFit.fitHeight),
-                                      ),
-                                    ),
-                                    placeholder: (context, url) => CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) => Icon(Icons.error),
-                                  ) : Image.file(
-                                    File(snapshot.data!),
-                                    fit: BoxFit.fitHeight,
-                                  ),
+                                  child: snapshot.data!.contains('http')
+                                      ? Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              3,
+                                          child: CachedNetworkImage(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            imageUrl: snapshot.data!,
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+                                                    Container(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.rectangle,
+                                                image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.cover),
+                                              ),
+                                            ),
+                                            placeholder: (context, url) =>
+                                                CircularProgressIndicator(),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
+                                          ))
+                                      : Image.file(
+                                          File(snapshot.data!),
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              3,
+                                          fit: BoxFit.cover,
+                                        ),
                                 ),
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Container(
-                                    decoration: BoxDecoration(gradient: new LinearGradient(colors: <Color>[
-                                      const Color(0xCC000000),
-                                      Color(0x66000000),
-                                      Color(0x00000000),
-                                    ], begin: Alignment.bottomCenter, end: Alignment.topCenter)),
-                                  ),
-                                ),
-                                Positioned(
-                                    bottom: 30.0,
-                                    left: 20.0,
-                                    child: Text(collectionsList[index].tokenName)),
-                                Positioned(
-                                    bottom: 10.0,
-                                    left: 20.0,
-                                    child: Text('${collectionsList[index].totalSupply}')),
+                                Expanded(child: SizedBox(height: 0.032)),
+                                Expanded(child: Text(collectionsList[index].tokenName.toUpperCase(), style: state.textTheme.headline4, textAlign: TextAlign.center)),
+                                Expanded(child: Text('#${collectionsList[index].totalSupply}', style: state.textTheme.headline4, textAlign: TextAlign.center)),
+                                Expanded(child: SizedBox(height: 0.032)),
                               ],
-                            )
-                        );
+                            ));
                     }
                   },
                 );
-              }
-          )),
+              })),
     );
   }
 }
@@ -106,9 +117,9 @@ class CustomTriangleClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
-    path.lineTo(0, size.height/1.2);
-    path.lineTo(size.width/2, size.height);
-    path.lineTo(size.width, size.height/1.2);
+    path.lineTo(0, size.height / 1.2);
+    path.lineTo(size.width / 2, size.height);
+    path.lineTo(size.width, size.height / 1.2);
     path.lineTo(size.width, 0);
     return path;
   }

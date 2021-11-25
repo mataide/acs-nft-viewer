@@ -1,4 +1,5 @@
 
+import 'package:faktura_nft_viewer/database_helper/database.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,7 +21,13 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
     print("address: '$address'.");
     final preferences = await SharedPreferences.getInstance();
     var listAddress = preferences.getStringList('key');
-    listAddress != null ? listAddress.addUnique(address) : listAddress = [address];
+    if(listAddress != null && listAddress.isNotEmpty) listAddress.addUnique(address); else {
+      final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
+      await database.collectionsItemDAO.deleteAll();
+      await database.collectionsDAO.deleteAll();
+      await database.eth721DAO.deleteAll();
+      listAddress = [address];
+    }
     await preferences.setStringList('key', listAddress);
     state = SettingsLoginState(listAddress: listAddress, isExpanded: state.isExpanded);
     return listAddress;

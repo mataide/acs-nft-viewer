@@ -7,6 +7,9 @@ abstract class CollectionsItemDAO {
   @Query('SELECT * FROM CollectionsItem')
   Future<List<CollectionsItem>> findAll();
 
+  @Query('DELETE FROM CollectionsItem')
+  Future<void> deleteAll();
+
   @Insert(onConflict: OnConflictStrategy.ignore)
   Future<List<int>> insertList(List<CollectionsItem> listCollectionsItem);
 
