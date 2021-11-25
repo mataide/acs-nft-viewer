@@ -1,5 +1,5 @@
 import 'package:faktura_nft_viewer/app/home/settings/settings_login.dart';
-import 'package:faktura_nft_viewer/controllers/widgets/slide_right_route.dart';
+import 'package:faktura_nft_viewer/app/routes/slide_right_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:faktura_nft_viewer/app/widgets/dialog.dart';
