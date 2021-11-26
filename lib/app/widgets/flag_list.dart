@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:faktura_nft_viewer/app/home/collections/collections_my_collection.dart';
+import 'package:faktura_nft_viewer/app/home/collections/collections_item.dart';
 import 'package:faktura_nft_viewer/app/routes/slide_right_route.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
@@ -53,10 +53,8 @@ class FlagListWidget extends ConsumerWidget {
                       else
                         return GestureDetector(
                             onTap: () {
-                              if (data.listAddress.length > 0) {
-                                Navigator.of(context).push(SlideRightRoute(
-                                    MyCollectionView(collectionsList[index])));
-                              }
+                              Navigator.of(context).push(SlideRightRoute(
+                                  CollectionsItemView(collectionsList[index])));
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,

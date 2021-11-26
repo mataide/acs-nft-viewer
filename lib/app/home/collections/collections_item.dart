@@ -8,17 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:readmore/readmore.dart';
 
-class MyCollectionView extends ConsumerWidget {
+class CollectionsItemView extends ConsumerWidget {
 
   final Collections collections;
 
-  MyCollectionView(this.collections);
+  CollectionsItemView(this.collections);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
     final state = ref.watch(themeProvider);
-    final dataState = ref.watch(homeCollectionsProvider.notifier);
+    final controller = ref.read(collectionsItemProvider.notifier);
+    final dataState = ref.watch(collectionsItemProvider);
 
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
