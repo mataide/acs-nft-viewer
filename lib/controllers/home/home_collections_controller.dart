@@ -31,7 +31,9 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
     if(collections.isEmpty) {
       final preferences = await SharedPreferences.getInstance();
       final listAddress = preferences.getStringList('key');
-      if (listAddress == null) return await prepareFromInternet("0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb");
+      if (listAddress == null) return await prepareFromInternet("0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb"); else {
+        for(var i = 0; i < listAddress.length; i++) collections.addAll(await prepareFromInternet(listAddress[i]));
+      }
     }
     return collections;
   }
