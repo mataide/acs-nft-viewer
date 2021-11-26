@@ -5,10 +5,10 @@ import 'package:faktura_nft_viewer/core/models/index.dart';
 abstract class CollectionsItemDAO {
 
   @Query('SELECT * FROM CollectionsItem')
-  Future<List<CollectionsItem>> findAll();
+  Future<List<CollectionsItem>> findAllCollectionsItem();
 
   @Query('DELETE FROM CollectionsItem')
-  Future<void> deleteAll();
+  Future<void> deleteAllCollectionsItem();
 
   @Insert(onConflict: OnConflictStrategy.ignore)
   Future<List<int>> insertList(List<CollectionsItem> listCollectionsItem);

@@ -90,7 +90,7 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `amount` TEXT, `image` TEXT, `totalSupply` INTEGER, PRIMARY KEY (`contractAddress`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `CollectionsItem` (`hash` TEXT NOT NULL, `id` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `contentType` TEXT, `thumbnail` TEXT, `image` TEXT, FOREIGN KEY (`contractAddress`) REFERENCES `Collections` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`hash`))');
+            'CREATE TABLE IF NOT EXISTS `CollectionsItem` (`hash` TEXT NOT NULL, `id` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `contentType` TEXT, `thumbnail` TEXT, `image` TEXT, PRIMARY KEY (`hash`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -333,7 +333,7 @@ class _$CollectionsDAO extends CollectionsDAO {
   final DeletionAdapter<Collections> _collectionsDeletionAdapter;
 
   @override
-  Future<List<Collections>> findAll() async {
+  Future<List<Collections>> findAllCollections() async {
     return _queryAdapter.queryList('SELECT * FROM Collections',
         mapper: (Map<String, Object?> row) => Collections(
             row['hash'] as String,
@@ -352,7 +352,7 @@ class _$CollectionsDAO extends CollectionsDAO {
   }
 
   @override
-  Future<void> deleteAll() async {
+  Future<void> deleteAllCollections() async {
     await _queryAdapter.queryNoReturn('DELETE FROM Collections');
   }
 
@@ -438,7 +438,7 @@ class _$CollectionsItemDAO extends CollectionsItemDAO {
   final DeletionAdapter<CollectionsItem> _collectionsItemDeletionAdapter;
 
   @override
-  Future<List<CollectionsItem>> findAll() async {
+  Future<List<CollectionsItem>> findAllCollectionsItem() async {
     return _queryAdapter.queryList('SELECT * FROM CollectionsItem',
         mapper: (Map<String, Object?> row) => CollectionsItem(
             row['contractAddress'] as String,
@@ -452,7 +452,7 @@ class _$CollectionsItemDAO extends CollectionsItemDAO {
   }
 
   @override
-  Future<void> deleteAll() async {
+  Future<void> deleteAllCollectionsItem() async {
     await _queryAdapter.queryNoReturn('DELETE FROM CollectionsItem');
   }
 

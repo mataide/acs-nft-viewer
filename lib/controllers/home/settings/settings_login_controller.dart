@@ -23,9 +23,11 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
     var listAddress = preferences.getStringList('key');
     if(listAddress != null && listAddress.isNotEmpty) listAddress.addUnique(address); else {
       final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
-      await database.collectionsItemDAO.deleteAll();
-      await database.collectionsDAO.deleteAll();
-      await database.eth721DAO.deleteAll();
+      final collectionsDAO = database.collectionsDAO;
+      await collectionsDAO.deleteAllCollections();
+      final collectionsItemDAO = database.collectionsItemDAO;
+      await collectionsItemDAO.deleteAllCollectionsItem();
+      //await database.eth721DAO.deleteAll();
       listAddress = [address];
     }
     await preferences.setStringList('key', listAddress);

@@ -32,7 +32,7 @@ class WallpaperListController extends StateNotifier<WallpaperListState> {
   Future<List<CollectionsItem>> prepareFromDb() async {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final collectionsItemDAO = database.collectionsItemDAO;
-    final List<CollectionsItem> collectionsItem = await collectionsItemDAO.findAll();
+    final List<CollectionsItem> collectionsItem = await collectionsItemDAO.findAllCollectionsItem();
     state = WallpaperListState(collectionsItem: collectionsItem);
     return collectionsItem;
   }

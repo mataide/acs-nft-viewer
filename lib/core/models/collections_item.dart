@@ -4,16 +4,7 @@ import 'package:floor/floor.dart';
 
 part 'collections_item.g.dart';
 
-@Entity(
-  tableName: 'CollectionsItem',
-  foreignKeys: [
-    ForeignKey(
-      childColumns: ['contractAddress'],
-      parentColumns: ['id'],
-      entity: Collections,
-    )
-  ],
-)
+@entity
 @JsonSerializable()
 class CollectionsItem {
   @PrimaryKey()

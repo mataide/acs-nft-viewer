@@ -26,7 +26,7 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
   Future<List<Collections>> prepareFromDb() async {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final collectionsDAO = database.collectionsDAO;
-    List<Collections> collections = await collectionsDAO.findAll();
+    List<Collections> collections = await collectionsDAO.findAllCollections();
 
     if(collections.isEmpty) {
       final preferences = await SharedPreferences.getInstance();
