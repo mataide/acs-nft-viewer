@@ -1,5 +1,4 @@
 import 'package:faktura_nft_viewer/core/client/APIClient.dart';
-import 'package:faktura_nft_viewer/app/widgets/selector.dart';
 import 'package:faktura_nft_viewer/core/models/eth721.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -61,9 +60,16 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
 
   void onRefresh() async{
     // monitor network fetch
-    await Future.delayed(Duration(milliseconds: 1000));
+    final preferences = await SharedPreferences.getInstance();
+    final listAddress = preferences.getStringList('key');
+    List<Collections> collections = [];
+
+    if (listAddress == null) await prepareFromInternet("0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb"); else {
+      for(var i = 0; i < listAddress.length; i++) collections.addAll(await prepareFromInternet(listAddress[i]));
+    }
     // if failed,use refreshFailed()
     state.refreshController.refreshCompleted();
+    state = HomeCollectionsState(state.refreshController, collections: collections, fetchState: kdataFetchState.IS_LOADED);
   }
 
   void onLoading() async{
@@ -71,14 +77,5 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
     state.refreshController.loadComplete();
-  }
-
-  changeSelected(SelectorCallback selected) {
-    final _selectedFilter = selected.selectedFilter;
-    final _selectedSubreddit = selected.selectedSubreddits;
-    SharedPreferences.getInstance().then((preferences) {
-      preferences.setInt('list_filter', _selectedFilter!);
-      preferences.setStringList('list_subreddit', _selectedSubreddit!);
-    });
   }
 }
