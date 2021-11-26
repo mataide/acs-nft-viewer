@@ -2,6 +2,7 @@ import 'package:faktura_nft_viewer/core/client/APIClient.dart';
 import 'package:faktura_nft_viewer/app/widgets/selector.dart';
 import 'package:faktura_nft_viewer/core/models/eth721.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:faktura_nft_viewer/core/utils/constants.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
@@ -12,12 +13,14 @@ class HomeCollectionsState {
   final List<Collections?>? collections;
   final kdataFetchState fetchState;
   final int? selectedFilter;
+  final RefreshController refreshController;
 
-  const HomeCollectionsState({this.fetchState = kdataFetchState.IS_LOADING, this.collections, this.selectedFilter});
+
+  const HomeCollectionsState(this.refreshController, {this.fetchState = kdataFetchState.IS_LOADING, this.collections, this.selectedFilter});
 }
 
 class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
-  HomeCollectionsController([Collections? state]) : super(HomeCollectionsState());
+  HomeCollectionsController([Collections? state]) : super(HomeCollectionsState(RefreshController(initialRefresh: false)));
 
   get fetchState => state.fetchState;
   get selectedFilter => state.selectedFilter;
@@ -52,8 +55,22 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
       listCollections.add(collections);
     }
     await collectionsDAO.insertList(listCollections);
-    state = HomeCollectionsState(collections: listCollections, fetchState: kdataFetchState.IS_LOADED);
+    state = HomeCollectionsState(state.refreshController, collections: listCollections, fetchState: kdataFetchState.IS_LOADED);
     return listCollections;
+  }
+
+  void onRefresh() async{
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use refreshFailed()
+    state.refreshController.refreshCompleted();
+  }
+
+  void onLoading() async{
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    state.refreshController.loadComplete();
   }
 
   changeSelected(SelectorCallback selected) {

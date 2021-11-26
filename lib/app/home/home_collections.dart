@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 
 class HomeCollectionsView extends ConsumerWidget {
   final eventChannel =
@@ -17,11 +19,12 @@ class HomeCollectionsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(themeProvider);
-    final dataState = ref.watch(homeCollectionsProvider.notifier);
+    final dataState = ref.watch(homeCollectionsProvider);
     final stateTheme = ref.watch(themeProvider);
-    final controllerLogin = ref.read(loginProvider.notifier);
     final stateLogin = ref.watch(loginProvider);
-
+    //Controllers
+    final controllerLogin = ref.read(loginProvider.notifier);
+    final controller = ref.read(homeCollectionsProvider.notifier);
     final navigator = Navigator.of(context);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -31,23 +34,19 @@ class HomeCollectionsView extends ConsumerWidget {
             : [event]);
 
     return Scaffold(
-      backgroundColor: state.primaryColor,
-      body: Container(
-        height: height,
-        width: width,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            _connectWidget(dataState, stateTheme, stateLogin, controllerLogin,
-                navigator, state, context, networkStream, width, height)
-          ],
-        ),
+      appBar: AppBar(
+        backgroundColor: state.primaryColor,
+        iconTheme: state.primaryIconTheme,
       ),
+      backgroundColor: state.primaryColor,
+      body: _pullToRefresh(controller, dataState, stateTheme, stateLogin, controllerLogin,
+          navigator, state, context, networkStream, width, height)
     );
   }
 
-  Widget _connectWidget(
-      HomeCollectionsController dataState,
+  Widget _pullToRefresh(
+      HomeCollectionsController controller,
+      HomeCollectionsState dataState,
       stateTheme,
       stateLogin,
       SettingsLoginController controllerLogin,
@@ -57,114 +56,157 @@ class HomeCollectionsView extends ConsumerWidget {
       networkStream,
       width,
       height) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: state.primaryColor,
-          iconTheme: state.primaryIconTheme,
-        ),
-        body: Container(
-            margin:
-                EdgeInsets.only(left: (width * 0.02), right: (width * 0.02)),
-            child: ListView(children: [
-              SizedBox(
-                height: height * 0.02,
-              ),
-              Text(
-                'My Collections',
-                style: state.textTheme.caption,
-                textAlign: TextAlign.left,
-              ),
-              SizedBox(height: height * 0.05),
-              StreamBuilder<dynamic>(
-                  initialData: stateLogin.listAddress,
-                  stream: networkStream,
-                  builder: (context, snapshot) {
-                    print(snapshot.data);
-                    final List<String> address = snapshot.data != null
-                        ? List<String>.from(snapshot.data).length > 0
-                            ? List<String>.from(snapshot.data)
-                            : stateLogin.listAddress
-                        : [].cast<String>();
+    return SmartRefresher(
+      enablePullDown: true,
+      enablePullUp: true,
+      header: WaterDropHeader(),
+      footer: CustomFooter(
+        builder: (BuildContext context,LoadStatus? mode){
+          Widget body ;
+          if(mode==LoadStatus.idle){
+            body =  Text("Load more");
+          }
+          else if(mode==LoadStatus.loading){
+            body =  CupertinoActivityIndicator();
+          }
+          else if(mode == LoadStatus.failed){
+            body = Text("Load Failed!Click retry!");
+          }
+          else if(mode == LoadStatus.canLoading){
+            body = Text("release to load more");
+          }
+          else{
+            body = Text("No more Data");
+          }
+          return Container(
+            height: 55.0,
+            child: Center(child:body),
+          );
+        },
+      ),
+      controller: dataState.refreshController,
+      onRefresh: controller.onRefresh,
+      onLoading: controller.onLoading,
+      child: _connectWidget(controller, dataState, stateTheme, stateLogin, controllerLogin,
+          navigator, state, context, networkStream, width, height),
+      );
+  }
 
-                    print("address: $address");
-                    if (List<String>.from(snapshot.data).length > 0) {
-                      return FutureBuilder<List<String>>(
-                        future: controllerLogin.sharedWrite(address),
-                        // function where you call your api
-                        builder: (BuildContext context,
-                            AsyncSnapshot<List<String>> snapshot) {
-                          // AsyncSnapshot<Your object type>
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(
-                                child: Text(
-                              'Please wait its loading...',
-                              style: state.textTheme.bodyText1,
-                            ));
-                          } else {
-                            if (snapshot.hasError)
-                              return Center(
-                                  child: Text('Error: ${snapshot.error}'));
-                            else
-                              return SizedBox(
-                                height: height * 0.012,
-                              );
-                          }
-                        },
-                      );
-                    } else if (address.isNotEmpty) {
+
+  Widget _connectWidget(
+      HomeCollectionsController controller,
+      HomeCollectionsState dataState,
+      stateTheme,
+      stateLogin,
+      SettingsLoginController controllerLogin,
+      navigator,
+      state,
+      BuildContext context,
+      networkStream,
+      width,
+      height) {
+    return ListView(children: [
+      SizedBox(
+        height: height * 0.02,
+      ),
+      Text(
+        'My Collections',
+        style: state.textTheme.caption,
+        textAlign: TextAlign.left,
+      ),
+      SizedBox(height: height * 0.05),
+      StreamBuilder<dynamic>(
+          initialData: stateLogin.listAddress,
+          stream: networkStream,
+          builder: (context, snapshot) {
+            print(snapshot.data);
+            final List<String> address = snapshot.data != null
+                ? List<String>.from(snapshot.data).length > 0
+                ? List<String>.from(snapshot.data)
+                : stateLogin.listAddress
+                : [].cast<String>();
+
+            print("address: $address");
+            if (List<String>.from(snapshot.data).length > 0) {
+              return FutureBuilder<List<String>>(
+                future: controllerLogin.sharedWrite(address),
+                // function where you call your api
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<String>> snapshot) {
+                  // AsyncSnapshot<Your object type>
+                  if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return Center(
+                        child: Text(
+                          'Please wait its loading...',
+                          style: state.textTheme.bodyText1,
+                        ));
+                  } else {
+                    if (snapshot.hasError)
+                      return Center(
+                          child: Text('Error: ${snapshot.error}'));
+                    else
                       return SizedBox(
                         height: height * 0.012,
                       );
-                    } else {
-                      return _connectedWidget(
-                          dataState,
-                          stateTheme,
-                          stateLogin,
-                          controllerLogin,
-                          navigator,
-                          state,
-                          context,
-                          networkStream,
-                          width,
-                          height);
-                    }
-                  }),
-              Column(children: [
-                Row(children: <Widget>[
-                  Container(
-                      child: Expanded(
-                    child: FutureBuilder<List<Collections>>(
-                        future: dataState.prepareFromDb(),
-                        // function where you call your api
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          final images = snapshot.data;
-                          // AsyncSnapshot<Your object type>
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.waiting:
-                              return Center(child: CircularProgressIndicator());
-                            default:
-                              if (snapshot.hasError) {
-                                return Center(
-                                    child: Text(
-                                        'prepareFromDb error: ${snapshot.error}'));
-                              } else {
-                                return FlagListWidget(images);
-                              }
+                  }
+                },
+              );
+            } else if (address.isNotEmpty) {
+              return SizedBox(
+                height: height * 0.012,
+              );
+            } else {
+              return _connectedWidget(
+                  controller,
+                  dataState,
+                  stateTheme,
+                  stateLogin,
+                  controllerLogin,
+                  navigator,
+                  state,
+                  context,
+                  networkStream,
+                  width,
+                  height);
+            }
+          }),
+      Column(children: [
+        Row(children: <Widget>[
+          Container(
+              child: Expanded(
+                child: FutureBuilder<List<Collections>>(
+                    future: controller.prepareFromDb(),
+                    // function where you call your api
+                    builder:
+                        (BuildContext context, AsyncSnapshot snapshot) {
+                      final images = snapshot.data;
+                      // AsyncSnapshot<Your object type>
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return Center(child: CircularProgressIndicator());
+                        default:
+                          if (snapshot.hasError) {
+                            return Center(
+                                child: Text(
+                                    'prepareFromDb error: ${snapshot.error}'));
+                          } else {
+                            return FlagListWidget(images);
                           }
-                        }),
-                  )),
-                  SizedBox(
-                    width: width * 0.02,
-                  ),
-                ])
-              ])
-            ])));
+                      }
+                    }),
+              )),
+          SizedBox(
+            width: width * 0.02,
+          ),
+        ])
+      ])
+    ]);
   }
 
   Widget _connectedWidget(
-      HomeCollectionsController dataState,
+      HomeCollectionsController controller,
+      HomeCollectionsState dataState,
       stateTheme,
       stateLogin,
       SettingsLoginController controllerLogin,
