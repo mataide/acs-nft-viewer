@@ -18,8 +18,8 @@ class CollectionsItemView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final state = ref.watch(themeProvider);
-    final controller = ref.read(collectionsItemProvider.notifier);
-    final dataState = ref.watch(collectionsItemProvider);
+    final controller = ref.read(collectionsItemProvider(collections).notifier);
+    final dataState = ref.watch(collectionsItemProvider(collections));
 
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -53,7 +53,7 @@ class CollectionsItemView extends ConsumerWidget {
                         Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Nome da Coleção",
+                              dataState.collections!.tokenName,
                               style: state.textTheme.caption,
                             )),
                         SizedBox(
