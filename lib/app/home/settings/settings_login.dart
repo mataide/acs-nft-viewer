@@ -101,7 +101,7 @@ class SettingsLoginView extends ConsumerWidget {
               ],
             ),
             SizedBox(
-              height: _deviceHeight * 0.0175,
+              height: _deviceHeight * 0.024,
             ),
             Row(
               children: [
@@ -258,53 +258,11 @@ class SettingsLoginView extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.orange),
-                  borderRadius: BorderRadius.circular(8.0)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                    width: _deviceWidth * 0.04,
-                  ),
-                  Text(
-                    'Address ',
-                    style: TextStyle(
-                        color: state.textTheme.bodyText1!.color,
-                        fontFamily: "MavenPro-Regular",
-                        fontWeight: FontWeight.w400),
-                  ),
-                  Spacer(),
-                  Expanded(
-                      child: Text(
-                    data.listAddress.first.toString().length > 8
-                        ? data.listAddress.first.toString().substring(
-                              0,
-                            )
-                        : data.listAddress.first.toString(),
-                    maxLines: 1,
-                    textAlign: TextAlign.end,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    style: TextStyle(
-                        color: state.textTheme.bodyText1!.color,
-                        fontFamily: "MavenPro-Regular",
-                        fontWeight: FontWeight.w400),
-                  )),
-                  IconButton(
-                    onPressed: () =>
-                        showModalConnected(context, state, dataState, data.listAddress.first),
-                    icon: Icon(Platform.isAndroid
-                        ? Icons.more_vert
-                        : Icons.more_horiz),
-                    color: state.textTheme.bodyText1!.color,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: _deviceHeight * 0.012,
+            data.listAddress.length >= 1
+                ? _listWalletsWidget(
+                context, data, dataState, state, _deviceHeight, _deviceWidth)
+                : SizedBox(
+              height: _deviceHeight * 0.112,
             ),
             Row(
               //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -323,7 +281,9 @@ class SettingsLoginView extends ConsumerWidget {
                 Spacer(),
                 TextButton(
                     onPressed: () {
+                      if (data.listAddress.length > 3) {
                         dataState.setExpanded();
+                      }
                     },
                     child: Text(
                       "View all",
@@ -338,14 +298,9 @@ class SettingsLoginView extends ConsumerWidget {
               ],
             ),
             SizedBox(
-              height: _deviceHeight * 0.0175,
+              height: _deviceHeight * 0.0242,
             ),
-            data.listAddress.length > 1
-                ? _listWalletsWidget(
-                    context, data, dataState, state, _deviceHeight, _deviceWidth)
-                : SizedBox(
-                    height: _deviceHeight * 0.112,
-                  ),
+
           ],
         ));
   }
@@ -424,7 +379,7 @@ class SettingsLoginView extends ConsumerWidget {
     return Column(children: [
       ListView.builder(
         shrinkWrap: true,
-        itemCount: data.isExpanded == false ? 2 : data.listAddress.length,
+        itemCount: data.isExpanded == false ? 3 : data.listAddress.length,
         itemBuilder: (BuildContext context, int index){
           return Column(
             children: [
