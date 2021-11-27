@@ -16,13 +16,11 @@ class SettingsLoginView extends ConsumerWidget {
   final eventChannel =
       const EventChannel("com.bimsina.re_walls/WalletStreamHandler");
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(themeProvider);
     final dataState = ref.read(loginProvider.notifier);
     final data = ref.watch(loginProvider);
-
 
     final _deviceHeight = MediaQuery.of(context).size.height;
     final _deviceWidth = MediaQuery.of(context).size.width;
@@ -32,8 +30,8 @@ class SettingsLoginView extends ConsumerWidget {
             ? [].cast<String>()
             : [event]);
 
-    return _buildUI(state, data, dataState, _deviceHeight, _deviceWidth, navigator,
-        networkStream, context);
+    return _buildUI(state, data, dataState, _deviceHeight, _deviceWidth,
+        navigator, networkStream, context);
   }
 
   Widget _buildUI(
@@ -45,8 +43,6 @@ class SettingsLoginView extends ConsumerWidget {
       navigator,
       networkStream,
       BuildContext context) {
-
-
     return Scaffold(
         backgroundColor: state.primaryColor,
         appBar: AppBar(
@@ -60,8 +56,8 @@ class SettingsLoginView extends ConsumerWidget {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                _walletsWidget(state, data, dataState, _deviceHeight, _deviceWidth,
-                    navigator, networkStream, context)
+                _walletsWidget(state, data, dataState, _deviceHeight,
+                    _deviceWidth, navigator, networkStream, context)
               ],
             ),
           ),
@@ -77,7 +73,6 @@ class SettingsLoginView extends ConsumerWidget {
       navigator,
       networkStream,
       BuildContext context) {
-
     return Container(
         margin: EdgeInsets.only(
             left: (_deviceWidth * 0.02), right: (_deviceWidth * 0.02)),
@@ -123,23 +118,20 @@ class SettingsLoginView extends ConsumerWidget {
             FutureBuilder<List<String>>(
               future: dataState.sharedRead(),
               // function where you call your api
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<String>> snapshot) {
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                 // AsyncSnapshot<Your object type>
-                if (snapshot.connectionState ==
-                    ConnectionState.waiting) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
                       child: Text('Please wait its loading...',
                           style: TextStyle(
-                              color:
-                              state.textTheme.bodyText1!.color)));
+                              color: state.textTheme.bodyText1!.color)));
                 } else {
                   if (snapshot.hasError)
                     return Center(
                         child: Text('Error: ${snapshot.error}',
                             style: TextStyle(
-                                color:
-                                state.textTheme.bodyText1!.color)));
+                                color: state.textTheme.bodyText1!.color)));
                   else
                     return StreamBuilder<dynamic>(
                         initialData: snapshot.data,
@@ -147,10 +139,13 @@ class SettingsLoginView extends ConsumerWidget {
                         builder: (context, snapshotStream) {
                           print(snapshotStream.data);
                           print("address: $dataState.listAddress");
-                          if (List<String>.from(snapshotStream.data).length > 0 && snapshotStream.connectionState !=
-                              ConnectionState.waiting) {
+                          if (List<String>.from(snapshotStream.data).length >
+                                  0 &&
+                              snapshotStream.connectionState !=
+                                  ConnectionState.waiting) {
                             return FutureBuilder<List<String>>(
-                              future: dataState.sharedWrite(List<String>.from(snapshotStream.data).first),
+                              future: dataState.sharedWrite(
+                                  List<String>.from(snapshotStream.data).first),
                               // function where you call your api
                               builder: (BuildContext context,
                                   AsyncSnapshot<List<String>> snapshot) {
@@ -160,15 +155,15 @@ class SettingsLoginView extends ConsumerWidget {
                                   return Center(
                                       child: Text('Please wait its loading...',
                                           style: TextStyle(
-                                              color:
-                                              state.textTheme.bodyText1!.color)));
+                                              color: state.textTheme.bodyText1!
+                                                  .color)));
                                 } else {
                                   if (snapshot.hasError)
                                     return Center(
                                         child: Text('Error: ${snapshot.error}',
                                             style: TextStyle(
-                                                color:
-                                                state.textTheme.bodyText1!.color)));
+                                                color: state.textTheme
+                                                    .bodyText1!.color)));
                                   else
                                     return _listAddressWidget(
                                         state,
@@ -182,32 +177,42 @@ class SettingsLoginView extends ConsumerWidget {
                                 }
                               },
                             );
-                          } else if (data.listAddress.length > 0 && data.listAddress.isNotEmpty) {
-                            return _listAddressWidget(state, data, dataState, _deviceHeight,
-                                _deviceWidth, navigator, networkStream, context);
+                          } else if (data.listAddress.length > 0 &&
+                              data.listAddress.isNotEmpty) {
+                            return _listAddressWidget(
+                                state,
+                                data,
+                                dataState,
+                                _deviceHeight,
+                                _deviceWidth,
+                                navigator,
+                                networkStream,
+                                context);
                           } else {
                             //TODO: Replace with empty placeholder
                             return Column(children: [
                               Container(
-                                margin: EdgeInsets.only(
-                                    left: (_deviceWidth * 0.02),
-                                    right: (_deviceWidth * 0.02)),
-                                height: _deviceHeight * 0.09,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: state.primaryColor),
-                                    color: state.primaryColorDark,
-                                    borderRadius: BorderRadius.circular(15.0)),
-                                child: Container(
-                          margin: EdgeInsets.only(
-                          left: (_deviceWidth * 0.04)),
-                          child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "No connected wallet",
-                                    style: state.textTheme.headline5,
-                                  ),
-                                ),
-                              )),
+                                  margin: EdgeInsets.only(
+                                      left: (_deviceWidth * 0.02),
+                                      right: (_deviceWidth * 0.02)),
+                                  height: _deviceHeight * 0.09,
+                                  decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: state.primaryColor),
+                                      color: state.primaryColorDark,
+                                      borderRadius:
+                                          BorderRadius.circular(15.0)),
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        left: (_deviceWidth * 0.04)),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        "No connected wallet",
+                                        style: state.textTheme.headline5,
+                                      ),
+                                    ),
+                                  )),
                               SizedBox(
                                 height: _deviceHeight * 0.018,
                               )
@@ -250,8 +255,6 @@ class SettingsLoginView extends ConsumerWidget {
       navigator,
       networkStream,
       BuildContext context) {
-
-
     return Container(
         margin: EdgeInsets.only(
             left: (_deviceWidth * 0.02), right: (_deviceWidth * 0.02)),
@@ -259,11 +262,11 @@ class SettingsLoginView extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             data.listAddress.length >= 1
-                ? _listWalletsWidget(
-                context, data, dataState, state, _deviceHeight, _deviceWidth)
+                ? _listWalletsWidget(context, data, dataState, state,
+                    _deviceHeight, _deviceWidth)
                 : SizedBox(
-              height: _deviceHeight * 0.112,
-            ),
+                    height: _deviceHeight * 0.112,
+                  ),
             Row(
               //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -300,13 +303,11 @@ class SettingsLoginView extends ConsumerWidget {
             SizedBox(
               height: _deviceHeight * 0.0242,
             ),
-
           ],
         ));
   }
 
   Widget _connectWidget(BuildContext context, dataState, navigator, state) {
-
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -324,12 +325,10 @@ class SettingsLoginView extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(8.0)),
               fixedSize: Size((width * 1.1), (height * 0.07))),
           child: Row(children: [
-            SvgPicture.asset(
-                'assets/images/walletconnect.svg',
+            SvgPicture.asset('assets/images/walletconnect.svg',
                 color: Colors.white,
                 semanticsLabel: 'Wallet Connect icon',
-                width: 24
-            ),
+                width: 24),
             SizedBox(
               width: width * 0.025,
             ),
@@ -353,11 +352,8 @@ class SettingsLoginView extends ConsumerWidget {
               fixedSize: Size((width * 1.1), (height * 0.07))),
           child: Row(
             children: [
-              SvgPicture.asset(
-                  'assets/images/ethereum.svg',
-                  color: Colors.white,
-                  semanticsLabel: 'Ethereum icon'
-              ),
+              SvgPicture.asset('assets/images/ethereum.svg',
+                  color: Colors.white, semanticsLabel: 'Ethereum icon'),
               SizedBox(
                 width: width * 0.025,
               ),
@@ -373,14 +369,13 @@ class SettingsLoginView extends ConsumerWidget {
     );
   }
 
-  Widget _listWalletsWidget(
-      BuildContext context, SettingsLoginState data,
+  Widget _listWalletsWidget(BuildContext context, SettingsLoginState data,
       SettingsLoginController dataState, state, _deviceHeight, _deviceWidth) {
     return Column(children: [
       ListView.builder(
         shrinkWrap: true,
         itemCount: data.isExpanded == false ? 3 : data.listAddress.length,
-        itemBuilder: (BuildContext context, int index){
+        itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
               Container(
@@ -403,20 +398,20 @@ class SettingsLoginView extends ConsumerWidget {
                     Spacer(),
                     Expanded(
                         child: Text(
-                          data.listAddress.toString().length > 8
-                              ? data.listAddress[index].toString().substring(
-                            0,
-                          )
-                              : data.listAddress[index].toString(),
-                          maxLines: 1,
-                          textAlign: TextAlign.end,
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: false,
-                          style: TextStyle(
-                              color: state.textTheme.bodyText1!.color,
-                              fontFamily: "MavenPro-Regular",
-                              fontWeight: FontWeight.w400),
-                        )),
+                      data.listAddress.toString().length > 8
+                          ? data.listAddress[index].toString().substring(
+                                0,
+                              )
+                          : data.listAddress[index].toString(),
+                      maxLines: 1,
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                      style: TextStyle(
+                          color: state.textTheme.bodyText1!.color,
+                          fontFamily: "MavenPro-Regular",
+                          fontWeight: FontWeight.w400),
+                    )),
                     IconButton(
                       onPressed: () => showModalBottomSheet(
                           context: context,
@@ -425,86 +420,122 @@ class SettingsLoginView extends ConsumerWidget {
                             final height = MediaQuery.of(context).size.height;
 
                             return Container(
-                                margin:
-                                EdgeInsets.only(left: (width * 0.02), right: (width * 0.02)),
+                                margin: EdgeInsets.only(
+                                    left: (width * 0.02),
+                                    right: (width * 0.02)),
                                 //padding: const EdgeInsets.all(30.0),
                                 decoration: BoxDecoration(
                                     color: state.primaryColorDark,
-                                    border: Border.all(color: state.primaryColorDark),
+                                    border: Border.all(
+                                        color: state.primaryColorDark),
                                     borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(30.0),
                                         topRight: Radius.circular(30.0))),
-                                child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                                  SizedBox(height: height * 0.0185),
-                                  Row(
-                                    children: [
-                                      SizedBox(width: width * 0.13),
-                                      Text("wallet",
-                                          style: state.textTheme.bodyText2),
-                                      SizedBox(width: width * 0.08,),
-                                      Expanded(
-                                          child: Text(
-                                              data.listAddress[index].toString().length > 8
-                                                  ? data.listAddress[index].toString().substring(0,
-                                                  data.listAddress[index].toString().length - 8)
-                                                  : data.listAddress[index].toString(),
-                                              maxLines: 1,
-                                              textAlign: TextAlign.end,
-                                              overflow: TextOverflow.ellipsis,
-                                              softWrap: false,
-                                              style: state.textTheme.bodyText2)),
-                                      Expanded(
-                                          child: Text(
-                                            data.listAddress[index].toString().length > 8
-                                                ? data.listAddress[index].toString().substring(
-                                                data.listAddress[index].toString().length - 8)
+                                child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      SizedBox(height: height * 0.0185),
+                                      Row(
+                                        children: [
+                                          SizedBox(width: width * 0.13),
+                                          Text("wallet",
+                                              style: state.textTheme.bodyText2),
+                                          SizedBox(
+                                            width: width * 0.08,
+                                          ),
+                                          Expanded(
+                                              child: Text(
+                                                  data.listAddress[index]
+                                                              .toString()
+                                                              .length >
+                                                          8
+                                                      ? data.listAddress[index]
+                                                          .toString()
+                                                          .substring(
+                                                              0,
+                                                              data.listAddress[
+                                                                          index]
+                                                                      .toString()
+                                                                      .length -
+                                                                  8)
+                                                      : data.listAddress[index]
+                                                          .toString(),
+                                                  maxLines: 1,
+                                                  textAlign: TextAlign.end,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  softWrap: false,
+                                                  style: state
+                                                      .textTheme.bodyText2)),
+                                          Expanded(
+                                              child: Text(
+                                            data.listAddress[index]
+                                                        .toString()
+                                                        .length >
+                                                    8
+                                                ? data.listAddress[index]
+                                                    .toString()
+                                                    .substring(data
+                                                            .listAddress[index]
+                                                            .toString()
+                                                            .length -
+                                                        8)
                                                 : '',
                                             maxLines: 1,
                                             textAlign: TextAlign.start,
                                             softWrap: false,
                                             style: state.textTheme.bodyText2,
                                           )),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.03,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        left: (width * 0.04), right: (width * 0.04)),
-                                    child: ElevatedButton(
-                                        style: TextButton.styleFrom(
-                                            backgroundColor: state.primaryColor,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(15.0)),
-                                            fixedSize: Size((width * 1.1), (height * 0.08)),
-                                            side: BorderSide(color: Colors.red),
-                                            alignment: Alignment.center),
-                                        child: Row(children: [
-                                          SizedBox(
-                                            width: width * 0.24,
-                                          ),
-                                          Icon(Icons.delete_outlined, color: Colors.red),
-                                          SizedBox(
-                                            width: width * 0.03,
-                                          ),
-                                          Text(
-                                            "Remove wallet",
-                                            style: state.textTheme.headline5,
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ]),
-                                        onPressed: () {
-                                          dataState.sharedRemove(data.listAddress[index]);
-                                          Navigator.pop(context);
-                                        }
-                                    ),
-                                  ),
-                                  SizedBox(height: height * 0.0185),
-                                ]));
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: height * 0.03,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            left: (width * 0.04),
+                                            right: (width * 0.04)),
+                                        child: ElevatedButton(
+                                            style: TextButton.styleFrom(
+                                                backgroundColor:
+                                                    state.primaryColor,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15.0)),
+                                                fixedSize: Size((width * 1.1),
+                                                    (height * 0.08)),
+                                                side: BorderSide(
+                                                    color: Colors.red),
+                                                alignment: Alignment.center),
+                                            child: Row(children: [
+                                              SizedBox(
+                                                width: width * 0.24,
+                                              ),
+                                              Icon(Icons.delete_outlined,
+                                                  color: Colors.red),
+                                              SizedBox(
+                                                width: width * 0.03,
+                                              ),
+                                              Text(
+                                                "Remove wallet",
+                                                style:
+                                                    state.textTheme.headline5,
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ]),
+                                            onPressed: () {
+                                              dataState.sharedRemove(
+                                                  data.listAddress[index]);
+                                              Navigator.pop(context);
+                                            }),
+                                      ),
+                                      SizedBox(height: height * 0.0185),
+                                    ]));
                           }),
-                      icon:
-                      Icon(Platform.isAndroid ? Icons.more_vert : Icons.more_horiz),
+                      icon: Icon(Platform.isAndroid
+                          ? Icons.more_vert
+                          : Icons.more_horiz),
                       color: state.textTheme.bodyText1!.color,
                     ),
                   ],

@@ -41,12 +41,20 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
                                 borderRadius: BorderRadius.circular(15.0)),
                             child: Center(
                               child: TextFormField(
-                                //autofocus: true,
+                                autofocus: true,
                                 textAlign: TextAlign.center,
                                 controller: _keyController,
-                                style:state.textTheme.headline5,
-                                decoration: InputDecoration(
+                            style: state.textTheme.headline5,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some Key';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
                                   hintText: "Paste your wallet address here",
+                                  errorStyle: TextStyle(fontSize: 12, fontFamily: 'FuturaPTLight.otf',
+                                      fontWeight: FontWeight.w400, color: Colors.red),
                                   //hintStyle: state.textTheme.headline5,
                                 ),
                               ),
@@ -64,14 +72,7 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0))),
                             onPressed: () {
-                              if (_keyController.text == "") {
-                                final snackBar = SnackBar(
-                                  content: Text('Insert a Public Key !', style: state.textTheme.headline5,),
-                                  backgroundColor: state.primaryColor,
-                                  duration: Duration(seconds: 3),
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                              } else {
+                              if (_formKey.currentState!.validate()) {
                                 dataStateLogin.sharedWrite(_keyController.text);
                                 Navigator.pop(context);
                               }
