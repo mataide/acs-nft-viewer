@@ -28,13 +28,17 @@ class Collections {
 
   String tokenDecimal;
 
+  String? externalUrl;
+
+  String? description;
+
   String? amount;
 
   String? image;
 
   int? totalSupply;
 
-  Collections(this.hash, this.timeStamp, this.blockHash, this.from, this.contractAddress, this.to, this.tokenID, this.tokenName, this.tokenSymbol, this.tokenDecimal, this.amount, this.image, this.totalSupply);
+  Collections(this.hash, this.timeStamp, this.blockHash, this.from, this.contractAddress, this.to, this.tokenID, this.tokenName, this.tokenSymbol, this.tokenDecimal, this.externalUrl, this.description, this.amount, this.image, this.totalSupply);
 
 
   factory Collections.fromEth721(Eth721 eth721, int totalSupply) => _$CollectionsFromEth721(eth721, totalSupply);
@@ -54,6 +58,8 @@ Collections _$CollectionsFromEth721(Eth721 eth721, int totalSupply) => Collectio
       eth721.tokenName,
       eth721.tokenSymbol,
       eth721.tokenDecimal,
+      null,
+      null,
       null,
       null,
       totalSupply

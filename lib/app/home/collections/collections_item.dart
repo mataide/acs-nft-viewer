@@ -20,13 +20,10 @@ class CollectionsItemView extends ConsumerWidget {
     final state = ref.watch(themeProvider);
     final controller = ref.read(collectionsItemProvider(collections).notifier);
     final dataState = ref.watch(collectionsItemProvider(collections));
+    final wall = ref.watch(wallpaperListProvider.notifier);
 
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-
-    final wall = ref.watch(wallpaperListProvider.notifier);
-
-    final List<Collections> collectionsList;
 
     return Scaffold(
         appBar: AppBar(
@@ -53,7 +50,7 @@ class CollectionsItemView extends ConsumerWidget {
                         Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              dataState.collections!.tokenName,
+                              dataState.collections.tokenName,
                               style: state.textTheme.caption,
                             )),
                         SizedBox(
@@ -85,12 +82,7 @@ class CollectionsItemView extends ConsumerWidget {
                         Align(
                             alignment: Alignment.centerLeft,
                             child: ReadMoreText(
-                              "BUSCAR DA API DESCRIÇÃO DA COLEÇÃOsdfffffffffffffffffffffffffffffffffffffff"
-                              "sfddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
-                              "dsfsfawwwwwwwwwwwwwwwwwwwwwwwwwtreeeeeeeeeehhhhhhhhhhhhhdsfwefwefwerfreferferferfefergfdgbdfsbdfsbdfsb"
-                              "dfsdafsdkjflhnhnhnhnhnhnhnhnhnhnhnhnhnhnhnhnhnsadiçwafwerrrrrrrrrf"
-                              "wefkençççççççççççççççççoiiiiiiiiiiiiiiiiiiioíiiiiii"
-                              "sdfjnnnnnnnnnnnnnnnnnnnnnn",
+                              dataState.collections.description,
                               style: state.textTheme.headline5,
                               trimLines: 4,
                               colorClickableText: Colors.green,
@@ -98,6 +90,7 @@ class CollectionsItemView extends ConsumerWidget {
                               trimCollapsedText: 'Read more',
                               trimExpandedText: 'Read less',
                               textAlign: TextAlign.left,
+
                               // delimiterStyle: TextStyle(color: Colors.green),
                               // moreStyle: TextStyle(color: Colors.green),
                             )),

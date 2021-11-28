@@ -88,7 +88,7 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Eth721` (`hash` TEXT NOT NULL, `blockNumber` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `nonce` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `transactionIndex` TEXT NOT NULL, `gas` TEXT NOT NULL, `gasPrice` TEXT NOT NULL, `gasUsed` TEXT NOT NULL, `cumulativeGasUsed` TEXT NOT NULL, `input` TEXT NOT NULL, `confirmations` TEXT NOT NULL, PRIMARY KEY (`hash`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `amount` TEXT, `image` TEXT, `totalSupply` INTEGER, PRIMARY KEY (`contractAddress`))');
+            'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `externalUrl` TEXT, `description` TEXT, `amount` TEXT, `image` TEXT, `totalSupply` INTEGER, PRIMARY KEY (`contractAddress`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `CollectionsItem` (`hash` TEXT NOT NULL, `id` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `contentType` TEXT, `thumbnail` TEXT, `image` TEXT, PRIMARY KEY (`hash`))');
 
@@ -277,6 +277,8 @@ class _$CollectionsDAO extends CollectionsDAO {
                   'tokenName': item.tokenName,
                   'tokenSymbol': item.tokenSymbol,
                   'tokenDecimal': item.tokenDecimal,
+                  'externalUrl': item.externalUrl,
+                  'description': item.description,
                   'amount': item.amount,
                   'image': item.image,
                   'totalSupply': item.totalSupply
@@ -296,6 +298,8 @@ class _$CollectionsDAO extends CollectionsDAO {
                   'tokenName': item.tokenName,
                   'tokenSymbol': item.tokenSymbol,
                   'tokenDecimal': item.tokenDecimal,
+                  'externalUrl': item.externalUrl,
+                  'description': item.description,
                   'amount': item.amount,
                   'image': item.image,
                   'totalSupply': item.totalSupply
@@ -315,6 +319,8 @@ class _$CollectionsDAO extends CollectionsDAO {
                   'tokenName': item.tokenName,
                   'tokenSymbol': item.tokenSymbol,
                   'tokenDecimal': item.tokenDecimal,
+                  'externalUrl': item.externalUrl,
+                  'description': item.description,
                   'amount': item.amount,
                   'image': item.image,
                   'totalSupply': item.totalSupply
@@ -346,6 +352,8 @@ class _$CollectionsDAO extends CollectionsDAO {
             row['tokenName'] as String,
             row['tokenSymbol'] as String,
             row['tokenDecimal'] as String,
+            row['externalUrl'] as String?,
+            row['description'] as String?,
             row['amount'] as String?,
             row['image'] as String?,
             row['totalSupply'] as int?));
