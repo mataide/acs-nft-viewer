@@ -17,7 +17,6 @@ class CollectionsItemView extends ConsumerWidget {
     final state = ref.watch(themeProvider);
     final controller = ref.read(collectionsItemProvider(collections).notifier);
     final dataState = ref.watch(collectionsItemProvider(collections));
-    final wall = ref.watch(wallpaperListProvider.notifier);
 
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -108,7 +107,6 @@ class CollectionsItemView extends ConsumerWidget {
                           dataState,
                           state,
                           width,
-                          wall,
                         ),
                         SizedBox(
                           height: height * 0.01,
@@ -120,7 +118,7 @@ class CollectionsItemView extends ConsumerWidget {
         )));
   }
 
-  Widget _owned(context,CollectionsItemController controller, dataState, state, width, wall) {
+  Widget _owned(context,CollectionsItemController controller, dataState, state, width) {
     return Column(children: [
       Row(children: <Widget>[
         Container(

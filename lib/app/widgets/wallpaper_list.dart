@@ -11,7 +11,8 @@ class WallpaperListWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dataState = ref.watch(wallpaperListProvider.notifier);
+    final controller = ref.read(wallpaperListProvider(collectionsItemList).notifier);
+    final dataState = ref.watch(wallpaperListProvider(collectionsItemList));
     final state = ref.watch(themeProvider);
 
     return Padding(
@@ -26,10 +27,10 @@ class WallpaperListWidget extends ConsumerWidget {
                 mainAxisSpacing: 10,
                 crossAxisCount: 2,
               ),
-              itemCount: collectionsItemList.length,
+              itemCount: dataState.collectionsItemList.length,
               itemBuilder: (context, index) {
                 return FutureBuilder<CollectionsItem>(
-                  future: dataState.getCollectionItem(collectionsItemList[index]),
+                  future: controller.getCollectionItem(collectionsItemList[index]),
                   // function where you call your api
                   builder: (BuildContext context, AsyncSnapshot<CollectionsItem> snapshot) {
                     // AsyncSnapshot<Your object type>
