@@ -232,6 +232,33 @@ class _$Eth721DAO extends Eth721DAO {
   }
 
   @override
+  Future<List<Eth721>> findEth721ByAddress(String contractAddress) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM Eth721 WHERE contractAddress LIKE ?1',
+        mapper: (Map<String, Object?> row) => Eth721(
+            row['hash'] as String,
+            row['blockNumber'] as String,
+            row['timeStamp'] as String,
+            row['nonce'] as String,
+            row['blockHash'] as String,
+            row['from'] as String,
+            row['contractAddress'] as String,
+            row['to'] as String,
+            row['tokenID'] as String,
+            row['tokenName'] as String,
+            row['tokenSymbol'] as String,
+            row['tokenDecimal'] as String,
+            row['transactionIndex'] as String,
+            row['gas'] as String,
+            row['gasPrice'] as String,
+            row['gasUsed'] as String,
+            row['cumulativeGasUsed'] as String,
+            row['input'] as String,
+            row['confirmations'] as String),
+        arguments: [contractAddress]);
+  }
+
+  @override
   Future<void> deleteAll() async {
     await _queryAdapter.queryNoReturn('DELETE FROM Eth721');
   }

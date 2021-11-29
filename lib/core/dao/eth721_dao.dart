@@ -7,6 +7,9 @@ abstract class Eth721DAO {
   @Query('SELECT * FROM Eth721')
   Future<List<Eth721?>> findAll();
 
+  @Query('SELECT * FROM Eth721 WHERE contractAddress LIKE :contractAddress')
+  Future<List<Eth721>> findEth721ByAddress(String contractAddress);
+
   @Query('DELETE FROM Eth721')
   Future<void> deleteAll();
 

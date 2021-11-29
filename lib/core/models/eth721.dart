@@ -19,6 +19,7 @@ class Eth721 {
 
   String from;
 
+  @ColumnInfo(name: 'contractAddress')
   String contractAddress;
 
   String to;
