@@ -7,6 +7,9 @@ abstract class CollectionsItemDAO {
   @Query('SELECT * FROM CollectionsItem')
   Future<List<CollectionsItem>> findAllCollectionsItem();
 
+  @Query('SELECT * FROM CollectionsItem WHERE \$contractAddress = --:contractAddress')
+  Future<List<CollectionsItem>> findCollectionsItemByAddress(String contractAddress);
+
   @Query('DELETE FROM CollectionsItem')
   Future<void> deleteAllCollectionsItem();
 

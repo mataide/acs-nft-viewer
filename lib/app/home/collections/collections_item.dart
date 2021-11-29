@@ -1,6 +1,4 @@
-import 'dart:io';
-
-import 'package:faktura_nft_viewer/app/home/collections/my_collection_item/nft_page.dart';
+import 'package:faktura_nft_viewer/app/widgets/wallpaper_list.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,14 +7,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:readmore/readmore.dart';
 
 class CollectionsItemView extends ConsumerWidget {
-
   final Collections collections;
 
   CollectionsItemView(this.collections);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final state = ref.watch(themeProvider);
     final controller = ref.read(collectionsItemProvider(collections).notifier);
     final dataState = ref.watch(collectionsItemProvider(collections));
@@ -107,17 +103,12 @@ class CollectionsItemView extends ConsumerWidget {
                         ),
                         _owned(
                           context,
+                          controller,
                           dataState,
                           state,
                           width,
                           wall,
                         ),
-                        /*Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'More NFTs',
-                              style: state.textTheme.caption,
-                            )),*/
                         SizedBox(
                           height: height * 0.01,
                         ),
@@ -128,75 +119,33 @@ class CollectionsItemView extends ConsumerWidget {
         )));
   }
 
-  Widget _owned(context, dataState, state, width, wall) {
+  Widget _owned(context, controller, dataState, state, width, wall) {
     return Column(children: [
       Row(children: <Widget>[
         Container(
             child: Expanded(
                 child: SingleChildScrollView(
-          child: GridView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisSpacing: 5,
-                mainAxisSpacing: 10,
-                crossAxisCount: 2,
-              ),
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return FutureBuilder<String>(
-                  future: wall.getCollectionItem(wall.collections),
-                  // function where you call your api
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    // AsyncSnapshot<Your object type>
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                          child: Text(
-                        'Please wait its loading...',
-                        style:
-                            TextStyle(color: state.textTheme.bodyText1!.color),
-                      ));
-                    } else {
-                      if (snapshot.hasError)
-                        return Center(
-                            child:
-                                Text('getCollectionImage: ${snapshot.error}'));
-                      else
-                        return GestureDetector(
-                            onTap: () {
-                              NftPageView();
-                            },
-                            child: Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: snapshot.data!.contains('http')
-                                      ? Image.network(
-                                          snapshot.data!,
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Image.file(
-                                          File(snapshot.data!),
-                                          fit: BoxFit.cover,
-                                        ),
-                                ),
-                                Positioned(
-                                    bottom: 30.0,
-                                    left: 20.0,
-                                    child: Text(
-                                        wall.collections[index].tokenName)),
-                                Positioned(
-                                    bottom: 10.0,
-                                    left: 20.0,
-                                    child: Text(
-                                        '${wall.collections[index].totalSupply}')),
-                              ],
-                            ));
-                    }
-                  },
-                );
-              }),
+          child: FutureBuilder<List<CollectionsItem>>(
+            future: controller.prepareFromDb(collections),
+            // function where you call your api
+            builder: (BuildContext context,
+                AsyncSnapshot<List<CollectionsItem>> snapshot) {
+              // AsyncSnapshot<Your object type>
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                    child: Text(
+                  'Please wait its loading...',
+                  style: TextStyle(color: state.textTheme.bodyText1!.color),
+                ));
+              } else {
+                if (snapshot.hasError)
+                  return Center(
+                      child: Text('getCollectionImage: ${snapshot.error}'));
+                else
+                  return WallpaperListWidget(snapshot.data!);
+              }
+            },
+          ),
         ))),
         SizedBox(
           width: width * 0.02,
@@ -204,103 +153,4 @@ class CollectionsItemView extends ConsumerWidget {
       ]),
     ]);
   }
-
-/* Widget _more(context, dataState, flagState, state, width) {
-    return Column(children: [
-      Row(children: <Widget>[
-        Container(
-            child: Expanded(
-          child: FutureBuilder<List<Collections>>(
-              future: dataState.prepareFromDb(),
-              // function where you call your api
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                final images = snapshot.data;
-                // AsyncSnapshot<Your object type>
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return Center(child: CircularProgressIndicator());
-                  default:
-                    if (snapshot.hasError) {
-                      return Center(
-                          child:
-                              Text('prepareFromDb error: ${snapshot.error}'));
-                    } else {
-                      return GridView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisSpacing: 5,
-                            mainAxisSpacing: 10,
-                            crossAxisCount: 3,
-                          ),
-                          itemCount: images.length,
-                          itemBuilder: (context, index) {
-                            return FutureBuilder<String>(
-                              future:
-                                  flagState.getCollectionImage(images[index]),
-                              // function where you call your api
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<String> snapshot) {
-                                // AsyncSnapshot<Your object type>
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return Center(
-                                      child: Text(
-                                    'Please wait its loading...',
-                                    style: TextStyle(
-                                        color:
-                                            state.textTheme.bodyText1!.color),
-                                  ));
-                                } else {
-                                  if (snapshot.hasError)
-                                    return Center(
-                                        child: Text(
-                                            'getCollectionImage: ${snapshot.error}'));
-
-                                  return GestureDetector(
-                                      onTap: () {
-                                        print('apertado');
-                                      },
-                                      child: Stack(
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            child:
-                                                snapshot.data!.contains('http')
-                                                    ? Image.network(
-                                                        snapshot.data!,
-                                                        fit: BoxFit.cover,
-                                                      )
-                                                    : Image.file(
-                                                        File(snapshot.data!),
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                          ),
-                                          Positioned(
-                                              bottom: 30.0,
-                                              left: 20.0,
-                                              child: Text(
-                                                  images[index].tokenName)),
-                                          Positioned(
-                                              bottom: 10.0,
-                                              left: 20.0,
-                                              child: Text(
-                                                  '${images[index].totalSupply}')),
-                                        ],
-                                      ));
-                                }
-                              },
-                            );
-                          });
-                    }
-                }
-              }),
-        )),
-        SizedBox(
-          width: width * 0.02,
-        ),
-      ])
-    ]);*/
 }

@@ -2,6 +2,7 @@ import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:io';
 
 class WallpaperListWidget extends ConsumerWidget {
   final List<CollectionsItem> collectionsItemList;
@@ -47,8 +48,15 @@ class WallpaperListWidget extends ConsumerWidget {
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
+                                  child: snapshot.data!.image!.contains('http') ? Image.network(
                                     snapshot.data!.image!,
+                                    fit: BoxFit.cover,
+                                  ) : Image.file(
+                                    File(snapshot.data!.image!),
+                                    height: MediaQuery.of(context)
+                                        .size
+                                        .width /
+                                        3,
                                     fit: BoxFit.cover,
                                   ),
                                 ),

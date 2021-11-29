@@ -460,6 +460,23 @@ class _$CollectionsItemDAO extends CollectionsItemDAO {
   }
 
   @override
+  Future<List<CollectionsItem>> findCollectionsItemByAddress(
+      String contractAddress) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM CollectionsItem WHERE \$contractAddress = --?1',
+        mapper: (Map<String, Object?> row) => CollectionsItem(
+            row['contractAddress'] as String,
+            row['hash'] as String,
+            row['id'] as String,
+            row['name'] as String,
+            description: row['description'] as String?,
+            contentType: row['contentType'] as String?,
+            thumbnail: row['thumbnail'] as String?,
+            image: row['image'] as String?),
+        arguments: [contractAddress]);
+  }
+
+  @override
   Future<void> deleteAllCollectionsItem() async {
     await _queryAdapter.queryNoReturn('DELETE FROM CollectionsItem');
   }
