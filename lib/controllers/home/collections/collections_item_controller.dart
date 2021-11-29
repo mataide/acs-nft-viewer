@@ -69,7 +69,6 @@ class CollectionsItemController extends StateNotifier<CollectionsItemState> {
         quality: 75,
       ))!;
     }
-    print('image: $image');
 
     var collectionsItem = CollectionsItem(eth721.contractAddress, eth721.hash, eth721.tokenID, '${jsonData['name']} #${eth721.tokenID}', description: jsonData['description'], contentType: contentType, image: image);
     collectionsItemDAO.create(collectionsItem);

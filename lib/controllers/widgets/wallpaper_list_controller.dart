@@ -50,15 +50,14 @@ class WallpaperListController extends StateNotifier<WallpaperListState> {
     final head = await httpClient.head(Uri.parse(image), headers: {"Accept": "aplication/json"});
     final contentType = head.headers['content-type'] as String;
 
-    var thumbnail;
     if(contentType.contains('video')) {
-      thumbnail = await VideoThumbnail.thumbnailFile(
+      image = (await VideoThumbnail.thumbnailFile(
         video: image,
         thumbnailPath: (await getTemporaryDirectory()).path,
         imageFormat: ImageFormat.PNG,
-        maxHeight: 64, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
+        maxHeight: 400, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
         quality: 75,
-      );
+      ))!;
     }
 
     var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.id, '${jsonData['name']} #${collections.id}', description: jsonData['description'], contentType: contentType, image: image);
