@@ -33,35 +33,52 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
                       Form(
                           key: _formKey,
                           //FORM é para validar os campos
-                          child: Container(
+                          child: Stack(
+                            children: [
+                              Container(
+                                height: height * 0.07,
+                            width: width * 0.9,
                             margin: EdgeInsets.only(left: (width * 0.04), right: (width * 0.04)),
                             decoration: BoxDecoration(
-                                border: Border.all(color: state.primaryColor),
-                                color: state.primaryColor,
-                                borderRadius: BorderRadius.circular(15.0)),
-                            child: Center(
-                              child: TextFormField(
-                                autofocus: true,
-                                textAlign: TextAlign.center,
-                                controller: _keyController,
-                            style: state.textTheme.headline5,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter some Key';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                                  hintText: "Paste your wallet address here",
-                                  errorStyle: TextStyle(fontSize: 12, fontFamily: 'FuturaPTLight.otf',
-                                      fontWeight: FontWeight.w400, color: Colors.red),
-                                  //hintStyle: state.textTheme.headline5,
+                                  border: Border.all(color: state.primaryColor),
+                                  color: state.primaryColor,
+                                  borderRadius: BorderRadius.circular(15.0))),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  left: (width * 0.04), right: (width * 0.04)),
+                              child: Center(
+                                child: TextFormField(
+                                  autofocus: true,
+                                  textAlign: TextAlign.center,
+                                  controller: _keyController,
+                                  style: state.textTheme.headline5,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter some Key';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Paste your wallet address here",
+                                    errorStyle: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: 'FuturaPTLight.otf',
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.red),
+                                    focusedErrorBorder: new OutlineInputBorder(
+                                        borderSide: new BorderSide(
+                                            color: Colors.red, width: 1.0),
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    //hintStyle: state.textTheme.headline5,
+                                  ),
                                 ),
-                              ),
-                            ),
-                          )),
-                      SizedBox(
-                        height: height * 0.02,
+                              )),
+                        ],
+                      )),
+                  SizedBox(
+                    height: height * 0.02,
                       ),
                       Container(
                         margin: EdgeInsets.only(left: (width * 0.04), right: (width * 0.04)),
