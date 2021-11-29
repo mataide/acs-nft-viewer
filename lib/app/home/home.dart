@@ -45,7 +45,7 @@ class HomePage extends ConsumerWidget {
         onItemSelected: (index) {
           _pageController.jumpToPage(index);
         },
-        selectedColor: state.textTheme.bodyText2!.color,
+        selectedColor: state.buttonColor,
         backgroundColor: state.primaryColor,
         showElevation: false,
         items: [
