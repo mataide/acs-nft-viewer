@@ -90,7 +90,6 @@ class CollectionsItemView extends ConsumerWidget {
                               trimCollapsedText: 'Read more',
                               trimExpandedText: 'Read less',
                               textAlign: TextAlign.left,
-
                               // delimiterStyle: TextStyle(color: Colors.green),
                               // moreStyle: TextStyle(color: Colors.green),
                             )),
