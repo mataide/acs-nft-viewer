@@ -463,7 +463,7 @@ class _$CollectionsItemDAO extends CollectionsItemDAO {
   Future<List<CollectionsItem>> findCollectionsItemByAddress(
       String contractAddress) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM CollectionsItem WHERE \$contractAddress = --?1',
+        'SELECT * FROM CollectionsItem WHERE contractAddress LIKE ?1',
         mapper: (Map<String, Object?> row) => CollectionsItem(
             row['contractAddress'] as String,
             row['hash'] as String,

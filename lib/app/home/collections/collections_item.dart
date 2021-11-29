@@ -1,4 +1,5 @@
 import 'package:faktura_nft_viewer/app/widgets/wallpaper_list.dart';
+import 'package:faktura_nft_viewer/controllers/home/collections/collections_item_controller.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:flutter/cupertino.dart';
@@ -119,14 +120,14 @@ class CollectionsItemView extends ConsumerWidget {
         )));
   }
 
-  Widget _owned(context, controller, dataState, state, width, wall) {
+  Widget _owned(context,CollectionsItemController controller, dataState, state, width, wall) {
     return Column(children: [
       Row(children: <Widget>[
         Container(
             child: Expanded(
                 child: SingleChildScrollView(
           child: FutureBuilder<List<CollectionsItem>>(
-            future: controller.prepareFromDb(collections),
+            future: controller.prepareFromDb(),
             // function where you call your api
             builder: (BuildContext context,
                 AsyncSnapshot<List<CollectionsItem>> snapshot) {
