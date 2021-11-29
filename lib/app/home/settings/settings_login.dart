@@ -346,20 +346,20 @@ class SettingsLoginView extends ConsumerWidget {
         ElevatedButton(
           onPressed: () => showModalAddress(context, state, dataState),
           style: TextButton.styleFrom(
-              backgroundColor: Colors.grey,
+              backgroundColor: state.cardColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0)),
               fixedSize: Size((width * 1.1), (height * 0.07))),
           child: Row(
             children: [
               SvgPicture.asset('assets/images/ethereum.svg',
-                  color: Colors.white, semanticsLabel: 'Ethereum icon'),
+                  color: state.primaryColor, semanticsLabel: 'Ethereum icon'),
               SizedBox(
                 width: width * 0.025,
               ),
               Text(
                 "Enter ETH address",
-                style: TextStyle(fontSize: 16.0),
+                style: TextStyle(fontSize: 16.0, color: state.primaryColor),
                 textAlign: TextAlign.left,
               ),
             ],

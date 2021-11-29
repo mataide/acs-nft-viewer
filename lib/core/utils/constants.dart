@@ -6,12 +6,13 @@ const Color lightThemePrimaryColor = Color(0xffFFFFFF);
 const Color lightThemePrimaryColorDark = Color(0xffE5EBF0);
 const Color lightThemeAccentColor = Color(0xfff4663c);
 const Color lightThemeButtonColor = Color(0xff770955);
-
+const Color lightThemeCardColor = Color(0xff212121);
 
 const Color darkThemePrimaryColor = Color(0xff212121);
 const Color darkThemePrimaryColorDark = Color(0xff2B2B2B);
 const Color darkThemeAccentColor = Color(0xfff4663c);
 const Color darkThemeButtonColor = Color(0xff770955);
+const Color darkThemeCardColor = Color(0xffFFFFFF);
 
 const Color amoledThemePrimaryColor = Color(0xff000000);
 const Color amoledThemePrimaryColorDark = Color(0xff2B2B2B);
@@ -36,6 +37,7 @@ final darkTheme = ThemeData(
   primaryColorDark: darkThemePrimaryColorDark,
   buttonColor: darkThemeButtonColor,
   accentColor: darkThemeAccentColor,
+  cardColor: darkThemeCardColor,
   canvasColor: Colors.transparent,
   primaryIconTheme: IconThemeData(color: Colors.white),
   textTheme: TextTheme(
@@ -102,6 +104,7 @@ final lightTheme = ThemeData(
   primaryColor: lightThemePrimaryColor,
   buttonColor: lightThemeButtonColor,
   accentColor: lightThemeAccentColor,
+  cardColor: lightThemeCardColor,
   canvasColor: Colors.transparent,
   primaryIconTheme: IconThemeData(color: Colors.black),
   textTheme: TextTheme(

@@ -227,7 +227,7 @@ class HomeCollectionsView extends ConsumerWidget {
                 // mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(height: height * 0.032),
-                  Text("Hello!", style: state.textTheme.caption),
+                  Text("You've made it!", style: state.textTheme.caption),
                   SizedBox(height: height * 0.02),
                   Text(
                     "Your NFT collections will display \n once you connect your wallet.",
@@ -244,7 +244,7 @@ class HomeCollectionsView extends ConsumerWidget {
                         controllerLogin.openMetaMask();
                       },
                       style: TextButton.styleFrom(
-                          backgroundColor: Colors.blueAccent,
+                          backgroundColor: state.buttonColor,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0)),
                           fixedSize: Size((width * 0.90), (height * 0.07))),
@@ -274,21 +274,21 @@ class HomeCollectionsView extends ConsumerWidget {
                         onPressed: () =>
                             showModalAddress(context, state, controllerLogin),
                         style: TextButton.styleFrom(
-                            backgroundColor: Colors.grey,
+                            backgroundColor: state.cardColor,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.0)),
                             fixedSize: Size((width * 0.90), (height * 0.07))),
                         child: Row(
                           children: [
                             SvgPicture.asset('assets/images/ethereum.svg',
-                                color: Colors.white,
+                                color: state.primaryColor,
                                 semanticsLabel: 'Ethereum icon'),
                             SizedBox(
                               width: width * 0.025,
                             ),
                             Text(
                               "Enter ethereum address",
-                              style: TextStyle(fontSize: 16.0),
+                              style: TextStyle(fontSize: 16.0, color: state.primaryColor),
                               textAlign: TextAlign.left,
                             ),
                           ],
