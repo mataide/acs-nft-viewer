@@ -320,7 +320,7 @@ class SettingsLoginView extends ConsumerWidget {
             dataState.openMetaMask();
           },
           style: TextButton.styleFrom(
-              backgroundColor: Colors.blueAccent,
+              backgroundColor: state.buttonColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0)),
               fixedSize: Size((width * 1.1), (height * 0.07))),

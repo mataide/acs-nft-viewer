@@ -84,7 +84,7 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
                         margin: EdgeInsets.only(left: (width * 0.04), right: (width * 0.04)),
                         child: ElevatedButton(
                             style: TextButton.styleFrom(
-                                backgroundColor: Colors.orange,
+                                backgroundColor: state.buttonColor,
                                 fixedSize: Size((width * 1.1), (height * 0.08)),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0))),
