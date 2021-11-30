@@ -1,3 +1,4 @@
+import 'package:faktura_nft_viewer/app/widgets/my_flexible_spacebar.dart';
 import 'package:faktura_nft_viewer/app/widgets/wallpaper_list.dart';
 import 'package:faktura_nft_viewer/controllers/home/collections/collections_item_controller.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:readmore/readmore.dart';
+import 'dart:io';
 
 class CollectionsItemView extends ConsumerWidget {
   final Collections collections;
@@ -30,27 +32,44 @@ class CollectionsItemView extends ConsumerWidget {
                   expandedHeight: 200.0,
                   floating: false,
                   pinned: true,
-                  flexibleSpace: FlexibleSpaceBar(
-                      centerTitle: true,
-                      title: Text("Collapsing Toolbar",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                          )),
-                      background: Image.network(
-                        "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
+                  backgroundColor: state.primaryColor,
+                  flexibleSpace: MyFlexibleSpaceBar(
+                    centerTitle: false,
+                    stretchModes: [StretchMode.blurBackground],
+                    title: Text(
+                      dataState.collections.tokenName,
+                      style: state.textTheme.caption,
+                    ),
+                    background: ShaderMask(
+                      shaderCallback: (rect) {
+                        return LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.black, Colors.transparent],
+                        ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+                      },
+                      blendMode: BlendMode.dstIn,
+                      child: dataState.collections.image.contains('http')
+                          ? Image.network(
+                        dataState.collections.image,
                         fit: BoxFit.cover,
-                      )),
+                      )
+                          : Image.file(
+                        File(dataState.collections.image),
+                        height: MediaQuery.of(context).size.width / 3,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    titlePaddingTween: EdgeInsetsTween(
+                        begin: EdgeInsets.only(left: 16.0, bottom: 16),
+                        end: EdgeInsets.only(left: 72.0, bottom: 16)),
+                    key: Key(dataState.collections.tokenName),
+                  ),
                 ),
               ];
             },
             body: SingleChildScrollView(
                 child: Container(
-              decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                colors: [Colors.brown, Colors.black54, Colors.black],
-                center: Alignment.topCenter,
-              )),
               child: Column(
                 children: [
                   SizedBox(height: height * 0.024),
@@ -60,12 +79,6 @@ class CollectionsItemView extends ConsumerWidget {
                               left: (width * 0.02), right: (width * 0.02)),
                           child: Column(children: [
                             SizedBox(height: height * 0.008),
-                            Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  dataState.collections.tokenName,
-                                  style: state.textTheme.caption,
-                                )),
                             SizedBox(
                               height: height * 0.01,
                             ),
