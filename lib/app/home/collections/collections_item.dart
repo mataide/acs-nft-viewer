@@ -24,6 +24,7 @@ class CollectionsItemView extends ConsumerWidget {
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
+        backgroundColor: state.primaryColor,
         body: NestedScrollView(
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
@@ -70,7 +71,7 @@ class CollectionsItemView extends ConsumerWidget {
             },
             body: SingleChildScrollView(
                 child: Container(
-              child: Column(
+                  child: Column(
                 children: [
                   SizedBox(height: height * 0.024),
                   SingleChildScrollView(
