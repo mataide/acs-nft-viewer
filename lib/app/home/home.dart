@@ -24,7 +24,7 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       key: _scaffoldKey,
       body: Container(
-        decoration: BoxDecoration(border: Border.all(color: state.buttonColor),
+        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: state.buttonColor)),
         color: state.primaryColor),
         child: PageView(
           controller: _pageController,
