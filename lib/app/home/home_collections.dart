@@ -40,7 +40,7 @@ class HomeCollectionsView extends ConsumerWidget {
       ),
       backgroundColor: state.primaryColor,
       body: _pullToRefresh(controller, dataState, stateTheme, stateLogin, controllerLogin,
-          navigator, state, context, networkStream, width, height)
+          navigator, state, context, networkStream, width, height,)
     );
   }
 
@@ -55,7 +55,7 @@ class HomeCollectionsView extends ConsumerWidget {
       BuildContext context,
       networkStream,
       width,
-      height) {
+      height,) {
     return SmartRefresher(
       enablePullDown: true,
       enablePullUp: true,
@@ -88,7 +88,7 @@ class HomeCollectionsView extends ConsumerWidget {
       onRefresh: controller.onRefresh,
       onLoading: controller.onLoading,
       child: _connectWidget(controller, dataState, stateTheme, stateLogin, controllerLogin,
-          navigator, state, context, networkStream, width, height),
+          navigator, state, context, networkStream, width, height,),
       );
   }
 
@@ -104,7 +104,8 @@ class HomeCollectionsView extends ConsumerWidget {
       BuildContext context,
       networkStream,
       width,
-      height) {
+      height,
+      ) {
     return ListView(children: [
       SizedBox(
         height: height * 0.02,
@@ -184,7 +185,7 @@ class HomeCollectionsView extends ConsumerWidget {
                       // AsyncSnapshot<Your object type>
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
-                          return Center(child: CircularProgressIndicator());
+                          return Center(child: CircularProgressIndicator(color: state.buttonColor,));
                         default:
                           if (snapshot.hasError) {
                             return Center(
