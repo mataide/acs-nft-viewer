@@ -4,21 +4,21 @@ enum kdataFetchState { IS_LOADING, IS_LOADED, ERROR_ENCOUNTERED }
 
 const Color lightThemePrimaryColor = Color(0xffFFFFFF);
 const Color lightThemePrimaryColorDark = Color(0xffE5EBF0);
-const Color lightThemeAccentColor = Color(0xfff4663c);
+const Color lightThemeAccentColor = Color(0xff770955);
 const Color lightThemeButtonColor = Color(0xff770955);
 const Color lightThemeCardColor = Color(0xff212121);
 const Color lightThemeSubtitleColor = Color(0xff838385);
 
 const Color darkThemePrimaryColor = Color(0xff171919);
 const Color darkThemePrimaryColorDark = Color(0xff2B2B2B);
-const Color darkThemeAccentColor = Color(0xfff4663c);
+const Color darkThemeAccentColor = Color(0xff770955);
 const Color darkThemeButtonColor = Color(0xff770955);
 const Color darkThemeCardColor = Color(0xffFFFFFF);
 const Color darkThemeSubtitleColor = Color(0xff929294);
 
 const Color amoledThemePrimaryColor = Color(0xff000000);
 const Color amoledThemePrimaryColorDark = Color(0xff2B2B2B);
-const Color amoledThemeAccentColor = Color(0xfff4663c);
+const Color amoledThemeAccentColor = Color(0xff770955);
 
 final List<ThemeData> themes = [lightTheme, darkTheme];
 
