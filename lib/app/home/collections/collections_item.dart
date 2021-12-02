@@ -1,3 +1,4 @@
+import 'package:faktura_nft_viewer/app/widgets/card_list.dart';
 import 'package:faktura_nft_viewer/app/widgets/my_flexible_spacebar.dart';
 import 'package:faktura_nft_viewer/app/widgets/wallpaper_list.dart';
 import 'package:faktura_nft_viewer/controllers/home/collections/collections_item_controller.dart';
@@ -131,7 +132,7 @@ class CollectionsItemView extends ConsumerWidget {
                                   // moreStyle: TextStyle(color: Colors.green),
                                 )),
                             SizedBox(
-                              height: height * 0.02,
+                              height: height * 0.01,
                             ),
                             Align(
                                 alignment: Alignment.centerLeft,
@@ -139,9 +140,6 @@ class CollectionsItemView extends ConsumerWidget {
                                   'Owned',
                                   style: state.textTheme.caption,
                                 )),
-                            SizedBox(
-                              height: height * 0.01,
-                            ),
                             _owned(
                               context,
                               controller,
@@ -183,14 +181,11 @@ class CollectionsItemView extends ConsumerWidget {
                   return Center(
                       child: Text('getCollectionImage: ${snapshot.error}'));
                 else
-                  return WallpaperListWidget(snapshot.data!);
+                  return CardListWidget(snapshot.data!);
               }
             },
           ),
         ))),
-        SizedBox(
-          width: width * 0.02,
-        ),
       ]),
     ]);
   }

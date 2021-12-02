@@ -47,28 +47,28 @@ class WallpaperListWidget extends ConsumerWidget {
                             },
                             child: Stack(
                               children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: snapshot.data!.image!.contains('http') ? Image.network(
-                                    snapshot.data!.image!,
-                                    fit: BoxFit.cover,
-                                  ) : Image.file(
-                                    File(snapshot.data!.image!),
-                                    height: MediaQuery.of(context)
-                                        .size
-                                        .width /
-                                        3,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Container(
-                                    decoration: BoxDecoration(gradient: new LinearGradient(colors: <Color>[
-                                      const Color(0xCC000000),
-                                      Color(0x66000000),
-                                      Color(0x00000000),
-                                    ], begin: Alignment.bottomCenter, end: Alignment.topCenter)),
+                                ShaderMask(
+                                  shaderCallback: (rect) {
+                                    return LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [Colors.black, Colors.transparent],
+                                    ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+                                  },
+                                  blendMode: BlendMode.dstIn,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: snapshot.data!.image!.contains('http') ? Image.network(
+                                      snapshot.data!.image!,
+                                      fit: BoxFit.cover,
+                                    ) : Image.file(
+                                      File(snapshot.data!.image!),
+                                      height: MediaQuery.of(context)
+                                          .size
+                                          .width /
+                                          3,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                                 Positioned(

@@ -8,5 +8,7 @@ export 'wallpaper_list_provider.dart' show wallpaperListProvider;
 export 'flag_list_provider.dart' show flagListProvider;
 export 'item_nft_provider.dart' show itemNftProvider;
 export 'collections_item_provider.dart' show collectionsItemProvider;
+export 'card_list_provider.dart' show cardListProvider;
+
 
 
