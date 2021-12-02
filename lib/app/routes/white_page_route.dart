@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 class WhitePageRoute extends PageRouteBuilder {
   final Widget enterPage;
 
-  WhitePageRoute(this.enterPage)
+  WhitePageRoute({required this.enterPage})
       : super(
-      transitionDuration: Duration(milliseconds: 1700),
+      transitionDuration: Duration(milliseconds: 100),
       pageBuilder: (context, animation, secondaryAnimation) => enterPage,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var fadeIn =

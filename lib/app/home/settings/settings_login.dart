@@ -374,7 +374,7 @@ class SettingsLoginView extends ConsumerWidget {
     return Column(children: [
       ListView.builder(
         shrinkWrap: true,
-        itemCount: data.isExpanded == false ? 3 : data.listAddress.length,
+        itemCount: data.isExpanded == false && data.listAddress.length > 3 ? 3 : data.listAddress.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
