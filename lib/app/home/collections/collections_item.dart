@@ -181,7 +181,7 @@ class CollectionsItemView extends ConsumerWidget {
                   return Center(
                       child: Text('getCollectionImage: ${snapshot.error}'));
                 else
-                  return CardListWidget(snapshot.data!);
+                  return WallpaperListWidget(snapshot.data!);
               }
             },
           ),

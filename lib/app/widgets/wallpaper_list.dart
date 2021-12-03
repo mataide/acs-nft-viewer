@@ -47,7 +47,7 @@ class WallpaperListWidget extends ConsumerWidget {
                             onTap: () {
                               Navigator.push(
                                   context,
-                                  WhitePageRoute(enterPage: NftPageView(collectionsItemList)),
+                                  WhitePageRoute(enterPage: NftPageView(collectionsItemList, index)),
                                   );
                             },
                             child: Stack(
