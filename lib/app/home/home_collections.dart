@@ -111,9 +111,9 @@ class HomeCollectionsView extends ConsumerWidget {
         height: height * 0.02,
       ),
       Text(
-        'My Collections',
+        'M Y  C O L L E C T I O N S',
         style: state.textTheme.caption,
-        textAlign: TextAlign.left,
+        textAlign: TextAlign.center,
       ),
       SizedBox(height: height * 0.05),
       StreamBuilder<dynamic>(
@@ -303,11 +303,13 @@ class HomeCollectionsView extends ConsumerWidget {
           SizedBox(
             height: height * 0.022,
           ),
-          Text(
-            "Examples",
-            textAlign: TextAlign.left,
-            style: state.textTheme.caption,
-          ),
+          Row(children: <Widget>[
+            Text(
+              "E X A M P L E S",
+              style: state.textTheme.subtitle2,
+              textAlign: TextAlign.left,
+            ),
+          ]),
           SizedBox(
             height: height * 0.012,
           )

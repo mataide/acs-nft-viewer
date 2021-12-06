@@ -68,6 +68,11 @@ final darkTheme = ThemeData(
         fontWeight: FontWeight.w400,
         color: Colors.white,
         fontSize: 12),
+    subtitle2: TextStyle(
+        fontFamily: 'FuturaPTBold.otf',
+        fontWeight: FontWeight.w700,
+        color: Colors.white,
+        fontSize: 20),
     caption: TextStyle(
         fontFamily: 'FuturaPTBold.otf',
         fontWeight: FontWeight.w700,
@@ -110,6 +115,11 @@ final lightTheme = ThemeData(
         fontWeight: FontWeight.w400,
         color: Colors.black,
         fontSize: 12),
+    subtitle2: TextStyle(
+        fontFamily: 'FuturaPTBold.otf',
+        fontWeight: FontWeight.w700,
+        color: Colors.black,
+        fontSize: 20),
     caption: TextStyle(
         fontFamily: 'FuturaPTBold.otf',
         fontWeight: FontWeight.w700,
