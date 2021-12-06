@@ -31,6 +31,8 @@ class NftPageView extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:state.primaryColor,
+        actionsIconTheme: IconThemeData(color: state.cardColor),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -64,19 +66,13 @@ class NftPageView extends ConsumerWidget {
           ),
         ],
         iconTheme: state.primaryIconTheme,
-        backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
       body: Container(
-          child: GridView.builder(
-              shrinkWrap: true,
-              // physics: NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,
-              ),
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return FutureBuilder<CollectionsItem>(
+        color: state.primaryColor,
+          child:  SingleChildScrollView(
+            child:
+          FutureBuilder<CollectionsItem>(
                     future: controller
                         .getCollectionItem(collectionsItemList[index]),
                     // function where you call your api
@@ -97,7 +93,9 @@ class NftPageView extends ConsumerWidget {
                                   'getCollectionImage: ${snapshot.error}'));
                         else
                           return SingleChildScrollView(
-                            child: Container(
+                            child: Expanded(
+                              child:
+                            Container(
                               margin: EdgeInsets.only(
                                   left: (width * 0.02), right: (width * 0.02)),
                               child: Column(
@@ -125,7 +123,7 @@ class NftPageView extends ConsumerWidget {
                                                   fit: BoxFit.cover,
                                                 )
                                               : Image.file(
-                                                  File(collectionsItemList![
+                                                  File(collectionsItemList[
                                                           index]
                                                       .image!),
                                                   fit: BoxFit.cover,
@@ -266,15 +264,14 @@ class NftPageView extends ConsumerWidget {
                                   ),
                                 ],
                               ),
-                            ),
+                            )),
                           );
                       }
-                    });
-              })),
+
+              }))),
     );
   }
 
-  // FALTA MEXER NAS FUNÇÕES
 
   void downloadImage() async {
     try {
@@ -285,7 +282,7 @@ class NftPageView extends ConsumerWidget {
           showToast('Check the notification to see progress.');
 
           var imageId = await ImageDownloader.downloadImage(
-              collectionsItemList![index].image!,
+              collectionsItemList[index].image!,
               destination: AndroidDestinationType.directoryPictures);
 
           if (imageId == null) {
@@ -305,7 +302,6 @@ class NftPageView extends ConsumerWidget {
   void askForPermission() async {
     if (await Permission.storage.request().isGranted) {
       downloadImage();
-      print('concluido');
     } else {
       showToast('Please grant storage permission.');
     }
@@ -318,7 +314,7 @@ class NftPageView extends ConsumerWidget {
 
   void _setWallpaper(BuildContext context) async {
     var file = await DefaultCacheManager()
-        .getSingleFile(collectionsItemList![index].image!);
+       .getSingleFile(collectionsItemList[index].image!);
     try {
       final int result = await platform.invokeMethod('setWallpaper', file.path);
       print('Wallpaer Updated.... $result');
@@ -340,7 +336,7 @@ class NftPageView extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(8.0)),
                 content: Row(
                   children: <Widget>[
-                    CircularProgressIndicator(),
+                    CircularProgressIndicator(color: state.cardColor),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
