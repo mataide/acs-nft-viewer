@@ -31,7 +31,7 @@ class NftPageView extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:state.primaryColor,
+        backgroundColor: state.primaryColor,
         actionsIconTheme: IconThemeData(color: state.cardColor),
         actions: <Widget>[
           IconButton(
@@ -68,210 +68,428 @@ class NftPageView extends ConsumerWidget {
         iconTheme: state.primaryIconTheme,
         elevation: 0.0,
       ),
-      body: Container(
-        color: state.primaryColor,
-          child:  SingleChildScrollView(
-            child:
-          FutureBuilder<CollectionsItem>(
-                    future: controller
-                        .getCollectionItem(collectionsItemList[index]),
-                    // function where you call your api
-                    builder: (BuildContext context,
-                        AsyncSnapshot<CollectionsItem> snapshot) {
-                      // AsyncSnapshot<Your object type>
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                            child: Text(
-                          'Please wait its loading...',
-                          style: TextStyle(
-                              color: state.textTheme.bodyText1!.color),
-                        ));
-                      } else {
-                        if (snapshot.hasError)
-                          return Center(
-                              child: Text(
-                                  'getCollectionImage: ${snapshot.error}'));
-                        else
-                          return SingleChildScrollView(
-                            child: Expanded(
-                              child:
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: (width * 0.02), right: (width * 0.02)),
-                              child: Column(
-                                children: [
-                                  SizedBox(height: height * 0.008),
-                                  Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Expanded(
-                                          child: Text(
-                                        collectionsItemList[index].name,
-                                        style: state.textTheme.caption,
-                                      ))),
-                                  SizedBox(
-                                    height: height * 0.04,
-                                  ),
-                                  Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10),
-                                      child: Stack(
-                                        alignment: Alignment.center,
+      backgroundColor: state.primaryColor,
+      body: SingleChildScrollView(
+          child: Column(
+              children: [
+            FutureBuilder<CollectionsItem>(
+                future:
+                    controller.getCollectionItem(collectionsItemList[index]),
+                // function where you call your api
+                builder: (BuildContext context,
+                    AsyncSnapshot<CollectionsItem> snapshot) {
+                  // AsyncSnapshot<Your object type>
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                        child: Text(
+                      'Please wait its loading...',
+                      style: TextStyle(color: state.textTheme.bodyText1!.color),
+                    ));
+                  } else {
+                    if (snapshot.hasError)
+                      return Center(
+                          child: Text('getCollectionImage: ${snapshot.error}'));
+                    else
+                      return SingleChildScrollView(
+                        child: Expanded(
+                            child: Container(
+                          margin: EdgeInsets.only(
+                              left: (width * 0.02), right: (width * 0.02)),
+                          child: Column(
+                            children: [
+                              SizedBox(height: height * 0.008),
+                              Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Expanded(
+                                      child: Text(
+                                    collectionsItemList[index].name,
+                                    style: state.textTheme.caption,
+                                  ))),
+                              SizedBox(
+                                height: height * 0.04,
+                              ),
+                              Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      snapshot.data!.image!.contains('http')
+                                          ? Image.network(
+                                              snapshot.data!.image!,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.file(
+                                              File(collectionsItemList[index]
+                                                  .image!),
+                                              fit: BoxFit.cover,
+                                            ),
+                                    ],
+                                  )),
+                              SizedBox(
+                                height: height * 0.048,
+                              ),
+                              Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "Details",
+                                    style: state.textTheme.subtitle2,
+                                  )),
+                              SizedBox(
+                                height: height * 0.012,
+                              ),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                              right: BorderSide(
+                                                  color: Color(0xFF606060)))),
+                                      child: Column(
                                         children: [
-                                          snapshot.data!.image!.contains('http')
-                                              ? Image.network(
-                                                  snapshot.data!.image!,
-                                                  fit: BoxFit.cover,
-                                                )
-                                              : Image.file(
-                                                  File(collectionsItemList[
-                                                          index]
-                                                      .image!),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                        ],
-                                      )),
-                                  SizedBox(
-                                    height: height * 0.048,
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text("Details",
-                                        style: TextStyle(
-                                            color:
-                                                state.textTheme.caption!.color,
-                                            fontSize: 20.0,
-                                            fontFamily: 'FuturaPTBold.otf',
-                                            fontWeight: FontWeight.w700)),
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.012,
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text('Contract Address',
-                                        style: TextStyle(
-                                            color: state
-                                                .textTheme.headline5!.color,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'FuturaPTMedium.otf',
-                                            fontSize: 16.0)),
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.004,
-                                  ),
-                                  Row(children: [
-                                    Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                            collectionsItemList[index]
+                                          Text('Contract Address',
+                                              style: state.textTheme.headline4),
+                                          SizedBox(
+                                            height: height * 0.004,
+                                            width: width * 0.4,
+                                          ),
+                                          Row(children: [
+                                            Text(
+                                                collectionsItemList[index]
+                                                            .contractAddress
+                                                            .length >
+                                                        15
+                                                    ? collectionsItemList[index]
+                                                        .contractAddress
+                                                        .substring(0, 6)
+                                                    : collectionsItemList[index]
+                                                        .contractAddress,
+                                                maxLines: 1,
+                                                textAlign: TextAlign.start,
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: false,
+                                                style:
+                                                    state.textTheme.headline5),
+                                            Text(collectionsItemList[index]
                                                         .contractAddress
                                                         .length >
                                                     15
-                                                ? collectionsItemList[index]
-                                                    .contractAddress
-                                                    .substring(0, 6)
-                                                : collectionsItemList[index]
-                                                    .contractAddress,
-                                            maxLines: 1,
-                                            textAlign: TextAlign.start,
-                                            overflow: TextOverflow.ellipsis,
-                                            softWrap: false,
-                                            style: state.textTheme.headline5)),
-                                    Text(collectionsItemList[index]
-                                                .contractAddress
-                                                .length >
-                                            15
-                                        ? '.........'
-                                        : ""),
-                                    Text(
-                                      collectionsItemList[index]
-                                                  .contractAddress
-                                                  .length >
-                                              15
-                                          ? collectionsItemList[index]
-                                              .contractAddress
-                                              .substring(
-                                                  collectionsItemList[index]
+                                                ? '.........'
+                                                : "", style:state.textTheme.headline5 ,),
+                                            Text(
+                                              collectionsItemList[index]
                                                           .contractAddress
-                                                          .length -
-                                                      4)
-                                          : '',
-                                      maxLines: 1,
-                                      //textAlign: TextAlign.start,
-                                      softWrap: false,
-                                      style: state.textTheme.headline5,
-                                    )
-                                  ]),
-                                  SizedBox(
-                                    height: height * 0.012,
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text('Token ID',
-                                        style: TextStyle(
-                                            color: state
-                                                .textTheme.headline5!.color,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'FuturaPTMedium.otf',
-                                            fontSize: 16.0)),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      collectionsItemList[index].id,
-                                      style: state.textTheme.headline5,
+                                                          .length >
+                                                      15
+                                                  ? collectionsItemList[index]
+                                                      .contractAddress
+                                                      .substring(
+                                                          collectionsItemList[
+                                                                      index]
+                                                                  .contractAddress
+                                                                  .length -
+                                                              4)
+                                                  : '',
+                                              maxLines: 1,
+                                              //textAlign: TextAlign.start,
+                                              softWrap: false,
+                                              style: state.textTheme.headline5,
+                                            ),
+                                          ]),
+                                          SizedBox(
+                                            width: width * 0.4,
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.012,
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text('Token Standard',
-                                        style: TextStyle(
-                                            color: state
-                                                .textTheme.headline5!.color,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'FuturaPTMedium.otf',
-                                            fontSize: 16.0)),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      'Número ERC',
-                                      style: state.textTheme.headline5,
+                                    Container(
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                right: BorderSide(
+                                                    color: Color(0xFF606060)))),
+                                        child: Column(children: [
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text('Token ID',
+                                                style:
+                                                    state.textTheme.headline4),
+                                          ),
+                                          SizedBox(
+                                            height: height * 0.004,
+                                            width: width * 0.3,
+                                          ),
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              collectionsItemList[index].id,
+                                              style: state.textTheme.headline5,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width * 0.3,
+                                          )
+                                        ])),
+                                    Container(
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                right: BorderSide(
+                                                    color: Color(0xFF606060)))),
+                                        child: Column(children: [
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text('Token Standard',
+                                                style:
+                                                    state.textTheme.headline4),
+                                          ),
+                                          SizedBox(
+                                            height: height * 0.004,
+                                            width: width * 0.4,
+                                          ),
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              'Número ERC',
+                                              style: state.textTheme.headline5,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width * 0.4,
+                                          )
+                                        ])),
+                                    Container(
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                right: BorderSide(
+                                                    color: Color(0xFF606060)))),
+                                        child: Column(children: [
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text('Blockchain',
+                                                style:
+                                                    state.textTheme.headline4),
+                                          ),
+                                          SizedBox(
+                                            height: height * 0.004,
+                                            width: width * 0.3,
+                                          ),
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              'Bloc ETH',
+                                              style: state.textTheme.headline5,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width * 0.3,
+                                          )
+                                        ])),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: height * 0.012,
+                              ),
+                              Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "Properties",
+                                    style: state.textTheme.subtitle2,
+                                  )),
+                              SizedBox(
+                                height: height * 0.011,
+                              ),
+                              Row(
+                                children: [
+                                   Container(
+                                      height:height * 0.14,
+                                      width: width * 0.47,
+                                      decoration:BoxDecoration(color: state.primaryColorDark, borderRadius: BorderRadius.circular(8.0)),
+                                      child: Column(children: [
+                                        SizedBox(
+                                          height: height * 0.023,
+                                        ),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child:
+                                          Column(
+                                            children: [
+
+                                              Text('BODY',style: state.textTheme.bodyText2,),
+
+                                              SizedBox(
+                                                height: height * 0.009,
+                                              ),
+                                              Text('Blue Cat Skin',style: state.textTheme.headline5,),
+                                              SizedBox(
+                                                height: height * 0.009,
+                                              ),
+
+                                              Text('100% have this trait',style: state.textTheme.subtitle1,),
+
+                                            ],
+                                          ),
+                                        ),
+                                      ],)
                                     ),
-                                  ),
                                   SizedBox(
-                                    height: height * 0.012,
+                                    width: width * 0.02,
                                   ),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text('Blockchain',
-                                        style: TextStyle(
-                                            color: state
-                                                .textTheme.headline5!.color,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'FuturaPTMedium.otf',
-                                            fontSize: 16.0)),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      'Bloc ETH',
-                                      style: state.textTheme.headline5,
-                                    ),
+                                  Container(
+                                      height:height * 0.14,
+                                      width: width * 0.47,
+                                      decoration:BoxDecoration(color: state.primaryColorDark, borderRadius: BorderRadius.circular(8.0)),
+                                      child: Column(children: [
+                                        SizedBox(
+                                          height: height * 0.023,
+                                        ),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child:
+                                          Column(
+                                            children: [
+
+                                              Text('FACE',style: state.textTheme.bodyText2,),
+
+                                              SizedBox(
+                                                height: height * 0.009,
+                                              ),
+                                              Text('Angry Cut',style: state.textTheme.headline5,),
+                                              SizedBox(
+                                                height: height * 0.009,
+                                              ),
+
+                                              Text('3% have this trait',style: state.textTheme.subtitle1,),
+                                            ],
+                                          ),
+                                        ),
+                                      ],)
                                   ),
                                 ],
                               ),
-                            )),
-                          );
-                      }
+                              SizedBox(
+                                height: height * 0.01,
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                      height:height * 0.14,
+                                      width: width * 0.47,
+                                      decoration:BoxDecoration(color: state.primaryColorDark, borderRadius: BorderRadius.circular(8.0)),
+                                      child: Column(children: [
+                                        SizedBox(
+                                          height: height * 0.023,
+                                        ),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child:
+                                          Column(
+                                            children: [
 
-              }))),
+                                              Text('SHIRT',style: state.textTheme.bodyText2,),
+
+                                              SizedBox(
+                                                height: height * 0.009,
+                                              ),
+                                              Text('Pirate Red',style: state.textTheme.headline5,),
+                                              SizedBox(
+                                                height: height * 0.009,
+                                              ),
+
+                                              Text('0.6% have this trait',style: state.textTheme.subtitle1,),
+
+                                            ],
+                                          ),
+                                        ),
+                                      ],)
+                                  ),
+                                  SizedBox(
+                                    width: width * 0.02,
+                                  ),
+                                  Container(
+                                      height:height * 0.14,
+                                      width: width * 0.47,
+                                      decoration:BoxDecoration(color: state.primaryColorDark, borderRadius: BorderRadius.circular(8.0)),
+                                      child: Column(children: [
+                                        SizedBox(
+                                          height: height * 0.023,
+                                        ),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child:
+                                          Column(
+                                            children: [
+
+                                              Text('HATS',style: state.textTheme.bodyText2,),
+
+                                              SizedBox(
+                                                height: height * 0.009,
+                                              ),
+                                              Text('Cupcake',style: state.textTheme.headline5,),
+                                              SizedBox(
+                                                height: height * 0.009,
+                                              ),
+
+                                              Text('1% have this trait',style: state.textTheme.subtitle1,),
+                                            ],
+                                          ),
+                                        ),
+                                      ],)
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: height * 0.01,
+                              ),
+
+                              Row(
+                                children: [
+                                  Container(
+                                      height:height * 0.14,
+                                      width: width * 0.47,
+                                      decoration:BoxDecoration(color: state.primaryColorDark, borderRadius: BorderRadius.circular(8.0)),
+                                      child: Column(children: [
+                                        SizedBox(
+                                          height: height * 0.023,
+                                        ),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child:
+                                          Column(
+                                            children: [
+
+                                              Text('TIER',style: state.textTheme.bodyText2,),
+
+                                              SizedBox(
+                                                height: height * 0.009,
+                                              ),
+                                              Text('Wild 2',style: state.textTheme.headline5,),
+                                              SizedBox(
+                                                height: height * 0.009,
+                                              ),
+
+                                              Text('12% have this trait',style: state.textTheme.subtitle1,),
+                                            ],
+                                          ),
+                                        ),
+                                      ],)
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                width: width * 0.02,
+                                  height: height * 0.01,
+                              ),
+                            ],
+                          ),
+                        )),
+                      );
+                  }
+                })
+          ])),
     );
   }
-
 
   void downloadImage() async {
     try {
@@ -314,7 +532,7 @@ class NftPageView extends ConsumerWidget {
 
   void _setWallpaper(BuildContext context) async {
     var file = await DefaultCacheManager()
-       .getSingleFile(collectionsItemList[index].image!);
+        .getSingleFile(collectionsItemList[index].image!);
     try {
       final int result = await platform.invokeMethod('setWallpaper', file.path);
       print('Wallpaer Updated.... $result');
