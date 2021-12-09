@@ -79,11 +79,11 @@ class WallpaperListWidget extends ConsumerWidget {
                                 Positioned(
                                     bottom: 30.0,
                                     left: 20.0,
-                                    child: Text(collectionsItemList[index].name)),
+                                    child: Text(collectionsItemList[index].name, style: state.textTheme.headline4)),
                                 Positioned(
                                     bottom: 10.0,
                                     left: 20.0,
-                                    child: Text('#${collectionsItemList[index].id}')),
+                                    child: Text('#${collectionsItemList[index].id}',style: state.textTheme.headline4)),
                               ],
                             )
                         );

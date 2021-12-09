@@ -10,7 +10,7 @@ class WhitePageRoute extends PageRouteBuilder {
 
   WhitePageRoute({required this.enterPage,})
       : super(
-      transitionDuration: Duration(milliseconds: 100),
+      transitionDuration: Duration(milliseconds: 70),
       pageBuilder: (context, animation, secondaryAnimation, ) => enterPage,
       transitionsBuilder: (context, animation, secondaryAnimation, child,) {
         var fadeIn =
