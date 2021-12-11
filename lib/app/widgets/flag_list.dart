@@ -83,7 +83,7 @@ class FlagListWidget extends ConsumerWidget {
                                               ),
                                             ),
                                             placeholder: (context, url) =>
-                                                CircularProgressIndicator(),
+                                                CircularProgressIndicator(color: state.accentColor),
                                             errorWidget:
                                                 (context, url, error) =>
                                                     Icon(Icons.error),

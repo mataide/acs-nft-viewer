@@ -39,8 +39,9 @@ class NftPageView extends ConsumerWidget {
         actionsIconTheme: IconThemeData(color: state.cardColor),
         actions: <Widget>[
           IconButton(
-            icon: SvgPicture.asset('assets/images/wallpaper.svg',
-          semanticsLabel: 'Wallpaper icon',
+            icon: SvgPicture.asset(
+              'assets/images/wallpaper.svg',
+              semanticsLabel: 'Wallpaper icon',
               color: state.textTheme.caption!.color,
             ),
             onPressed: () async {
@@ -50,7 +51,8 @@ class NftPageView extends ConsumerWidget {
             },
           ),
           IconButton(
-            icon: SvgPicture.asset('assets/images/download.svg',
+            icon: SvgPicture.asset(
+              'assets/images/download.svg',
               semanticsLabel: 'Download icon',
               color: state.textTheme.caption!.color,
             ),
@@ -59,7 +61,8 @@ class NftPageView extends ConsumerWidget {
             },
           ),
           IconButton(
-            icon: SvgPicture.asset('assets/images/share.svg',
+            icon: SvgPicture.asset(
+              'assets/images/share.svg',
               semanticsLabel: 'Share icon',
               color: state.textTheme.caption!.color,
             ),
@@ -112,26 +115,26 @@ class NftPageView extends ConsumerWidget {
                           ),
                           Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
-                              child:
-                              GestureDetector(
-                                  onTap:()=> Navigator.of(context).push(WhitePageRoute(enterPage: NftScreen(collectionsItemList,index))),
-                                  child:
-                              Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  snapshot.data!.image!.contains('http')
-                                      ? Image.network(
-                                          snapshot.data!.image!,
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Image.file(
-                                          File(collectionsItemList[index]
-                                              .image!),
-                                          fit: BoxFit.cover,
-                                        ),
-                                ],
-                              )
-                          )),
+                              child: GestureDetector(
+                                  onTap: () => Navigator.of(context).push(
+                                      WhitePageRoute(
+                                          enterPage: NftScreen(
+                                              collectionsItemList, index))),
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      snapshot.data!.image!.contains('http')
+                                          ? Image.network(
+                                              snapshot.data!.image!,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.file(
+                                              File(collectionsItemList[index]
+                                                  .image!),
+                                              fit: BoxFit.cover,
+                                            ),
+                                    ],
+                                  ))),
                           SizedBox(
                             height: height * 0.048,
                           ),
@@ -155,7 +158,7 @@ class NftPageView extends ConsumerWidget {
                                               color: Color(0xFF606060)))),
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text('Contract Address',
                                           style: state.textTheme.headline4),

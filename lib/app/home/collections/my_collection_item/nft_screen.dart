@@ -32,114 +32,117 @@ class NftScreen extends ConsumerWidget {
     return Scaffold(
         backgroundColor: state.primaryColor,
         body: Stack(
-      children: [
-        Container(
-          child: FutureBuilder<CollectionsItem>(
-              future: controller.getCollectionItem(collectionsItemList[index]),
-              // function where you call your api
-              builder: (BuildContext context,
-                  AsyncSnapshot<CollectionsItem> snapshot) {
-                // AsyncSnapshot<Your object type>
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                      child: Text(
-                    'Please wait its loading...',
-                    style: TextStyle(color: state.textTheme.bodyText1!.color),
-                  ));
-                } else {
-                  if (snapshot.hasError)
-                    return Center(
-                        child: Text('getCollectionImage: ${snapshot.error}'));
-                  else
-                    return snapshot.data!.image!.contains('http')
-                        ? Image.network(snapshot.data!.image!,
-                            height: double.infinity, fit: BoxFit.fill)
-                        : Image.file(
-                            File(collectionsItemList[index].image!),
-                            height: double.infinity,
-                            fit: BoxFit.fill,
-                          );
-                }
-              }),
-        ),
-        Positioned(
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.transparent,
-            //actionsIconTheme: IconThemeData(color: state.cardColor),
-            actions: <Widget>[
-              Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: state.accentColor),
-                  child: IconButton(
-                    icon: SvgPicture.asset(
-                      'assets/images/exit.svg',
-                      semanticsLabel: 'Exit icon',
-                      color: state.textTheme.caption!.color,
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                  )),
-              SizedBox(
-                width: width * 0.38,
+          children: [
+            Container(
+              child: FutureBuilder<CollectionsItem>(
+                  future:
+                      controller.getCollectionItem(collectionsItemList[index]),
+                  // function where you call your api
+                  builder: (BuildContext context,
+                      AsyncSnapshot<CollectionsItem> snapshot) {
+                    // AsyncSnapshot<Your object type>
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                          child: Text(
+                        'Please wait its loading...',
+                        style:
+                            TextStyle(color: state.textTheme.bodyText1!.color),
+                      ));
+                    } else {
+                      if (snapshot.hasError)
+                        return Center(
+                            child:
+                                Text('getCollectionImage: ${snapshot.error}'));
+                      else
+                        return snapshot.data!.image!.contains('http')
+                            ? Image.network(snapshot.data!.image!,
+                                height: double.infinity, fit: BoxFit.fill)
+                            : Image.file(
+                                File(collectionsItemList[index].image!),
+                                height: double.infinity,
+                                fit: BoxFit.fill,
+                              );
+                    }
+                  }),
+            ),
+            Positioned(
+              child: AppBar(
+                automaticallyImplyLeading: false,
+                backgroundColor: Colors.transparent,
+                //actionsIconTheme: IconThemeData(color: state.cardColor),
+                actions: <Widget>[
+                  Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: state.accentColor),
+                      child: IconButton(
+                        icon: SvgPicture.asset(
+                          'assets/images/exit.svg',
+                          semanticsLabel: 'Exit icon',
+                          color: state.textTheme.caption!.color,
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                      )),
+                  SizedBox(
+                    width: width * 0.41,
+                  ),
+                  Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: state.accentColor),
+                      child: IconButton(
+                        icon: SvgPicture.asset(
+                          'assets/images/wallpaper.svg',
+                          semanticsLabel: 'Wallpaper icon',
+                          color: state.textTheme.caption!.color,
+                        ),
+                        onPressed: () async {
+                          showLoadingDialog(context, state);
+                          await Future.delayed(Duration(seconds: 1));
+                          _setWallpaper(context);
+                        },
+                      )),
+                  SizedBox(
+                    width: width * 0.03,
+                  ),
+                  Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: state.accentColor),
+                      child: IconButton(
+                        icon: SvgPicture.asset(
+                          'assets/images/download.svg',
+                          semanticsLabel: 'Download icon',
+                          color: state.textTheme.caption!.color,
+                        ),
+                        onPressed: () {
+                          downloadImage();
+                        },
+                      )),
+                  SizedBox(
+                    width: width * 0.03,
+                  ),
+                  Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: state.accentColor),
+                      child: IconButton(
+                        icon: SvgPicture.asset(
+                          'assets/images/share.svg',
+                          semanticsLabel: 'Share icon',
+                          color: state.textTheme.caption!.color,
+                        ),
+                        onPressed: () {
+                          Share.share(
+                              'Checkout this amazing NFT mine. ${collectionsItemList[index].image}');
+                        },
+                      )),
+                  SizedBox(
+                    width: width * 0.03,
+                  ),
+                ],
+                // iconTheme: state.primaryIconTheme,
+                elevation: 0.0,
               ),
-              Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: state.accentColor),
-                  child: IconButton(
-                    icon: SvgPicture.asset(
-                      'assets/images/wallpaper.svg',
-                      semanticsLabel: 'Wallpaper icon',
-                      color: state.textTheme.caption!.color,
-                    ),
-                    onPressed: () async {
-                      showLoadingDialog(context, state);
-                      await Future.delayed(Duration(seconds: 1));
-                      _setWallpaper(context);
-                    },
-                  )),
-              SizedBox(
-                width: width * 0.03,
-              ),
-              Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: state.accentColor),
-                  child: IconButton(
-                    icon: SvgPicture.asset(
-                      'assets/images/download.svg',
-                      semanticsLabel: 'Download icon',
-                      color: state.textTheme.caption!.color,
-                    ),
-                    onPressed: () {
-                      downloadImage();
-                    },
-                  )),
-              SizedBox(
-                width: width * 0.03,
-              ),
-              Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: state.accentColor),
-                  child: IconButton(
-                    icon: SvgPicture.asset(
-                      'assets/images/share.svg',
-                      semanticsLabel: 'Share icon',
-                      color: state.textTheme.caption!.color,
-                    ),
-                    onPressed: () {
-                      Share.share(
-                          'Checkout this amazing NFT mine. ${collectionsItemList[index].image}');
-                    },
-                  )),
-              SizedBox(
-                width: width * 0.03,
-              ),
-            ],
-            // iconTheme: state.primaryIconTheme,
-            elevation: 0.0,
-          ),
-        )
-      ],
-    ));
+            )
+          ],
+        ));
   }
 
   void downloadImage() async {
