@@ -7,6 +7,7 @@ import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:readmore/readmore.dart';
 import 'dart:io';
 
@@ -93,11 +94,22 @@ class CollectionsItemView extends ConsumerWidget {
                                 )),
                             Align(
                                 alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "BUSCAR DA API O NOME DO AUTOR",
-                                  style: state.textTheme.headline5,
-                                  textAlign: TextAlign.start,
-                                )),
+                                child: Row(children: [
+                                  Text(
+                                    "BUSCAR DA API O NOME DO AUTOR",
+                                    style: state.textTheme.headline5,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  SizedBox(
+                                    width: width * 0.025,
+                                  ),
+                                  SvgPicture.asset('assets/images/arrow-square-out.svg',
+                                      color: state.primaryColor,
+                                      semanticsLabel: 'External Link icon',
+                                      width: 24
+                                  ),
+                                ])
+                            ),
                             SizedBox(
                               height: height * 0.016,
                             ),
