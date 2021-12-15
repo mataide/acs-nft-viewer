@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ethereum_addresses/ethereum_addresses.dart';
 
 void showModalAddress(BuildContext context, state, dataStateLogin) {
   final _formKey = GlobalKey<FormState>();
@@ -32,7 +33,6 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
                       ),
                       Form(
                           key: _formKey,
-                          //FORM é para validar os campos
                           child: Stack(
                             children: [
                               Container(
@@ -53,7 +53,7 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
                                   controller: _keyController,
                                   style: state.textTheme.headline5,
                                   validator: (value) {
-                                    if (value == null || value.isEmpty) {
+                                    if (value == null || value.isEmpty || isValidEthereumAddress(_keyController.text) == false) {
                                       return 'Please enter some Key';
                                     }
                                     return null;
@@ -92,6 +92,7 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
                               if (_formKey.currentState!.validate()) {
                                 dataStateLogin.sharedWrite(_keyController.text);
                                 Navigator.pop(context);
+
                               }
                             },
                             child:Text(

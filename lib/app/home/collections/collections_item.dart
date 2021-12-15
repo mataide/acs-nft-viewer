@@ -104,7 +104,7 @@ class CollectionsItemView extends ConsumerWidget {
                                     width: width * 0.025,
                                   ),
                                   SvgPicture.asset('assets/images/arrow-square-out.svg',
-                                      color: state.primaryColor,
+                                      color: state.cardColor,
                                       semanticsLabel: 'External Link icon',
                                       width: 24
                                   ),
