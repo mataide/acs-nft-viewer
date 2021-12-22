@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:faktura_nft_viewer/core/smartcontracts/ERC721.g.dart';
 import 'package:faktura_nft_viewer/core/utils/util.dart';
+import 'package:flutter/animation.dart';
 import 'package:http/http.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
@@ -18,8 +19,11 @@ class CardListState {
   final double prevScrollX;
   final bool isScrolling;
   final double normalizedOffset;
+  final AnimationController? tweenController;
+  final Tween<double>? tween;
+  final Animation<double>? tweenAnim;
 
-  const CardListState(this.collectionsItemList, {this.fetchState = kdataFetchState.IS_LOADING, this.onCityChange, this.prevScrollX = 0, this.isScrolling = false, this.normalizedOffset = 0});
+  const CardListState(this.collectionsItemList, {this.tweenController, this.tween, this.tweenAnim, this.fetchState = kdataFetchState.IS_LOADING, this.onCityChange, this.prevScrollX = 0, this.isScrolling = false, this.normalizedOffset = 0});
 }
 
 class CardListController extends StateNotifier<CardListState> {
@@ -33,12 +37,17 @@ class CardListController extends StateNotifier<CardListState> {
     return collectionsItem;
   }
 
+  setTweenController(tweenController) {
+    state = CardListState(state.collectionsItemList, onCityChange: state.onCityChange, prevScrollX: state.prevScrollX, isScrolling: state.isScrolling, normalizedOffset: state.normalizedOffset, fetchState: state.fetchState, tween: state.tween, tweenAnim: state.tweenAnim, tweenController: tweenController);
+  }
+
   setIsScrolling(isScrolling) {
-    state = CardListState(state.collectionsItemList, onCityChange: state.onCityChange, prevScrollX: state.prevScrollX, isScrolling: isScrolling, normalizedOffset: state.normalizedOffset);
+    state = CardListState(state.collectionsItemList, onCityChange: state.onCityChange, prevScrollX: state.prevScrollX, isScrolling: isScrolling, normalizedOffset: state.normalizedOffset, fetchState: state.fetchState, tween: state.tween, tweenAnim: state.tweenAnim, tweenController: state.tweenController);
+    print(state.isScrolling);
   }
 
   setPrevScrollX(prevScrollX) {
-    state = CardListState(state.collectionsItemList, onCityChange: state.onCityChange, prevScrollX: prevScrollX, isScrolling: state.isScrolling, normalizedOffset: state.normalizedOffset);
+    state = CardListState(state.collectionsItemList, onCityChange: state.onCityChange, prevScrollX: prevScrollX, isScrolling: state.isScrolling, normalizedOffset: state.normalizedOffset, fetchState: state.fetchState, tween: state.tween, tweenAnim: state.tweenAnim, tweenController: state.tweenController);
   }
 
   Future<CollectionsItem> getCollectionItem(CollectionsItem collections) async {

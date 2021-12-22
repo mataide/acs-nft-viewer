@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:faktura_nft_viewer/controllers/home/settings/settings_login_controller.dart';
 import 'package:faktura_nft_viewer/app/home/settings/login_modal/login_modal.dart';
+import 'package:faktura_nft_viewer/core/utils/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -398,11 +399,7 @@ class SettingsLoginView extends ConsumerWidget {
                     Spacer(),
                     Expanded(
                         child: Text(
-                      data.listAddress.toString().length > 8
-                          ? data.listAddress[index].toString().substring(
-                                0,
-                              )
-                          : data.listAddress[index].toString(),
+                            concatAddress(data.listAddress),
                       maxLines: 1,
                       textAlign: TextAlign.end,
                       overflow: TextOverflow.ellipsis,

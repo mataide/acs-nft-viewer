@@ -26,6 +26,7 @@ Eth721 _$Eth721FromJson(Map<String, dynamic> json) => Eth721(
       json['cumulativeGasUsed'] as String,
       json['input'] as String,
       json['confirmations'] as String,
+      json['blockchain'] as String,
     );
 
 Map<String, dynamic> _$Eth721ToJson(Eth721 instance) => <String, dynamic>{
@@ -48,4 +49,5 @@ Map<String, dynamic> _$Eth721ToJson(Eth721 instance) => <String, dynamic>{
       'cumulativeGasUsed': instance.cumulativeGasUsed,
       'input': instance.input,
       'confirmations': instance.confirmations,
+      'blockchain': instance.blockchain,
     };

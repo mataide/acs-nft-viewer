@@ -1,4 +1,5 @@
 import 'package:faktura_nft_viewer/app/transform/rotation_3d.dart';
+import 'package:faktura_nft_viewer/controllers/widgets/card_list_controller.dart';
 import 'package:faktura_nft_viewer/core/models/collections_item.dart';
 import 'package:faktura_nft_viewer/core/providers/card_list_provider.dart';
 import 'package:flutter/foundation.dart';
@@ -11,7 +12,6 @@ import 'card_renderer.dart';
 class CardListWidget extends ConsumerWidget implements TickerProvider {
   final double _maxRotation = 20;
   //int _focusedIndex = 0;
-  AnimationController? _tweenController;
   Tween<double>? _tween;
   Animation<double>? _tweenAnim;
   Ticker? _ticker;
@@ -22,7 +22,7 @@ class CardListWidget extends ConsumerWidget implements TickerProvider {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.read(cardListProvider(collectionsItemList).notifier);
-    final dataState = ref.watch(cardListProvider(collectionsItemList));
+    final CardListState dataState = ref.watch(cardListProvider(collectionsItemList));
 
     Size size = MediaQuery.of(context).size;
     double _cardHeight = (size.height * .48).clamp(300.0, 400.0);
@@ -41,7 +41,7 @@ class CardListWidget extends ConsumerWidget implements TickerProvider {
         controller: _pageController,
         itemCount: dataState.collectionsItemList.length,
         scrollDirection: Axis.horizontal,
-        itemBuilder: (context, i) => _buildItemRenderer(i, _cardHeight, _cardWidth, dataState),
+        itemBuilder: (context, i) => _buildItemRenderer(i, _cardHeight, _cardWidth, dataState, ref),
       ),
     );
 
@@ -50,16 +50,16 @@ class CardListWidget extends ConsumerWidget implements TickerProvider {
     //We can not use GestureDetector like we normally would, ListView suppresses it while scrolling.
     return Listener(
       onPointerUp: (PointerUpEvent event) {
-        if (dataState.isScrolling) {
+        if (ref.read(cardListProvider(collectionsItemList)).isScrolling) {
           controller.setIsScrolling(false);
-          _startOffsetTweenToZero(dataState);
+          _startOffsetTweenToZero(dataState, controller);
         }
       },
       child: NotificationListener(
         onNotification: (notification) {
           //Scroll Update, add to our current offset, but clamp to -1 and 1
           if (notification is ScrollUpdateNotification) {
-            if (dataState.isScrolling) {
+            if (ref.read(cardListProvider(collectionsItemList)).isScrolling) {
               double dx = notification.metrics.pixels - dataState.prevScrollX;
               double scrollFactor = .01;
               double newOffset = (dataState.normalizedOffset + dx * scrollFactor);
@@ -75,7 +75,7 @@ class CardListWidget extends ConsumerWidget implements TickerProvider {
             controller.setIsScrolling(true);
             controller.setPrevScrollX(notification.metrics.pixels);
             if (_tween != null) {
-              _tweenController!.stop();
+              dataState.tweenController!.stop();
             }
           }
           return true;
@@ -86,7 +86,7 @@ class CardListWidget extends ConsumerWidget implements TickerProvider {
   }
 
   //Create a renderer for each list item
-  Widget _buildItemRenderer(int itemIndex, _cardHeight, _cardWidth, dataState) {
+  Widget _buildItemRenderer(int itemIndex, _cardHeight, _cardWidth, dataState, ref) {
     return Container(
       //Vertically pad all the non-selected items, to make them smaller. AnimatedPadding widget handles the animation.
       child: Rotation3d(
@@ -110,16 +110,17 @@ class CardListWidget extends ConsumerWidget implements TickerProvider {
   }
 
   //Tweens our offset from the current value, to 0
-  void _startOffsetTweenToZero(dataState) {
+  void _startOffsetTweenToZero(dataState, controller) {
     //The first time this runs, setup our controller, tween and animation. All 3 are required to control an active animation.
     int tweenTime = 1000;
-    if (_tweenController == null) {
+    if (dataState.tweenController == null) {
       //Create Controller, which starts/stops the tween, and rebuilds this widget while it's running
-      _tweenController = AnimationController(vsync: this, duration: Duration(milliseconds: tweenTime));
+      controller.setTweenController(AnimationController(vsync: this, duration: Duration(milliseconds: tweenTime)));
+
       //Create Tween, which defines our begin + end values
       _tween = Tween<double>(begin: -1, end: 0);
       //Create Animation, which allows us to access the current tween value and the onUpdate() callback.
-      _tweenAnim = _tween!.animate(new CurvedAnimation(parent: _tweenController!, curve: Curves.elasticOut))
+      _tweenAnim = _tween!.animate(new CurvedAnimation(parent: dataState.tweenController!, curve: Curves.elasticOut))
         //Set our offset each time the tween fires, triggering a rebuild
         ..addListener(() {
           _setOffset(_tweenAnim!.value, dataState);
@@ -127,9 +128,9 @@ class CardListWidget extends ConsumerWidget implements TickerProvider {
     }
     //Restart the tweenController and inject a new start value into the tween
     _tween!.begin = dataState.normalizedOffset;
-    _tweenController!.reset();
+    dataState.tweenController!.reset();
     _tween!.end = 0;
-    _tweenController!.forward();
+    dataState.tweenController!.forward();
   }
 
   @override

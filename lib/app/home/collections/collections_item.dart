@@ -4,6 +4,7 @@ import 'package:faktura_nft_viewer/app/widgets/wallpaper_list.dart';
 import 'package:faktura_nft_viewer/controllers/home/collections/collections_item_controller.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
+import 'package:faktura_nft_viewer/core/utils/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -96,7 +97,7 @@ class CollectionsItemView extends ConsumerWidget {
                                 alignment: Alignment.centerLeft,
                                 child: Row(children: [
                                   Text(
-                                    "BUSCAR DA API O NOME DO AUTOR",
+                                    concatAddress(dataState.collections.contractAddress),
                                     style: state.textTheme.headline5,
                                     textAlign: TextAlign.start,
                                   ),
@@ -104,7 +105,7 @@ class CollectionsItemView extends ConsumerWidget {
                                     width: width * 0.025,
                                   ),
                                   SvgPicture.asset('assets/images/arrow-square-out.svg',
-                                      color: state.primaryColor,
+                                      color: state.cardColor,
                                       semanticsLabel: 'External Link icon',
                                       width: 24
                                   ),

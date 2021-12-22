@@ -28,6 +28,8 @@ class Collections {
 
   String tokenDecimal;
 
+  String blockchain;
+
   String? externalUrl;
 
   String? description;
@@ -38,7 +40,7 @@ class Collections {
 
   int? totalSupply;
 
-  Collections(this.hash, this.timeStamp, this.blockHash, this.from, this.contractAddress, this.to, this.tokenID, this.tokenName, this.tokenSymbol, this.tokenDecimal, this.externalUrl, this.description, this.amount, this.image, this.totalSupply);
+  Collections(this.hash, this.timeStamp, this.blockHash, this.from, this.contractAddress, this.to, this.tokenID, this.tokenName, this.tokenSymbol, this.tokenDecimal, this.blockchain, this.externalUrl, this.description, this.amount, this.image, this.totalSupply);
 
 
   factory Collections.fromEth721(Eth721 eth721, int totalSupply) => _$CollectionsFromEth721(eth721, totalSupply);
@@ -58,6 +60,7 @@ Collections _$CollectionsFromEth721(Eth721 eth721, int totalSupply) => Collectio
       eth721.tokenName,
       eth721.tokenSymbol,
       eth721.tokenDecimal,
+      eth721.blockchain,
       null,
       null,
       null,

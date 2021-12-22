@@ -4,6 +4,7 @@ import 'package:faktura_nft_viewer/app/routes/slide_right_route.dart';
 import 'package:faktura_nft_viewer/app/routes/white_page_route.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
+import 'package:faktura_nft_viewer/core/utils/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -168,15 +169,8 @@ class NftPageView extends ConsumerWidget {
                                       ),
                                       Row(children: [
                                         Text(
-                                            collectionsItemList[index]
-                                                        .contractAddress
-                                                        .length >
-                                                    15
-                                                ? collectionsItemList[index]
-                                                    .contractAddress
-                                                    .substring(0, 6)
-                                                : collectionsItemList[index]
-                                                    .contractAddress,
+                                            concatAddress(collectionsItemList[index]
+                                                .contractAddress),
                                             maxLines: 1,
                                             textAlign: TextAlign.start,
                                             overflow: TextOverflow.ellipsis,
