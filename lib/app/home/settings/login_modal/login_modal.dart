@@ -53,8 +53,10 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
                                   controller: _keyController,
                                   style: state.textTheme.headline5,
                                   validator: (value) {
-                                    if (value == null || value.isEmpty || isValidEthereumAddress(_keyController.text) == false) {
-                                      return 'Please enter some Key';
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter some Address';
+                                    } else if(isValidEthereumAddress(_keyController.text) == false){
+                                      return 'Address is not valid';
                                     }
                                     return null;
                                   },
