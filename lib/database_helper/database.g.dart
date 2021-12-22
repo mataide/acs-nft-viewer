@@ -86,7 +86,7 @@ class _$FlutterDatabase extends FlutterDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Eth721` (`hash` TEXT NOT NULL, `blockNumber` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `nonce` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `transactionIndex` TEXT NOT NULL, `gas` TEXT NOT NULL, `gasPrice` TEXT NOT NULL, `gasUsed` TEXT NOT NULL, `cumulativeGasUsed` TEXT NOT NULL, `input` TEXT NOT NULL, `confirmations` TEXT NOT NULL, `blockchain` TEXT NOT NULL, PRIMARY KEY (`hash`))');
+            'CREATE TABLE IF NOT EXISTS `Eth721` (`hash` TEXT NOT NULL, `blockNumber` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `nonce` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `transactionIndex` TEXT NOT NULL, `gas` TEXT NOT NULL, `gasPrice` TEXT NOT NULL, `gasUsed` TEXT NOT NULL, `cumulativeGasUsed` TEXT NOT NULL, `input` TEXT NOT NULL, `confirmations` TEXT NOT NULL, PRIMARY KEY (`hash`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `blockchain` TEXT NOT NULL, `externalUrl` TEXT, `description` TEXT, `amount` TEXT, `image` TEXT, `totalSupply` INTEGER, PRIMARY KEY (`contractAddress`))');
         await database.execute(
@@ -141,8 +141,7 @@ class _$Eth721DAO extends Eth721DAO {
                   'gasUsed': item.gasUsed,
                   'cumulativeGasUsed': item.cumulativeGasUsed,
                   'input': item.input,
-                  'confirmations': item.confirmations,
-                  'blockchain': item.blockchain
+                  'confirmations': item.confirmations
                 }),
         _eth721UpdateAdapter = UpdateAdapter(
             database,
@@ -167,8 +166,7 @@ class _$Eth721DAO extends Eth721DAO {
                   'gasUsed': item.gasUsed,
                   'cumulativeGasUsed': item.cumulativeGasUsed,
                   'input': item.input,
-                  'confirmations': item.confirmations,
-                  'blockchain': item.blockchain
+                  'confirmations': item.confirmations
                 }),
         _eth721DeletionAdapter = DeletionAdapter(
             database,
@@ -193,8 +191,7 @@ class _$Eth721DAO extends Eth721DAO {
                   'gasUsed': item.gasUsed,
                   'cumulativeGasUsed': item.cumulativeGasUsed,
                   'input': item.input,
-                  'confirmations': item.confirmations,
-                  'blockchain': item.blockchain
+                  'confirmations': item.confirmations
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -231,8 +228,7 @@ class _$Eth721DAO extends Eth721DAO {
             row['gasUsed'] as String,
             row['cumulativeGasUsed'] as String,
             row['input'] as String,
-            row['confirmations'] as String,
-            row['blockchain'] as String));
+            row['confirmations'] as String));
   }
 
   @override
@@ -258,8 +254,7 @@ class _$Eth721DAO extends Eth721DAO {
             row['gasUsed'] as String,
             row['cumulativeGasUsed'] as String,
             row['input'] as String,
-            row['confirmations'] as String,
-            row['blockchain'] as String),
+            row['confirmations'] as String),
         arguments: [contractAddress]);
   }
 

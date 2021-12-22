@@ -43,13 +43,13 @@ class Collections {
   Collections(this.hash, this.timeStamp, this.blockHash, this.from, this.contractAddress, this.to, this.tokenID, this.tokenName, this.tokenSymbol, this.tokenDecimal, this.blockchain, this.externalUrl, this.description, this.amount, this.image, this.totalSupply);
 
 
-  factory Collections.fromEth721(Eth721 eth721, int totalSupply) => _$CollectionsFromEth721(eth721, totalSupply);
+  factory Collections.fromEth721(Eth721 eth721, String blockchain, int totalSupply) => _$CollectionsFromEth721(eth721, blockchain, totalSupply);
 
   factory Collections.fromJson(Map<String, dynamic> json) => _$CollectionsFromJson(json);
   Map<String, dynamic> toJson() => _$CollectionsToJson(this);
 }
 
-Collections _$CollectionsFromEth721(Eth721 eth721, int totalSupply) => Collections(
+Collections _$CollectionsFromEth721(Eth721 eth721, String blockchain, int totalSupply) => Collections(
       eth721.hash,
       eth721.timeStamp,
       eth721.blockHash,
@@ -60,7 +60,7 @@ Collections _$CollectionsFromEth721(Eth721 eth721, int totalSupply) => Collectio
       eth721.tokenName,
       eth721.tokenSymbol,
       eth721.tokenDecimal,
-      eth721.blockchain,
+      blockchain,
       null,
       null,
       null,

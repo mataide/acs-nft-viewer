@@ -50,7 +50,7 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
     var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
     late List<Collections> listCollections = [];
     for (var erc721 in newMap.entries) {
-      final collections = Collections.fromEth721(erc721.value.first, erc721.value.length);
+      final collections = Collections.fromEth721(erc721.value.first, "ethereum", erc721.value.length);
       listCollections.add(collections);
     }
     await collectionsDAO.insertList(listCollections);
