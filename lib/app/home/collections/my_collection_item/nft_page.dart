@@ -311,28 +311,22 @@ class NftPageView extends ConsumerWidget {
                                   decoration: BoxDecoration(
                                       color: state.primaryColorDark,
                                       borderRadius: BorderRadius.circular(8.0)),
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                    child: ListView(
+                                      itemExtent: 30,
+                                      shrinkWrap: true,
                                       children: [
-                                        Text(
-                                          'BODY',
-                                          style: state.textTheme.bodyText2,
+                                        ListTile(
+                                          title: Text('BODY',style: state.textTheme.bodyText2,),
                                         ),
-                                        Text(
-                                          'Blue Cat Skin',
-                                          style: state.textTheme.headline5,
+                                        ListTile(
+                                          title: Text('Blue Cat Skin',style: state.textTheme.headline5,),
                                         ),
-                                        Text(
-                                          '100% have this trait',
-                                          style: state.textTheme.subtitle1,
+                                        ListTile(
+                                          title: Text('100% have this trait',style: state.textTheme.subtitle1,),
                                         ),
                                       ],
-                                    ),
-                                  )),
+                          )
+                        ),
                               SizedBox(
                                 width: width * 0.02,
                               ),
@@ -342,28 +336,22 @@ class NftPageView extends ConsumerWidget {
                                   decoration: BoxDecoration(
                                       color: state.primaryColorDark,
                                       borderRadius: BorderRadius.circular(8.0)),
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'FACE',
-                                          style: state.textTheme.bodyText2,
-                                        ),
-                                        Text(
-                                          'Angry Cut',
-                                          style: state.textTheme.headline5,
-                                        ),
-                                        Text(
-                                          '3% have this trait',
-                                          style: state.textTheme.subtitle1,
-                                        ),
-                                      ],
-                                    ),
-                                  )),
+                                  child: ListView(
+                                    itemExtent: 30,
+                                    shrinkWrap: true,
+                                    children: [
+                                      ListTile(
+                                        title: Text('FACE',style: state.textTheme.bodyText2,),
+                                      ),
+                                      ListTile(
+                                        title: Text('Angry Cut',style: state.textTheme.headline5,),
+                                      ),
+                                      ListTile(
+                                        title: Text('3% have this trait',style: state.textTheme.subtitle1,),
+                                      ),
+                                    ],
+                                  )
+                              ),
                             ],
                           ),
                           SizedBox(
@@ -377,28 +365,22 @@ class NftPageView extends ConsumerWidget {
                                   decoration: BoxDecoration(
                                       color: state.primaryColorDark,
                                       borderRadius: BorderRadius.circular(8.0)),
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'SHIRT',
-                                          style: state.textTheme.bodyText2,
-                                        ),
-                                        Text(
-                                          'Pirate Red',
-                                          style: state.textTheme.headline5,
-                                        ),
-                                        Text(
-                                          '0.6% have this trait',
-                                          style: state.textTheme.subtitle1,
-                                        ),
-                                      ],
-                                    ),
-                                  )),
+                                  child: ListView(
+                                    itemExtent: 30,
+                                    shrinkWrap: true,
+                                    children: [
+                                      ListTile(
+                                        title: Text('SHIRT',style: state.textTheme.bodyText2,),
+                                      ),
+                                      ListTile(
+                                        title: Text('Pirate Red',style: state.textTheme.headline5,),
+                                      ),
+                                      ListTile(
+                                        title: Text('0.6% have this trait',style: state.textTheme.subtitle1,),
+                                      ),
+                                    ],
+                                  )
+                                  ),
                               SizedBox(
                                 width: width * 0.02,
                               ),
@@ -408,28 +390,21 @@ class NftPageView extends ConsumerWidget {
                                 decoration: BoxDecoration(
                                     color: state.primaryColorDark,
                                     borderRadius: BorderRadius.circular(8.0)),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'HATS',
-                                        style: state.textTheme.bodyText2,
-                                      ),
-                                      Text(
-                                        'Cupcake',
-                                        style: state.textTheme.headline5,
-                                      ),
-                                      Text(
-                                        '1% have this trait',
-                                        style: state.textTheme.subtitle1,
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                child: ListView(
+                                  itemExtent: 30,
+                                  shrinkWrap: true,
+                                  children: [
+                                    ListTile(
+                                      title: Text('HATS',style: state.textTheme.bodyText2,),
+                                    ),
+                                    ListTile(
+                                      title: Text('Cupcake',style: state.textTheme.headline5,),
+                                    ),
+                                    ListTile(
+                                      title: Text('1% have this trait',style: state.textTheme.subtitle1,),
+                                    ),
+                                  ],
+                                )
                               ),
                             ],
                           ),
@@ -444,29 +419,22 @@ class NftPageView extends ConsumerWidget {
                                 decoration: BoxDecoration(
                                     color: state.primaryColorDark,
                                     borderRadius: BorderRadius.circular(8.0)),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'TIER',
-                                        style: state.textTheme.bodyText2,
-                                      ),
-                                      Text(
-                                        'Wild 2',
-                                        style: state.textTheme.headline5,
-                                      ),
-                                      Text(
-                                        '12% have this trait',
-                                        style: state.textTheme.subtitle1,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                                child: ListView(
+                                  itemExtent: 30,
+                                  shrinkWrap: true,
+                                  children: [
+                                    ListTile(
+                                      title: Text('TIER',style: state.textTheme.bodyText2,),
+                                    ),
+                                    ListTile(
+                                      title: Text('Wild 2',style: state.textTheme.headline5,),
+                                    ),
+                                    ListTile(
+                                      title: Text('12% have this trait',style: state.textTheme.subtitle1,),
+                                    ),
+                                  ],
+                                )
+                          ),
                             ],
                           ),
                           SizedBox(
