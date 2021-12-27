@@ -139,9 +139,9 @@ class SettingsLoginView extends ConsumerWidget {
                         stream: networkStream,
                         builder: (context, snapshotStream) {
                           print(snapshotStream.data);
-                          print("address: $dataState.listAddress");
+                        //  print("address: $dataState.listAddress");
                           if (List<String>.from(snapshotStream.data).length >
-                                  0 &&
+                                  1 &&
                               snapshotStream.connectionState !=
                                   ConnectionState.waiting) {
                             return FutureBuilder<List<String>>(
@@ -399,7 +399,7 @@ class SettingsLoginView extends ConsumerWidget {
                     Spacer(),
                     Expanded(
                         child: Text(
-                            concatAddress(data.listAddress),
+                            concatAddress(data.listAddress[index]),
                       maxLines: 1,
                       textAlign: TextAlign.end,
                       overflow: TextOverflow.ellipsis,

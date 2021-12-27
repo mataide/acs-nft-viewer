@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:ethereum_addresses/ethereum_addresses.dart';
 import 'package:faktura_nft_viewer/app/home/collections/my_collection_item/nft_screen.dart';
 import 'package:faktura_nft_viewer/app/routes/slide_right_route.dart';
 import 'package:faktura_nft_viewer/app/routes/white_page_route.dart';
@@ -47,7 +48,7 @@ class NftPageView extends ConsumerWidget {
             ),
             onPressed: () async {
               showLoadingDialog(context, state);
-              await Future.delayed(Duration(seconds: 1));
+              await Future.delayed(Duration(milliseconds: 1000));
               _setWallpaper(context);
             },
           ),
@@ -176,7 +177,7 @@ class NftPageView extends ConsumerWidget {
                                             overflow: TextOverflow.ellipsis,
                                             softWrap: false,
                                             style: state.textTheme.headline5),
-                                        Text(
+                                       /* Text(
                                           collectionsItemList[index]
                                                       .contractAddress
                                                       .length >
@@ -184,8 +185,8 @@ class NftPageView extends ConsumerWidget {
                                               ? '.........'
                                               : "",
                                           style: state.textTheme.headline5,
-                                        ),
-                                        Text(
+                                        ),*/
+                                        /*Text(
                                           collectionsItemList[index]
                                                       .contractAddress
                                                       .length >
@@ -202,7 +203,7 @@ class NftPageView extends ConsumerWidget {
                                           //textAlign: TextAlign.start,
                                           softWrap: false,
                                           style: state.textTheme.headline5,
-                                        ),
+                                        ),*/
                                       ]),
                                       SizedBox(
                                         width: width * 0.4,
@@ -280,7 +281,8 @@ class NftPageView extends ConsumerWidget {
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          'Bloc ETH',
+                                          isValidEthereumAddress(collectionsItemList[index].contractAddress) == true ? "Ethereum":
+                                          "Bloc Other",
                                           style: state.textTheme.headline5,
                                         ),
                                       ),
@@ -495,6 +497,7 @@ class NftPageView extends ConsumerWidget {
         .getSingleFile(collectionsItemList[index].image!);
     try {
       final int result = await platform.invokeMethod('setWallpaper', file.path);
+      showToast('Concluded.');
       print('Wallpaer Updated.... $result');
     } on PlatformException catch (e) {
       print("Failed to Set Wallpaper: '${e.message}'.");
