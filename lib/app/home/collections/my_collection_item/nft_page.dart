@@ -500,6 +500,7 @@ class NftPageView extends ConsumerWidget {
       showToast('Concluded.');
       print('Wallpaer Updated.... $result');
     } on PlatformException catch (e) {
+      showToast('Error.');
       print("Failed to Set Wallpaper: '${e.message}'.");
     }
     Navigator.pop(context);

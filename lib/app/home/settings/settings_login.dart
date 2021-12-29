@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:faktura_nft_viewer/controllers/home/home_collections_controller.dart';
 import 'package:faktura_nft_viewer/controllers/home/settings/settings_login_controller.dart';
 import 'package:faktura_nft_viewer/app/home/settings/login_modal/login_modal.dart';
 import 'package:faktura_nft_viewer/core/utils/util.dart';
@@ -22,20 +23,21 @@ class SettingsLoginView extends ConsumerWidget {
     final state = ref.watch(themeProvider);
     final dataState = ref.read(loginProvider.notifier);
     final data = ref.watch(loginProvider);
-
     final _deviceHeight = MediaQuery.of(context).size.height;
     final _deviceWidth = MediaQuery.of(context).size.width;
     final navigator = Navigator.of(context);
+    final controller = ref.read(homeCollectionsProvider.notifier);
     final networkStream = eventChannel.receiveBroadcastStream().distinct().map(
         (dynamic event) => event == "disconnected" || event == null
             ? [].cast<String>()
             : [event]);
 
-    return _buildUI(state, data, dataState, _deviceHeight, _deviceWidth,
+    return _buildUI(controller,state, data, dataState, _deviceHeight, _deviceWidth,
         navigator, networkStream, context);
   }
 
   Widget _buildUI(
+      controller,
       state,
       SettingsLoginState data,
       SettingsLoginController dataState,
@@ -57,7 +59,7 @@ class SettingsLoginView extends ConsumerWidget {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                _walletsWidget(state, data, dataState, _deviceHeight,
+                _walletsWidget(controller,state, data, dataState, _deviceHeight,
                     _deviceWidth, navigator, networkStream, context)
               ],
             ),
@@ -66,6 +68,7 @@ class SettingsLoginView extends ConsumerWidget {
   }
 
   Widget _walletsWidget(
+      controller,
       state,
       SettingsLoginState data,
       SettingsLoginController dataState,
@@ -166,7 +169,9 @@ class SettingsLoginView extends ConsumerWidget {
                                                 color: state.textTheme
                                                     .bodyText1!.color)));
                                   else
+                                    controller.onRefresh();
                                     return _listAddressWidget(
+                                        controller,
                                         state,
                                         data,
                                         dataState,
@@ -180,7 +185,9 @@ class SettingsLoginView extends ConsumerWidget {
                             );
                           } else if (data.listAddress.length > 0 &&
                               data.listAddress.isNotEmpty) {
+                            controller.onRefresh();
                             return _listAddressWidget(
+                                controller,
                                 state,
                                 data,
                                 dataState,
@@ -248,6 +255,7 @@ class SettingsLoginView extends ConsumerWidget {
   }
 
   Widget _listAddressWidget(
+      controller,
       state,
       SettingsLoginState data,
       SettingsLoginController dataState,
