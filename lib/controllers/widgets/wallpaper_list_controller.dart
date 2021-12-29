@@ -59,8 +59,7 @@ class WallpaperListController extends StateNotifier<WallpaperListState> {
         quality: 75,
       ))!;
     }
-
-    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.id, '${jsonData['name']} #${collections.id}', description: jsonData['description'], contentType: contentType, image: image);
+    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.id, '${jsonData['name']} #${collections.id}', description: jsonData['description'], contentType: contentType, image: image, video: jsonData['image']);
     collectionsItemDAO.create(collectionsItem);
     return collectionsItem;
   }

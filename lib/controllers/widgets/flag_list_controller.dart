@@ -48,6 +48,7 @@ class FlagListController extends StateNotifier<FlagListState> {
     final jsonData = json.decode(utf8.decode(res.bodyBytes));
     var image = ipfsToHTTP((jsonData['image'] as String));
 
+
     final head = await httpClient.head(Uri.parse(image), headers: {"Accept": "aplication/json"});
     final contentType = head.headers['content-type'] as String;
 
@@ -66,7 +67,7 @@ class FlagListController extends StateNotifier<FlagListState> {
     collections.description = jsonData['description'];
     collections.externalUrl = jsonData['external_url'];
     collectionsDAO.update(collections);
-    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.tokenID, '${jsonData['name']} #${collections.tokenID}', description: jsonData['description'], contentType: contentType, image: image);
+    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.tokenID, '${jsonData['name']} #${collections.tokenID}', description: jsonData['description'], contentType: contentType, image: image,video: jsonData['image']);
     collectionsItemDAO.create(collectionsItem);
     return image;
   }

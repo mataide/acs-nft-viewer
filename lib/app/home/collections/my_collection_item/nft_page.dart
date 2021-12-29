@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image_downloader/image_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share/share.dart';
@@ -68,8 +69,7 @@ class NftPageView extends ConsumerWidget {
             ),
             onPressed: () {
               if (type!.contains("video")) {
-                showToast("Invalid Format.");
-                Navigator.pop(context);
+                _saveNetworkVideo();
               } else {
                 downloadImage();
               }
@@ -495,8 +495,8 @@ class NftPageView extends ConsumerWidget {
 
       if (status == PermissionStatus.granted) {
         try {
-          showToast('Check the notification to see progress.');
 
+          showToast('Check the notification to see progress.');
           var imageId = await ImageDownloader.downloadImage(
               collectionsItemList[index].image!,
               destination: AndroidDestinationType.directoryPictures);
@@ -541,6 +541,28 @@ class NftPageView extends ConsumerWidget {
       print("Failed to Set Wallpaper: '${e.message}'.");
     }
     Navigator.pop(context);
+  }
+  void _saveNetworkVideo() async {
+    try {
+      PermissionStatus status = await Permission.storage.status;
+      if (status == PermissionStatus.granted) {
+        try {
+          String? path = collectionsItemList[index].video;
+          GallerySaver.saveVideo(path!,
+              albumName: collectionsItemList[index].name);
+        } on PlatformException catch (error) {
+          print(error);
+        }
+      } else {
+        if (await Permission.storage.request().isGranted) {
+          _saveNetworkVideo();
+        } else {
+          showToast('Please grant storage permission.');
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   void showLoadingDialog(BuildContext context, state) {

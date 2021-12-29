@@ -25,7 +25,9 @@ class CollectionsItem {
 
   String? image;
 
-  CollectionsItem(this.contractAddress, this.hash, this.id, this.name,{this.description, this.contentType, this.thumbnail, this.image});
+  String? video;
+
+  CollectionsItem(this.contractAddress, this.hash, this.id, this.name,{this.description, this.contentType, this.thumbnail, this.image, this.video});
 
 
   factory CollectionsItem.fromJson(Map<String, dynamic> json) => _$CollectionsItemFromJson(json);

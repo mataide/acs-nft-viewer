@@ -35,6 +35,8 @@ dependencies:
   pull_to_refresh: ^2.0.0
   flutter_cache_manager: ^3.3.0
   ethereum_addresses: ^1.0.2
+  gallery_saver: ^2.3.2
+
 
 dev_dependencies:
   floor_generator: ^1.2.0
