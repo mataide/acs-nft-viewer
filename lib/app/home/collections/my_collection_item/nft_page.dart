@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:ethereum_addresses/ethereum_addresses.dart';
 import 'package:faktura_nft_viewer/app/home/collections/my_collection_item/nft_screen.dart';
 import 'package:faktura_nft_viewer/app/routes/slide_right_route.dart';
@@ -35,6 +36,8 @@ class NftPageView extends ConsumerWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
+    var type = collectionsItemList[index].contentType;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: state.primaryColor,
@@ -49,7 +52,12 @@ class NftPageView extends ConsumerWidget {
             onPressed: () async {
               showLoadingDialog(context, state);
               await Future.delayed(Duration(milliseconds: 1000));
-              _setWallpaper(context);
+              if (type!.contains("video")) {
+                showToast("Invalid Format.");
+                Navigator.pop(context);
+              } else {
+                _setWallpaper(context);
+              }
             },
           ),
           IconButton(
@@ -59,7 +67,12 @@ class NftPageView extends ConsumerWidget {
               color: state.textTheme.caption!.color,
             ),
             onPressed: () {
-              downloadImage();
+              if (type!.contains("video")) {
+                showToast("Invalid Format.");
+                Navigator.pop(context);
+              } else {
+                downloadImage();
+              }
             },
           ),
           IconButton(
@@ -69,8 +82,13 @@ class NftPageView extends ConsumerWidget {
               color: state.textTheme.caption!.color,
             ),
             onPressed: () {
-              Share.share(
-                  'Checkout this amazing NFT mine. ${collectionsItemList[index].image}');
+              if (type!.contains("video")) {
+                showToast("Format not allowed.");
+                Navigator.pop(context);
+              } else {
+                Share.share(
+                    'Checkout this amazing NFT mine. ${collectionsItemList[index].image}');
+              }
             },
           ),
         ],
@@ -170,40 +188,14 @@ class NftPageView extends ConsumerWidget {
                                       ),
                                       Row(children: [
                                         Text(
-                                            concatAddress(collectionsItemList[index]
-                                                .contractAddress),
+                                            concatAddress(
+                                                collectionsItemList[index]
+                                                    .contractAddress),
                                             maxLines: 1,
                                             textAlign: TextAlign.start,
                                             overflow: TextOverflow.ellipsis,
                                             softWrap: false,
                                             style: state.textTheme.headline5),
-                                       /* Text(
-                                          collectionsItemList[index]
-                                                      .contractAddress
-                                                      .length >
-                                                  15
-                                              ? '.........'
-                                              : "",
-                                          style: state.textTheme.headline5,
-                                        ),*/
-                                        /*Text(
-                                          collectionsItemList[index]
-                                                      .contractAddress
-                                                      .length >
-                                                  15
-                                              ? collectionsItemList[index]
-                                                  .contractAddress
-                                                  .substring(
-                                                      collectionsItemList[index]
-                                                              .contractAddress
-                                                              .length -
-                                                          4)
-                                              : '',
-                                          maxLines: 1,
-                                          //textAlign: TextAlign.start,
-                                          softWrap: false,
-                                          style: state.textTheme.headline5,
-                                        ),*/
                                       ]),
                                       SizedBox(
                                         width: width * 0.4,
@@ -281,8 +273,12 @@ class NftPageView extends ConsumerWidget {
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          isValidEthereumAddress(collectionsItemList[index].contractAddress) == true ? "Ethereum":
-                                          "Bloc Other",
+                                          isValidEthereumAddress(
+                                                      collectionsItemList[index]
+                                                          .contractAddress) ==
+                                                  true
+                                              ? "Ethereum"
+                                              : "Bloc Other",
                                           style: state.textTheme.headline5,
                                         ),
                                       ),
@@ -313,22 +309,30 @@ class NftPageView extends ConsumerWidget {
                                   decoration: BoxDecoration(
                                       color: state.primaryColorDark,
                                       borderRadius: BorderRadius.circular(8.0)),
-                                    child: ListView(
-                                      itemExtent: 30,
-                                      shrinkWrap: true,
-                                      children: [
-                                        ListTile(
-                                          title: Text('BODY',style: state.textTheme.bodyText2,),
+                                  child: ListView(
+                                    itemExtent: 30,
+                                    shrinkWrap: true,
+                                    children: [
+                                      ListTile(
+                                        title: Text(
+                                          'BODY',
+                                          style: state.textTheme.bodyText2,
                                         ),
-                                        ListTile(
-                                          title: Text('Blue Cat Skin',style: state.textTheme.headline5,),
+                                      ),
+                                      ListTile(
+                                        title: Text(
+                                          'Blue Cat Skin',
+                                          style: state.textTheme.headline5,
                                         ),
-                                        ListTile(
-                                          title: Text('100% have this trait',style: state.textTheme.subtitle1,),
+                                      ),
+                                      ListTile(
+                                        title: Text(
+                                          '100% have this trait',
+                                          style: state.textTheme.subtitle1,
                                         ),
-                                      ],
-                          )
-                        ),
+                                      ),
+                                    ],
+                                  )),
                               SizedBox(
                                 width: width * 0.02,
                               ),
@@ -343,17 +347,25 @@ class NftPageView extends ConsumerWidget {
                                     shrinkWrap: true,
                                     children: [
                                       ListTile(
-                                        title: Text('FACE',style: state.textTheme.bodyText2,),
+                                        title: Text(
+                                          'FACE',
+                                          style: state.textTheme.bodyText2,
+                                        ),
                                       ),
                                       ListTile(
-                                        title: Text('Angry Cut',style: state.textTheme.headline5,),
+                                        title: Text(
+                                          'Angry Cut',
+                                          style: state.textTheme.headline5,
+                                        ),
                                       ),
                                       ListTile(
-                                        title: Text('3% have this trait',style: state.textTheme.subtitle1,),
+                                        title: Text(
+                                          '3% have this trait',
+                                          style: state.textTheme.subtitle1,
+                                        ),
                                       ),
                                     ],
-                                  )
-                              ),
+                                  )),
                             ],
                           ),
                           SizedBox(
@@ -372,42 +384,58 @@ class NftPageView extends ConsumerWidget {
                                     shrinkWrap: true,
                                     children: [
                                       ListTile(
-                                        title: Text('SHIRT',style: state.textTheme.bodyText2,),
+                                        title: Text(
+                                          'SHIRT',
+                                          style: state.textTheme.bodyText2,
+                                        ),
                                       ),
                                       ListTile(
-                                        title: Text('Pirate Red',style: state.textTheme.headline5,),
+                                        title: Text(
+                                          'Pirate Red',
+                                          style: state.textTheme.headline5,
+                                        ),
                                       ),
                                       ListTile(
-                                        title: Text('0.6% have this trait',style: state.textTheme.subtitle1,),
+                                        title: Text(
+                                          '0.6% have this trait',
+                                          style: state.textTheme.subtitle1,
+                                        ),
                                       ),
                                     ],
-                                  )
-                                  ),
+                                  )),
                               SizedBox(
                                 width: width * 0.02,
                               ),
                               Container(
-                                height: height * 0.14,
-                                width: width * 0.47,
-                                decoration: BoxDecoration(
-                                    color: state.primaryColorDark,
-                                    borderRadius: BorderRadius.circular(8.0)),
-                                child: ListView(
-                                  itemExtent: 30,
-                                  shrinkWrap: true,
-                                  children: [
-                                    ListTile(
-                                      title: Text('HATS',style: state.textTheme.bodyText2,),
-                                    ),
-                                    ListTile(
-                                      title: Text('Cupcake',style: state.textTheme.headline5,),
-                                    ),
-                                    ListTile(
-                                      title: Text('1% have this trait',style: state.textTheme.subtitle1,),
-                                    ),
-                                  ],
-                                )
-                              ),
+                                  height: height * 0.14,
+                                  width: width * 0.47,
+                                  decoration: BoxDecoration(
+                                      color: state.primaryColorDark,
+                                      borderRadius: BorderRadius.circular(8.0)),
+                                  child: ListView(
+                                    itemExtent: 30,
+                                    shrinkWrap: true,
+                                    children: [
+                                      ListTile(
+                                        title: Text(
+                                          'HATS',
+                                          style: state.textTheme.bodyText2,
+                                        ),
+                                      ),
+                                      ListTile(
+                                        title: Text(
+                                          'Cupcake',
+                                          style: state.textTheme.headline5,
+                                        ),
+                                      ),
+                                      ListTile(
+                                        title: Text(
+                                          '1% have this trait',
+                                          style: state.textTheme.subtitle1,
+                                        ),
+                                      ),
+                                    ],
+                                  )),
                             ],
                           ),
                           SizedBox(
@@ -416,27 +444,35 @@ class NftPageView extends ConsumerWidget {
                           Row(
                             children: [
                               Container(
-                                height: height * 0.14,
-                                width: width * 0.47,
-                                decoration: BoxDecoration(
-                                    color: state.primaryColorDark,
-                                    borderRadius: BorderRadius.circular(8.0)),
-                                child: ListView(
-                                  itemExtent: 30,
-                                  shrinkWrap: true,
-                                  children: [
-                                    ListTile(
-                                      title: Text('TIER',style: state.textTheme.bodyText2,),
-                                    ),
-                                    ListTile(
-                                      title: Text('Wild 2',style: state.textTheme.headline5,),
-                                    ),
-                                    ListTile(
-                                      title: Text('12% have this trait',style: state.textTheme.subtitle1,),
-                                    ),
-                                  ],
-                                )
-                          ),
+                                  height: height * 0.14,
+                                  width: width * 0.47,
+                                  decoration: BoxDecoration(
+                                      color: state.primaryColorDark,
+                                      borderRadius: BorderRadius.circular(8.0)),
+                                  child: ListView(
+                                    itemExtent: 30,
+                                    shrinkWrap: true,
+                                    children: [
+                                      ListTile(
+                                        title: Text(
+                                          'TIER',
+                                          style: state.textTheme.bodyText2,
+                                        ),
+                                      ),
+                                      ListTile(
+                                        title: Text(
+                                          'Wild 2',
+                                          style: state.textTheme.headline5,
+                                        ),
+                                      ),
+                                      ListTile(
+                                        title: Text(
+                                          '12% have this trait',
+                                          style: state.textTheme.subtitle1,
+                                        ),
+                                      ),
+                                    ],
+                                  )),
                             ],
                           ),
                           SizedBox(
@@ -495,6 +531,7 @@ class NftPageView extends ConsumerWidget {
   void _setWallpaper(BuildContext context) async {
     var file = await DefaultCacheManager()
         .getSingleFile(collectionsItemList[index].image!);
+
     try {
       final int result = await platform.invokeMethod('setWallpaper', file.path);
       showToast('Concluded.');

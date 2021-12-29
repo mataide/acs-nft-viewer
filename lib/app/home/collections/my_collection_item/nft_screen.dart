@@ -29,6 +29,8 @@ class NftScreen extends ConsumerWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
+    var type = collectionsItemList[index].contentType;
+
     return Scaffold(
         backgroundColor: state.primaryColor,
         body: Stack(
@@ -96,8 +98,13 @@ class NftScreen extends ConsumerWidget {
                         ),
                         onPressed: () async {
                           showLoadingDialog(context, state);
-                          await Future.delayed(Duration(seconds: 1));
-                          _setWallpaper(context);
+                          await Future.delayed(Duration(milliseconds: 1000));
+                          if (type!.contains("video")) {
+                            showToast("Invalid Format.");
+                            Navigator.pop(context);
+                          } else {
+                            _setWallpaper(context);
+                          }
                         },
                       )),
                   SizedBox(
@@ -113,7 +120,12 @@ class NftScreen extends ConsumerWidget {
                           color: state.textTheme.caption!.color,
                         ),
                         onPressed: () {
-                          downloadImage();
+                          if (type!.contains("video")) {
+                            showToast("Invalid Format.");
+                            Navigator.pop(context);
+                          } else {
+                            downloadImage();
+                          }
                         },
                       )),
                   SizedBox(
@@ -129,8 +141,13 @@ class NftScreen extends ConsumerWidget {
                           color: state.textTheme.caption!.color,
                         ),
                         onPressed: () {
-                          Share.share(
-                              'Checkout this amazing NFT mine. ${collectionsItemList[index].image}');
+                          if (type!.contains("video")) {
+                            showToast("Format not allowed.");
+                            Navigator.pop(context);
+                          } else {
+                            Share.share(
+                                'Checkout this amazing NFT mine. ${collectionsItemList[index].image}');
+                          }
                         },
                       )),
                   SizedBox(
@@ -179,10 +196,13 @@ class NftScreen extends ConsumerWidget {
     }
   }
 
-  void showToast(String content) => Fluttertoast.showToast(
-      msg: content,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM);
+  void showToast(
+    String content,
+  ) =>
+      Fluttertoast.showToast(
+          msg: content,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM);
 
   void _setWallpaper(BuildContext context) async {
     var file = await DefaultCacheManager()
