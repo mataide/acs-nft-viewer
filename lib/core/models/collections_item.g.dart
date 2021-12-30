@@ -29,5 +29,5 @@ Map<String, dynamic> _$CollectionsItemToJson(CollectionsItem instance) =>
       'contentType': instance.contentType,
       'thumbnail': instance.thumbnail,
       'image': instance.image,
-      'video': instance.video
+      'image': instance.video
     };

@@ -79,7 +79,7 @@ class CardListController extends StateNotifier<CardListState> {
       ))!;
     }
 
-    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.id, '${jsonData['name']} #${collections.id}', description: jsonData['description'], contentType: contentType, image: image);
+    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.id, '${jsonData['name']} #${collections.id}', description: jsonData['description'], contentType: contentType, image: image,video: jsonData['image']);
     collectionsItemDAO.create(collectionsItem);
     return collectionsItem;
   }

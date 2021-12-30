@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -11,10 +10,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_downloader/image_downloader.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share/share.dart';
-import 'package:gallery_saver/gallery_saver.dart';
+
 
 class NftScreen extends ConsumerWidget {
   final List<CollectionsItem> collectionsItemList;
@@ -102,12 +100,7 @@ class NftScreen extends ConsumerWidget {
                         onPressed: () async {
                           showLoadingDialog(context, state);
                           await Future.delayed(Duration(milliseconds: 1000));
-                          if (type!.contains("video")) {
-                            showToast("Invalid Format.");
-                            Navigator.pop(context);
-                          } else {
-                            _setWallpaper(context);
-                          }
+                          _setWallpaper(context);
                         },
                       )),
                   SizedBox(
@@ -123,11 +116,7 @@ class NftScreen extends ConsumerWidget {
                           color: state.textTheme.caption!.color,
                         ),
                         onPressed: () {
-                          if (type!.contains("video")) {
-                            _saveNetworkVideo();
-                          } else {
-                            downloadImage();
-                          }
+                          downloadImage();
                         },
                       )),
                   SizedBox(
@@ -144,8 +133,8 @@ class NftScreen extends ConsumerWidget {
                         ),
                         onPressed: () {
                           if (type!.contains("video")) {
-                            showToast("Format not allowed.");
-                            Navigator.pop(context);
+                            Share.share(
+                                'Checkout this amazing NFT mine. ${collectionsItemList[index].video}');
                           } else {
                             Share.share(
                                 'Checkout this amazing NFT mine. ${collectionsItemList[index].image}');
@@ -163,42 +152,29 @@ class NftScreen extends ConsumerWidget {
           ],
         ));
   }
- 
-  void _saveNetworkVideo() async {
-    try {
-      PermissionStatus status = await Permission.storage.status;
-      if (status == PermissionStatus.granted) {
-        try {
-          String? path = collectionsItemList[index].video;
-          GallerySaver.saveVideo(path!,
-              albumName: collectionsItemList[index].name);
-        } on PlatformException catch (error) {
-          print(error);
-        }
-      } else {
-        if (await Permission.storage.request().isGranted) {
-          _saveNetworkVideo();
-        } else {
-          showToast('Please grant storage permission.');
-        }
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
 
   void downloadImage() async {
+    var type = collectionsItemList[index].contentType;
     try {
       PermissionStatus status = await Permission.storage.status;
       if (status == PermissionStatus.granted) {
         try {
           showToast('Check the notification to see progress.');
-          var imageId = await ImageDownloader.downloadImage(
-              collectionsItemList[index].image!,
-              destination: AndroidDestinationType.directoryPictures);
+          if (type!.contains("video")) {
+            var imageId = await ImageDownloader.downloadImage(
+                collectionsItemList[index].video!,
+                destination: AndroidDestinationType.directoryMovies);
+            if (imageId == null) {
+              return;
+            }
+          } else {
+            var imageId = await ImageDownloader.downloadImage(
+                collectionsItemList[index].image!,
+                destination: AndroidDestinationType.directoryPictures);
 
-          if (imageId == null) {
-            return;
+            if (imageId == null) {
+              return;
+            }
           }
         } on PlatformException catch (error) {
           print(error);
@@ -228,13 +204,20 @@ class NftScreen extends ConsumerWidget {
           gravity: ToastGravity.BOTTOM);
 
   void _setWallpaper(BuildContext context) async {
-    var file = await DefaultCacheManager()
-        .getSingleFile(collectionsItemList[index].image!);
-    try {
-      final int result = await platform.invokeMethod('setWallpaper', file.path);
-      print('Wallpaer Updated.... $result');
-    } on PlatformException catch (e) {
-      print("Failed to Set Wallpaper: '${e.message}'.");
+    var type = collectionsItemList[index].contentType;
+    if (type!.contains("video")) {
+      showToast(
+          "Invalid " + collectionsItemList[index].contentType! + " Format.");
+    } else {
+      var file = await DefaultCacheManager()
+          .getSingleFile(collectionsItemList[index].image!);
+      try {
+        final int result =
+            await platform.invokeMethod('setWallpaper', file.path);
+        print('Wallpaer Updated.... $result');
+      } on PlatformException catch (e) {
+        print("Failed to Set Wallpaper: '${e.message}'.");
+      }
     }
     Navigator.pop(context);
   }
