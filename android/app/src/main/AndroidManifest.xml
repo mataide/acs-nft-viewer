@@ -7,7 +7,8 @@
     <application
         android:label="Faktura: NFT Viewer"
         android:icon="@mipmap/ic_launcher"
-        android:networkSecurityConfig="@xml/network_config">
+        android:networkSecurityConfig="@xml/network_config"
+        android:requestLegacyExternalStorage="true">
 
         <activity
             android:name=".MainActivity"
