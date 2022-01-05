@@ -7,21 +7,27 @@ import 'package:faktura_nft_viewer/core/utils/constants.dart';
 // Providers
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 
-SharedPreferences? prefs;
+import 'controllers/home/settings/settings_login_controller.dart';
 
-void main() {
+
+SharedPreferences? prefs;
+SharedPreferences? preferences;
+
+void main()  {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.getInstance().then((shared) {
     prefs = shared;
     runApp(ProviderScope(child: MyApp()));
-  });
+    });
+
 }
 
 class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themesNotifier = ref.watch(themeProvider.notifier);
+    final themesNotifier = ref.read(themeProvider.notifier);
     themesNotifier.setTheme(themes[prefs!.getInt("theme") ?? 1]);
+    //sharedPrefs.init();
 
     return MaterialApp(
       theme: themesNotifier.getTheme(),
@@ -31,6 +37,6 @@ class MyApp extends ConsumerWidget {
         '/home': (context) => HomePage(),
       },
       home: HomePage(),
-    );
+        );
   }
 }

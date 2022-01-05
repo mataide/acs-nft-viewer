@@ -51,6 +51,9 @@ class FlagListWidget extends ConsumerWidget {
                             child:
                                 Text('getCollectionImage: ${snapshot.error}'));
                       else
+                        print(collectionsList[index].image);
+                        print(collectionsList[index].description);
+
                         return InkWell(
                             splashColor: state.accentColor,
                             onTap: () {

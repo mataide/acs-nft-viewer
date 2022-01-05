@@ -169,7 +169,7 @@ class NftScreen extends ConsumerWidget {
             }
           } else {
             var imageId = await ImageDownloader.downloadImage(
-                collectionsItemList[index].image!,
+                collectionsItemList[index].video!,
                 destination: AndroidDestinationType.directoryPictures);
 
             if (imageId == null) {

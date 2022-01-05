@@ -9,13 +9,16 @@ class SettingsLoginState {
   final eventChannel;
   final bool isExpanded;
 
+
   const SettingsLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler"), this.isExpanded = false});
 }
 
 class SettingsLoginController extends StateNotifier<SettingsLoginState> {
   SettingsLoginController([SettingsLoginState? state]) : super(SettingsLoginState()) {
     sharedRead();
+
   }
+  static SharedPreferences? _sharedPrefs;
 
   Future<List<String>> sharedWrite(address) async {
     print("address: '$address'.");
@@ -52,6 +55,7 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
      state = SettingsLoginState(listAddress: state.listAddress, isExpanded: !state.isExpanded);
   }
 
+
   openMetaMask() async {
     const platform = const MethodChannel('com.bimsina.re_walls/MainActivity');
     try {
@@ -60,7 +64,22 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
       print("Failed to initWalletConnection: '${e.message}'.");
     }
   }
+
+  init() async {
+    if (_sharedPrefs == null) {
+      _sharedPrefs = await SharedPreferences.getInstance();
+    }
+  }
+
+  List<String> get listAddress => _sharedPrefs!.getStringList('key') ?? [];
+
+  set listAddress(List<String> listAddress) {
+    _sharedPrefs!.setStringList('key', listAddress);
+  }
 }
+
+final sharedPrefs = SettingsLoginController();
+
 
 extension ListExtension<E> on List<E> {
   void addUnique(E element) {
@@ -69,3 +88,5 @@ extension ListExtension<E> on List<E> {
     }
   }
 }
+
+

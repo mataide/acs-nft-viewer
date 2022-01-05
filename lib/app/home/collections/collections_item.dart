@@ -123,7 +123,8 @@ class CollectionsItemView extends ConsumerWidget {
                             Align(
                                 alignment: Alignment.centerLeft,
                                 child: ReadMoreText(
-                                  dataState.collections.description,
+                                  dataState.collections.description == null || dataState.collections.description.toString() == "" ? "Not about"
+                                      : dataState.collections.description,
                                   style: state.textTheme.subtitle1,
                                   trimLines: 4,
                                   colorClickableText: state.buttonColor,
@@ -184,6 +185,7 @@ class CollectionsItemView extends ConsumerWidget {
                 AsyncSnapshot<List<CollectionsItem>> snapshot) {
               // AsyncSnapshot<Your object type>
               if (snapshot.connectionState == ConnectionState.waiting) {
+                print(snapshot.data);
                 return Center(
                     child: Text(
                   'Please wait its loading...',
@@ -191,7 +193,8 @@ class CollectionsItemView extends ConsumerWidget {
                 ));
               } else {
                 if (snapshot.hasError)
-                  return Center(
+                  return
+                Center(
                       child: Text('getCollectionImage: ${snapshot.error}'));
                 else
                   return WallpaperListWidget(snapshot.data!);
