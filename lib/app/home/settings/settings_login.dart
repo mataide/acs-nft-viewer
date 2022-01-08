@@ -32,8 +32,8 @@ class SettingsLoginView extends ConsumerWidget {
             ? [].cast<String>()
             : [event]);
 
-    return _buildUI(controller,state, data, dataState, _deviceHeight, _deviceWidth,
-        navigator, networkStream, context);
+    return _buildUI(controller, state, data, dataState, _deviceHeight,
+        _deviceWidth, navigator, networkStream, context);
   }
 
   Widget _buildUI(
@@ -59,8 +59,16 @@ class SettingsLoginView extends ConsumerWidget {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                _walletsWidget(controller,state, data, dataState, _deviceHeight,
-                    _deviceWidth, navigator, networkStream, context)
+                _walletsWidget(
+                    controller,
+                    state,
+                    data,
+                    dataState,
+                    _deviceHeight,
+                    _deviceWidth,
+                    navigator,
+                    networkStream,
+                    context)
               ],
             ),
           ),
@@ -77,6 +85,7 @@ class SettingsLoginView extends ConsumerWidget {
       navigator,
       networkStream,
       BuildContext context) {
+    //SettingsLoginController();
     return Container(
         margin: EdgeInsets.only(
             left: (_deviceWidth * 0.02), right: (_deviceWidth * 0.02)),
@@ -119,117 +128,91 @@ class SettingsLoginView extends ConsumerWidget {
             SizedBox(
               height: _deviceHeight * 0.008,
             ),
-            FutureBuilder<List<String>>(
-              future: dataState.sharedRead(),
-              // function where you call your api
-              builder:
-                  (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-                // AsyncSnapshot<Your object type>
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                      child: Text('Please wait its loading...',
-                          style: TextStyle(
-                              color: state.textTheme.bodyText1!.color)));
-                } else {
-                  if (snapshot.hasError)
-                    return Center(
-                        child: Text('Error: ${snapshot.error}',
-                            style: TextStyle(
-                                color: state.textTheme.bodyText1!.color)));
-                  else
-                    return StreamBuilder<dynamic>(
-                        initialData: snapshot.data,
-                        stream: networkStream,
-                        builder: (context, snapshotStream) {
-                          print(snapshotStream.data);
-                        //  print("address: $dataState.listAddress");
-                          if (List<String>.from(snapshotStream.data).length >
-                                  1 &&
-                              snapshotStream.connectionState !=
-                                  ConnectionState.waiting) {
-                            return FutureBuilder<List<String>>(
-                              future: dataState.sharedWrite(
-                                  List<String>.from(snapshotStream.data).first),
-                              // function where you call your api
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<List<String>> snapshot) {
-                                // AsyncSnapshot<Your object type>
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return Center(
-                                      child: Text('Please wait its loading...',
-                                          style: TextStyle(
-                                              color: state.textTheme.bodyText1!
-                                                  .color)));
-                                } else {
-                                  if (snapshot.hasError)
-                                    return Center(
-                                        child: Text('Error: ${snapshot.error}',
-                                            style: TextStyle(
-                                                color: state.textTheme
-                                                    .bodyText1!.color)));
-                                  else
-                                    controller.onRefresh();
-                                    return _listAddressWidget(
-                                        controller,
-                                        state,
-                                        data,
-                                        dataState,
-                                        _deviceHeight,
-                                        _deviceWidth,
-                                        navigator,
-                                        networkStream,
-                                        context);
-                                }
-                              },
-                            );
-                          } else if (data.listAddress.length > 0 &&
-                              data.listAddress.isNotEmpty) {
+            StreamBuilder<dynamic>(
+                initialData: data.listAddress,
+                stream: networkStream,
+                builder: (context, snapshotStream) {
+                  if (List<String>.from(snapshotStream.data).length > 0 &&
+                      snapshotStream.connectionState !=
+                          ConnectionState.waiting) {
+                    return FutureBuilder<List<String>>(
+                      future: dataState.sharedWrite(
+                          List<String>.from(snapshotStream.data).first),
+                      // function where you call your api
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<String>> snapshot) {
+                        // AsyncSnapshot<Your object type>
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                              child: Text('Please wait its loading...',
+                                  style: TextStyle(
+                                      color:
+                                          state.textTheme.bodyText1!.color)));
+                        } else {
+                          if (snapshot.hasError)
+                            return Center(
+                                child: Text('Error: ${snapshot.error}',
+                                    style: TextStyle(
+                                        color:
+                                            state.textTheme.bodyText1!.color)));
+                          else
                             controller.onRefresh();
-                            return _listAddressWidget(
-                                controller,
-                                state,
-                                data,
-                                dataState,
-                                _deviceHeight,
-                                _deviceWidth,
-                                navigator,
-                                networkStream,
-                                context);
-                          } else {
-                            //TODO: Replace with empty placeholder
-                            return Column(children: [
-                              Container(
-                                  margin: EdgeInsets.only(
-                                      left: (_deviceWidth * 0.02),
-                                      right: (_deviceWidth * 0.02)),
-                                  height: _deviceHeight * 0.09,
-                                  decoration: BoxDecoration(
-                                      border:
-                                          Border.all(color: state.primaryColor),
-                                      color: state.primaryColorDark,
-                                      borderRadius:
-                                          BorderRadius.circular(15.0)),
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                        left: (_deviceWidth * 0.04)),
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "No connected wallet",
-                                        style: state.textTheme.headline5,
-                                      ),
-                                    ),
-                                  )),
-                              SizedBox(
-                                height: _deviceHeight * 0.018,
-                              )
-                            ]);
-                          }
-                        });
-                }
-              },
-            ),
+                          return _listAddressWidget(
+                              controller,
+                              state,
+                              data,
+                              dataState,
+                              _deviceHeight,
+                              _deviceWidth,
+                              navigator,
+                              networkStream,
+                              context);
+                        }
+                      },
+                    );
+                  } else if (data.listAddress.length > 0 &&
+                      data.listAddress.isNotEmpty) {
+                    controller.onRefresh();
+                    return _listAddressWidget(
+                        controller,
+                        state,
+                        data,
+                        dataState,
+                        _deviceHeight,
+                        _deviceWidth,
+                        navigator,
+                        networkStream,
+                        context);
+                  } else {
+                    //TODO: Replace with empty placeholder
+                    return Column(children: [
+                      Container(
+                          margin: EdgeInsets.only(
+                              left: (_deviceWidth * 0.02),
+                              right: (_deviceWidth * 0.02)),
+                          height: _deviceHeight * 0.09,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: state.primaryColor),
+                              color: state.primaryColorDark,
+                              borderRadius: BorderRadius.circular(15.0)),
+                          child: Container(
+                            margin:
+                                EdgeInsets.only(left: (_deviceWidth * 0.04)),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "No connected wallet",
+                                style: state.textTheme.headline5,
+                              ),
+                            ),
+                          )),
+                      SizedBox(
+                        height: _deviceHeight * 0.018,
+                      )
+                    ]);
+                  }
+                }),
             SizedBox(
               height: _deviceHeight * 0.021,
             ),
@@ -383,7 +366,9 @@ class SettingsLoginView extends ConsumerWidget {
     return Column(children: [
       ListView.builder(
         shrinkWrap: true,
-        itemCount: data.isExpanded == false && data.listAddress.length > 3 ? 3 : data.listAddress.length,
+        itemCount: data.isExpanded == false && data.listAddress.length > 3
+            ? 3
+            : data.listAddress.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
@@ -407,7 +392,7 @@ class SettingsLoginView extends ConsumerWidget {
                     Spacer(),
                     Expanded(
                         child: Text(
-                            concatAddress(data.listAddress[index]),
+                      concatAddress(data.listAddress[index]),
                       maxLines: 1,
                       textAlign: TextAlign.end,
                       overflow: TextOverflow.ellipsis,

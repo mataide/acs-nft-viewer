@@ -38,15 +38,13 @@ class WallpaperListController extends StateNotifier<WallpaperListState> {
     var httpClient = new Client();
     var ethClient = new Web3Client("https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531", httpClient);
     final erc = ERC721(address: EthereumAddress.fromHex(collections.contractAddress), client: ethClient);
-
     var tokenURI = await erc.tokenURI(BigInt.parse(collections.id));
-    print(tokenURI);
     tokenURI = ipfsToHTTP(tokenURI);
 
     final res = await httpClient.get(Uri.parse(tokenURI), headers: {"Accept": "aplication/json"});
     final jsonData = json.decode(res.body);
     var image = ipfsToHTTP((jsonData['image'] as String));
-
+    print(jsonData);
     final head = await httpClient.head(Uri.parse(image), headers: {"Accept": "aplication/json"});
     final contentType = head.headers['content-type'] as String;
 
@@ -59,7 +57,7 @@ class WallpaperListController extends StateNotifier<WallpaperListState> {
         quality: 75,
       ))!;
     }
-    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.id, '${jsonData['name']} #${collections.id}', description: jsonData['description'], contentType: contentType, image: image, video: jsonData['image']);
+    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.id, '${jsonData['name']} #${collections.id}', description: jsonData['description'], contentType: contentType, image: image, video: jsonData['image'],);
     collectionsItemDAO.create(collectionsItem);
     return collectionsItem;
   }

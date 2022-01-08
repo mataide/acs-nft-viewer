@@ -7,6 +7,7 @@ import 'package:faktura_nft_viewer/core/utils/constants.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/database_helper/database.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart';
@@ -50,13 +51,12 @@ class CollectionsItemController extends StateNotifier<CollectionsItemState> {
     final erc = ERC721(address: EthereumAddress.fromHex(eth721.contractAddress), client: ethClient);
 
     var tokenURI = await erc.tokenURI(BigInt.parse(eth721.tokenID));
-    print(tokenURI);
     tokenURI = ipfsToHTTP(tokenURI);
 
     final res = await httpClient.get(Uri.parse(tokenURI), headers: {"Accept": "aplication/json", "Content-ype":"application/json; charset=utf-8"});
     final jsonData = json.decode(utf8.decode(res.bodyBytes));
     var image = ipfsToHTTP((jsonData['image'] as String));
-
+    print(jsonData);
     final head = await httpClient.head(Uri.parse(image), headers: {"Accept": "aplication/json"});
     final contentType = head.headers['content-type'] as String;
 

@@ -1,4 +1,4 @@
-import 'package:faktura_nft_viewer/app/widgets/card_list.dart';
+
 import 'package:faktura_nft_viewer/app/widgets/my_flexible_spacebar.dart';
 import 'package:faktura_nft_viewer/app/widgets/wallpaper_list.dart';
 import 'package:faktura_nft_viewer/controllers/home/collections/collections_item_controller.dart';
@@ -9,24 +9,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+
 import 'package:readmore/readmore.dart';
 import 'dart:io';
 
 class CollectionsItemView extends ConsumerWidget {
   final Collections collections;
 
+
   CollectionsItemView(this.collections);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+ Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(themeProvider);
     final controller = ref.read(collectionsItemProvider(collections).notifier);
     final dataState = ref.watch(collectionsItemProvider(collections));
-
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    return Scaffold(
+
+    return
+      Scaffold(
         backgroundColor: state.primaryColor,
         body: NestedScrollView(
             headerSliverBuilder:
@@ -182,10 +185,9 @@ class CollectionsItemView extends ConsumerWidget {
             future: controller.prepareFromDb(),
             // function where you call your api
             builder: (BuildContext context,
-                AsyncSnapshot<List<CollectionsItem>> snapshot) {
+                AsyncSnapshot<List<CollectionsItem>> snapshot){
               // AsyncSnapshot<Your object type>
               if (snapshot.connectionState == ConnectionState.waiting) {
-                print(snapshot.data);
                 return Center(
                     child: Text(
                   'Please wait its loading...',
@@ -193,8 +195,7 @@ class CollectionsItemView extends ConsumerWidget {
                 ));
               } else {
                 if (snapshot.hasError)
-                  return
-                Center(
+                  return Center(
                       child: Text('getCollectionImage: ${snapshot.error}'));
                 else
                   return WallpaperListWidget(snapshot.data!);

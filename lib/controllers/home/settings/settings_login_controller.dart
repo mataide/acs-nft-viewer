@@ -15,13 +15,23 @@ class SettingsLoginState {
 
 class SettingsLoginController extends StateNotifier<SettingsLoginState> {
   SettingsLoginController([SettingsLoginState? state]) : super(SettingsLoginState()) {
+    //startSettings();
     sharedRead();
-
   }
-  static SharedPreferences? _sharedPrefs;
+  late SharedPreferences _prefs;
+
+/*startSettings() async {
+  await _startPreferences();
+  await sharedRead();
+}
+Future<void> _startPreferences() async {
+  _prefs = await SharedPreferences.getInstance();
+
+}*/
+
+
 
   Future<List<String>> sharedWrite(address) async {
-    print("address: '$address'.");
     final preferences = await SharedPreferences.getInstance();
     var listAddress = preferences.getStringList('key');
     if(listAddress != null && listAddress.isNotEmpty) listAddress.addUnique(address); else {
@@ -48,7 +58,8 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
   Future<List<String>> sharedRead() async {
     final preferences = await SharedPreferences.getInstance();
     final listAddress = preferences.getStringList('key');
-    return listAddress ?? [];
+    state = SettingsLoginState(listAddress: listAddress!, isExpanded: state.isExpanded);
+    return listAddress;
   }
 
   setExpanded() {
@@ -65,22 +76,7 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
     }
   }
 
-  init() async {
-    if (_sharedPrefs == null) {
-      _sharedPrefs = await SharedPreferences.getInstance();
-    }
-  }
-
-  List<String> get listAddress => _sharedPrefs!.getStringList('key') ?? [];
-
-  set listAddress(List<String> listAddress) {
-    _sharedPrefs!.setStringList('key', listAddress);
-  }
 }
-
-final sharedPrefs = SettingsLoginController();
-
-
 extension ListExtension<E> on List<E> {
   void addUnique(E element) {
     if (!contains(element)) {

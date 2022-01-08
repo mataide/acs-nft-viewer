@@ -35,49 +35,59 @@ class WallpaperListWidget extends ConsumerWidget {
                   future: controller.getCollectionItem(collectionsItemList[index]),
                   // function where you call your api
                   builder: (BuildContext context, AsyncSnapshot<CollectionsItem> snapshot) {
-                    // AsyncSnapshot<Your object type>
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: Text('Please wait its loading...', style: TextStyle(color: state.textTheme.bodyText1!.color),));
-                    } else {
-                      if (snapshot.hasError)
-                        return
-                          Center(
-                           child: Text('getCollectionImage: ${snapshot.error}'));
-                      else
-                        return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
+                      // AsyncSnapshot<Your object type>
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: Text(
+                          'Please wait its loading...', style: TextStyle(
+                            color: state.textTheme.bodyText1!.color),));
+                      } else {
+                        if (snapshot.hasError)
+                          return
+                            Center(
+                                child: Text('getCollectionImage: ${snapshot
+                                    .error}'));
+                        else
+                          return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
                                   context,
-                                  WhitePageRoute(enterPage: NftPageView(collectionsItemList, index)),
-                                  );
-                            },
-                            child: Stack(
-                              children: [
-                                ShaderMask(
-                                  shaderCallback: (rect) {
-                                    return LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [Colors.black, Colors.transparent],
-                                    ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
-                                  },
-                                  blendMode: BlendMode.dstIn,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: snapshot.data!.image!.contains('http') ? Image.network(
-                                      snapshot.data!.image!,
-                                      fit: BoxFit.cover,
-                                    ) : Image.file(
-                                      File(snapshot.data!.image!),
-                                      height: MediaQuery.of(context)
-                                          .size
-                                          .width /
-                                          3,
-                                      fit: BoxFit.cover,
+                                  WhitePageRoute(enterPage: NftPageView(
+                                      collectionsItemList, index)),
+                                );
+                              },
+                              child: Stack(
+                                children: [
+                                  ShaderMask(
+                                    shaderCallback: (rect) {
+                                      return LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Colors.black,
+                                          Colors.transparent
+                                        ],
+                                      ).createShader(Rect.fromLTRB(
+                                          0, 0, rect.width, rect.height));
+                                    },
+                                    blendMode: BlendMode.dstIn,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: snapshot.data!.image!.contains(
+                                          'http') ? Image.network(
+                                        snapshot.data!.image!,
+                                        fit: BoxFit.cover,
+                                      ) : Image.file(
+                                        File(snapshot.data!.image!),
+                                        height: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width /
+                                            3,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Positioned(
+                                   Positioned(
                                     bottom: 30.0,
                                     left: 20.0,
                                     child: Text(collectionsItemList[index].name, style: state.textTheme.headline4)),
@@ -85,11 +95,11 @@ class WallpaperListWidget extends ConsumerWidget {
                                     bottom: 10.0,
                                     left: 20.0,
                                     child: Text('#${collectionsItemList[index].id}',style: state.textTheme.headline4)),
-                              ],
-                            )
-                        );
-                    }
-                  },
+                                ],
+                              )
+                          );
+                      }
+                 },
                 );
               }
           )),

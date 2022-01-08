@@ -317,7 +317,7 @@ class _MyFlexibleSpaceBarState extends State<MyFlexibleSpaceBar> {
               );
               final bool effectiveCenterTitle = _getEffectiveCenterTitle(theme);
               final padding =
-                  widget.titlePaddingTween.transform(t) ??
+                  widget.titlePaddingTween.transform(t);
                   EdgeInsetsDirectional.only(
                     start: effectiveCenterTitle ? 0.0 : 72.0,
                     bottom: 16.0,
