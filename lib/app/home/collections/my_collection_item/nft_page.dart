@@ -290,16 +290,16 @@ class NftPageView extends ConsumerWidget {
                           SizedBox(
                             height: height * 0.011,
                           ),
-                         ListView.builder( itemCount: 3,
+                         ListView.builder( itemCount: collectionsItemList[index].attributes.length,
                            shrinkWrap: true,
-                           itemBuilder: (context, index){
+                           itemBuilder: (context, a){
                            final nDataList = collectionsItemList[index];
                            return Container(
                                child: Card(
                                        child: Column(
                                            children: <Widget>[
                                              Text(
-                                               nDataList.attributes!, style: TextStyle(
+                                               nDataList.attributes[a].value!, style: TextStyle(
                                                  fontWeight: FontWeight.bold,
                                                  fontSize: 18,
                                                  color: Colors.green),

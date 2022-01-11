@@ -70,7 +70,16 @@ class CollectionsItemController extends StateNotifier<CollectionsItemState> {
       ))!;
     }
 
-    var collectionsItem = CollectionsItem(eth721.contractAddress, eth721.hash, eth721.tokenID, '${jsonData['name']} #${eth721.tokenID}', image, description: jsonData['description'], contentType: contentType, animationUrl: jsonData['animation_url']);
+    var attributes;
+    if(jsonData['traits'] != null) {
+      var list = jsonData['traits'] as List;
+      List<Attributes> dataList = list.map((i) => Attributes.fromJson(i)).toList();
+      attributes = dataList;
+    } else {
+      attributes = <Attributes>[];
+    }
+
+    var collectionsItem = CollectionsItem(eth721.contractAddress, eth721.hash, eth721.tokenID, '${jsonData['name']} #${eth721.tokenID}', image, attributes, description: jsonData['description'], contentType: contentType, animationUrl: jsonData['animation_url']);
     collectionsItemDAO.create(collectionsItem);
     return collectionsItem;
   }

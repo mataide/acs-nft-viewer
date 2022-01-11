@@ -67,7 +67,16 @@ class WallpaperListController extends StateNotifier<WallpaperListState> {
       contentType = head.headers['content-type'] as String;
     }
 
-    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.id, '${jsonData['name']} #${collections.id}', image, description: jsonData['description'], contentType: contentType, animationUrl: jsonData['animation_url']);
+    var attributes;
+    if(jsonData['traits'] != null) {
+      var list = jsonData['traits'] as List;
+      List<Attributes> dataList = list.map((i) => Attributes.fromJson(i)).toList();
+      attributes = dataList;
+    } else {
+      attributes = <Attributes>[];
+    }
+
+    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.id, '${jsonData['name']} #${collections.id}', image, attributes, description: jsonData['description'], contentType: contentType, animationUrl: jsonData['animation_url']);
     collectionsItemDAO.create(collectionsItem);
     return collectionsItem;
   }

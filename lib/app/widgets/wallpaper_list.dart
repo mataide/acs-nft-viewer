@@ -73,12 +73,12 @@ class WallpaperListWidget extends ConsumerWidget {
                                     blendMode: BlendMode.dstIn,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(8.0),
-                                      child: snapshot.data!.image!.contains(
+                                      child: snapshot.data!.image.contains(
                                           'http') ? Image.network(
-                                        snapshot.data!.image!,
+                                        snapshot.data!.image,
                                         fit: BoxFit.cover,
                                       ) : Image.file(
-                                        File(snapshot.data!.image!),
+                                        File(snapshot.data!.image),
                                         height: MediaQuery
                                             .of(context)
                                             .size

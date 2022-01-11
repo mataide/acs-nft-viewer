@@ -73,7 +73,17 @@ class FlagListController extends StateNotifier<FlagListState> {
     collections.description = jsonData['description'];
     collections.externalUrl = jsonData['external_url'];
     collectionsDAO.update(collections);
-    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.tokenID, '${jsonData['name']} #${collections.tokenID}', image, description: jsonData['description'], contentType: contentType, animationUrl: jsonData['animation_url']);
+
+    var attributes;
+    if(jsonData['traits'] != null) {
+      var list = jsonData['traits'] as List;
+      List<Attributes> dataList = list.map((i) => Attributes.fromJson(i)).toList();
+      attributes = dataList;
+    } else {
+      attributes = <Attributes>[];
+    }
+
+    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.tokenID, '${jsonData['name']} #${collections.tokenID}', image, attributes, description: jsonData['description'], contentType: contentType, animationUrl: jsonData['animation_url']);
     collectionsItemDAO.create(collectionsItem);
     return image;
   }

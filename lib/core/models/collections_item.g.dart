@@ -13,11 +13,13 @@ CollectionsItem _$CollectionsItemFromJson(Map<String, dynamic> json) =>
       json['id'] as String,
       json['name'] as String,
       json['image'] as String,
+      (json['attributes'] as List<dynamic>)
+          .map((e) => Attributes.fromJson(e as Map<String, dynamic>))
+          .toList(),
       description: json['description'] as String?,
       contentType: json['contentType'] as String?,
       thumbnail: json['thumbnail'] as String?,
       animationUrl: json['animationUrl'] as String?,
-      attributes: json['attributes'] as String?,
     );
 
 Map<String, dynamic> _$CollectionsItemToJson(CollectionsItem instance) =>
