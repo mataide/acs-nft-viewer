@@ -6,14 +6,12 @@ import 'package:floor/floor.dart';
 class AttributesConverter extends TypeConverter<List<Attributes>, String> {
   @override
   List<Attributes> decode(String jsonString) {
-    Map<String, dynamic> json = jsonDecode(jsonString);
-    var list = json as List;
+    List<dynamic> list = jsonDecode(jsonString);
     return list.map((i) => Attributes.fromJson(i)).toList();
   }
 
   @override
   String encode(List<Attributes> attr) {
-    print(attr);
-    return attr.toString();
+    return jsonEncode(attr.map((e) => e.toJson()).toList());
   }
 }
