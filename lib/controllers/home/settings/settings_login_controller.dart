@@ -1,5 +1,7 @@
 
+import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/database_helper/database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,9 +10,10 @@ class SettingsLoginState {
   final List<String> listAddress;
   final eventChannel;
   final bool isExpanded;
+  final List<Collections?>? collections;
 
 
-  const SettingsLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler"), this.isExpanded = false});
+  const SettingsLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler"), this.isExpanded = false, this.collections});
 }
 
 class SettingsLoginController extends StateNotifier<SettingsLoginState> {
@@ -19,6 +22,7 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
     sharedRead();
   }
   late SharedPreferences _prefs;
+  get collections => state.collections;
 
 /*startSettings() async {
   await _startPreferences();
@@ -75,6 +79,17 @@ Future<void> _startPreferences() async {
       print("Failed to initWalletConnection: '${e.message}'.");
     }
   }
+
+
+ /* Future<void> deleteFromDb(address) async {
+    final preferences = await SharedPreferences.getInstance();
+    var listAddress = preferences.getStringList('key');
+    final database = await $FloorFlutterDatabase.databaseBuilder(
+        'app_database.db').build();
+    final collectionsDAO = database.collectionsDAO;
+    List<Collections> collections = await collectionsDAO.deleteCollections(address);
+  }*/
+
 
 }
 extension ListExtension<E> on List<E> {

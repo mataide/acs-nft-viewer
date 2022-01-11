@@ -1,3 +1,4 @@
+import 'package:faktura_nft_viewer/core/models/attributes_item.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:floor/floor.dart';
@@ -27,7 +28,7 @@ class CollectionsItem {
 
   String? video;
 
-  String? attributes;
+  Attributes? attributes;
 
   CollectionsItem(this.contractAddress, this.hash, this.id, this.name,{this.description, this.contentType, this.thumbnail, this.image, this.video, this.attributes});
 

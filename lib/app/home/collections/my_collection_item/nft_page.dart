@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:ethereum_addresses/ethereum_addresses.dart';
 import 'package:faktura_nft_viewer/app/home/collections/my_collection_item/nft_screen.dart';
 import 'package:faktura_nft_viewer/app/routes/white_page_route.dart';
+import 'package:faktura_nft_viewer/core/models/attributes_item.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:faktura_nft_viewer/core/utils/util.dart';
@@ -20,6 +21,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 class NftPageView extends ConsumerWidget {
   final List<CollectionsItem> collectionsItemList;
   final int index;
+
   static const platform =
       const MethodChannel('com.bimsina.re_walls/MainActivity');
 
@@ -289,20 +291,25 @@ class NftPageView extends ConsumerWidget {
                           SizedBox(
                             height: height * 0.011,
                           ),
-                          ListView.builder(
-                              itemCount: 2,
-                              itemExtent: 30,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return Card(
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            color: state.primaryColor),
-                                        child: Text(
-                                          collectionsItemList[index].attributes!.contains('trait_type').toString(),
-                                          style: state.textTheme.headline4,
-                                        )));
-                              }),
+                         ListView.builder( itemCount: 3,
+                           shrinkWrap: true,
+                           itemBuilder: (context, index){
+                           final nDataList = collectionsItemList[index];
+                           return Container(
+                               child: Card(
+                                       child: Column(
+                                           children: <Widget>[
+                                             Text(
+                                               nDataList.attributes!.value!, style: TextStyle(
+                                                 fontWeight: FontWeight.bold,
+                                                 fontSize: 18,
+                                                 color: Colors.green),
+                                             ),
+                                           ])
+                               )
+                           );
+                           },
+                         ),
                           SizedBox(
                             height: height * 0.01,
                           )

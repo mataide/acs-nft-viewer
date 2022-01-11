@@ -1,5 +1,6 @@
 import 'package:faktura_nft_viewer/app/home/collections/my_collection_item/nft_page.dart';
 import 'package:faktura_nft_viewer/app/routes/white_page_route.dart';
+import 'package:faktura_nft_viewer/core/models/attributes_item.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:flutter/material.dart';

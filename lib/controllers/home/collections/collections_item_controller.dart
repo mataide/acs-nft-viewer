@@ -52,7 +52,7 @@ class CollectionsItemController extends StateNotifier<CollectionsItemState> {
 
     var tokenURI = await erc.tokenURI(BigInt.parse(eth721.tokenID));
     tokenURI = ipfsToHTTP(tokenURI);
-
+    print(tokenURI);
     final res = await httpClient.get(Uri.parse(tokenURI), headers: {"Accept": "aplication/json", "Content-ype":"application/json; charset=utf-8"});
     final jsonData = json.decode(utf8.decode(res.bodyBytes));
     var image = ipfsToHTTP((jsonData['image'] as String));
