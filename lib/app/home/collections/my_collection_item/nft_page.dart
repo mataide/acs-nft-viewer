@@ -20,6 +20,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 class NftPageView extends ConsumerWidget {
   final List<CollectionsItem> collectionsItemList;
   final int index;
+
   static const platform =
       const MethodChannel('com.bimsina.re_walls/MainActivity');
 
@@ -31,7 +32,7 @@ class NftPageView extends ConsumerWidget {
         ref.read(wallpaperListProvider(collectionsItemList).notifier);
     final state = ref.watch(themeProvider);
     final dataStat = ref.watch(itemNftProvider.notifier);
-    final dataState = ref.watch(wallpaperListProvider(collectionsItemList));
+    final dataState = ref.watch(homeCollectionsProvider);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -106,11 +107,10 @@ class NftPageView extends ConsumerWidget {
                 else
                   return SingleChildScrollView(
                     child: Expanded(
-                        child: Container(
-                      margin: EdgeInsets.only(
-                          left: (width * 0.02), right: (width * 0.02)),
-                      child: Column(
-                        children: [
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            left: (width * 0.02), right: (width * 0.02)),
+                        child: Column(children: [
                           SizedBox(height: height * 0.008),
                           Align(
                               alignment: Alignment.centerLeft,
@@ -132,14 +132,14 @@ class NftPageView extends ConsumerWidget {
                                   child: Stack(
                                     alignment: Alignment.center,
                                     children: [
-                                      snapshot.data!.image.contains('http')
+                                      snapshot.data!.image!.contains('http')
                                           ? Image.network(
-                                              snapshot.data!.image,
+                                              snapshot.data!.image!,
                                               fit: BoxFit.cover,
                                             )
                                           : Image.file(
                                               File(collectionsItemList[index]
-                                                  .image),
+                                                  .image!),
                                               fit: BoxFit.cover,
                                             ),
                                     ],
@@ -290,187 +290,31 @@ class NftPageView extends ConsumerWidget {
                           SizedBox(
                             height: height * 0.011,
                           ),
-                          Row(
-                            children: [
-                              Container(
-                                  height: height * 0.14,
-                                  width: width * 0.47,
-                                  decoration: BoxDecoration(
-                                      color: state.primaryColorDark,
-                                      borderRadius: BorderRadius.circular(8.0)),
-                                  child: ListView(
-                                    itemExtent: 30,
-                                    shrinkWrap: true,
-                                    children: [
-                                      ListTile(
-                                        title: Text(
-                                          'BODY',
-                                          style: state.textTheme.bodyText2,
-                                        ),
-                                      ),
-                                      ListTile(
-                                        title: Text(
-                                          'Blue Cat Skin',
-                                          style: state.textTheme.headline5,
-                                        ),
-                                      ),
-                                      ListTile(
-                                        title: Text(
-                                          '100% have this trait',
-                                          style: state.textTheme.subtitle1,
-                                        ),
-                                      ),
-                                    ],
-                                  )),
-                              SizedBox(
-                                width: width * 0.02,
-                              ),
-                              Container(
-                                  height: height * 0.14,
-                                  width: width * 0.47,
-                                  decoration: BoxDecoration(
-                                      color: state.primaryColorDark,
-                                      borderRadius: BorderRadius.circular(8.0)),
-                                  child: ListView(
-                                    itemExtent: 30,
-                                    shrinkWrap: true,
-                                    children: [
-                                      ListTile(
-                                        title: Text(
-                                          'FACE',
-                                          style: state.textTheme.bodyText2,
-                                        ),
-                                      ),
-                                      ListTile(
-                                        title: Text(
-                                          'Angry Cut',
-                                          style: state.textTheme.headline5,
-                                        ),
-                                      ),
-                                      ListTile(
-                                        title: Text(
-                                          '3% have this trait',
-                                          style: state.textTheme.subtitle1,
-                                        ),
-                                      ),
-                                    ],
-                                  )),
-                            ],
-                          ),
+                         ListView.builder( itemCount: 3,
+                           shrinkWrap: true,
+                           itemBuilder: (context, index){
+                           final nDataList = collectionsItemList[index];
+                           return Container(
+                               child: Card(
+                                       child: Column(
+                                           children: <Widget>[
+                                             Text(
+                                               nDataList.attributes!, style: TextStyle(
+                                                 fontWeight: FontWeight.bold,
+                                                 fontSize: 18,
+                                                 color: Colors.green),
+                                             ),
+                                           ])
+                               )
+                           );
+                           },
+                         ),
                           SizedBox(
                             height: height * 0.01,
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                  height: height * 0.14,
-                                  width: width * 0.47,
-                                  decoration: BoxDecoration(
-                                      color: state.primaryColorDark,
-                                      borderRadius: BorderRadius.circular(8.0)),
-                                  child: ListView(
-                                    itemExtent: 30,
-                                    shrinkWrap: true,
-                                    children: [
-                                      ListTile(
-                                        title: Text(
-                                          'SHIRT',
-                                          style: state.textTheme.bodyText2,
-                                        ),
-                                      ),
-                                      ListTile(
-                                        title: Text(
-                                          'Pirate Red',
-                                          style: state.textTheme.headline5,
-                                        ),
-                                      ),
-                                      ListTile(
-                                        title: Text(
-                                          '0.6% have this trait',
-                                          style: state.textTheme.subtitle1,
-                                        ),
-                                      ),
-                                    ],
-                                  )),
-                              SizedBox(
-                                width: width * 0.02,
-                              ),
-                              Container(
-                                  height: height * 0.14,
-                                  width: width * 0.47,
-                                  decoration: BoxDecoration(
-                                      color: state.primaryColorDark,
-                                      borderRadius: BorderRadius.circular(8.0)),
-                                  child: ListView(
-                                    itemExtent: 30,
-                                    shrinkWrap: true,
-                                    children: [
-                                      ListTile(
-                                        title: Text(
-                                          'HATS',
-                                          style: state.textTheme.bodyText2,
-                                        ),
-                                      ),
-                                      ListTile(
-                                        title: Text(
-                                          'Cupcake',
-                                          style: state.textTheme.headline5,
-                                        ),
-                                      ),
-                                      ListTile(
-                                        title: Text(
-                                          '1% have this trait',
-                                          style: state.textTheme.subtitle1,
-                                        ),
-                                      ),
-                                    ],
-                                  )),
-                            ],
-                          ),
-                          SizedBox(
-                            height: height * 0.01,
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                  height: height * 0.14,
-                                  width: width * 0.47,
-                                  decoration: BoxDecoration(
-                                      color: state.primaryColorDark,
-                                      borderRadius: BorderRadius.circular(8.0)),
-                                  child: ListView(
-                                    itemExtent: 30,
-                                    shrinkWrap: true,
-                                    children: [
-                                      ListTile(
-                                        title: Text(
-                                          'TIER',
-                                          style: state.textTheme.bodyText2,
-                                        ),
-                                      ),
-                                      ListTile(
-                                        title: Text(
-                                          'Wild 2',
-                                          style: state.textTheme.headline5,
-                                        ),
-                                      ),
-                                      ListTile(
-                                        title: Text(
-                                          '12% have this trait',
-                                          style: state.textTheme.subtitle1,
-                                        ),
-                                      ),
-                                    ],
-                                  )),
-                            ],
-                          ),
-                          SizedBox(
-                            width: width * 0.02,
-                            height: height * 0.01,
-                          ),
-                        ],
+                          )
+                        ]),
                       ),
-                    )),
+                    ),
                   );
               }
             })
@@ -487,14 +331,14 @@ class NftPageView extends ConsumerWidget {
           showToast('Check the notification to see progress.');
           if (type!.contains("video")) {
             var imageId = await ImageDownloader.downloadImage(
-                collectionsItemList[index].animationUrl ?? collectionsItemList[index].image,
+                collectionsItemList[index].animationUrl!,
                 destination: AndroidDestinationType.directoryMovies);
             if (imageId == null) {
               return;
             }
           } else {
             var imageId = await ImageDownloader.downloadImage(
-                collectionsItemList[index].animationUrl ?? collectionsItemList[index].image,
+                collectionsItemList[index].image!,
                 destination: AndroidDestinationType.directoryPictures);
 
             if (imageId == null) {
@@ -532,7 +376,7 @@ class NftPageView extends ConsumerWidget {
           "Invalid " + collectionsItemList[index].contentType! + " Format.");
     } else {
       var file = await DefaultCacheManager()
-          .getSingleFile(collectionsItemList[index].image);
+          .getSingleFile(collectionsItemList[index].image!);
       try {
         final int result =
             await platform.invokeMethod('setWallpaper', file.path);

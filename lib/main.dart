@@ -7,19 +7,14 @@ import 'package:faktura_nft_viewer/core/utils/constants.dart';
 // Providers
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 
-import 'controllers/home/settings/settings_login_controller.dart';
-
-
 SharedPreferences? prefs;
-SharedPreferences? preferences;
 
-void main()  {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.getInstance().then((shared) {
     prefs = shared;
     runApp(ProviderScope(child: MyApp()));
-    });
-
+  });
 }
 
 class MyApp extends ConsumerWidget {
@@ -27,16 +22,15 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themesNotifier = ref.read(themeProvider.notifier);
     themesNotifier.setTheme(themes[prefs!.getInt("theme") ?? 1]);
-    //sharedPrefs.init();
 
     return MaterialApp(
       theme: themesNotifier.getTheme(),
-      title: 'reWalls',
+      title: 'Faktura',
       debugShowCheckedModeBanner: false,
       routes: {
         '/home': (context) => HomePage(),
       },
       home: HomePage(),
-        );
+    );
   }
 }

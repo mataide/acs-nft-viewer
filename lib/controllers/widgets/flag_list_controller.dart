@@ -62,7 +62,7 @@ class FlagListController extends StateNotifier<FlagListState> {
       ))!;
     }
 
-    if(jsonData['animation_url']) {
+    if(jsonData['animation_url'] != null) {
       var animation_url = ipfsToHTTP((jsonData['animation_url'] as String));
 
       final head = await httpClient.head(Uri.parse(animation_url), headers: {"Accept": "aplication/json"});

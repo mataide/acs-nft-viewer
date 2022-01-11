@@ -106,6 +106,7 @@ class HomeCollectionsView extends ConsumerWidget {
       width,
       height,
       ) {
+    SettingsLoginController();
     return ListView(children: [
       SizedBox(
         height: height * 0.02,
@@ -119,18 +120,16 @@ class HomeCollectionsView extends ConsumerWidget {
       StreamBuilder<dynamic>(
           initialData: stateLogin.listAddress,
           stream: networkStream,
-          builder: (context, snapshot) {
+          builder: (context,AsyncSnapshot snapshot) {
             print(snapshot.data);
             final List<String> address = snapshot.data != null
                 ? List<String>.from(snapshot.data).length > 0
                 ? List<String>.from(snapshot.data)
                 : stateLogin.listAddress
                 : [].cast<String>();
-
-            print("address: $address");
             if (List<String>.from(snapshot.data).length > 0) {
               return FutureBuilder<List<String>>(
-                future: controllerLogin.sharedWrite(address),
+                future: controllerLogin.sharedRead(),
                 // function where you call your api
                 builder: (BuildContext context,
                     AsyncSnapshot<List<String>> snapshot) {

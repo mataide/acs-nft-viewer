@@ -17,6 +17,7 @@ CollectionsItem _$CollectionsItemFromJson(Map<String, dynamic> json) =>
       contentType: json['contentType'] as String?,
       thumbnail: json['thumbnail'] as String?,
       animationUrl: json['animationUrl'] as String?,
+      attributes: json['attributes'] as String?,
     );
 
 Map<String, dynamic> _$CollectionsItemToJson(CollectionsItem instance) =>
@@ -30,4 +31,5 @@ Map<String, dynamic> _$CollectionsItemToJson(CollectionsItem instance) =>
       'thumbnail': instance.thumbnail,
       'image': instance.image,
       'animationUrl': instance.animationUrl,
+      'attributes': instance.attributes,
     };

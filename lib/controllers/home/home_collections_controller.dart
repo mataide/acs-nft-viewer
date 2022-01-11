@@ -14,65 +14,83 @@ class HomeCollectionsState {
   final int? selectedFilter;
   final RefreshController refreshController;
 
-
-  const HomeCollectionsState(this.refreshController, {this.fetchState = kdataFetchState.IS_LOADING, this.collections, this.selectedFilter});
+  const HomeCollectionsState(this.refreshController,
+      {this.fetchState = kdataFetchState.IS_LOADING,
+      this.collections,
+      this.selectedFilter});
 }
 
 class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
-  HomeCollectionsController([Collections? state]) : super(HomeCollectionsState(RefreshController(initialRefresh: false)));
+  HomeCollectionsController([Collections? state])
+      : super(HomeCollectionsState(RefreshController(initialRefresh: false)));
 
   get fetchState => state.fetchState;
+
   get selectedFilter => state.selectedFilter;
+
   get collections => state.collections;
 
   Future<List<Collections>> prepareFromDb() async {
-    final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
+    final database =
+        await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final collectionsDAO = database.collectionsDAO;
     List<Collections> collections = await collectionsDAO.findAllCollections();
 
-    if(collections.isEmpty) {
+    if (collections.isEmpty) {
       final preferences = await SharedPreferences.getInstance();
       final listAddress = preferences.getStringList('key');
-      if (listAddress == null) return await prepareFromInternet("0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb"); else {
-        for(var i = 0; i < listAddress.length; i++) collections.addAll(await prepareFromInternet(listAddress[i]));
+      if (listAddress == null)
+        return await prepareFromInternet(
+            "0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb");
+      else {
+        for (var i = 0; i < listAddress.length; i++)
+          collections.addAll(await prepareFromInternet(listAddress[i]));
       }
     }
     return collections;
   }
 
   Future<List<Collections>> prepareFromInternet(String address) async {
-    final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
+    final database =
+        await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final eth721Dao = database.eth721DAO;
     final collectionsDAO = database.collectionsDAO;
 
-    final List<Eth721> listERC721 = await APIService.instance.getERC721(address);
+    final List<Eth721> listERC721 =
+        await APIService.instance.getERC721(address);
     eth721Dao.insertList(listERC721);
     var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
     late List<Collections> listCollections = [];
     for (var erc721 in newMap.entries) {
-      final collections = Collections.fromEth721(erc721.value.first, "ethereum", erc721.value.length);
+      final collections = Collections.fromEth721(
+          erc721.value.first, "ethereum", erc721.value.length);
       listCollections.add(collections);
     }
     await collectionsDAO.insertList(listCollections);
-    state = HomeCollectionsState(state.refreshController, collections: listCollections, fetchState: kdataFetchState.IS_LOADED);
+    state = HomeCollectionsState(state.refreshController,
+        collections: listCollections, fetchState: kdataFetchState.IS_LOADED);
     return listCollections;
   }
 
-  void onRefresh() async{
+  void onRefresh() async {
     // monitor network fetch
     final preferences = await SharedPreferences.getInstance();
     final listAddress = preferences.getStringList('key');
     List<Collections> collections = [];
 
-    if (listAddress == null) await prepareFromInternet("0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb"); else {
-      for(var i = 0; i < listAddress.length; i++) collections.addAll(await prepareFromInternet(listAddress[i]));
+    if (listAddress == null)
+      await prepareFromInternet("0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb");
+    else {
+      for (var i = 0; i < listAddress.length; i++)
+        collections.addAll(await prepareFromInternet(listAddress[i]));
     }
     // if failed,use refreshFailed()
     state.refreshController.refreshCompleted();
-    state = HomeCollectionsState(state.refreshController, collections: collections, fetchState: kdataFetchState.IS_LOADED);
+    state = HomeCollectionsState(state.refreshController,
+        collections: collections, fetchState: kdataFetchState.IS_LOADED);
   }
 
-  void onLoading() async{
+  void onLoading() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()

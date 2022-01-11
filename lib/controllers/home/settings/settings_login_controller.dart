@@ -1,5 +1,7 @@
 
+import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/database_helper/database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,20 +10,32 @@ class SettingsLoginState {
   final List<String> listAddress;
   final eventChannel;
   final bool isExpanded;
+  final List<Collections?>? collections;
 
 
-  const SettingsLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler"), this.isExpanded = false});
+  const SettingsLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler"), this.isExpanded = false, this.collections});
 }
 
 class SettingsLoginController extends StateNotifier<SettingsLoginState> {
   SettingsLoginController([SettingsLoginState? state]) : super(SettingsLoginState()) {
+    //startSettings();
     sharedRead();
-
   }
-  static SharedPreferences? _sharedPrefs;
+  late SharedPreferences _prefs;
+  get collections => state.collections;
+
+/*startSettings() async {
+  await _startPreferences();
+  await sharedRead();
+}
+Future<void> _startPreferences() async {
+  _prefs = await SharedPreferences.getInstance();
+
+}*/
+
+
 
   Future<List<String>> sharedWrite(address) async {
-    print("address: '$address'.");
     final preferences = await SharedPreferences.getInstance();
     var listAddress = preferences.getStringList('key');
     if(listAddress != null && listAddress.isNotEmpty) listAddress.addUnique(address); else {
@@ -48,7 +62,8 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
   Future<List<String>> sharedRead() async {
     final preferences = await SharedPreferences.getInstance();
     final listAddress = preferences.getStringList('key');
-    return listAddress ?? [];
+    state = SettingsLoginState(listAddress: listAddress!, isExpanded: state.isExpanded);
+    return listAddress;
   }
 
   setExpanded() {
@@ -65,22 +80,18 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
     }
   }
 
-  init() async {
-    if (_sharedPrefs == null) {
-      _sharedPrefs = await SharedPreferences.getInstance();
-    }
-  }
 
-  List<String> get listAddress => _sharedPrefs!.getStringList('key') ?? [];
+ /* Future<void> deleteFromDb(address) async {
+    final preferences = await SharedPreferences.getInstance();
+    var listAddress = preferences.getStringList('key');
+    final database = await $FloorFlutterDatabase.databaseBuilder(
+        'app_database.db').build();
+    final collectionsDAO = database.collectionsDAO;
+    List<Collections> collections = await collectionsDAO.deleteCollections(address);
+  }*/
 
-  set listAddress(List<String> listAddress) {
-    _sharedPrefs!.setStringList('key', listAddress);
-  }
+
 }
-
-final sharedPrefs = SettingsLoginController();
-
-
 extension ListExtension<E> on List<E> {
   void addUnique(E element) {
     if (!contains(element)) {
