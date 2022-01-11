@@ -50,7 +50,7 @@ class FlagListController extends StateNotifier<FlagListState> {
 
 
     final head = await httpClient.head(Uri.parse(image), headers: {"Accept": "aplication/json"});
-    final contentType = head.headers['content-type'] as String;
+    var contentType = head.headers['content-type'] as String;
 
     if(contentType.contains('video')) {
       image = (await VideoThumbnail.thumbnailFile(
@@ -61,13 +61,19 @@ class FlagListController extends StateNotifier<FlagListState> {
         quality: 75,
       ))!;
     }
-    print('image: $image');
+
+    if(jsonData['animation_url']) {
+      var animation_url = ipfsToHTTP((jsonData['animation_url'] as String));
+
+      final head = await httpClient.head(Uri.parse(animation_url), headers: {"Accept": "aplication/json"});
+      contentType = head.headers['content-type'] as String;
+    }
 
     collections.image = image;
     collections.description = jsonData['description'];
     collections.externalUrl = jsonData['external_url'];
     collectionsDAO.update(collections);
-    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.tokenID, '${jsonData['name']} #${collections.tokenID}', description: jsonData['description'], contentType: contentType, image: image,video: jsonData['image']);
+    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.tokenID, '${jsonData['name']} #${collections.tokenID}', image, description: jsonData['description'], contentType: contentType, animationUrl: jsonData['animation_url']);
     collectionsItemDAO.create(collectionsItem);
     return image;
   }

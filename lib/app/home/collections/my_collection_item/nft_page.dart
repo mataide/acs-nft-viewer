@@ -73,7 +73,7 @@ class NftPageView extends ConsumerWidget {
             onPressed: () {
               if (type!.contains("video")) {
                 Share.share(
-                    'Checkout this amazing NFT mine. ${collectionsItemList[index].video!}');
+                    'Checkout this amazing NFT mine. ${collectionsItemList[index].animationUrl!}');
               } else {
                 Share.share(
                     'Checkout this amazing NFT mine. ${collectionsItemList[index].image!}');
@@ -132,14 +132,14 @@ class NftPageView extends ConsumerWidget {
                                   child: Stack(
                                     alignment: Alignment.center,
                                     children: [
-                                      snapshot.data!.image!.contains('http')
+                                      snapshot.data!.image.contains('http')
                                           ? Image.network(
-                                              snapshot.data!.image!,
+                                              snapshot.data!.image,
                                               fit: BoxFit.cover,
                                             )
                                           : Image.file(
                                               File(collectionsItemList[index]
-                                                  .image!),
+                                                  .image),
                                               fit: BoxFit.cover,
                                             ),
                                     ],
@@ -487,14 +487,14 @@ class NftPageView extends ConsumerWidget {
           showToast('Check the notification to see progress.');
           if (type!.contains("video")) {
             var imageId = await ImageDownloader.downloadImage(
-                collectionsItemList[index].video!,
+                collectionsItemList[index].animationUrl ?? collectionsItemList[index].image,
                 destination: AndroidDestinationType.directoryMovies);
             if (imageId == null) {
               return;
             }
           } else {
             var imageId = await ImageDownloader.downloadImage(
-                collectionsItemList[index].video!,
+                collectionsItemList[index].animationUrl ?? collectionsItemList[index].image,
                 destination: AndroidDestinationType.directoryPictures);
 
             if (imageId == null) {
@@ -532,7 +532,7 @@ class NftPageView extends ConsumerWidget {
           "Invalid " + collectionsItemList[index].contentType! + " Format.");
     } else {
       var file = await DefaultCacheManager()
-          .getSingleFile(collectionsItemList[index].image!);
+          .getSingleFile(collectionsItemList[index].image);
       try {
         final int result =
             await platform.invokeMethod('setWallpaper', file.path);

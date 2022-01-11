@@ -12,11 +12,11 @@ CollectionsItem _$CollectionsItemFromJson(Map<String, dynamic> json) =>
       json['hash'] as String,
       json['id'] as String,
       json['name'] as String,
+      json['image'] as String,
       description: json['description'] as String?,
       contentType: json['contentType'] as String?,
       thumbnail: json['thumbnail'] as String?,
-      image: json['image'] as String?,
-      video: json['image'] as String?,
+      animationUrl: json['animationUrl'] as String?,
     );
 
 Map<String, dynamic> _$CollectionsItemToJson(CollectionsItem instance) =>
@@ -29,5 +29,5 @@ Map<String, dynamic> _$CollectionsItemToJson(CollectionsItem instance) =>
       'contentType': instance.contentType,
       'thumbnail': instance.thumbnail,
       'image': instance.image,
-      'video': instance.video
+      'animationUrl': instance.animationUrl,
     };

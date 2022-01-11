@@ -57,11 +57,11 @@ class NftScreen extends ConsumerWidget {
                             child:
                                 Text('getCollectionImage: ${snapshot.error}'));
                       else
-                        return snapshot.data!.image!.contains('http')
-                            ? Image.network(snapshot.data!.image!,
+                        return snapshot.data!.image.contains('http')
+                            ? Image.network(snapshot.data!.image,
                                 height: double.infinity, fit: BoxFit.fill)
                             : Image.file(
-                                File(collectionsItemList[index].image!),
+                                File(collectionsItemList[index].image),
                                 height: double.infinity,
                                 fit: BoxFit.fill,
                               );
@@ -134,7 +134,7 @@ class NftScreen extends ConsumerWidget {
                         onPressed: () {
                           if (type!.contains("video")) {
                             Share.share(
-                                'Checkout this amazing NFT mine. ${collectionsItemList[index].video}');
+                                'Checkout this amazing NFT mine. ${collectionsItemList[index].animationUrl}');
                           } else {
                             Share.share(
                                 'Checkout this amazing NFT mine. ${collectionsItemList[index].image}');
@@ -162,14 +162,14 @@ class NftScreen extends ConsumerWidget {
           showToast('Check the notification to see progress.');
           if (type!.contains("video")) {
             var imageId = await ImageDownloader.downloadImage(
-                collectionsItemList[index].video!,
+                collectionsItemList[index].animationUrl!,
                 destination: AndroidDestinationType.directoryMovies);
             if (imageId == null) {
               return;
             }
           } else {
             var imageId = await ImageDownloader.downloadImage(
-                collectionsItemList[index].video!,
+                collectionsItemList[index].animationUrl!,
                 destination: AndroidDestinationType.directoryPictures);
 
             if (imageId == null) {
@@ -210,7 +210,7 @@ class NftScreen extends ConsumerWidget {
           "Invalid " + collectionsItemList[index].contentType! + " Format.");
     } else {
       var file = await DefaultCacheManager()
-          .getSingleFile(collectionsItemList[index].image!);
+          .getSingleFile(collectionsItemList[index].image);
       try {
         final int result =
             await platform.invokeMethod('setWallpaper', file.path);

@@ -90,7 +90,7 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `blockchain` TEXT NOT NULL, `externalUrl` TEXT, `description` TEXT, `amount` TEXT, `image` TEXT, `totalSupply` INTEGER, PRIMARY KEY (`contractAddress`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `CollectionsItem` (`hash` TEXT NOT NULL, `id` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `contentType` TEXT, `thumbnail` TEXT, `image` TEXT, PRIMARY KEY (`hash`))');
+            'CREATE TABLE IF NOT EXISTS `CollectionsItem` (`hash` TEXT NOT NULL, `id` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `contentType` TEXT, `thumbnail` TEXT, `image` TEXT NOT NULL, `animationUrl` TEXT, PRIMARY KEY (`hash`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -433,7 +433,8 @@ class _$CollectionsItemDAO extends CollectionsItemDAO {
                   'description': item.description,
                   'contentType': item.contentType,
                   'thumbnail': item.thumbnail,
-                  'image': item.image
+                  'image': item.image,
+                  'animationUrl': item.animationUrl
                 }),
         _collectionsItemUpdateAdapter = UpdateAdapter(
             database,
@@ -447,7 +448,8 @@ class _$CollectionsItemDAO extends CollectionsItemDAO {
                   'description': item.description,
                   'contentType': item.contentType,
                   'thumbnail': item.thumbnail,
-                  'image': item.image
+                  'image': item.image,
+                  'animationUrl': item.animationUrl
                 }),
         _collectionsItemDeletionAdapter = DeletionAdapter(
             database,
@@ -461,7 +463,8 @@ class _$CollectionsItemDAO extends CollectionsItemDAO {
                   'description': item.description,
                   'contentType': item.contentType,
                   'thumbnail': item.thumbnail,
-                  'image': item.image
+                  'image': item.image,
+                  'animationUrl': item.animationUrl
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -484,10 +487,11 @@ class _$CollectionsItemDAO extends CollectionsItemDAO {
             row['hash'] as String,
             row['id'] as String,
             row['name'] as String,
+            row['image'] as String,
             description: row['description'] as String?,
             contentType: row['contentType'] as String?,
             thumbnail: row['thumbnail'] as String?,
-            image: row['image'] as String?));
+            animationUrl: row['animationUrl'] as String?));
   }
 
   @override
@@ -500,10 +504,11 @@ class _$CollectionsItemDAO extends CollectionsItemDAO {
             row['hash'] as String,
             row['id'] as String,
             row['name'] as String,
+            row['image'] as String,
             description: row['description'] as String?,
             contentType: row['contentType'] as String?,
             thumbnail: row['thumbnail'] as String?,
-            image: row['image'] as String?),
+            animationUrl: row['animationUrl'] as String?),
         arguments: [contractAddress]);
   }
 

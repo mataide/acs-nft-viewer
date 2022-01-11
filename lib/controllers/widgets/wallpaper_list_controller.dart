@@ -48,7 +48,7 @@ class WallpaperListController extends StateNotifier<WallpaperListState> {
     var image = ipfsToHTTP((jsonData['image'] as String));
 
     final head = await httpClient.head(Uri.parse(image), headers: {"Accept": "aplication/json"});
-    final contentType = head.headers['content-type'] as String;
+    var contentType = head.headers['content-type'] as String;
 
     if(contentType.contains('video')) {
       image = (await VideoThumbnail.thumbnailFile(
@@ -59,7 +59,15 @@ class WallpaperListController extends StateNotifier<WallpaperListState> {
         quality: 75,
       ))!;
     }
-    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.id, '${jsonData['name']} #${collections.id}', description: jsonData['description'], contentType: contentType, image: image, video: jsonData['image']);
+
+    if(jsonData['animation_url']) {
+      var animation_url = ipfsToHTTP((jsonData['animation_url'] as String));
+
+      final head = await httpClient.head(Uri.parse(animation_url), headers: {"Accept": "aplication/json"});
+      contentType = head.headers['content-type'] as String;
+    }
+
+    var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.id, '${jsonData['name']} #${collections.id}', image, description: jsonData['description'], contentType: contentType, animationUrl: jsonData['animation_url']);
     collectionsItemDAO.create(collectionsItem);
     return collectionsItem;
   }
