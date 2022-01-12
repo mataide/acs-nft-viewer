@@ -16,6 +16,7 @@ import 'package:image_downloader/image_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share/share.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:video_player/video_player.dart';
 
 class NftPageView extends ConsumerWidget {
   final List<CollectionsItem> collectionsItemList;
@@ -77,7 +78,7 @@ class NftPageView extends ConsumerWidget {
                     'Checkout this amazing NFT mine. ${collectionsItemList[index].animationUrl!}');
               } else {
                 Share.share(
-                    'Checkout this amazing NFT mine. ${collectionsItemList[index].image!}');
+                    'Checkout this amazing NFT mine. ${collectionsItemList[index].image}');
               }
             },
           ),
@@ -122,28 +123,13 @@ class NftPageView extends ConsumerWidget {
                           SizedBox(
                             height: height * 0.04,
                           ),
-                          Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: GestureDetector(
-                                  onTap: () => Navigator.of(context).push(
-                                      WhitePageRoute(
-                                          enterPage: NftScreen(
-                                              collectionsItemList, index))),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      snapshot.data!.image!.contains('http')
-                                          ? Image.network(
-                                              snapshot.data!.image!,
-                                              fit: BoxFit.cover,
-                                            )
-                                          : Image.file(
-                                              File(collectionsItemList[index]
-                                                  .image!),
-                                              fit: BoxFit.cover,
-                                            ),
-                                    ],
-                                  ))),
+                          type!.contains("image")
+                              ? typeImage(snapshot, context)
+                              : type.contains("video")
+                                  ? typeVideo(snapshot, context)
+                                  : type.contains("html")
+                                      ? typeHtml(snapshot, context)
+                                      : SizedBox(height: height * 0.2),
                           SizedBox(
                             height: height * 0.048,
                           ),
@@ -290,25 +276,52 @@ class NftPageView extends ConsumerWidget {
                           SizedBox(
                             height: height * 0.011,
                           ),
-                         ListView.builder( itemCount: collectionsItemList[index].attributes.length,
-                           shrinkWrap: true,
-                           itemBuilder: (context, a){
-                           final nDataList = collectionsItemList[index];
-                           return Container(
-                               child: Card(
-                                       child: Column(
-                                           children: <Widget>[
-                                             Text(
-                                               nDataList.attributes[a].value!, style: TextStyle(
-                                                 fontWeight: FontWeight.bold,
-                                                 fontSize: 18,
-                                                 color: Colors.green),
-                                             ),
-                                           ])
-                               )
-                           );
-                           },
-                         ),
+                          Row(
+                            children: [
+                              Container(
+                                  height: height * 0.20,
+                                  width: width * 0.47,
+                                  decoration: BoxDecoration(
+                                      color: state.primaryColorDark,
+                                      borderRadius: BorderRadius.circular(8.0)),
+                                  child: Column(children: [
+                                    SizedBox(
+                                      height: height * 0.023,
+                                    ),
+                                    Align(
+                                        alignment: Alignment.center,
+                                        child: ListView.builder(
+                                            itemCount:
+                                                collectionsItemList[index]
+                                                    .attributes
+                                                    .length,
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, a) {
+                                              final nDataList =
+                                                  collectionsItemList[index];
+                                              return Column(
+                                                children: [
+                                                  Text(
+                                                      nDataList.attributes[a]
+                                                                  .traitType !=
+                                                              null
+                                                          ? nDataList
+                                                              .attributes[a]
+                                                              .traitType!
+                                                          : "",
+                                                      style: state
+                                                          .textTheme.headline5),
+                                                  Text(
+                                                      nDataList
+                                                          .attributes[a].value!,
+                                                      style: state
+                                                          .textTheme.headline5),
+                                                ],
+                                              );
+                                            })),
+                                  ])),
+                            ],
+                          ),
                           SizedBox(
                             height: height * 0.01,
                           )
@@ -320,6 +333,71 @@ class NftPageView extends ConsumerWidget {
             })
       ])),
     );
+  }
+
+  Widget typeImage(AsyncSnapshot<CollectionsItem> snapshot, context) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: GestureDetector(
+            onTap: () => Navigator.of(context).push(WhitePageRoute(
+                enterPage: NftScreen(collectionsItemList, index))),
+            child: snapshot.data!.animationUrl == null
+                ? Stack(alignment: Alignment.center, children: [
+                    snapshot.data!.image.contains('http')
+                        ? Image.network(
+                            snapshot.data!.image,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.file(
+                            File(collectionsItemList[index].image),
+                            fit: BoxFit.cover,
+                          )
+                  ])
+                : Stack(alignment: Alignment.center, children: [
+                    Image.network(snapshot.data!.animationUrl!,
+                        fit: BoxFit.cover)
+                  ])));
+  }
+
+  Widget typeVideo(AsyncSnapshot<CollectionsItem> snapshot, context) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: GestureDetector(
+            onTap: () => Navigator.of(context).push(WhitePageRoute(
+                enterPage: NftScreen(collectionsItemList, index))),
+            child: snapshot.data!.animationUrl == null
+                ? Stack(alignment: Alignment.center, children: [
+                    snapshot.data!.image.contains('png')
+                        ? Image.file(
+                            File(collectionsItemList[index].image),
+                            fit: BoxFit.cover,
+                          )
+                        : VideoPlayer(
+                            VideoPlayerController.network(snapshot.data!.image))
+                  ])
+                : Stack(alignment: Alignment.center, children: [
+                    VideoPlayer(VideoPlayerController.network(
+                        snapshot.data!.animationUrl!))
+                  ])));
+  }
+
+  Widget typeHtml(AsyncSnapshot<CollectionsItem> snapshot, context) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: GestureDetector(
+            onTap: () => Navigator.of(context).push(WhitePageRoute(
+                enterPage: NftScreen(collectionsItemList, index))),
+            child: snapshot.data!.animationUrl == null
+                ? Stack(alignment: Alignment.center, children: [
+                    Image.network(
+                      snapshot.data!.image,
+                      fit: BoxFit.cover,
+                    )
+                  ])
+                : Stack(alignment: Alignment.center, children: [
+                    VideoPlayer(VideoPlayerController.network(
+                        snapshot.data!.animationUrl!))
+                  ])));
   }
 
   void downloadImage() async {
@@ -338,7 +416,7 @@ class NftPageView extends ConsumerWidget {
             }
           } else {
             var imageId = await ImageDownloader.downloadImage(
-                collectionsItemList[index].image!,
+                collectionsItemList[index].image,
                 destination: AndroidDestinationType.directoryPictures);
 
             if (imageId == null) {
@@ -376,7 +454,7 @@ class NftPageView extends ConsumerWidget {
           "Invalid " + collectionsItemList[index].contentType! + " Format.");
     } else {
       var file = await DefaultCacheManager()
-          .getSingleFile(collectionsItemList[index].image!);
+          .getSingleFile(collectionsItemList[index].image);
       try {
         final int result =
             await platform.invokeMethod('setWallpaper', file.path);

@@ -55,7 +55,7 @@ class CardRenderer extends ConsumerWidget {
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
-          _buildPositionedLayer(collectionsItem.image!, containerWidth * .8, maxParallax * .1, globalOffset),
+          _buildPositionedLayer(collectionsItem.image, containerWidth * .8, maxParallax * .1, globalOffset),
           // _buildPositionedLayer("images/${collectionsItem.name}/${collectionsItem.name}-Middle.png", containerWidth * .9, maxParallax * .6, globalOffset),
           // _buildPositionedLayer("images/${collectionsItem.name}/${collectionsItem.name}-Front.png", containerWidth * .9, maxParallax, globalOffset),
         ],
