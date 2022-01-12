@@ -71,6 +71,7 @@ class CardListController extends StateNotifier<CardListState> {
     var contentType = head.headers['content-type'] as String;
 
     if(contentType.contains('video')) {
+      jsonData['animation_url'] = image;
       image = (await VideoThumbnail.thumbnailFile(
         video: image,
         thumbnailPath: (await getTemporaryDirectory()).path,

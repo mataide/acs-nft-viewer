@@ -58,9 +58,10 @@ class CollectionsItemController extends StateNotifier<CollectionsItemState> {
     var image = ipfsToHTTP((jsonData['image'] as String));
     print(jsonData);
     final head = await httpClient.head(Uri.parse(image), headers: {"Accept": "aplication/json"});
-    final contentType = head.headers['content-type'] as String;
+    var contentType = head.headers['content-type'] as String;
 
     if(contentType.contains('video')) {
+      jsonData['animation_url'] = image;
       image = (await VideoThumbnail.thumbnailFile(
         video: image,
         thumbnailPath: (await getTemporaryDirectory()).path,
@@ -68,6 +69,13 @@ class CollectionsItemController extends StateNotifier<CollectionsItemState> {
         maxHeight: 400, // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
         quality: 75,
       ))!;
+    }
+
+    if(jsonData['animation_url'] != null) {
+      var animation_url = ipfsToHTTP((jsonData['animation_url'] as String));
+
+      final head = await httpClient.head(Uri.parse(animation_url), headers: {"Accept": "aplication/json"});
+      contentType = head.headers['content-type'] as String;
     }
 
     var attributes;
