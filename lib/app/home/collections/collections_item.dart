@@ -1,4 +1,5 @@
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faktura_nft_viewer/app/widgets/my_flexible_spacebar.dart';
 import 'package:faktura_nft_viewer/app/widgets/wallpaper_list.dart';
 import 'package:faktura_nft_viewer/controllers/home/collections/collections_item_controller.dart';
@@ -57,9 +58,9 @@ class CollectionsItemView extends ConsumerWidget {
                       },
                       blendMode: BlendMode.dstIn,
                       child: dataState.collections.image.contains('http')
-                          ? Image.network(
-                        dataState.collections.image,
-                        fit: BoxFit.cover,
+                          ? CachedNetworkImage(
+                        placeholder: (context, url) => CircularProgressIndicator(),
+                        fit: BoxFit.cover, imageUrl: dataState.collections.image,
                       )
                           : Image.file(
                         File(dataState.collections.image),

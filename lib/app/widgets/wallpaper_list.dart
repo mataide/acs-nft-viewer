@@ -1,6 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faktura_nft_viewer/app/home/collections/my_collection_item/nft_page.dart';
 import 'package:faktura_nft_viewer/app/routes/white_page_route.dart';
-import 'package:faktura_nft_viewer/core/models/attributes_item.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:flutter/material.dart';
@@ -74,9 +74,9 @@ class WallpaperListWidget extends ConsumerWidget {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(8.0),
                                       child: snapshot.data!.image.contains(
-                                          'http') ? Image.network(
-                                        snapshot.data!.image,
-                                        fit: BoxFit.cover,
+                                          'http') ? CachedNetworkImage(
+                                        placeholder: (context, url) => CircularProgressIndicator(),
+                                        fit: BoxFit.cover, imageUrl: snapshot.data!.image,
                                       ) : Image.file(
                                         File(snapshot.data!.image),
                                         height: MediaQuery
