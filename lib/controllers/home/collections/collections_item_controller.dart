@@ -29,7 +29,7 @@ class CollectionsItemController extends StateNotifier<CollectionsItemState> {
     final erc721DAO = database.eth721DAO;
 
     List<CollectionsItem> collectionsItemList = await collectionsItemDAO.findCollectionsItemByAddress(state.collections.contractAddress);
-    List<Eth721> erc721List = await erc721DAO.findEth721ByAddress(state.collections.contractAddress);
+    List<Eth721> erc721List = await erc721DAO.findEth721ByContractAddress(state.collections.contractAddress);
 
     if(state.collections.totalSupply != collectionsItemList.length) {
       collectionsItemList = [];

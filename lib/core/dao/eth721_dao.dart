@@ -8,7 +8,10 @@ abstract class Eth721DAO {
   Future<List<Eth721?>> findAll();
 
   @Query('SELECT * FROM Eth721 WHERE contractAddress LIKE :contractAddress')
-  Future<List<Eth721>> findEth721ByAddress(String contractAddress);
+  Future<List<Eth721>> findEth721ByContractAddress(String contractAddress);
+
+  @Query('DELETE FROM Eth721 WHERE to LIKE :ethAddress')
+  Future<void> deleteEth721ByAddress(String ethAddress);
 
   @Query('DELETE FROM Eth721')
   Future<void> deleteAll();

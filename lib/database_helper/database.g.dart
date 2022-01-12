@@ -232,7 +232,8 @@ class _$Eth721DAO extends Eth721DAO {
   }
 
   @override
-  Future<List<Eth721>> findEth721ByAddress(String contractAddress) async {
+  Future<List<Eth721>> findEth721ByContractAddress(
+      String contractAddress) async {
     return _queryAdapter.queryList(
         'SELECT * FROM Eth721 WHERE contractAddress LIKE ?1',
         mapper: (Map<String, Object?> row) => Eth721(
@@ -256,6 +257,12 @@ class _$Eth721DAO extends Eth721DAO {
             row['input'] as String,
             row['confirmations'] as String),
         arguments: [contractAddress]);
+  }
+
+  @override
+  Future<void> deleteEth721ByAddress(String ethAddress) async {
+    await _queryAdapter.queryNoReturn('DELETE FROM Eth721 WHERE to LIKE ?1',
+        arguments: [ethAddress]);
   }
 
   @override
@@ -393,6 +400,13 @@ class _$CollectionsDAO extends CollectionsDAO {
   @override
   Future<void> deleteAllCollections() async {
     await _queryAdapter.queryNoReturn('DELETE FROM Collections');
+  }
+
+  @override
+  Future<void> deleteCollectionsByAddress(String ethAddress) async {
+    await _queryAdapter.queryNoReturn(
+        'DELETE FROM Collections WHERE to LIKE ?1',
+        arguments: [ethAddress]);
   }
 
   @override

@@ -55,6 +55,12 @@ Future<void> _startPreferences() async {
     var listAddress = preferences.getStringList('key');
     listAddress!.remove(address);
     await preferences.setStringList('key', listAddress);
+
+    final database = await $FloorFlutterDatabase.databaseBuilder(
+        'app_database.db').build();
+    await database.eth721DAO.deleteEth721ByAddress(address);
+    await database.collectionsDAO.deleteCollectionsByAddress(address);
+
     state = SettingsLoginState(listAddress: listAddress, isExpanded: state.isExpanded);
     return listAddress;
   }
@@ -79,17 +85,6 @@ Future<void> _startPreferences() async {
       print("Failed to initWalletConnection: '${e.message}'.");
     }
   }
-
-
- /* Future<void> deleteFromDb(address) async {
-    final preferences = await SharedPreferences.getInstance();
-    var listAddress = preferences.getStringList('key');
-    final database = await $FloorFlutterDatabase.databaseBuilder(
-        'app_database.db').build();
-    final collectionsDAO = database.collectionsDAO;
-    List<Collections> collections = await collectionsDAO.deleteCollections(address);
-  }*/
-
 
 }
 extension ListExtension<E> on List<E> {
