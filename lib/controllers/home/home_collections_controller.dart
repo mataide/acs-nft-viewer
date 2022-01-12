@@ -58,15 +58,19 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
 
     final List<Eth721> listERC721 =
         await APIService.instance.getERC721(address);
-    eth721Dao.insertList(listERC721);
-    var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
-    late List<Collections> listCollections = [];
-    for (var erc721 in newMap.entries) {
-      final collections = Collections.fromEth721(
-          erc721.value.first, "ethereum", erc721.value.length);
-      listCollections.add(collections);
+    var listCollections = <Collections>[];
+
+    if (listERC721.isNotEmpty) {
+      eth721Dao.insertList(listERC721);
+      var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
+      for (var erc721 in newMap.entries) {
+        final collections = Collections.fromEth721(
+            erc721.value.first, "ethereum", erc721.value.length);
+        listCollections.add(collections);
+      }
+      await collectionsDAO.insertList(listCollections);
     }
-    await collectionsDAO.insertList(listCollections);
+
     state = HomeCollectionsState(state.refreshController,
         collections: listCollections, fetchState: kdataFetchState.IS_LOADED);
     return listCollections;

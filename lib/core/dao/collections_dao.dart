@@ -10,7 +10,7 @@ abstract class CollectionsDAO {
   @Query('DELETE FROM Collections')
   Future<void> deleteAllCollections();
 
-  @Query('DELETE FROM Collections WHERE to LIKE :ethAddress')
+  @Query('DELETE FROM Collections WHERE ethAddress LIKE :ethAddress')
   Future<void> deleteCollectionsByAddress(String ethAddress);
 
   @Insert(onConflict: OnConflictStrategy.ignore)

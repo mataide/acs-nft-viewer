@@ -22,6 +22,7 @@ class Eth721 {
   @ColumnInfo(name: 'contractAddress')
   String contractAddress;
 
+  @ColumnInfo(name: 'ethAddress')
   String to;
 
   String tokenID;

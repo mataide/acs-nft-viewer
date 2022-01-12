@@ -18,6 +18,7 @@ class Collections {
 
   String from;
 
+  @ColumnInfo(name: 'ethAddress')
   String to;
 
   String tokenID;

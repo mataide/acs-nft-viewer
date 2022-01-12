@@ -86,9 +86,9 @@ class _$FlutterDatabase extends FlutterDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Eth721` (`hash` TEXT NOT NULL, `blockNumber` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `nonce` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `transactionIndex` TEXT NOT NULL, `gas` TEXT NOT NULL, `gasPrice` TEXT NOT NULL, `gasUsed` TEXT NOT NULL, `cumulativeGasUsed` TEXT NOT NULL, `input` TEXT NOT NULL, `confirmations` TEXT NOT NULL, PRIMARY KEY (`hash`))');
+            'CREATE TABLE IF NOT EXISTS `Eth721` (`hash` TEXT NOT NULL, `blockNumber` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `nonce` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `ethAddress` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `transactionIndex` TEXT NOT NULL, `gas` TEXT NOT NULL, `gasPrice` TEXT NOT NULL, `gasUsed` TEXT NOT NULL, `cumulativeGasUsed` TEXT NOT NULL, `input` TEXT NOT NULL, `confirmations` TEXT NOT NULL, PRIMARY KEY (`hash`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `to` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `blockchain` TEXT NOT NULL, `externalUrl` TEXT, `description` TEXT, `amount` TEXT, `image` TEXT, `totalSupply` INTEGER, PRIMARY KEY (`contractAddress`))');
+            'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `ethAddress` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `blockchain` TEXT NOT NULL, `externalUrl` TEXT, `description` TEXT, `amount` TEXT, `image` TEXT, `totalSupply` INTEGER, PRIMARY KEY (`contractAddress`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `CollectionsItem` (`hash` TEXT NOT NULL, `id` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `contentType` TEXT, `thumbnail` TEXT, `image` TEXT NOT NULL, `animationUrl` TEXT, `attributes` TEXT NOT NULL, PRIMARY KEY (`hash`))');
 
@@ -130,7 +130,7 @@ class _$Eth721DAO extends Eth721DAO {
                   'blockHash': item.blockHash,
                   'from': item.from,
                   'contractAddress': item.contractAddress,
-                  'to': item.to,
+                  'ethAddress': item.to,
                   'tokenID': item.tokenID,
                   'tokenName': item.tokenName,
                   'tokenSymbol': item.tokenSymbol,
@@ -155,7 +155,7 @@ class _$Eth721DAO extends Eth721DAO {
                   'blockHash': item.blockHash,
                   'from': item.from,
                   'contractAddress': item.contractAddress,
-                  'to': item.to,
+                  'ethAddress': item.to,
                   'tokenID': item.tokenID,
                   'tokenName': item.tokenName,
                   'tokenSymbol': item.tokenSymbol,
@@ -180,7 +180,7 @@ class _$Eth721DAO extends Eth721DAO {
                   'blockHash': item.blockHash,
                   'from': item.from,
                   'contractAddress': item.contractAddress,
-                  'to': item.to,
+                  'ethAddress': item.to,
                   'tokenID': item.tokenID,
                   'tokenName': item.tokenName,
                   'tokenSymbol': item.tokenSymbol,
@@ -217,7 +217,7 @@ class _$Eth721DAO extends Eth721DAO {
             row['blockHash'] as String,
             row['from'] as String,
             row['contractAddress'] as String,
-            row['to'] as String,
+            row['ethAddress'] as String,
             row['tokenID'] as String,
             row['tokenName'] as String,
             row['tokenSymbol'] as String,
@@ -244,7 +244,7 @@ class _$Eth721DAO extends Eth721DAO {
             row['blockHash'] as String,
             row['from'] as String,
             row['contractAddress'] as String,
-            row['to'] as String,
+            row['ethAddress'] as String,
             row['tokenID'] as String,
             row['tokenName'] as String,
             row['tokenSymbol'] as String,
@@ -261,7 +261,8 @@ class _$Eth721DAO extends Eth721DAO {
 
   @override
   Future<void> deleteEth721ByAddress(String ethAddress) async {
-    await _queryAdapter.queryNoReturn('DELETE FROM Eth721 WHERE to LIKE ?1',
+    await _queryAdapter.queryNoReturn(
+        'DELETE FROM Eth721 WHERE ethAddress LIKE ?1',
         arguments: [ethAddress]);
   }
 
@@ -306,7 +307,7 @@ class _$CollectionsDAO extends CollectionsDAO {
                   'timeStamp': item.timeStamp,
                   'blockHash': item.blockHash,
                   'from': item.from,
-                  'to': item.to,
+                  'ethAddress': item.to,
                   'tokenID': item.tokenID,
                   'tokenName': item.tokenName,
                   'tokenSymbol': item.tokenSymbol,
@@ -328,7 +329,7 @@ class _$CollectionsDAO extends CollectionsDAO {
                   'timeStamp': item.timeStamp,
                   'blockHash': item.blockHash,
                   'from': item.from,
-                  'to': item.to,
+                  'ethAddress': item.to,
                   'tokenID': item.tokenID,
                   'tokenName': item.tokenName,
                   'tokenSymbol': item.tokenSymbol,
@@ -350,7 +351,7 @@ class _$CollectionsDAO extends CollectionsDAO {
                   'timeStamp': item.timeStamp,
                   'blockHash': item.blockHash,
                   'from': item.from,
-                  'to': item.to,
+                  'ethAddress': item.to,
                   'tokenID': item.tokenID,
                   'tokenName': item.tokenName,
                   'tokenSymbol': item.tokenSymbol,
@@ -384,7 +385,7 @@ class _$CollectionsDAO extends CollectionsDAO {
             row['blockHash'] as String,
             row['from'] as String,
             row['contractAddress'] as String,
-            row['to'] as String,
+            row['ethAddress'] as String,
             row['tokenID'] as String,
             row['tokenName'] as String,
             row['tokenSymbol'] as String,
@@ -405,7 +406,7 @@ class _$CollectionsDAO extends CollectionsDAO {
   @override
   Future<void> deleteCollectionsByAddress(String ethAddress) async {
     await _queryAdapter.queryNoReturn(
-        'DELETE FROM Collections WHERE to LIKE ?1',
+        'DELETE FROM Collections WHERE ethAddress LIKE ?1',
         arguments: [ethAddress]);
   }
 
