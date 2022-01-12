@@ -90,264 +90,245 @@ class NftPageView extends ConsumerWidget {
       backgroundColor: state.primaryColor,
       body: SingleChildScrollView(
           child: Column(children: [
-        FutureBuilder<CollectionsItem>(
-            future: controller.getCollectionItem(collectionsItemList[index]),
-            // function where you call your api
-            builder: (BuildContext context,
-                AsyncSnapshot<CollectionsItem> snapshot) {
-              // AsyncSnapshot<Your object type>
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                    child: Text(
-                  'Please wait its loading...',
-                  style: TextStyle(color: state.textTheme.bodyText1!.color),
-                ));
-              } else {
-                if (snapshot.hasError)
-                  return Center(
-                      child: Text('getCollectionImage: ${snapshot.error}'));
-                else
-                  return SingleChildScrollView(
-                    child: Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            left: (width * 0.02), right: (width * 0.02)),
-                        child: Column(children: [
-                          SizedBox(height: height * 0.008),
-                          Align(
-                              alignment: Alignment.centerLeft,
-                              child: Expanded(
-                                  child: Text(
-                                collectionsItemList[index].name,
-                                style: state.textTheme.caption,
-                              ))),
-                          SizedBox(
-                            height: height * 0.04,
-                          ),
-                          type!.contains("image")
-                              ? typeImage(snapshot, context)
-                              : type.contains("video")
-                                  ? typeVideo(snapshot, context)
-                                  : type.contains("html")
-                                      ? typeHtml(snapshot, context)
-                                      : SizedBox(height: height * 0.2),
-                          SizedBox(
-                            height: height * 0.048,
-                          ),
-                          Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Details",
-                                style: state.textTheme.subtitle2,
-                              )),
-                          SizedBox(
-                            height: height * 0.012,
-                          ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                          right: BorderSide(
-                                              color: Color(0xFF606060)))),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Contract Address',
-                                          style: state.textTheme.headline4),
-                                      SizedBox(
-                                        height: height * 0.004,
-                                        width: width * 0.4,
-                                      ),
-                                      Row(children: [
-                                        Text(
-                                            concatAddress(
-                                                collectionsItemList[index]
-                                                    .contractAddress),
-                                            maxLines: 1,
-                                            textAlign: TextAlign.start,
-                                            overflow: TextOverflow.ellipsis,
-                                            softWrap: false,
-                                            style: state.textTheme.headline5),
-                                      ]),
-                                      SizedBox(
-                                        width: width * 0.4,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            right: BorderSide(
-                                                color: Color(0xFF606060)))),
-                                    child: Column(children: [
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text('Token ID',
-                                            style: state.textTheme.headline4),
-                                      ),
-                                      SizedBox(
-                                        height: height * 0.004,
-                                        width: width * 0.3,
-                                      ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          collectionsItemList[index].id,
-                                          style: state.textTheme.headline5,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.3,
-                                      )
-                                    ])),
-                                Container(
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            right: BorderSide(
-                                                color: Color(0xFF606060)))),
-                                    child: Column(children: [
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text('Token Standard',
-                                            style: state.textTheme.headline4),
-                                      ),
-                                      SizedBox(
-                                        height: height * 0.004,
-                                        width: width * 0.4,
-                                      ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          'Número ERC',
-                                          style: state.textTheme.headline5,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.4,
-                                      )
-                                    ])),
-                                Container(
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            right: BorderSide(
-                                                color: Color(0xFF606060)))),
-                                    child: Column(children: [
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text('Blockchain',
-                                            style: state.textTheme.headline4),
-                                      ),
-                                      SizedBox(
-                                        height: height * 0.004,
-                                        width: width * 0.3,
-                                      ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          isValidEthereumAddress(
-                                                      collectionsItemList[index]
-                                                          .contractAddress) ==
-                                                  true
-                                              ? "Ethereum"
-                                              : "Bloc Other",
-                                          style: state.textTheme.headline5,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.3,
-                                      )
-                                    ])),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: height * 0.012,
-                          ),
-                          Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Properties",
-                                style: state.textTheme.subtitle2,
-                              )),
-                          SizedBox(
-                            height: height * 0.011,
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                  height: height * 0.20,
-                                  width: width * 0.47,
-                                  decoration: BoxDecoration(
-                                      color: state.primaryColorDark,
-                                      borderRadius: BorderRadius.circular(8.0)),
-                                  child: Column(children: [
-                                    SizedBox(
-                                      height: height * 0.023,
-                                    ),
-                                    Align(
-                                        alignment: Alignment.center,
-                                        child: ListView.builder(
-                                            itemCount:
-                                                collectionsItemList[index]
-                                                    .attributes
-                                                    .length,
-                                            shrinkWrap: true,
-                                            itemBuilder: (context, a) {
-                                              final nDataList =
-                                                  collectionsItemList[index];
-                                              return Column(
-                                                children: [
-                                                  Text(
-                                                      nDataList.attributes[a]
-                                                                  .traitType !=
-                                                              null
-                                                          ? nDataList
-                                                              .attributes[a]
-                                                              .traitType!
-                                                          : "",
-                                                      style: state
-                                                          .textTheme.headline5),
-                                                  Text(
-                                                      nDataList
-                                                          .attributes[a].value!,
-                                                      style: state
-                                                          .textTheme.headline5),
-                                                ],
-                                              );
-                                            })),
-                                  ])),
-                            ],
-                          ),
-                          SizedBox(
-                            height: height * 0.01,
-                          )
-                        ]),
+          SingleChildScrollView(
+          child: Expanded(
+          child: Container(
+          margin: EdgeInsets.only(
+          left: (width * 0.02), right: (width * 0.02)),
+      child: Column(children: [
+        SizedBox(height: height * 0.008),
+        Align(
+            alignment: Alignment.centerLeft,
+            child: Expanded(
+                child: Text(
+                  collectionsItemList[index].name,
+                  style: state.textTheme.caption,
+                ))),
+        SizedBox(
+          height: height * 0.04,
+        ),
+        type!.contains("image")
+            ? typeImage(collectionsItemList[index], context)
+            : type.contains("video")
+            ? typeVideo(collectionsItemList[index], context)
+            : type.contains("html")
+            ? typeHtml(collectionsItemList[index], context)
+            : SizedBox(height: height * 0.2),
+        SizedBox(
+          height: height * 0.048,
+        ),
+        Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Details",
+              style: state.textTheme.subtitle2,
+            )),
+        SizedBox(
+          height: height * 0.012,
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    border: Border(
+                        right: BorderSide(
+                            color: Color(0xFF606060)))),
+                child: Column(
+                  crossAxisAlignment:
+                  CrossAxisAlignment.start,
+                  children: [
+                    Text('Contract Address',
+                        style: state.textTheme.headline4),
+                    SizedBox(
+                      height: height * 0.004,
+                      width: width * 0.4,
+                    ),
+                    Row(children: [
+                      Text(
+                          concatAddress(
+                              collectionsItemList[index]
+                                  .contractAddress),
+                          maxLines: 1,
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: false,
+                          style: state.textTheme.headline5),
+                    ]),
+                    SizedBox(
+                      width: width * 0.4,
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          right: BorderSide(
+                              color: Color(0xFF606060)))),
+                  child: Column(children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Token ID',
+                          style: state.textTheme.headline4),
+                    ),
+                    SizedBox(
+                      height: height * 0.004,
+                      width: width * 0.3,
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        collectionsItemList[index].id,
+                        style: state.textTheme.headline5,
                       ),
                     ),
-                  );
-              }
-            })
+                    SizedBox(
+                      width: width * 0.3,
+                    )
+                  ])),
+              Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          right: BorderSide(
+                              color: Color(0xFF606060)))),
+                  child: Column(children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Token Standard',
+                          style: state.textTheme.headline4),
+                    ),
+                    SizedBox(
+                      height: height * 0.004,
+                      width: width * 0.4,
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Número ERC',
+                        style: state.textTheme.headline5,
+                      ),
+                    ),
+                    SizedBox(
+                      width: width * 0.4,
+                    )
+                  ])),
+              Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          right: BorderSide(
+                              color: Color(0xFF606060)))),
+                  child: Column(children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Blockchain',
+                          style: state.textTheme.headline4),
+                    ),
+                    SizedBox(
+                      height: height * 0.004,
+                      width: width * 0.3,
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        isValidEthereumAddress(
+                            collectionsItemList[index]
+                                .contractAddress) ==
+                            true
+                            ? "Ethereum"
+                            : "Bloc Other",
+                        style: state.textTheme.headline5,
+                      ),
+                    ),
+                    SizedBox(
+                      width: width * 0.3,
+                    )
+                  ])),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: height * 0.012,
+        ),
+        Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Properties",
+              style: state.textTheme.subtitle2,
+            )),
+        SizedBox(
+          height: height * 0.011,
+        ),
+        Row(
+          children: [
+            Container(
+                height: height * 0.20,
+                width: width * 0.47,
+                decoration: BoxDecoration(
+                    color: state.primaryColorDark,
+                    borderRadius: BorderRadius.circular(8.0)),
+                child: Column(children: [
+                  SizedBox(
+                    height: height * 0.023,
+                  ),
+                  Align(
+                      alignment: Alignment.center,
+                      child: ListView.builder(
+                          itemCount:
+                          collectionsItemList[index]
+                              .attributes
+                              .length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, a) {
+                            final nDataList =
+                            collectionsItemList[index];
+                            return Column(
+                              children: [
+                                Text(
+                                    nDataList.attributes[a]
+                                        .traitType !=
+                                        null
+                                        ? nDataList
+                                        .attributes[a]
+                                        .traitType!
+                                        : "",
+                                    style: state
+                                        .textTheme.headline5),
+                                Text(
+                                    nDataList
+                                        .attributes[a].value!,
+                                    style: state
+                                        .textTheme.headline5),
+                              ],
+                            );
+                          })),
+                ])),
+          ],
+        ),
+        SizedBox(
+          height: height * 0.01,
+        )
+      ]),
+    ),
+    ),
+    )
       ])),
     );
   }
 
-  Widget typeImage(AsyncSnapshot<CollectionsItem> snapshot, context) {
+  Widget typeImage(CollectionsItem snapshot, context) {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: GestureDetector(
             onTap: () => Navigator.of(context).push(WhitePageRoute(
                 enterPage: NftScreen(collectionsItemList, index))),
-            child: snapshot.data!.animationUrl == null
+            child: snapshot.animationUrl == null
                 ? Stack(alignment: Alignment.center, children: [
-                    snapshot.data!.image.contains('http')
+                    snapshot.image.contains('http')
                         ? CachedNetworkImage(
                       placeholder: (context, url) => CircularProgressIndicator(),
-                      fit: BoxFit.cover, imageUrl: snapshot.data!.image,
+                      fit: BoxFit.cover, imageUrl: snapshot.image,
                     )
                         : Image.file(
                             File(collectionsItemList[index].image),
@@ -357,49 +338,49 @@ class NftPageView extends ConsumerWidget {
                 : Stack(alignment: Alignment.center, children: [
               CachedNetworkImage(
                 placeholder: (context, url) => CircularProgressIndicator(),
-                fit: BoxFit.cover, imageUrl: snapshot.data!.animationUrl!,
+                fit: BoxFit.cover, imageUrl: snapshot.animationUrl!,
               )
                   ])));
   }
 
-  Widget typeVideo(AsyncSnapshot<CollectionsItem> snapshot, context) {
+  Widget typeVideo(CollectionsItem snapshot, context) {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: GestureDetector(
             onTap: () => Navigator.of(context).push(WhitePageRoute(
                 enterPage: NftScreen(collectionsItemList, index))),
-            child: snapshot.data!.animationUrl == null
+            child: snapshot.animationUrl == null
                 ? Stack(alignment: Alignment.center, children: [
-                    snapshot.data!.image.contains('png')
+                    snapshot.image.contains('png')
                         ? Image.file(
                             File(collectionsItemList[index].image),
                             fit: BoxFit.cover,
                           )
                         : VideoPlayer(
-                            VideoPlayerController.network(snapshot.data!.image))
+                            VideoPlayerController.network(snapshot.image))
                   ])
                 : Stack(alignment: Alignment.center, children: [
                     VideoPlayer(VideoPlayerController.network(
-                        snapshot.data!.animationUrl!))
+                        snapshot.animationUrl!))
                   ])));
   }
 
-  Widget typeHtml(AsyncSnapshot<CollectionsItem> snapshot, context) {
+  Widget typeHtml(CollectionsItem snapshot, context) {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: GestureDetector(
             onTap: () => Navigator.of(context).push(WhitePageRoute(
                 enterPage: NftScreen(collectionsItemList, index))),
-            child: snapshot.data!.animationUrl == null
+            child: snapshot.animationUrl == null
                 ? Stack(alignment: Alignment.center, children: [
               CachedNetworkImage(
                 placeholder: (context, url) => CircularProgressIndicator(),
-                fit: BoxFit.cover, imageUrl: snapshot.data!.image,
+                fit: BoxFit.cover, imageUrl: snapshot.image,
               )
                   ])
                 : Stack(alignment: Alignment.center, children: [
                     VideoPlayer(VideoPlayerController.network(
-                        snapshot.data!.animationUrl!))
+                        snapshot.animationUrl!))
                   ])));
   }
 
