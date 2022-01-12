@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ethereum_addresses/ethereum_addresses.dart';
 import 'package:faktura_nft_viewer/app/home/collections/my_collection_item/nft_screen.dart';
 import 'package:faktura_nft_viewer/app/routes/white_page_route.dart';
@@ -344,18 +345,20 @@ class NftPageView extends ConsumerWidget {
             child: snapshot.data!.animationUrl == null
                 ? Stack(alignment: Alignment.center, children: [
                     snapshot.data!.image.contains('http')
-                        ? Image.network(
-                            snapshot.data!.image,
-                            fit: BoxFit.cover,
-                          )
+                        ? CachedNetworkImage(
+                      placeholder: (context, url) => CircularProgressIndicator(),
+                      fit: BoxFit.cover, imageUrl: snapshot.data!.image,
+                    )
                         : Image.file(
                             File(collectionsItemList[index].image),
                             fit: BoxFit.cover,
                           )
                   ])
                 : Stack(alignment: Alignment.center, children: [
-                    Image.network(snapshot.data!.animationUrl!,
-                        fit: BoxFit.cover)
+              CachedNetworkImage(
+                placeholder: (context, url) => CircularProgressIndicator(),
+                fit: BoxFit.cover, imageUrl: snapshot.data!.animationUrl!,
+              )
                   ])));
   }
 
@@ -389,10 +392,10 @@ class NftPageView extends ConsumerWidget {
                 enterPage: NftScreen(collectionsItemList, index))),
             child: snapshot.data!.animationUrl == null
                 ? Stack(alignment: Alignment.center, children: [
-                    Image.network(
-                      snapshot.data!.image,
-                      fit: BoxFit.cover,
-                    )
+              CachedNetworkImage(
+                placeholder: (context, url) => CircularProgressIndicator(),
+                fit: BoxFit.cover, imageUrl: snapshot.data!.image,
+              )
                   ])
                 : Stack(alignment: Alignment.center, children: [
                     VideoPlayer(VideoPlayerController.network(

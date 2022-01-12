@@ -13,7 +13,6 @@ import 'package:image_downloader/image_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share/share.dart';
 
-
 class NftScreen extends ConsumerWidget {
   final List<CollectionsItem> collectionsItemList;
   final int index;
@@ -37,36 +36,16 @@ class NftScreen extends ConsumerWidget {
         body: Stack(
           children: [
             Container(
-              child: FutureBuilder<CollectionsItem>(
-                  future:
-                      controller.getCollectionItem(collectionsItemList[index]),
-                  // function where you call your api
-                  builder: (BuildContext context,
-                      AsyncSnapshot<CollectionsItem> snapshot) {
-                    // AsyncSnapshot<Your object type>
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                          child: Text(
-                        'Please wait its loading...',
-                        style:
-                            TextStyle(color: state.textTheme.bodyText1!.color),
-                      ));
-                    } else {
-                      if (snapshot.hasError)
-                        return Center(
-                            child:
-                                Text('getCollectionImage: ${snapshot.error}'));
-                      else
-                        return snapshot.data!.image.contains('http')
-                            ? Image.network(snapshot.data!.image,
-                                height: double.infinity, fit: BoxFit.fill)
-                            : Image.file(
-                                File(collectionsItemList[index].image),
-                                height: double.infinity,
-                                fit: BoxFit.fill,
-                              );
-                    }
-                  }),
+              child: collectionsItemList[index].image.contains('http')
+                  ? Image.network(collectionsItemList[index].image,
+                      fit: BoxFit.fitWidth)
+                  : Image.file(
+                      File(collectionsItemList[index].image),
+                      alignment: Alignment.center,
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.fitWidth,
+                    ),
             ),
             Positioned(
               child: AppBar(
