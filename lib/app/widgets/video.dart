@@ -15,6 +15,9 @@ class VideoWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData state = ref.watch(themeProvider);
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     final VideoPlayerController controller;
     Future<void> _initializeVideoPlayerFuture;
     controller = VideoPlayerController.network(
@@ -22,7 +25,8 @@ class VideoWidget extends ConsumerWidget {
     );
 
     _initializeVideoPlayerFuture = controller.initialize();
-    controller.setLooping(true);
+    controller.setLooping(false);
+
     return Expanded(
         child: Container(
             child: Column(
@@ -32,27 +36,39 @@ class VideoWidget extends ConsumerWidget {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               return AspectRatio(
-                aspectRatio: controller.value.aspectRatio,
-                child: VideoPlayer(controller),
-              );
+                  aspectRatio: controller.value.aspectRatio,
+                  child: Stack(
+                    children: [
+                      VideoPlayer(controller,),
+                      Positioned(
+                        bottom: 10,
+                          left: 5,
+                          child:FloatingActionButton(
+                          onPressed: () {
+                            if (controller.value.isPlaying) {
+                              controller.pause();
+                            } else {
+                              controller.play();
+                            }
+                          },
+                          child: Icon(
+                            controller.value.isPlaying
+                                ? Icons.pause
+                                : Icons.play_arrow,
+                          ),
+                        )
+            ),
+                    ],
+                  ));
             } else {
-              return Center(child: CircularProgressIndicator(color: state.accentColor));
+              return Center(
+                  child: CircularProgressIndicator(color: state.accentColor));
             }
           },
-        ),
-        FloatingActionButton(
-          onPressed: () {
-            if (controller.value.isPlaying) {
-              controller.pause();
-            } else {
-              controller.play();
-            }
-          },
-          child: Icon(
-            controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-          ),
         ),
       ],
     )));
   }
+
+
 }

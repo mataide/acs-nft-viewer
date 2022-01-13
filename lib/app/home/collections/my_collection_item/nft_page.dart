@@ -255,45 +255,9 @@ class NftPageView extends ConsumerWidget {
                 SizedBox(
                   height: height * 0.011,
                 ),
-                Row(
-                  children: [
-                    Container(
-                        height: height * 0.20,
-                        width: width * 0.47,
-                        decoration: BoxDecoration(
-                            color: state.primaryColorDark,
-                            borderRadius: BorderRadius.circular(8.0)),
-                        child: Column(children: [
-                          SizedBox(
-                            height: height * 0.023,
-                          ),
-                          Align(
-                              alignment: Alignment.center,
-                              child: ListView.builder(
-                                  itemCount: collectionsItemList[index]
-                                      .attributes
-                                      .length,
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, a) {
-                                    final nDataList =
-                                        collectionsItemList[index];
-                                    return Column(
-                                      children: [
-                                        Text(
-                                            nDataList.attributes[a].traitType !=
-                                                    null
-                                                ? nDataList
-                                                    .attributes[a].traitType!
-                                                : "",
-                                            style: state.textTheme.headline5),
-                                        Text(nDataList.attributes[a].value!,
-                                            style: state.textTheme.headline5),
-                                      ],
-                                    );
-                                  })),
-                        ])),
-                  ],
-                ),
+                collectionsItemList[index].animationUrl != null
+                    ? properties(height, width, state)
+                    : Container(),
                 SizedBox(
                   height: height * 0.01,
                 )
@@ -302,6 +266,43 @@ class NftPageView extends ConsumerWidget {
           ),
         )
       ])),
+    );
+  }
+
+  Widget properties(height, width, state) {
+    return Row(
+      children: [
+        Container(
+            height: height * 0.20,
+            width: width * 0.47,
+            decoration: BoxDecoration(
+                color: state.primaryColorDark,
+                borderRadius: BorderRadius.circular(8.0)),
+            child: Column(children: [
+              SizedBox(
+                height: height * 0.023,
+              ),
+              Align(
+                  alignment: Alignment.center,
+                  child: ListView.builder(
+                      itemCount: collectionsItemList[index].attributes.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, a) {
+                        final nDataList = collectionsItemList[index];
+                        return Column(
+                          children: [
+                            Text(
+                                nDataList.attributes[a].traitType != null
+                                    ? nDataList.attributes[a].traitType!
+                                    : "",
+                                style: state.textTheme.headline5),
+                            Text(nDataList.attributes[a].value!,
+                                style: state.textTheme.headline5),
+                          ],
+                        );
+                      })),
+            ])),
+      ],
     );
   }
 
