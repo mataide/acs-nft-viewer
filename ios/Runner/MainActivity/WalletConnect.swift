@@ -11,7 +11,27 @@ protocol WalletConnectDelegate {
     func didDisconnect()
 }
 
-class WalletConnect {
+class WalletConnect: ClientDelegate {
+    func client(_ client: Client, didFailToConnect url: WCURL) {
+        <#code#>
+    }
+    
+    func client(_ client: Client, didConnect url: WCURL) {
+        <#code#>
+    }
+    
+    func client(_ client: Client, didConnect session: Session) {
+        <#code#>
+    }
+    
+    func client(_ client: Client, didDisconnect session: Session) {
+        <#code#>
+    }
+    
+    func client(_ client: Client, didUpdate session: Session) {
+        <#code#>
+    }
+    
     var client: Client!
     var session: Session!
 
