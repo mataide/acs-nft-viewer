@@ -14,6 +14,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:readmore/readmore.dart';
 import 'dart:io';
 
+import 'package:video_player/video_player.dart';
+
 class CollectionsItemView extends ConsumerWidget {
   final Collections collections;
 
@@ -27,7 +29,6 @@ class CollectionsItemView extends ConsumerWidget {
     final dataState = ref.watch(collectionsItemProvider(collections));
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-
 
     return
       Scaffold(

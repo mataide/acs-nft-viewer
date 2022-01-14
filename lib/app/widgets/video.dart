@@ -10,6 +10,7 @@ class VideoWidget extends ConsumerWidget {
   final List<CollectionsItem> collectionsItemList;
   final int index;
 
+
   VideoWidget(this.collectionsItemList, this.index);
 
   @override
@@ -18,15 +19,14 @@ class VideoWidget extends ConsumerWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    final VideoPlayerController controller;
+    VideoPlayerController controller;
     Future<void> _initializeVideoPlayerFuture;
-    controller = VideoPlayerController.network(
+   controller = VideoPlayerController.network(
       collectionsItemList[index].animationUrl!,
     );
 
     _initializeVideoPlayerFuture = controller.initialize();
-    controller.setLooping(false);
-
+    controller.setLooping(true);
     return Expanded(
         child: Container(
             child: Column(
@@ -35,29 +35,12 @@ class VideoWidget extends ConsumerWidget {
           future: _initializeVideoPlayerFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
+              controller.play();
               return AspectRatio(
                   aspectRatio: controller.value.aspectRatio,
                   child: Stack(
                     children: [
                       VideoPlayer(controller,),
-                      Positioned(
-                        bottom: 10,
-                          left: 5,
-                          child:FloatingActionButton(
-                          onPressed: () {
-                            if (controller.value.isPlaying) {
-                              controller.pause();
-                            } else {
-                              controller.play();
-                            }
-                          },
-                          child: Icon(
-                            controller.value.isPlaying
-                                ? Icons.pause
-                                : Icons.play_arrow,
-                          ),
-                        )
-            ),
                     ],
                   ));
             } else {

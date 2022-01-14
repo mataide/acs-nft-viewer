@@ -53,7 +53,7 @@ class WallpaperListWidget extends ConsumerWidget {
                                 Navigator.push(
                                   context,
                                   WhitePageRoute(enterPage: NftPageView(
-                                      collectionsItemList, index)),
+                                      collectionsItemList, index,)),
                                 );
                               },
                               child: Stack(

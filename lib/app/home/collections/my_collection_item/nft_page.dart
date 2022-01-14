@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ethereum_addresses/ethereum_addresses.dart';
 import 'package:faktura_nft_viewer/app/home/collections/my_collection_item/nft_screen.dart';
 import 'package:faktura_nft_viewer/app/routes/white_page_route.dart';
+import 'package:faktura_nft_viewer/app/widgets/html.dart';
 import 'package:faktura_nft_viewer/app/widgets/video.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
@@ -19,10 +20,12 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:share/share.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:video_player/video_player.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class NftPageView extends ConsumerWidget {
   final List<CollectionsItem> collectionsItemList;
   final int index;
+
 
   static const platform =
       const MethodChannel('com.bimsina.re_walls/MainActivity');
@@ -40,7 +43,6 @@ class NftPageView extends ConsumerWidget {
     final height = MediaQuery.of(context).size.height;
 
     var type = collectionsItemList[index].contentType;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: state.primaryColor,
@@ -89,7 +91,7 @@ class NftPageView extends ConsumerWidget {
         elevation: 0.0,
       ),
       backgroundColor: state.primaryColor,
-      body: SingleChildScrollView(
+      body:  SingleChildScrollView(
           child: Column(children: [
         SingleChildScrollView(
           child: Expanded(
@@ -375,7 +377,7 @@ class NftPageView extends ConsumerWidget {
                   ])
                 : Stack(
                     alignment: Alignment.center,
-                    children: [VideoWidget(collectionsItemList, index)])));
+                    children: [HtmlWidget(collectionsItemList,index)])));
   }
 
   void downloadImage() async {
