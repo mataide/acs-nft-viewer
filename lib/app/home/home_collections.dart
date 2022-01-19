@@ -37,6 +37,7 @@ class HomeCollectionsView extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: state.primaryColor,
         iconTheme: state.primaryIconTheme,
+        elevation: 0.0,
       ),
       backgroundColor: state.primaryColor,
       body: _pullToRefresh(controller, dataState, stateTheme, stateLogin, controllerLogin,
