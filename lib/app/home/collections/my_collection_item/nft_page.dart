@@ -26,7 +26,6 @@ class NftPageView extends ConsumerWidget {
   final List<CollectionsItem> collectionsItemList;
   final int index;
 
-
   static const platform =
       const MethodChannel('com.bimsina.re_walls/MainActivity');
 
@@ -55,9 +54,7 @@ class NftPageView extends ConsumerWidget {
               color: state.textTheme.caption!.color,
             ),
             onPressed: () async {
-              showLoadingDialog(context, state);
-              await Future.delayed(Duration(milliseconds: 1000));
-              _setWallpaper(context);
+              showAlertDialog2(context, state, width);
             },
           ),
           IconButton(
@@ -91,7 +88,7 @@ class NftPageView extends ConsumerWidget {
         elevation: 0.0,
       ),
       backgroundColor: state.primaryColor,
-      body:  SingleChildScrollView(
+      body: SingleChildScrollView(
           child: Column(children: [
         SingleChildScrollView(
           child: Expanded(
@@ -377,7 +374,7 @@ class NftPageView extends ConsumerWidget {
                   ])
                 : Stack(
                     alignment: Alignment.center,
-                    children: [HtmlWidget(collectionsItemList,index)])));
+                    children: [HtmlWidget(collectionsItemList, index)])));
   }
 
   void downloadImage() async {
@@ -472,6 +469,46 @@ class NftPageView extends ConsumerWidget {
                 ),
               ),
             ));
+  }
+
+  showAlertDialog2(BuildContext context, state, width) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Center(child: Text("Change Set Wallpaper ?")),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: state.buttonColor,
+                            padding: EdgeInsets.all(8.0)),
+                        child: Text("Yes", style: state.textTheme.headline4),
+                        onPressed: () async {
+                          Navigator.pop(context);
+                          showLoadingDialog(context, state);
+                          await Future.delayed(Duration(milliseconds: 1000));
+                          _setWallpaper(context);
+                        },
+                      ),
+                      SizedBox(
+                        width: width * 0.02,
+                      ),
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: state.buttonColor),
+                          child: Text("No", style: state.textTheme.headline4),
+                          onPressed: () => Navigator.pop(context)),
+                    ])
+              ],
+            ),
+          );
+        });
   }
 
   Future<bool> _willPopCallback() async {
