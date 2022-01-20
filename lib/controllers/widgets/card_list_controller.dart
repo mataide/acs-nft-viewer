@@ -70,6 +70,10 @@ class CardListController extends StateNotifier<CardListState> {
     final head = await httpClient.head(Uri.parse(image), headers: {"Accept": "aplication/json"});
     var contentType = head.headers['content-type'] as String;
 
+    if(jsonData['name'] == null) {
+      jsonData['name'] = await erc.name();
+    }
+
     if(contentType.contains('video')) {
       jsonData['animation_url'] = image;
       image = (await VideoThumbnail.thumbnailFile(
