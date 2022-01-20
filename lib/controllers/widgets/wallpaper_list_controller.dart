@@ -73,8 +73,8 @@ class WallpaperListController extends StateNotifier<WallpaperListState> {
     }
 
     var attributes;
-    if(jsonData['traits'] != null) {
-      var list = jsonData['traits'] as List;
+    if(jsonData['attributes'] != null) {
+      var list = jsonData['attributes'] as List;
       List<Attributes> dataList = list.map((i) => Attributes.fromJson(i)).toList();
       attributes = dataList;
     } else {
@@ -84,5 +84,6 @@ class WallpaperListController extends StateNotifier<WallpaperListState> {
     var collectionsItem = CollectionsItem(collections.contractAddress, collections.hash, collections.id, '${jsonData['name']} #${collections.id}', image, attributes, description: jsonData['description'], contentType: contentType, animationUrl: jsonData['animation_url']);
     collectionsItemDAO.create(collectionsItem);
     return collectionsItem;
+
   }
 }

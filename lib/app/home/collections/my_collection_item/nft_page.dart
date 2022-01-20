@@ -254,9 +254,9 @@ class NftPageView extends ConsumerWidget {
                 SizedBox(
                   height: height * 0.011,
                 ),
-                collectionsItemList[index].animationUrl != null
-                    ? properties(height, width, state)
-                    : Container(),
+                //collectionsItemList[index].animationUrl != null
+                     properties(height, width, state),
+                    //: Container(),
                 SizedBox(
                   height: height * 0.01,
                 )
