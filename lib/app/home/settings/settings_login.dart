@@ -219,7 +219,7 @@ class SettingsLoginView extends ConsumerWidget {
             Row(
               children: [
                 Text(
-                  "Connect New Wallet",
+                  "Add New Wallet",
                   style: TextStyle(
                     color: state.textTheme.bodyText1!.color,
                     decoration: TextDecoration.none,
