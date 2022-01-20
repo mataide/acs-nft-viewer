@@ -23,40 +23,40 @@ private let WALLET_DISCONNECTION = "initWalletDisconnection"
           (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
           // Note: this method is invoked on the UI thread.
             if(call.method == WALLET_CONNECTION) {
-                self.initWalletConnection()
+                //self.initWalletConnection()
             } else if(call.method == WALLET_DISCONNECTION) {
-                self.initWalletConnection()
+                //self.initWalletConnection()
             } else {
               result(FlutterMethodNotImplemented)
               return
             }
         })
 
-        FlutterEventChannel(name: EVENT_CHANNEL_WALLET, binaryMessenger: controller.binaryMessenger)
-                            .setStreamHandler(WalletStreamHandler(reachability: reachability))
+//        FlutterEventChannel(name: EVENT_CHANNEL_WALLET, binaryMessenger: controller.binaryMessenger)
+//                            .setStreamHandler(WalletStreamHandler(reachability: reachability))
 
         GeneratedPluginRegistrant.register(with: self)
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
     func initWalletConnection() {
-        let thread = Thread.init(target: self, selector: #selector(longRunningProcess), object: nil)
-        thread.start()
-        
-        let connectionUrl = WalletConnect.shared.connect()
-
-        /// https://docs.walletconnect.org/mobile-linking#for-ios
-        /// **NOTE**: Majority of wallets support universal links that you should normally use in production application
-        /// Here deep link provided for integration with server test app only
-        let deepLinkUrl = "wc://wc?uri=\(connectionUrl)"
-
-        if let url = URL(string: deepLinkUrl), UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    //    else {
-    //        handshakeController = HandshakeViewController.create(code: connectionUrl)
-    //        //present(handshakeController, animated: true)
-    //    }
+//        let thread = Thread.init(target: self, selector: #selector(longRunningProcess), object: nil)
+//        thread.start()
+//
+//        let connectionUrl = WalletConnect.shared.connect()
+//
+//        /// https://docs.walletconnect.org/mobile-linking#for-ios
+//        /// **NOTE**: Majority of wallets support universal links that you should normally use in production application
+//        /// Here deep link provided for integration with server test app only
+//        let deepLinkUrl = "wc://wc?uri=\(connectionUrl)"
+//
+//        if let url = URL(string: deepLinkUrl), UIApplication.shared.canOpenURL(url) {
+//            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//        }
+//    //    else {
+//    //        handshakeController = HandshakeViewController.create(code: connectionUrl)
+//    //        //present(handshakeController, animated: true)
+//    //    }
     }
 
 
@@ -77,26 +77,6 @@ private let WALLET_DISCONNECTION = "initWalletDisconnection"
             DispatchQueue.main.async {
                 closure()
             }
-        }
-    }
-}
-
-extension AppDelegate: WalletConnectDelegate {
-    func failedToConnect() {
-        onMainThread { [unowned self] in
-            
-        }
-    }
-
-    func didConnect() {
-        onMainThread { [unowned self] in
-            
-        }
-    }
-
-    func didDisconnect() {
-        onMainThread { [unowned self] in
-            
         }
     }
 }

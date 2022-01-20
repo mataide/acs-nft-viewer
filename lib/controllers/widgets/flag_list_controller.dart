@@ -48,6 +48,9 @@ class FlagListController extends StateNotifier<FlagListState> {
     final jsonData = json.decode(utf8.decode(res.bodyBytes));
     var image = ipfsToHTTP((jsonData['image'] as String));
 
+    if(jsonData['name'] == null) {
+      jsonData['name'] = await erc.name();
+    }
 
     final head = await httpClient.head(Uri.parse(image), headers: {"Accept": "aplication/json"});
     var contentType = head.headers['content-type'] as String;
