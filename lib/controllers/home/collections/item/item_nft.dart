@@ -7,8 +7,9 @@ class ItemNftLoginState {
   final List<String> listAddress;
   final eventChannel;
   final bool isVisibility;
+  final bool initial;
 
-  const ItemNftLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler"),this.isVisibility = true});
+  const ItemNftLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler"),this.isVisibility = true,this.initial = true});
 }
 
 class ItemNftController extends StateNotifier<ItemNftLoginState> {
@@ -49,11 +50,24 @@ class ItemNftController extends StateNotifier<ItemNftLoginState> {
     // Navigator.pop(context);
   }
   setVisibility(){
-    state = ItemNftLoginState(isVisibility: !state.isVisibility);
+    final initial = false;
+    state = ItemNftLoginState(isVisibility: !state.isVisibility, initial: initial);
   }
-setDelay(){
-    if(state.isVisibility == true){
-      return Future.delayed(Duration(seconds: 4)).then((value) => setVisibility());
+  setDelay(){
+    if(state.isVisibility == true && state.initial == true){
+      return Future.delayed(Duration(seconds: 4)).then((value) {
+        setInitial();
+      }
+      );
     }
+
 }
+setReset(){
+    final initial = true;
+    final isVisibility = true;
+    state = ItemNftLoginState(isVisibility: isVisibility, initial: initial);
+}
+  setInitial(){
+    state = ItemNftLoginState(initial: !state.initial, isVisibility: !state.isVisibility);
+  }
 }

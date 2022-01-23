@@ -6,6 +6,7 @@ import 'package:faktura_nft_viewer/app/home/collections/my_collection_item/nft_s
 import 'package:faktura_nft_viewer/app/routes/white_page_route.dart';
 import 'package:faktura_nft_viewer/app/widgets/html.dart';
 import 'package:faktura_nft_viewer/app/widgets/video.dart';
+import 'package:faktura_nft_viewer/controllers/home/collections/item/item_nft.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:faktura_nft_viewer/core/utils/util.dart';
@@ -36,8 +37,7 @@ class NftPageView extends ConsumerWidget {
     final controller =
         ref.read(wallpaperListProvider(collectionsItemList).notifier);
     final state = ref.watch(themeProvider);
-    final dataStat = ref.watch(itemNftProvider.notifier);
-    final dataState = ref.watch(homeCollectionsProvider);
+    final dataState = ref.read(itemNftProvider.notifier);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -106,11 +106,11 @@ class NftPageView extends ConsumerWidget {
           height: height * 0.04,
         ),
         type!.contains("image")
-            ? typeImage(collectionsItemList[index], context)
+            ? typeImage(collectionsItemList[index], context,dataState)
             : type.contains("video")
-            ? typeVideo(collectionsItemList[index], context)
+            ? typeVideo(collectionsItemList[index], context, dataState)
             : type.contains("html")
-            ? typeHtml(collectionsItemList[index], context)
+            ? typeHtml(collectionsItemList[index], context, dataState)
             : SizedBox(height: height * 0.2),
         SizedBox(
           height: height * 0.048,
@@ -304,12 +304,14 @@ class NftPageView extends ConsumerWidget {
     );
   }
 
-  Widget typeImage(CollectionsItem snapshot, context) {
+  Widget typeImage(CollectionsItem snapshot, context, ItemNftController dataState) {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: GestureDetector(
-            onTap: () => Navigator.of(context).push(WhitePageRoute(
-                enterPage: NftScreen(collectionsItemList, index))),
+            onTap: () {
+              dataState.setReset();
+             Navigator.of(context).push(WhitePageRoute(
+                enterPage: NftScreen(collectionsItemList, index)));},
             child: snapshot.animationUrl == null
                 ? Stack(alignment: Alignment.center, children: [
                     snapshot.image.contains('http')
@@ -334,12 +336,14 @@ class NftPageView extends ConsumerWidget {
                   ])));
   }
 
-  Widget typeVideo(CollectionsItem snapshot, context) {
+  Widget typeVideo(CollectionsItem snapshot, context,ItemNftController dataState) {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: GestureDetector(
-            onTap: () => Navigator.of(context).push(WhitePageRoute(
-                enterPage: NftScreen(collectionsItemList, index))),
+            onTap: () {
+              dataState.setReset();
+             Navigator.of(context).push(WhitePageRoute(
+                enterPage: NftScreen(collectionsItemList, index)));},
             child: snapshot.animationUrl == null
                 ? Stack(alignment: Alignment.center, children: [
                     snapshot.image.contains('png')
@@ -356,12 +360,14 @@ class NftPageView extends ConsumerWidget {
                     children: [VideoWidget(collectionsItemList, index)])));
   }
 
-  Widget typeHtml(CollectionsItem snapshot, context) {
+  Widget typeHtml(CollectionsItem snapshot, context,ItemNftController dataState) {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: GestureDetector(
-            onTap: () => Navigator.of(context).push(WhitePageRoute(
-                enterPage: NftScreen(collectionsItemList, index))),
+            onTap: () {
+              dataState.setReset();
+            Navigator.of(context).push(WhitePageRoute(
+                enterPage: NftScreen(collectionsItemList, index)));},
             child: snapshot.animationUrl == null
                 ? Stack(alignment: Alignment.center, children: [
                     CachedNetworkImage(

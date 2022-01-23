@@ -40,8 +40,7 @@ class NftScreen extends ConsumerWidget {
         backgroundColor: state.primaryColor,
         body: Align(
             alignment: Alignment.center,
-        child: Positioned(
-            child: GestureDetector(
+        child: GestureDetector(
               onTap: (){
                 dataState.setVisibility();
               },
@@ -66,7 +65,7 @@ class NftScreen extends ConsumerWidget {
              : Container()
                  ),
                ],
-        )))));
+        ))));
   }
 
   /*Future<bool> _getFutureBool(ItemNftController dataState) {
@@ -89,7 +88,6 @@ class NftScreen extends ConsumerWidget {
               color: state.cardColor,
             ),
             onPressed: () {
-              dataState.setVisibility();
               Navigator.pop(context);
     }
           )),
@@ -155,6 +153,7 @@ class NftScreen extends ConsumerWidget {
     ],
   );
   }
+
 
   void downloadImage() async {
     var type = collectionsItemList[index].contentType;
