@@ -287,13 +287,15 @@ class NftPageView extends ConsumerWidget {
                         final nDataList = collectionsItemList[index];
                         return Column(
                           children: [
-                            Text(
-                                nDataList.attributes[a].traitType != null
-                                    ? nDataList.attributes[a].traitType!
-                                    : "",
-                                style: state.textTheme.headline5),
+                            nDataList.attributes[a] != null ?
+                              Text(
+                                  nDataList.attributes[a].traitType!,
+                                  style: state.textTheme.headline5)
+                              :Container(),
+                            nDataList.attributes[a] != null ?
                             Text(nDataList.attributes[a].value!,
-                                style: state.textTheme.headline5),
+                                  style: state.textTheme.headline5)
+                                :Container(),
                           ],
                         );
                       })),

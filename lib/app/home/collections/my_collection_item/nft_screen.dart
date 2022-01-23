@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:faktura_nft_viewer/controllers/home/collections/item/item_nft.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +14,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_downloader/image_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share/share.dart';
+
 
 class NftScreen extends ConsumerWidget {
   final List<CollectionsItem> collectionsItemList;
@@ -28,12 +31,21 @@ class NftScreen extends ConsumerWidget {
     final state = ref.watch(themeProvider);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-
     var type = collectionsItemList[index].contentType;
+    final dataState = ref.read(itemNftProvider.notifier);
+    final data = ref.watch(itemNftProvider);
 
     return Scaffold(
         backgroundColor: state.primaryColor,
-        body: Stack(
+        body: Align(
+            alignment: Alignment.center,
+        child: Positioned(
+            child: GestureDetector(
+              onTap: (){
+                dataState.setVisibility();
+              },
+              child:
+            Stack(
           children: [
             Container(
               child: collectionsItemList[index].image.contains('http')
@@ -47,87 +59,98 @@ class NftScreen extends ConsumerWidget {
                       fit: BoxFit.fitWidth,
                     ),
             ),
-            Positioned(
-              child: AppBar(
-                automaticallyImplyLeading: false,
-                backgroundColor: Colors.transparent,
-                //actionsIconTheme: IconThemeData(color: state.cardColor),
-                actions: <Widget>[
-                  Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: state.accentColor),
-                      child: IconButton(
-                        icon: SvgPicture.asset(
-                          'assets/images/exit.svg',
-                          semanticsLabel: 'Exit icon',
-                          color: state.textTheme.caption!.color,
-                        ),
-                        onPressed: () => Navigator.pop(context),
-                      )),
-                  SizedBox(
-                    width: width * 0.41,
-                  ),
-                  Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: state.accentColor),
-                      child: IconButton(
-                        icon: SvgPicture.asset(
-                          'assets/images/wallpaper.svg',
-                          semanticsLabel: 'Wallpaper icon',
-                          color: state.textTheme.caption!.color,
-                        ),
-                        onPressed: () async {
-                          showAlertDialog2(context, state, width);
-                        },
-                      )),
-                  SizedBox(
-                    width: width * 0.03,
-                  ),
-                  Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: state.accentColor),
-                      child: IconButton(
-                        icon: SvgPicture.asset(
-                          'assets/images/download.svg',
-                          semanticsLabel: 'Download icon',
-                          color: state.textTheme.caption!.color,
-                        ),
-                        onPressed: () {
-                          downloadImage();
-                        },
-                      )),
-                  SizedBox(
-                    width: width * 0.03,
-                  ),
-                  Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: state.accentColor),
-                      child: IconButton(
-                        icon: SvgPicture.asset(
-                          'assets/images/share.svg',
-                          semanticsLabel: 'Share icon',
-                          color: state.textTheme.caption!.color,
-                        ),
-                        onPressed: () {
-                          if (type!.contains("video")) {
-                            Share.share(
-                                'Checkout this amazing NFT mine. ${collectionsItemList[index].animationUrl}');
-                          } else {
-                            Share.share(
-                                'Checkout this amazing NFT mine. ${collectionsItemList[index].image}');
-                          }
-                        },
-                      )),
-                  SizedBox(
-                    width: width * 0.03,
-                  ),
-                ],
-                // iconTheme: state.primaryIconTheme,
-                elevation: 0.0,
-              ),
-            )
-          ],
-        ));
+           Container(child:
+           data.isVisibility == true ?
+             iconsAction(context, state, width, type,height,dataState)
+             : Container()
+                 ),
+               ],
+        )))));
+  }
+
+
+
+  Widget iconsAction(BuildContext context, state, width, type,height,ItemNftController dataState){
+  return Row(
+    children: [
+      SizedBox(
+        height: height * 0.063,
+      ),
+      Container(
+          decoration: BoxDecoration(
+              shape: BoxShape.circle, color: state.accentColor),
+          child: IconButton(
+            icon: SvgPicture.asset(
+              'assets/images/exit.svg',
+              semanticsLabel: 'Exit icon',
+              color: state.textTheme.caption!.color,
+            ),
+            onPressed: () {
+              dataState.setVisibility();
+              Navigator.pop(context);
+    }
+          )),
+      SizedBox(
+        width: width * 0.41,
+      ),
+      Container(
+          decoration: BoxDecoration(
+              shape: BoxShape.circle, color: state.accentColor),
+          child: IconButton(
+            icon: SvgPicture.asset(
+              'assets/images/wallpaper.svg',
+              semanticsLabel: 'Wallpaper icon',
+              color: state.textTheme.caption!.color,
+            ),
+            onPressed: () async {
+              showAlertDialog2(context, state, width);
+            },
+          )),
+      SizedBox(
+        width: width * 0.03,
+      ),
+      Container(
+          decoration: BoxDecoration(
+              shape: BoxShape.circle, color: state.accentColor),
+          child: IconButton(
+            icon: SvgPicture.asset(
+              'assets/images/download.svg',
+              semanticsLabel: 'Download icon',
+              color: state.textTheme.caption!.color,
+            ),
+            onPressed: () {
+              downloadImage();
+            },
+          )),
+      SizedBox(
+        width: width * 0.03,
+      ),
+      Container(
+          decoration: BoxDecoration(
+              shape: BoxShape.circle, color: state.accentColor),
+          child: IconButton(
+            icon: SvgPicture.asset(
+              'assets/images/share.svg',
+              semanticsLabel: 'Share icon',
+              color: state.textTheme.caption!.color,
+            ),
+            onPressed: () {
+              if (type!.contains("video")) {
+                Share.share(
+                    'Checkout this amazing NFT mine. ${collectionsItemList[index]
+                        .animationUrl}');
+              } else {
+                Share.share(
+                    'Checkout this amazing NFT mine. ${collectionsItemList[index]
+                        .image}');
+              }
+            },
+          )),
+      SizedBox(
+        width: width * 0.03,
+      ),
+    ],
+  );
   }
 
   void downloadImage() async {
@@ -224,7 +247,9 @@ class NftScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-            ));
+            )
+    );
+
   }
 
   showAlertDialog2(BuildContext context, state, width) {

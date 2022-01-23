@@ -6,8 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ItemNftLoginState {
   final List<String> listAddress;
   final eventChannel;
+  final bool isVisibility;
 
-  const ItemNftLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler")});
+  const ItemNftLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler"),this.isVisibility = false});
 }
 
 class ItemNftController extends StateNotifier<ItemNftLoginState> {
@@ -46,6 +47,9 @@ class ItemNftController extends StateNotifier<ItemNftLoginState> {
       print("Failed to Set Wallpaer: '${e.message}'.");
     }
     // Navigator.pop(context);
+  }
+  setVisibility(){
+    state = ItemNftLoginState(isVisibility: !state.isVisibility);
   }
 
 }

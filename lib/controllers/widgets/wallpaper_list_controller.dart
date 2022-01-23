@@ -73,8 +73,8 @@ class WallpaperListController extends StateNotifier<WallpaperListState> {
     }
 
     var attributes;
-    if(jsonData['attributes'] != null) {
-      var list = jsonData['attributes'] as List;
+    if(jsonData['traits'] != null) {
+      var list = jsonData['traits'] as List;
       List<Attributes> dataList = list.map((i) => Attributes.fromJson(i)).toList();
       attributes = dataList;
     } else {
