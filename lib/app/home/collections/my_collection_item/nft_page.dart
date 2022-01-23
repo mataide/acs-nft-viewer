@@ -476,7 +476,8 @@ class NftPageView extends ConsumerWidget {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Center(child: Text("Change Set Wallpaper ?")),
+            backgroundColor: state.primaryColor,
+            title: Center(child: Text("Change Set Wallpaper ?", style:state.textTheme.headline4)),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
