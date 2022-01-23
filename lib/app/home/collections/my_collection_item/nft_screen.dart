@@ -35,7 +35,7 @@ class NftScreen extends ConsumerWidget {
     final dataState = ref.read(itemNftProvider.notifier);
     final data = ref.watch(itemNftProvider);
 
-  //  _getFutureBool(dataState);
+  dataState.setDelay();
     return Scaffold(
         backgroundColor: state.primaryColor,
         body: Align(

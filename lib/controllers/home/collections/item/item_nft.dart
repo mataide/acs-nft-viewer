@@ -51,5 +51,9 @@ class ItemNftController extends StateNotifier<ItemNftLoginState> {
   setVisibility(){
     state = ItemNftLoginState(isVisibility: !state.isVisibility);
   }
-
+setDelay(){
+    if(state.isVisibility == true){
+      return Future.delayed(Duration(seconds: 4)).then((value) => setVisibility());
+    }
+}
 }
