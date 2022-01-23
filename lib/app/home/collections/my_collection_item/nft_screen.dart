@@ -81,12 +81,12 @@ class NftScreen extends ConsumerWidget {
       ),
       Container(
           decoration: BoxDecoration(
-              shape: BoxShape.circle, color: state.accentColor),
+              shape: BoxShape.circle, color: state.primaryColor),
           child: IconButton(
             icon: SvgPicture.asset(
               'assets/images/exit.svg',
               semanticsLabel: 'Exit icon',
-              color: state.textTheme.caption!.color,
+              color: state.cardColor,
             ),
             onPressed: () {
               dataState.setVisibility();
@@ -98,12 +98,12 @@ class NftScreen extends ConsumerWidget {
       ),
       Container(
           decoration: BoxDecoration(
-              shape: BoxShape.circle, color: state.accentColor),
+              shape: BoxShape.circle, color: state.primaryColor),
           child: IconButton(
             icon: SvgPicture.asset(
               'assets/images/wallpaper.svg',
               semanticsLabel: 'Wallpaper icon',
-              color: state.textTheme.caption!.color,
+              color: state.cardColor,
             ),
             onPressed: () async {
               showAlertDialog2(context, state, width);
@@ -114,12 +114,12 @@ class NftScreen extends ConsumerWidget {
       ),
       Container(
           decoration: BoxDecoration(
-              shape: BoxShape.circle, color: state.accentColor),
+              shape: BoxShape.circle, color: state.primaryColor),
           child: IconButton(
             icon: SvgPicture.asset(
               'assets/images/download.svg',
               semanticsLabel: 'Download icon',
-              color: state.textTheme.caption!.color,
+              color: state.cardColor,
             ),
             onPressed: () {
               downloadImage();
@@ -130,12 +130,12 @@ class NftScreen extends ConsumerWidget {
       ),
       Container(
           decoration: BoxDecoration(
-              shape: BoxShape.circle, color: state.accentColor),
+              shape: BoxShape.circle, color: state.primaryColor),
           child: IconButton(
             icon: SvgPicture.asset(
               'assets/images/share.svg',
               semanticsLabel: 'Share icon',
-              color: state.textTheme.caption!.color,
+              color: state.cardColor,
             ),
             onPressed: () {
               if (type!.contains("video")) {
@@ -261,7 +261,8 @@ class NftScreen extends ConsumerWidget {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Center(child: Text("Change Set Wallpaper ?")),
+            backgroundColor: state.primaryColor,
+            title: Center(child: Text("Change Set Wallpaper ?", style:state.textTheme.headline4)),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
