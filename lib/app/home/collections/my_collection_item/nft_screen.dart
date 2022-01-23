@@ -35,6 +35,7 @@ class NftScreen extends ConsumerWidget {
     final dataState = ref.read(itemNftProvider.notifier);
     final data = ref.watch(itemNftProvider);
 
+  //  _getFutureBool(dataState);
     return Scaffold(
         backgroundColor: state.primaryColor,
         body: Align(
@@ -68,7 +69,9 @@ class NftScreen extends ConsumerWidget {
         )))));
   }
 
-
+  /*Future<bool> _getFutureBool(ItemNftController dataState) {
+    return Future.delayed(Duration(seconds: 2)).then((value) => dataState.setVisibility());
+  }*/
 
   Widget iconsAction(BuildContext context, state, width, type,height,ItemNftController dataState){
   return Row(

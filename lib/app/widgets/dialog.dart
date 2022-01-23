@@ -38,7 +38,11 @@ class ThemeChangerWidget extends ConsumerWidget {
             SizedBox(
               height: height * 0.004,
             ),
-            Container(
+            InkWell(
+                onTap: () {
+                  state.onThemeChanged(1, state);
+                },
+                child: Container(
                 width: width * 0.62,
                 height: height * 0.064,
                 decoration: BoxDecoration(
@@ -110,7 +114,7 @@ class ThemeChangerWidget extends ConsumerWidget {
                                   ))),
                         ],
                       )
-                    ])),
+                    ]))),
             SizedBox(
               height: height * 0.013,
             ),
@@ -123,7 +127,11 @@ class ThemeChangerWidget extends ConsumerWidget {
             SizedBox(
               height: height * 0.004,
             ),
-            Container(
+          InkWell(
+              onTap: () {
+                state.onThemeChanged(0, state);
+              },
+              child:Container(
                 width: width * 0.62,
                 height: height * 0.064,
                 decoration: BoxDecoration(
@@ -196,7 +204,7 @@ class ThemeChangerWidget extends ConsumerWidget {
                                   ))),
                         ],
                       )
-                    ]))
+                    ])))
           ]),
           //),
         ));
