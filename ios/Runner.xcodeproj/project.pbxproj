@@ -11,6 +11,9 @@
 		2C0D95202719DA3300FFC667 /* WalletConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D951F2719DA3300FFC667 /* WalletConnect.swift */; };
 		2C0D95222719DA4000FFC667 /* HandshakeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D95212719DA4000FFC667 /* HandshakeViewController.swift */; };
 		2C3521AD271F5CAB00814F8A /* WalletStreamHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3521AC271F5CAB00814F8A /* WalletStreamHandler.swift */; };
+		2C507510279E2B91001765BE /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 2C50750F279E2B91001765BE /* FirebaseAnalytics */; };
+		2C507512279E2B91001765BE /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 2C507511279E2B91001765BE /* FirebaseCrashlytics */; };
+		2C507527279E335B001765BE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C507526279E335B001765BE /* GoogleService-Info.plist */; };
 		2C85E1CB271B846200B29B88 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 2C85E1CA271B846200B29B88 /* SwiftyJSON */; };
 		2C85E1CE271B84A100B29B88 /* WalletConnectSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2C85E1CD271B84A100B29B88 /* WalletConnectSwift */; };
 		2C85E1D1271B851300B29B88 /* routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C85E1D0271B851300B29B88 /* routes.swift */; };
@@ -43,6 +46,7 @@
 		2C0D951F2719DA3300FFC667 /* WalletConnect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalletConnect.swift; sourceTree = "<group>"; };
 		2C0D95212719DA4000FFC667 /* HandshakeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandshakeViewController.swift; sourceTree = "<group>"; };
 		2C3521AC271F5CAB00814F8A /* WalletStreamHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalletStreamHandler.swift; sourceTree = "<group>"; };
+		2C507526279E335B001765BE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C85E1D0271B851300B29B88 /* routes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = routes.swift; sourceTree = "<group>"; };
 		2C85E1D2271B851900B29B88 /* configure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = configure.swift; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
@@ -70,6 +74,8 @@
 				2C85E1CB271B846200B29B88 /* SwiftyJSON in Frameworks */,
 				2C8B9DC6271A18EA00648742 /* Vapor in Frameworks */,
 				2C85E1CE271B84A100B29B88 /* WalletConnectSwift in Frameworks */,
+				2C507512279E2B91001765BE /* FirebaseCrashlytics in Frameworks */,
+				2C507510279E2B91001765BE /* FirebaseAnalytics in Frameworks */,
 				9AD96AC8DE62C7EC36BE952C /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -134,6 +140,7 @@
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
+				2C507526279E335B001765BE /* GoogleService-Info.plist */,
 				97C147021CF9000F007C117D /* Info.plist */,
 				97C146F11CF9000F007C117D /* Supporting Files */,
 				1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */,
@@ -177,10 +184,10 @@
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
 			buildPhases = (
 				67D96CF15F3A5FE25CF906CA /* [CP] Check Pods Manifest.lock */,
-				9740EEB61CF901F6004384FC /* Run Script */,
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
+				9740EEB61CF901F6004384FC /* Run Script */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				2841C167040E4A242ACD5054 /* [CP] Embed Pods Frameworks */,
@@ -194,6 +201,8 @@
 				2C8B9DC5271A18EA00648742 /* Vapor */,
 				2C85E1CA271B846200B29B88 /* SwiftyJSON */,
 				2C85E1CD271B84A100B29B88 /* WalletConnectSwift */,
+				2C50750F279E2B91001765BE /* FirebaseAnalytics */,
+				2C507511279E2B91001765BE /* FirebaseCrashlytics */,
 			);
 			productName = Runner;
 			productReference = 97C146EE1CF9000F007C117D /* Runner.app */;
@@ -227,6 +236,7 @@
 				2C8B9DC4271A18EA00648742 /* XCRemoteSwiftPackageReference "vapor" */,
 				2C85E1C9271B846200B29B88 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				2C85E1CC271B84A100B29B88 /* XCRemoteSwiftPackageReference "WalletConnectSwift" */,
+				2C50750E279E2B91001765BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
 			projectDirPath = "";
@@ -244,6 +254,7 @@
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
+				2C507527279E335B001765BE /* GoogleService-Info.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 			);
@@ -342,13 +353,15 @@
 			files = (
 			);
 			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 			);
 			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -668,6 +681,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2C50750E279E2B91001765BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.11.0;
+			};
+		};
 		2C85E1C9271B846200B29B88 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
@@ -695,6 +716,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2C50750F279E2B91001765BE /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C50750E279E2B91001765BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		2C507511279E2B91001765BE /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C50750E279E2B91001765BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
 		2C85E1CA271B846200B29B88 /* SwiftyJSON */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2C85E1C9271B846200B29B88 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;

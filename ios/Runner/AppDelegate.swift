@@ -1,6 +1,7 @@
 import UIKit
 import Flutter
 import Vapor
+import Firebase
 
 private let EVENT_CHANNEL_WALLET = "com.bimsina.re_walls/WalletStreamHandler"
 private let CHANNEL = "com.bimsina.re_walls/MainActivity"
@@ -15,7 +16,8 @@ private let WALLET_DISCONNECTION = "initWalletDisconnection"
     override func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
+        FirebaseApp.configure()
+        
         let controller : FlutterViewController = window?.rootViewController as! FlutterViewController
         let channel = FlutterMethodChannel(name: CHANNEL,
                                                   binaryMessenger: controller.binaryMessenger)

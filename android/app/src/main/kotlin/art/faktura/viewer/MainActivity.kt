@@ -50,7 +50,7 @@ class MainActivity: FlutterActivity() {
 
   @TargetApi(Build.VERSION_CODES.ECLAIR)
   private fun setWallpaper(path: String, applicationContext: Context): Int {
-    var setWallpaper = 1
+    var setWallpaper: Int
     val bitmap = BitmapFactory.decodeFile(path)
     val wm: WallpaperManager? = WallpaperManager.getInstance(applicationContext)
     setWallpaper = try {
