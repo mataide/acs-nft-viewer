@@ -344,7 +344,7 @@ class SettingsLoginView extends ConsumerWidget {
               fixedSize: Size((width * 1.1), (height * 0.07))),
           child: Row(
             children: [
-              SvgPicture.asset('assets/images/ethereum.svg',
+              SvgPicture.asset('assets/images/eth_address.svg',
                   color: state.primaryColor, semanticsLabel: 'Ethereum icon'),
               SizedBox(
                 width: width * 0.025,

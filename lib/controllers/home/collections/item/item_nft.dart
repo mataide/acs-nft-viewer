@@ -1,4 +1,3 @@
-
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,7 +8,12 @@ class ItemNftLoginState {
   final bool isVisibility;
   final bool initial;
 
-  const ItemNftLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler"),this.isVisibility = true,this.initial = true});
+  const ItemNftLoginState(
+      {this.listAddress = const [],
+      this.eventChannel =
+          const EventChannel("com.bimsina.re_walls/WalletStreamHandler"),
+      this.isVisibility = true,
+      this.initial = true});
 }
 
 class ItemNftController extends StateNotifier<ItemNftLoginState> {
@@ -20,7 +24,9 @@ class ItemNftController extends StateNotifier<ItemNftLoginState> {
   Future<List<String>> sharedWrite(address) async {
     final preferences = await SharedPreferences.getInstance();
     await preferences.setStringList('key', address);
-    final listAddress = [...{...state.listAddress}];
+    final listAddress = [
+      ...{...state.listAddress}
+    ];
     return listAddress;
   }
 
@@ -49,25 +55,29 @@ class ItemNftController extends StateNotifier<ItemNftLoginState> {
     }
     // Navigator.pop(context);
   }
-  setVisibility(){
+
+  setVisibility() {
     final initial = false;
-    state = ItemNftLoginState(isVisibility: !state.isVisibility, initial: initial);
+    state =
+        ItemNftLoginState(isVisibility: !state.isVisibility, initial: initial);
   }
-  setDelay(){
-    if(state.isVisibility == true && state.initial == true){
+
+  setDelay() {
+    if (state.isVisibility == true && state.initial == true) {
       return Future.delayed(Duration(seconds: 4)).then((value) {
         setInitial();
-      }
-      );
+      });
     }
+  }
 
-}
-setReset(){
+  setReset() {
     final initial = true;
     final isVisibility = true;
     state = ItemNftLoginState(isVisibility: isVisibility, initial: initial);
-}
-  setInitial(){
-    state = ItemNftLoginState(initial: !state.initial, isVisibility: !state.isVisibility);
+  }
+
+  setInitial() {
+    state = ItemNftLoginState(
+        initial: !state.initial, isVisibility: !state.isVisibility);
   }
 }

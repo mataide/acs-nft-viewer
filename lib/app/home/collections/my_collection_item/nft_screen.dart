@@ -15,7 +15,6 @@ import 'package:image_downloader/image_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share/share.dart';
 
-
 class NftScreen extends ConsumerWidget {
   final List<CollectionsItem> collectionsItemList;
   final int index;
@@ -35,125 +34,121 @@ class NftScreen extends ConsumerWidget {
     final dataState = ref.read(itemNftProvider.notifier);
     final data = ref.watch(itemNftProvider);
 
-  dataState.setDelay();
+    dataState.setDelay();
     return Scaffold(
         backgroundColor: state.primaryColor,
         body: Align(
             alignment: Alignment.center,
-        child: GestureDetector(
-              onTap: (){
-                dataState.setVisibility();
-              },
-              child:
-            Stack(
-          children: [
-            Container(
-              child: collectionsItemList[index].image.contains('http')
-                  ? Image.network(collectionsItemList[index].image,
-                      fit: BoxFit.fitWidth)
-                  : Image.file(
-                      File(collectionsItemList[index].image),
-                      alignment: Alignment.center,
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.fitWidth,
+            child: GestureDetector(
+                onTap: () {
+                  dataState.setVisibility();
+                },
+                child: Stack(
+                  children: [
+                    Container(
+                      child: collectionsItemList[index].image.contains('http')
+                          ? Image.network(collectionsItemList[index].image,
+                              fit: BoxFit.fitWidth)
+                          : Image.file(
+                              File(collectionsItemList[index].image),
+                              alignment: Alignment.center,
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.fitWidth,
+                            ),
                     ),
-            ),
-           Container(child:
-           data.isVisibility == true ?
-             iconsAction(context, state, width, type,height,dataState)
-             : Container()
-                 ),
-               ],
-        ))));
+                    Container(
+                        child: data.isVisibility == true
+                            ? iconsAction(
+                                context, state, width, type, height, dataState)
+                            : Container()),
+                  ],
+                ))));
   }
 
   /*Future<bool> _getFutureBool(ItemNftController dataState) {
     return Future.delayed(Duration(seconds: 2)).then((value) => dataState.setVisibility());
   }*/
 
-  Widget iconsAction(BuildContext context, state, width, type,height,ItemNftController dataState){
-  return Row(
-    children: [
-      SizedBox(
-        height: height * 0.063,
-      ),
-      Container(
-          decoration: BoxDecoration(
-              shape: BoxShape.circle, color: state.primaryColor),
-          child: IconButton(
-            icon: SvgPicture.asset(
-              'assets/images/exit.svg',
-              semanticsLabel: 'Exit icon',
-              color: state.cardColor,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-    }
-          )),
-      SizedBox(
-        width: width * 0.41,
-      ),
-      Container(
-          decoration: BoxDecoration(
-              shape: BoxShape.circle, color: state.primaryColor),
-          child: IconButton(
-            icon: SvgPicture.asset(
-              'assets/images/wallpaper.svg',
-              semanticsLabel: 'Wallpaper icon',
-              color: state.cardColor,
-            ),
-            onPressed: () async {
-              showAlertDialog2(context, state, width);
-            },
-          )),
-      SizedBox(
-        width: width * 0.03,
-      ),
-      Container(
-          decoration: BoxDecoration(
-              shape: BoxShape.circle, color: state.primaryColor),
-          child: IconButton(
-            icon: SvgPicture.asset(
-              'assets/images/download.svg',
-              semanticsLabel: 'Download icon',
-              color: state.cardColor,
-            ),
-            onPressed: () {
-              downloadImage();
-            },
-          )),
-      SizedBox(
-        width: width * 0.03,
-      ),
-      Container(
-          decoration: BoxDecoration(
-              shape: BoxShape.circle, color: state.primaryColor),
-          child: IconButton(
-            icon: SvgPicture.asset(
-              'assets/images/share.svg',
-              semanticsLabel: 'Share icon',
-              color: state.cardColor,
-            ),
-            onPressed: () {
-              if (type!.contains("video")) {
-                Share.share(
-                    'Checkout this amazing NFT mine. ${collectionsItemList[index]
-                        .animationUrl}');
-              } else {
-                Share.share(
-                    'Checkout this amazing NFT mine. ${collectionsItemList[index]
-                        .image}');
-              }
-            },
-          )),
-      SizedBox(
-        width: width * 0.03,
-      ),
-    ],
-  );
+  Widget iconsAction(BuildContext context, state, width, type, height,
+      ItemNftController dataState) {
+    return Row(
+      children: [
+        SizedBox(
+          height: height * 0.063,
+        ),
+        Container(
+            decoration: BoxDecoration(
+                shape: BoxShape.circle, color: state.primaryColor),
+            child: IconButton(
+                icon: SvgPicture.asset(
+                  'assets/images/exit.svg',
+                  semanticsLabel: 'Exit icon',
+                  color: state.cardColor,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                })),
+        SizedBox(
+          width: width * 0.41,
+        ),
+        Container(
+            decoration: BoxDecoration(
+                shape: BoxShape.circle, color: state.primaryColor),
+            child: IconButton(
+              icon: SvgPicture.asset(
+                'assets/images/wallpaper.svg',
+                semanticsLabel: 'Wallpaper icon',
+                color: state.cardColor,
+              ),
+              onPressed: () async {
+                showAlertDialog2(context, state, width);
+              },
+            )),
+        SizedBox(
+          width: width * 0.03,
+        ),
+        Container(
+            decoration: BoxDecoration(
+                shape: BoxShape.circle, color: state.primaryColor),
+            child: IconButton(
+              icon: SvgPicture.asset(
+                'assets/images/download.svg',
+                semanticsLabel: 'Download icon',
+                color: state.cardColor,
+              ),
+              onPressed: () {
+                downloadImage();
+              },
+            )),
+        SizedBox(
+          width: width * 0.03,
+        ),
+        Container(
+            decoration: BoxDecoration(
+                shape: BoxShape.circle, color: state.primaryColor),
+            child: IconButton(
+              icon: SvgPicture.asset(
+                'assets/images/share.svg',
+                semanticsLabel: 'Share icon',
+                color: state.cardColor,
+              ),
+              onPressed: () {
+                if (type!.contains("video")) {
+                  Share.share(
+                      'Checkout this amazing NFT mine. ${collectionsItemList[index].animationUrl}');
+                } else {
+                  Share.share(
+                      'Checkout this amazing NFT mine. ${collectionsItemList[index].image}');
+                }
+              },
+            )),
+        SizedBox(
+          width: width * 0.03,
+        ),
+      ],
+    );
   }
-
 
   void downloadImage() async {
     var type = collectionsItemList[index].contentType;
@@ -249,9 +244,7 @@ class NftScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-            )
-    );
-
+            ));
   }
 
   showAlertDialog2(BuildContext context, state, width) {
@@ -261,7 +254,9 @@ class NftScreen extends ConsumerWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: state.primaryColor,
-            title: Center(child: Text("Change Set Wallpaper ?", style:state.textTheme.headline4)),
+            title: Center(
+                child: Text("Change Set Wallpaper ?",
+                    style: state.textTheme.headline4)),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[

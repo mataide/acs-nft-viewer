@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ethereum_addresses/ethereum_addresses.dart';
 import 'package:faktura_nft_viewer/app/home/collections/collections_item.dart';
 import 'package:faktura_nft_viewer/app/routes/slide_right_route.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
@@ -6,6 +7,8 @@ import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
+
+import 'package:flutter_svg/flutter_svg.dart';
 
 class FlagListWidget extends ConsumerWidget {
   final List<Collections> collectionsList;
@@ -101,7 +104,9 @@ class FlagListWidget extends ConsumerWidget {
                                           fit: BoxFit.cover,
                                         ),
                                 ),
-                                Expanded(child: SizedBox(height: 0.032)),
+                                Expanded(child: SizedBox(height: 0.022)),
+                                Container(height: 21, width: 30,child: isValidEthereumAddress(collectionsList[index].contractAddress) == true ? Align(alignment: Alignment.center,
+                                    child: SvgPicture.asset('assets/images/ethereum.svg', color: state.cardColor, semanticsLabel: 'Ethereum icon',fit: BoxFit.fill,)) : Container()),
                                 Expanded(child: Text(collectionsList[index].tokenName.toUpperCase(), style: state.textTheme.headline4, textAlign: TextAlign.center)),
                                 Expanded(child: Text('#${collectionsList[index].totalSupply}', style: state.textTheme.headline4, textAlign: TextAlign.center)),
                                 Expanded(child: SizedBox(height: 0.032)),

@@ -281,7 +281,7 @@ class HomeCollectionsView extends ConsumerWidget {
                             fixedSize: Size((width * 0.90), (height * 0.07))),
                         child: Row(
                           children: [
-                            SvgPicture.asset('assets/images/ethereum.svg',
+                            SvgPicture.asset('assets/images/eth_address.svg',
                                 color: state.primaryColor,
                                 semanticsLabel: 'Ethereum icon'),
                             SizedBox(
