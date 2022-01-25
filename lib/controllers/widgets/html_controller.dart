@@ -13,10 +13,11 @@ import 'package:faktura_nft_viewer/database_helper/database.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 class HtmlState {
+  final double contentWidth;
   final double contentHeight;
   final bool loaded;
 
-  const HtmlState({this.contentHeight = 0, this.loaded = false});
+  const HtmlState({this.contentHeight = 1000, this.contentWidth = 0, this.loaded = false});
 }
 
 class HtmlController extends StateNotifier<HtmlState> {

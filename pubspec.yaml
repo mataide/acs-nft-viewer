@@ -36,6 +36,8 @@ dependencies:
   flutter_cache_manager: ^3.3.0
   ethereum_addresses: ^1.0.2
   video_player: ^2.2.11
+  firebase_crashlytics: ^2.4.5
+  firebase_core: ^1.11.0
 
 
 dev_dependencies:

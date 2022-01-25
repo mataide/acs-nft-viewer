@@ -3,14 +3,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:faktura_nft_viewer/app/home/home.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:faktura_nft_viewer/core/utils/constants.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 // Providers
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 
 SharedPreferences? prefs;
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   SharedPreferences.getInstance().then((shared) {
     prefs = shared;
     runApp(ProviderScope(child: MyApp()));

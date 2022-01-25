@@ -57,6 +57,9 @@ class HtmlWidget extends ConsumerWidget {
                   await _controller
                       .runJavascriptReturningResult("document.body.offsetHeight;"),
                 ));
+                var width = await _controller
+                    .runJavascriptReturningResult("document.body.offsetWidth;");
+                print('Page width: $width');
               }
             },
           ),
