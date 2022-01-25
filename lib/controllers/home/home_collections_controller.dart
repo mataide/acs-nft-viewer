@@ -62,7 +62,13 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
 
     if (listERC721.isNotEmpty) {
       //Check if ERC was transfer
-      for (var erc721 in listERC721) if(erc721.to != address) listERC721.remove(erc721);
+      for (var erc721 in listERC721) if(erc721.from == address) {
+        for (var a in listERC721) if(a.contractAddress == erc721.contractAddress && a.tokenID == erc721.tokenID) {
+          listERC721.remove(a);
+          listERC721.remove(erc721);
+        }
+      }
+
       eth721Dao.insertList(listERC721);
       var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
       for (var erc721 in newMap.entries) {
