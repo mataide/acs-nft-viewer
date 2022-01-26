@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1032849301542",
+    "project_id": "nft-viewer-8ebc7",
+    "storage_bucket": "nft-viewer-8ebc7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032849301542:android:aa0e9ae6ea846f2de406e7",
+        "android_client_info": {
+          "package_name": "art.faktura.viewer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032849301542-61k6vd2uoefd2q2ucckthvoq1md079vo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBbeGSNlTidDwHcVKdQ7VPHas1M8polA4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032849301542-61k6vd2uoefd2q2ucckthvoq1md079vo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

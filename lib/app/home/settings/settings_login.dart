@@ -49,6 +49,7 @@ class SettingsLoginView extends ConsumerWidget {
     return Scaffold(
         backgroundColor: state.primaryColor,
         appBar: AppBar(
+          elevation: 0.0,
           iconTheme: IconThemeData(color: state.textTheme.bodyText1!.color),
           backgroundColor: state.primaryColor,
         ),

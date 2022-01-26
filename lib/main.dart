@@ -12,9 +12,15 @@ SharedPreferences? prefs;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(
+      name: 'Faktura',
+      options: DefaultFirebaseOptions.currentPlatform,
+    ).whenComplete(() {
+      print("completedAppInitialize");
+    });
+  }
+
   SharedPreferences.getInstance().then((shared) {
     prefs = shared;
     runApp(ProviderScope(child: MyApp()));
