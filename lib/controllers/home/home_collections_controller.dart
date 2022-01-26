@@ -59,15 +59,21 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
     final List<Eth721> listERC721 =
         await APIService.instance.getERC721(address);
     var listCollections = <Collections>[];
+    var toRemove = <Eth721>[];
 
     if (listERC721.isNotEmpty) {
       //Check if ERC was transfer
-      for (var erc721 in listERC721) if(erc721.from == address) {
-        for (var a in listERC721) if(a.contractAddress == erc721.contractAddress && a.tokenID == erc721.tokenID) {
-          listERC721.remove(a);
-          listERC721.remove(erc721);
+      for (var erc721 in listERC721) {
+        if (erc721.from.toLowerCase() == address.toLowerCase()) {
+          for (var a in listERC721)
+            if (a.contractAddress.toLowerCase() == erc721.contractAddress.toLowerCase() &&
+                a.tokenID == erc721.tokenID) {
+              toRemove.add(a);
+              toRemove.add(erc721);
+            }
         }
       }
+      listERC721.removeWhere((element) => toRemove.contains(element));
 
       eth721Dao.insertList(listERC721);
       var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
