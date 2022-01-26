@@ -20,8 +20,7 @@ import 'package:image_downloader/image_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share/share.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:video_player/video_player.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+
 
 class NftPageView extends ConsumerWidget {
   final List<CollectionsItem> collectionsItemList;
@@ -34,8 +33,6 @@ class NftPageView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller =
-        ref.read(wallpaperListProvider(collectionsItemList).notifier);
     final state = ref.watch(themeProvider);
     final dataState = ref.read(itemNftProvider.notifier);
     final width = MediaQuery.of(context).size.width;

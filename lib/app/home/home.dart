@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:faktura_nft_viewer/app/widgets/bottom_nav_bar.dart';
 import 'home_collections.dart';
-import 'home_search.dart';
 import 'home_settings.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +23,7 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       key: _scaffoldKey,
       body: Container(
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: state.buttonColor)),
+        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: state.indicatorColor)),
         color: state.primaryColor),
         child: PageView(
           controller: _pageController,
@@ -45,7 +44,7 @@ class HomePage extends ConsumerWidget {
         onItemSelected: (index) {
           _pageController.jumpToPage(index);
         },
-        selectedColor: state.buttonColor,
+        selectedColor: state.indicatorColor,
         backgroundColor: state.primaryColor,
         showElevation: false,
         items: [

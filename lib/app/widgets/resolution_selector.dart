@@ -58,7 +58,7 @@ class _ResolutionSelectorState extends State<ResolutionSelector> {
                           border: Border.all(
                             width: 1,
                             color: index == selected
-                                ? themeData.accentColor
+                                ? themeData.hoverColor
                                 : Colors.transparent,
                           ),
                           borderRadius: BorderRadius.circular(40.0)),

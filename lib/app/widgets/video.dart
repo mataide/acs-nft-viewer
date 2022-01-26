@@ -16,8 +16,6 @@ class VideoWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData state = ref.watch(themeProvider);
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
 
     VideoPlayerController controller;
     Future<void> _initializeVideoPlayerFuture;
@@ -45,7 +43,7 @@ class VideoWidget extends ConsumerWidget {
                   ));
             } else {
               return Center(
-                  child: CircularProgressIndicator(color: state.accentColor));
+                  child: CircularProgressIndicator(color: state.hoverColor));
             }
           },
         ),

@@ -61,7 +61,7 @@ class _SelectorWidgetState extends State<SelectorWidget> {
             width: 75,
             height: 5,
             decoration: BoxDecoration(
-                color: widget.themeData!.accentColor.withOpacity(0.5),
+                color: widget.themeData!.hoverColor.withOpacity(0.5),
                 borderRadius: BorderRadius.circular(8)),
           ),
           Padding(
@@ -87,14 +87,14 @@ class _SelectorWidgetState extends State<SelectorWidget> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           color: kfilterValues.indexOf(item) == filterSelected
-                              ? widget.themeData!.accentColor.withOpacity(0.3)
+                              ? widget.themeData!.hoverColor.withOpacity(0.3)
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(8.0)),
                       child: Text(
                         item,
                         style: widget.themeData!.textTheme.bodyText1!.copyWith(
                             color: kfilterValues.indexOf(item) == filterSelected
-                                ? widget.themeData!.accentColor
+                                ? widget.themeData!.hoverColor
                                 : widget.themeData!.textTheme.bodyText1!.color),
                         textAlign: TextAlign.left,
                       ),
@@ -106,7 +106,7 @@ class _SelectorWidgetState extends State<SelectorWidget> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Divider(
-              color: widget.themeData!.accentColor,
+              color: widget.themeData!.hoverColor,
             ),
           ),
           Padding(
@@ -120,7 +120,7 @@ class _SelectorWidgetState extends State<SelectorWidget> {
             child: subreddits == null
                 ? CircularProgressIndicator(
                     valueColor:
-                        AlwaysStoppedAnimation(widget.themeData!.accentColor),
+                        AlwaysStoppedAnimation(widget.themeData!.hoverColor),
                   )
                 : GridView.builder(
                     physics: BouncingScrollPhysics(),
@@ -147,7 +147,7 @@ class _SelectorWidgetState extends State<SelectorWidget> {
                           decoration: BoxDecoration(
                               color:
                                   subredditSelected!.contains(subreddits![index])
-                                      ? widget.themeData!.accentColor
+                                      ? widget.themeData!.hoverColor
                                           .withOpacity(0.3)
                                       : Colors.transparent,
                               borderRadius: BorderRadius.circular(8.0)),
@@ -157,7 +157,7 @@ class _SelectorWidgetState extends State<SelectorWidget> {
                                 .copyWith(
                                     color: subredditSelected!
                                             .contains(subreddits![index])
-                                        ? widget.themeData!.accentColor
+                                        ? widget.themeData!.hoverColor
                                         : widget.themeData!.textTheme.bodyText2!
                                             .color),
                             textAlign: TextAlign.left,
@@ -174,7 +174,7 @@ class _SelectorWidgetState extends State<SelectorWidget> {
                   child: Text(
                     'OK',
                     style: widget.themeData!.textTheme.bodyText2!
-                        .copyWith(color: widget.themeData!.accentColor),
+                        .copyWith(color: widget.themeData!.hoverColor),
                   ),
                   onPressed: () {
                     Navigator.pop(
@@ -191,7 +191,7 @@ class _SelectorWidgetState extends State<SelectorWidget> {
                   child: Text(
                     'Cancel',
                     style: widget.themeData!.textTheme.bodyText2!
-                        .copyWith(color: widget.themeData!.accentColor),
+                        .copyWith(color: widget.themeData!.hoverColor),
                   ),
                   onPressed: () {
                     Navigator.pop(context);

@@ -1,6 +1,4 @@
-import 'package:faktura_nft_viewer/app/home/collections/my_collection_item/nft_page.dart';
-import 'package:faktura_nft_viewer/core/models/index.dart';
-import 'package:faktura_nft_viewer/core/providers/theme_provider.dart';
+
 import 'package:flutter/material.dart';
 
 //Create a transition that fades in the new view, while fading out a white background

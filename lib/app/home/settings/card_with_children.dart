@@ -24,7 +24,7 @@ class CardWithChildren extends ConsumerWidget {
             padding: const EdgeInsets.only(left: 8.0, top: 8.0),
             child: Text(
               title,
-              style: TextStyle(color: state.accentColor, fontSize: 14),
+              style: TextStyle(color: state.hoverColor, fontSize: 14),
             ),
           ),
           Column(

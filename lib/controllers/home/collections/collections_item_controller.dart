@@ -7,7 +7,6 @@ import 'package:faktura_nft_viewer/core/utils/constants.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/database_helper/database.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart';

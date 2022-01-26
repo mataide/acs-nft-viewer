@@ -19,7 +19,6 @@ class FlagListWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final dataState = ref.watch(flagListProvider.notifier);
     final ThemeData state = ref.watch(themeProvider);
-    final data = ref.watch(loginProvider);
 
     return Padding(
       padding: EdgeInsets.all(8.0),
@@ -58,7 +57,7 @@ class FlagListWidget extends ConsumerWidget {
                         print(collectionsList[index].description);
 
                         return InkWell(
-                            splashColor: state.accentColor,
+                            splashColor: state.hoverColor,
                             onTap: () {
                               Navigator.of(context).push(SlideRightRoute(
                                   CollectionsItemView(collectionsList[index])));
@@ -90,7 +89,7 @@ class FlagListWidget extends ConsumerWidget {
                                               ),
                                             ),
                                             placeholder: (context, url) =>
-                                                CircularProgressIndicator(color: state.accentColor),
+                                                CircularProgressIndicator(color: state.hoverColor),
                                             errorWidget:
                                                 (context, url, error) =>
                                                     Icon(Icons.error),

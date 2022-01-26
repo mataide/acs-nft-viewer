@@ -1,7 +1,6 @@
 
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/database_helper/database.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,8 +20,7 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
     //startSettings();
     sharedRead();
   }
-  late SharedPreferences _prefs;
-  get collections => state.collections;
+
 
 /*startSettings() async {
   await _startPreferences();

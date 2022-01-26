@@ -25,8 +25,6 @@ class NftScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller =
-        ref.read(wallpaperListProvider(collectionsItemList).notifier);
     final state = ref.watch(themeProvider);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;

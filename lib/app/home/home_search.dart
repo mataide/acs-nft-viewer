@@ -9,7 +9,7 @@ class HomeSearch extends SearchDelegate<void> {
   @override
   ThemeData appBarTheme(BuildContext context) {
     final ThemeData theme = themeData!.copyWith(
-        hintColor: themeData!.accentColor,
+        hintColor: themeData!.hoverColor,
         primaryColor: themeData!.primaryColor,
         textTheme: TextTheme(
           headline6: themeData!.textTheme.bodyText1,
@@ -68,7 +68,7 @@ class HomeSearch extends SearchDelegate<void> {
             child: Icon(
               Icons.search,
               size: 50,
-              color: themeData!.accentColor,
+              color: themeData!.hoverColor,
             ),
           ),
           Text('Enter a term to search.', style: themeData!.textTheme.bodyText1)

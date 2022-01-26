@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:faktura_nft_viewer/controllers/widgets/html_controller.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
@@ -22,8 +21,6 @@ class HtmlWidget extends ConsumerWidget {
     ref.read(htmlProvider.notifier);
     final HtmlState dataState = ref.watch(htmlProvider);
     final ThemeData state = ref.watch(themeProvider);
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
 
     var url = collectionsItemList[index].animationUrl!;
 

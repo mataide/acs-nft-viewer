@@ -4,7 +4,7 @@ import 'package:faktura_nft_viewer/app/home/home.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:faktura_nft_viewer/core/utils/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+
 // Providers
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 
@@ -13,12 +13,7 @@ SharedPreferences? prefs;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Firebase.apps.isEmpty) {
-    await Firebase.initializeApp(
-      name: 'Faktura',
-      options: DefaultFirebaseOptions.currentPlatform,
-    ).whenComplete(() {
-      print("completedAppInitialize");
-    });
+    await Firebase.initializeApp();
   }
 
   SharedPreferences.getInstance().then((shared) {

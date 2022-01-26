@@ -73,7 +73,7 @@ class _SearchResultsState extends State<SearchResults> {
         child: _fetchState == kdataFetchState.IS_LOADING
             ? CircularProgressIndicator(
                 valueColor:
-                    AlwaysStoppedAnimation(widget.themeData!.accentColor),
+                    AlwaysStoppedAnimation(widget.themeData!.hoverColor),
               )
             : _fetchState == kdataFetchState.ERROR_ENCOUNTERED
                 ? ErrorOccured(

@@ -109,7 +109,7 @@ class WallpaperView extends ConsumerWidget implements TickerProvider {
                         child: Center(
                             child: Icon(
                               Icons.error,
-                              color: themeData.accentColor,
+                              color: themeData.hoverColor,
                             )),
                       ),
                       fit: fit,

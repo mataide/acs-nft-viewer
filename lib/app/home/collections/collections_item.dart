@@ -14,7 +14,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:readmore/readmore.dart';
 import 'dart:io';
 
-import 'package:video_player/video_player.dart';
 
 class CollectionsItemView extends ConsumerWidget {
   final Collections collections;
@@ -132,7 +131,7 @@ class CollectionsItemView extends ConsumerWidget {
                                       : dataState.collections.description,
                                   style: state.textTheme.subtitle1,
                                   trimLines: 4,
-                                  colorClickableText: state.buttonColor,
+                                  colorClickableText: state.indicatorColor,
                                   trimMode: TrimMode.Line,
                                   trimCollapsedText: 'Read more',
                                   trimExpandedText: 'Read less',

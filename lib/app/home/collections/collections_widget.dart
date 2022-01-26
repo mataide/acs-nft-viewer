@@ -16,7 +16,7 @@ class ColButton extends StatelessWidget {
     final ThemeData theme = stateData.getTheme();
     return Expanded(
       child: InkWell(
-        highlightColor: theme.accentColor,
+        highlightColor: theme.hoverColor,
         onTap: onTap,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -91,7 +91,7 @@ class _SubredditAddWidgetState extends State<SubredditAddWidget> {
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                          color: themeData.accentColor,
+                          color: themeData.hoverColor,
                         )),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey),
@@ -141,7 +141,7 @@ class _SubredditAddWidgetState extends State<SubredditAddWidget> {
                 ),
                 !isLoading
                     ? MaterialButton(
-                        color: themeData.accentColor,
+                        color: themeData.hoverColor,
                         child: Text(
                           'Add',
                           style: themeData.textTheme.bodyText1!

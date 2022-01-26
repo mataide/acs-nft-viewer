@@ -11,8 +11,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 class HomeSettingsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dataNotifier = ref.watch(homeProvider.notifier);
-    final data = ref.watch(homeProvider);
     final state = ref.watch(themeProvider);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
