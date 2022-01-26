@@ -245,7 +245,7 @@ class HomeCollectionsView extends ConsumerWidget {
                         controllerLogin.openMetaMask();
                       },
                       style: TextButton.styleFrom(
-                          backgroundColor: state.buttonColor,
+                          backgroundColor: state.indicatorColor,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0)),
                           fixedSize: Size((width * 0.90), (height * 0.07))),
