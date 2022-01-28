@@ -20,102 +20,122 @@ class FlagListWidget extends ConsumerWidget {
     final dataState = ref.watch(flagListProvider.notifier);
     final ThemeData state = ref.watch(themeProvider);
 
-    return Padding(
-      padding: EdgeInsets.all(8.0),
-      child: SingleChildScrollView(
-          child: GridView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisSpacing: 5,
-                mainAxisSpacing: 10,
-                crossAxisCount: 2,
-                childAspectRatio: 0.9,
-              ),
-              itemCount: collectionsList.length,
-              itemBuilder: (context, index) {
-                return FutureBuilder<String>(
-                  future: dataState.prepareFromDb(collectionsList[index]),
-                  // function where you call your api
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    // AsyncSnapshot<Your object type>
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                          child: Text(
-                        'Please wait its loading...',
-                        style:
-                            TextStyle(color: state.textTheme.bodyText1!.color),
-                      ));
-                    } else {
-                      if (snapshot.hasError)
-                        return Center(
-                            child:
-                                Text('getCollectionImage: ${snapshot.error}'));
-                      else
-                        print(collectionsList[index].image);
-                        print(collectionsList[index].description);
+    return Padding(padding: EdgeInsets.all(8.0),child: SingleChildScrollView(
+      child: GridView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisSpacing: 5,
+            mainAxisSpacing: 10,
+            crossAxisCount: 2,
+            childAspectRatio: 0.9,
+          ),
+          itemCount: collectionsList.length,
+          itemBuilder: (context, index) {
+            return FutureBuilder<String>(
+              future: dataState.prepareFromDb(collectionsList[index]),
+              // function where you call your api
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                // AsyncSnapshot<Your object type>
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                      child: Text(
+                    'Please wait its loading...',
+                    style: TextStyle(color: state.textTheme.bodyText1!.color),
+                  ));
+                } else {
+                  if (snapshot.hasError)
+                    return Center(
+                        child: Text('getCollectionImage: ${snapshot.error}'));
+                  else
+                    print(collectionsList[index].image);
+                  print(collectionsList[index].description);
 
-                        return InkWell(
-                            splashColor: state.hoverColor,
-                            onTap: () {
-                              Navigator.of(context).push(SlideRightRoute(
-                                  CollectionsItemView(collectionsList[index])));
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ClipPath(
-                                  clipper: CustomTriangleClipper(),
-                                  child: snapshot.data!.contains('http')
-                                      ? Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              3,
-                                          child: CachedNetworkImage(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            imageUrl: snapshot.data!,
-                                            imageBuilder:
-                                                (context, imageProvider) =>
-                                                    Container(
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.rectangle,
-                                                image: DecorationImage(
-                                                    image: imageProvider,
-                                                    fit: BoxFit.cover),
-                                              ),
-                                            ),
-                                            placeholder: (context, url) =>
-                                                CircularProgressIndicator(color: state.hoverColor),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    Icon(Icons.error),
-                                          ))
-                                      : Image.file(
-                                          File(snapshot.data!),
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              3,
-                                          fit: BoxFit.cover,
-                                        ),
+                  return Column(
+                      children: [ InkWell(
+                    splashColor: state.hoverColor,
+                    onTap: () {
+                      Navigator.of(context).push(SlideRightRoute(
+                          CollectionsItemView(collectionsList[index])));
+                    },
+                    child: Container(
+                      height: 170,
+                      width: 200,
+                      child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        ClipPath(
+                          clipper: CustomTriangleClipper(),
+                          child: snapshot.data!.contains('http')
+                              ? Container(
+                                  height: MediaQuery.of(context).size.width / 3,
+                                  child: CachedNetworkImage(
+                                    width: MediaQuery.of(context).size.width,
+                                    imageUrl: snapshot.data!,
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.rectangle,
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(
+                                            color: state.hoverColor),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ))
+                              : Image.file(
+                                  File(snapshot.data!),
+                                  height: MediaQuery.of(context).size.width / 3,
+                                  fit: BoxFit.cover,
                                 ),
-                                Expanded(child: SizedBox(height: 0.022)),
-                                Container(height: 21, width: 30,child: isValidEthereumAddress(collectionsList[index].contractAddress) == true ? Align(alignment: Alignment.center,
-                                    child: SvgPicture.asset('assets/images/ethereum.svg', color: state.cardColor, semanticsLabel: 'Ethereum icon',fit: BoxFit.fill,)) : Container()),
-                                Expanded(child: Text(collectionsList[index].tokenName.toUpperCase(), style: state.textTheme.headline4, textAlign: TextAlign.center)),
-                                Expanded(child: Text('#${collectionsList[index].totalSupply}', style: state.textTheme.headline4, textAlign: TextAlign.center)),
-                                Expanded(child: SizedBox(height: 0.032)),
-                              ],
-                            ));
-                    }
-                  },
-                );
-              })),
-    );
+                        ),
+                        Positioned(
+                          top: 122,
+                          bottom: 0,
+                          left: 74,
+                          child: Container(
+                            margin: EdgeInsets.only(
+                                left: 5.0, top: 5.0, right: 5.0, bottom: 5.0),
+                            width: 25,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Container(
+                                  width: 10,
+                                  height: 20,
+                                  child: isValidEthereumAddress(
+                                              collectionsList[index]
+                                                  .contractAddress) ==
+                                          true
+                                      ? SvgPicture.asset(
+                                          'assets/images/ethereum_logo.svg',
+                                          color: Colors.grey,
+                                          semanticsLabel: 'Ethereum icon',
+                                        )
+                                      : Container()),
+                            ),
+                          ),
+                        ),
+                          ],
+                    ))),
+                       // Expanded(child: SizedBox(height: 0.022)),
+                           Text(collectionsList[index].tokenName.toUpperCase(), style: state.textTheme.headline4, textAlign: TextAlign.center),
+                         Text('#${collectionsList[index].totalSupply}', style: state.textTheme.headline4, textAlign: TextAlign.center),
+                         // Expanded(child: SizedBox(height: 0.032)),
+                      ]);
+                     //
+                }
+              },
+            );
+          }),
+    ));
   }
 }
 
