@@ -59,7 +59,7 @@ class FlagListWidget extends ConsumerWidget {
                           CollectionsItemView(collectionsList[index])));
                     },
                     child: Container(
-                      height: 170,
+                      height: 150,
                       width: 200,
                       child: Stack(
                       alignment: Alignment.center,

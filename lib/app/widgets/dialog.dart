@@ -280,14 +280,14 @@ showConfirmationDialog(BuildContext context, String title, String content,
         content: Text(content, style: state.textTheme.bodyText1),
         actions: <Widget>[
           TextButton(
-            child: Text('Yes', style: TextStyle(color: state.accentColor)),
+            child: Text('Yes', style: TextStyle(color: state.hoverColor)),
             onPressed: () {
               confirm = true;
               Navigator.pop(context);
             },
           ),
           TextButton(
-            child: Text('No', style: TextStyle(color: state.accentColor)),
+            child: Text('No', style: TextStyle(color: state.hoverColor)),
             onPressed: () {
               confirm = false;
               Navigator.pop(context);

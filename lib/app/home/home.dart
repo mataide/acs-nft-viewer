@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 
 class HomePage extends ConsumerWidget {
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final PageController _pageController = PageController();
 
@@ -19,12 +18,12 @@ class HomePage extends ConsumerWidget {
     final data = ref.watch(homeProvider);
     final settingsNotifier = ref.watch(homeSettingsProvider.notifier);
 
-
     return Scaffold(
       key: _scaffoldKey,
       body: Container(
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: state.indicatorColor)),
-        color: state.primaryColor),
+        decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: state.indicatorColor)),
+            color: state.primaryColor),
         child: PageView(
           controller: _pageController,
           physics: BouncingScrollPhysics(),
@@ -32,34 +31,49 @@ class HomePage extends ConsumerWidget {
             dataNotifier.setIndex(index);
           },
           children: <Widget>[
-            HomeCollectionsView(),
             //HomeMarketplace(),
+            HomeCollectionsView(),
             HomeSettingsView(),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavyBar(
-        selectedIndex: data.selectedIndex,
-        unselectedColor: state.textTheme.bodyText2!.color,
-        onItemSelected: (index) {
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: data.selectedIndex,
+        //selectedIndex: data.selectedIndex,
+        unselectedItemColor: state.textTheme.bodyText2!.color,
+        //unselectedColor: state.textTheme.bodyText2!.color,
+        onTap: (index) {
           _pageController.jumpToPage(index);
         },
-        selectedColor: state.indicatorColor,
+        //onItemSelected: (index) {
+        //   _pageController.jumpToPage(index);
+        // },
+        selectedItemColor: state.indicatorColor,
+        //selectedColor: state.indicatorColor,
         backgroundColor: state.primaryColor,
-        showElevation: false,
+        elevation: 0.0,
+        //showElevation: false,
         items: [
-          BottomNavyBarItem(
-            icon: Icon(Icons.palette_outlined, size: 23.3,),
-            title: Text('My Collections', style: state.textTheme.bodyText2),
-          ),
           // BottomNavyBarItem(
           //   icon: Icon(Icons.work_outline),
           //   title: Text('Marketplace'),
           // ),
-          BottomNavyBarItem(
-            icon: Icon(Icons.settings_outlined, size: 23.3,),
-            title: Text(settingsNotifier.title, style: state.textTheme.bodyText2,),
+
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.palette_outlined,
+              size: 23.3,
+            ),
+            label: 'My Collections',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.settings_outlined,
+              size: 23.3,
+            ),
+            label: settingsNotifier.title,
+          ),
+
         ],
       ),
     );
