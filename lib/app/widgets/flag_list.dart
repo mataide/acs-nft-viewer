@@ -17,7 +17,7 @@ class FlagListWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dataState = ref.watch(flagListProvider.notifier);
+    final dataState = ref.watch(flagListProvider(collectionsList).notifier);
     final ThemeData state = ref.watch(themeProvider);
 
     return Padding(padding: EdgeInsets.all(8.0),child: SingleChildScrollView(
@@ -46,7 +46,7 @@ class FlagListWidget extends ConsumerWidget {
                 } else {
                   if (snapshot.hasError)
                     return Center(
-                        child: Text('getCollectionImage: ${snapshot.error}'));
+                        child: Text('flaglist - getCollectionImage: ${snapshot.error}'));
                   else
                     print(collectionsList[index].image);
                   print(collectionsList[index].description);

@@ -88,7 +88,7 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Eth721` (`hash` TEXT NOT NULL, `blockNumber` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `nonce` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `ethAddress` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `transactionIndex` TEXT NOT NULL, `gas` TEXT NOT NULL, `gasPrice` TEXT NOT NULL, `gasUsed` TEXT NOT NULL, `cumulativeGasUsed` TEXT NOT NULL, `input` TEXT NOT NULL, `confirmations` TEXT NOT NULL, PRIMARY KEY (`hash`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `ethAddress` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `blockchain` TEXT NOT NULL, `externalUrl` TEXT, `description` TEXT, `amount` TEXT, `image` TEXT, `totalSupply` INTEGER, PRIMARY KEY (`contractAddress`))');
+            'CREATE TABLE IF NOT EXISTS `Collections` (`contractAddress` TEXT NOT NULL, `hash` TEXT NOT NULL, `timeStamp` TEXT NOT NULL, `blockHash` TEXT NOT NULL, `from` TEXT NOT NULL, `ethAddress` TEXT NOT NULL, `tokenID` TEXT NOT NULL, `tokenName` TEXT NOT NULL, `tokenSymbol` TEXT NOT NULL, `tokenDecimal` TEXT NOT NULL, `blockchain` TEXT NOT NULL, `isNotSupported` INTEGER NOT NULL, `externalUrl` TEXT, `description` TEXT, `amount` TEXT, `image` TEXT, `totalSupply` INTEGER, PRIMARY KEY (`contractAddress`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `CollectionsItem` (`hash` TEXT NOT NULL, `id` TEXT NOT NULL, `contractAddress` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `contentType` TEXT, `thumbnail` TEXT, `image` TEXT NOT NULL, `animationUrl` TEXT, `attributes` TEXT NOT NULL, PRIMARY KEY (`hash`))');
 
@@ -313,6 +313,7 @@ class _$CollectionsDAO extends CollectionsDAO {
                   'tokenSymbol': item.tokenSymbol,
                   'tokenDecimal': item.tokenDecimal,
                   'blockchain': item.blockchain,
+                  'isNotSupported': item.isNotSupported ? 1 : 0,
                   'externalUrl': item.externalUrl,
                   'description': item.description,
                   'amount': item.amount,
@@ -335,6 +336,7 @@ class _$CollectionsDAO extends CollectionsDAO {
                   'tokenSymbol': item.tokenSymbol,
                   'tokenDecimal': item.tokenDecimal,
                   'blockchain': item.blockchain,
+                  'isNotSupported': item.isNotSupported ? 1 : 0,
                   'externalUrl': item.externalUrl,
                   'description': item.description,
                   'amount': item.amount,
@@ -357,6 +359,7 @@ class _$CollectionsDAO extends CollectionsDAO {
                   'tokenSymbol': item.tokenSymbol,
                   'tokenDecimal': item.tokenDecimal,
                   'blockchain': item.blockchain,
+                  'isNotSupported': item.isNotSupported ? 1 : 0,
                   'externalUrl': item.externalUrl,
                   'description': item.description,
                   'amount': item.amount,
@@ -391,6 +394,7 @@ class _$CollectionsDAO extends CollectionsDAO {
             row['tokenSymbol'] as String,
             row['tokenDecimal'] as String,
             row['blockchain'] as String,
+            (row['isNotSupported'] as int) != 0,
             row['externalUrl'] as String?,
             row['description'] as String?,
             row['amount'] as String?,

@@ -31,6 +31,8 @@ class Collections {
 
   String blockchain;
 
+  bool isNotSupported;
+
   String? externalUrl;
 
   String? description;
@@ -41,16 +43,15 @@ class Collections {
 
   int? totalSupply;
 
-  Collections(this.hash, this.timeStamp, this.blockHash, this.from, this.contractAddress, this.to, this.tokenID, this.tokenName, this.tokenSymbol, this.tokenDecimal, this.blockchain, this.externalUrl, this.description, this.amount, this.image, this.totalSupply);
+  Collections(this.hash, this.timeStamp, this.blockHash, this.from, this.contractAddress, this.to, this.tokenID, this.tokenName, this.tokenSymbol, this.tokenDecimal, this.blockchain, this.isNotSupported, this.externalUrl, this.description, this.amount, this.image, this.totalSupply);
 
-
-  factory Collections.fromEth721(Eth721 eth721, String blockchain, int totalSupply) => _$CollectionsFromEth721(eth721, blockchain, totalSupply);
+  factory Collections.fromEth721(Eth721 eth721, String blockchain, int totalSupply, bool isNotSupported) => _$CollectionsFromEth721(eth721, blockchain, totalSupply, isNotSupported);
 
   factory Collections.fromJson(Map<String, dynamic> json) => _$CollectionsFromJson(json);
   Map<String, dynamic> toJson() => _$CollectionsToJson(this);
 }
 
-Collections _$CollectionsFromEth721(Eth721 eth721, String blockchain, int totalSupply) => Collections(
+Collections _$CollectionsFromEth721(Eth721 eth721, String blockchain, int totalSupply, bool isNotSupported) => Collections(
       eth721.hash,
       eth721.timeStamp,
       eth721.blockHash,
@@ -62,6 +63,7 @@ Collections _$CollectionsFromEth721(Eth721 eth721, String blockchain, int totalS
       eth721.tokenSymbol,
       eth721.tokenDecimal,
       blockchain,
+      isNotSupported,
       null,
       null,
       null,

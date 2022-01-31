@@ -46,6 +46,10 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
         for (var i = 0; i < listAddress.length; i++)
           collections.addAll(await prepareFromInternet(listAddress[i]));
       }
+    } else {
+      for (var i = 0; i < collections.length; i++) {
+        if(collections[i].isNotSupported) collections.removeAt(i);
+      }
     }
     return collections;
   }
@@ -79,7 +83,7 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
       var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
       for (var erc721 in newMap.entries) {
         final collections = Collections.fromEth721(
-            erc721.value.first, "ethereum", erc721.value.length);
+            erc721.value.first, "ethereum", erc721.value.length, false);
         listCollections.add(collections);
       }
       await collectionsDAO.insertList(listCollections);
