@@ -1,5 +1,6 @@
 import 'package:faktura_nft_viewer/core/client/APIClient.dart';
 import 'package:faktura_nft_viewer/core/models/eth721.dart';
+import 'package:faktura_nft_viewer/core/smartcontracts/ERC721.g.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +8,8 @@ import 'package:faktura_nft_viewer/core/utils/constants.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/database_helper/database.dart';
 import "package:collection/collection.dart";
+import 'package:web3dart/web3dart.dart';
+import 'package:http/http.dart';
 
 class HomeCollectionsState {
   final List<Collections?>? collections;
@@ -65,11 +68,29 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
     var listCollections = <Collections>[];
     var toRemove = <Eth721>[];
 
+    //Web3
+    var httpClient = new Client();
+    var ethClient = new Web3Client(
+        "https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531",
+        httpClient);
+
     if (listERC721.isNotEmpty) {
-      //Check if ERC was transfer
       for (var erc721 in listERC721) {
+        final erc = ERC721(
+            address: EthereumAddress.fromHex(erc721.contractAddress),
+            client: ethClient);
+
+        try {
+          //Check if ERC is valid
+          await erc.tokenURI(BigInt.parse(erc721.tokenID));
+        } catch (error) {
+          print(error);
+          toRemove.add(erc721);
+        }
+
         if (erc721.from.toLowerCase() == address.toLowerCase()) {
           for (var a in listERC721)
+            //Check if ERC was transfer
             if (a.contractAddress.toLowerCase() == erc721.contractAddress.toLowerCase() &&
                 a.tokenID == erc721.tokenID) {
               toRemove.add(a);
@@ -78,6 +99,9 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
         }
       }
       listERC721.removeWhere((element) => toRemove.contains(element));
+
+
+
 
       eth721Dao.insertList(listERC721);
       var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
