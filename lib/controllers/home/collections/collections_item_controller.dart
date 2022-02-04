@@ -30,9 +30,11 @@ class CollectionsItemController extends StateNotifier<CollectionsItemState> {
     List<CollectionsItem> collectionsItemList = await collectionsItemDAO.findCollectionsItemByAddress(state.collections.contractAddress);
     List<Eth721> erc721List = await erc721DAO.findEth721ByContractAddress(state.collections.contractAddress);
 
-    if(state.collections.totalSupply != collectionsItemList.length) {
+    if(erc721List.length != collectionsItemList.length) {
+      print(state.collections.totalSupply);
+      print(collectionsItemList.length);
       collectionsItemList = [];
-      for (var i = 0; i < state.collections.totalSupply!; i++) {
+      for (var i = 0; i < erc721List.length; i++) {
         collectionsItemList.add(await prepareFromInternet(erc721List[i]));
       }
     }
