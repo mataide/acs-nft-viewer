@@ -99,11 +99,9 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
         }
       }
       listERC721.removeWhere((element) => toRemove.contains(element));
-
-
-
-
       eth721Dao.insertList(listERC721);
+
+
       var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
       for (var erc721 in newMap.entries) {
         final collections = Collections.fromEth721(
