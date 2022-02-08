@@ -7,7 +7,7 @@ class Attributes {
   factory Attributes.fromJson(Map<String, dynamic> json) =>
       Attributes(
         traitType: json['trait_type'],
-        value: json['value'],
+        value: json['value'].toString(),
       );
 
 
