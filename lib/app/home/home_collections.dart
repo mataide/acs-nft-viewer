@@ -185,7 +185,7 @@ class HomeCollectionsView extends ConsumerWidget {
                       // AsyncSnapshot<Your object type>
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
-                          return Center(child: CircularProgressIndicator(color: state.buttonColor,));
+                          return Center(child: CircularProgressIndicator(color: state.hoverColor,));
                         default:
                           if (snapshot.hasError) {
                             return Center(

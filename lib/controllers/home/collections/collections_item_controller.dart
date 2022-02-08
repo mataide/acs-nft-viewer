@@ -84,8 +84,8 @@ class CollectionsItemController extends StateNotifier<CollectionsItemState> {
     }
 
     var attributes;
-    if(jsonData['traits'] != null) {
-      var list = jsonData['traits'] as List;
+    if(jsonData['attributes'] != null) {
+      var list = jsonData['attributes'] as List;
       List<Attributes> dataList = list.map((i) => Attributes.fromJson(i)).toList();
       attributes = dataList;
     } else {

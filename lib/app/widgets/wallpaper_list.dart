@@ -75,7 +75,7 @@ class WallpaperListWidget extends ConsumerWidget {
                                       borderRadius: BorderRadius.circular(8.0),
                                       child: snapshot.data!.image.contains(
                                           'http') ? CachedNetworkImage(
-                                        placeholder: (context, url) => CircularProgressIndicator(),
+                                        placeholder: (context, url) => CircularProgressIndicator(color: state.hoverColor),
                                         fit: BoxFit.cover, imageUrl: snapshot.data!.image,
                                       ) : Image.file(
                                         File(snapshot.data!.image),

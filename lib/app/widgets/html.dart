@@ -61,7 +61,7 @@ class HtmlWidget extends ConsumerWidget {
             },
           ),
           if (!dataState.loaded)
-            CircularProgressIndicator(color: state.primaryColor)
+            CircularProgressIndicator(color: state.hoverColor)
         ],
       ));
   }

@@ -59,7 +59,7 @@ class CollectionsItemView extends ConsumerWidget {
                       blendMode: BlendMode.dstIn,
                       child: dataState.collections.image.contains('http')
                           ? CachedNetworkImage(
-                        placeholder: (context, url) => CircularProgressIndicator(),
+                        placeholder: (context, url) => CircularProgressIndicator(color: state.hoverColor),
                         fit: BoxFit.cover, imageUrl: dataState.collections.image,
                       )
                           : Image.file(

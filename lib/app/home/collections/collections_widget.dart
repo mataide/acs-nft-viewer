@@ -151,7 +151,7 @@ class _SubredditAddWidgetState extends State<SubredditAddWidget> {
                           if (_formKey.currentState!.validate()) {
 
                         }})
-                    : CircularProgressIndicator()
+                    : CircularProgressIndicator(color: themeData.hoverColor,)
               ],
             ),
           ]),

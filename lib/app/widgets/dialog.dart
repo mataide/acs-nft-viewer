@@ -225,7 +225,7 @@ void showLoadingDialog(BuildContext context, state) {
                   borderRadius: BorderRadius.circular(8.0)),
               content: Row(
                 children: <Widget>[
-                  CircularProgressIndicator(),
+                  CircularProgressIndicator(color: state.hoverColor),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
