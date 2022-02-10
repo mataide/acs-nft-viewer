@@ -27,6 +27,7 @@ class VideoWidget extends ConsumerWidget {
     controller.setLooping(true);
     return Expanded(
         child: Container(
+          alignment: Alignment.center,
             child: Column(
       children: [
         FutureBuilder(
@@ -36,11 +37,11 @@ class VideoWidget extends ConsumerWidget {
               controller.play();
               return AspectRatio(
                   aspectRatio: controller.value.aspectRatio,
-                  child: Stack(
+                  child: Align(alignment: Alignment.center,child: Stack(
                     children: [
                       VideoPlayer(controller,),
                     ],
-                  ));
+                  )));
             } else {
               return Center(
                   child: CircularProgressIndicator(color: state.hoverColor));

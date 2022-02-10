@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:faktura_nft_viewer/app/widgets/html.dart';
+import 'package:faktura_nft_viewer/app/widgets/video.dart';
 import 'package:faktura_nft_viewer/controllers/home/collections/item/item_nft.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
@@ -35,44 +38,37 @@ class NftScreen extends ConsumerWidget {
     dataState.setDelay();
     return Scaffold(
         backgroundColor: state.primaryColor,
-        body: Align(
-            alignment: Alignment.center,
-            child: GestureDetector(
+        body: Center(
+              child:
+            GestureDetector(
                 onTap: () {
                   dataState.setVisibility();
                 },
                 child: data.isVisibility == true ? Stack(
                   children: [
-                     collectionsItemList[index].image.contains('http')
-                          ? Image.network(collectionsItemList[index].image,
-                              fit: BoxFit.fitWidth)
-                          : Image.file(
-                              File(collectionsItemList[index].image),
-                              alignment: Alignment.center,
-                              width: double.infinity,
-                              height: double.infinity,
-                              fit: BoxFit.fitWidth,
-                            ),
+                    type!.contains("image")
+                        ? typeImage(collectionsItemList[index], context, dataState)
+                        : type.contains("video")
+                        ? typeVideo(
+                        collectionsItemList[index], context, dataState)
+                        : type.contains("html")
+                        ? typeHtml(
+                        collectionsItemList[index], context, dataState):SizedBox(height: height * 0.2),
                   Positioned(
-                      top: 2.0,
-                      left: 2.0,
+                      top: 0.0,
+                      left: 0.0,
                       child: iconsAction(
                                 context, state, width, type, height, dataState))
 
                   ],
-                ): Stack(
-                    children: [
-                 collectionsItemList[index].image.contains('http')
-                    ? Image.network(collectionsItemList[index].image,
-                    fit: BoxFit.fitWidth)
-                    : Image.file(
-                  File(collectionsItemList[index].image),
-                  alignment: Alignment.center,
-                  width: double.infinity,
-                  height: double.infinity,
-                  fit: BoxFit.fitWidth,
-                ),
-            ]))));
+                ): type!.contains("image")
+                    ? typeImage(collectionsItemList[index], context, dataState)
+                    : type.contains("video")
+                    ? typeVideo(
+                    collectionsItemList[index], context, dataState)
+                    : type.contains("html")
+                    ? typeHtml(
+                    collectionsItemList[index], context, dataState):SizedBox(height: height * 0.2),)));
   }
 
   /*Future<bool> _getFutureBool(ItemNftController dataState) {
@@ -159,6 +155,71 @@ class NftScreen extends ConsumerWidget {
     );
   }
 
+  Widget typeImage(
+      CollectionsItem snapshot, context, ItemNftController dataState) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: snapshot.animationUrl == null
+                ? Stack(alignment: Alignment.center, children: [
+              snapshot.image.contains('http')
+                  ? CachedNetworkImage(
+                placeholder: (context, url) =>
+                    CircularProgressIndicator(),
+                fit: BoxFit.cover,
+                imageUrl: snapshot.image,
+              )
+                  : Image.file(
+                File(collectionsItemList[index].image),
+                fit: BoxFit.cover,
+              )
+            ])
+                : Stack(alignment: Alignment.center, children: [
+              CachedNetworkImage(
+                placeholder: (context, url) =>
+                    CircularProgressIndicator(),
+                fit: BoxFit.cover,
+                imageUrl: snapshot.animationUrl!,
+              )
+            ]));
+  }
+
+  Widget typeVideo(
+      CollectionsItem snapshot, context, ItemNftController dataState) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: snapshot.animationUrl == null
+                ? Stack(alignment: Alignment.center, children: [
+              snapshot.image.contains('png')
+                  ? Image.file(
+                File(collectionsItemList[index].image),
+                fit: BoxFit.cover,
+              )
+                  : Stack(
+                  alignment: Alignment.center,
+                  children: [VideoWidget(collectionsItemList, index)])
+            ])
+                : Stack(
+                alignment: Alignment.center,
+                children: [VideoWidget(collectionsItemList, index)]));
+  }
+
+  Widget typeHtml(
+      CollectionsItem snapshot, context, ItemNftController dataState) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: snapshot.animationUrl == null
+                ? Stack(alignment: Alignment.center, children: [
+              CachedNetworkImage(
+                placeholder: (context, url) =>
+                    CircularProgressIndicator(),
+                fit: BoxFit.cover,
+                imageUrl: snapshot.image,
+              )
+            ])
+                : Stack(
+                alignment: Alignment.center,
+                children: [HtmlWidget(collectionsItemList, index)]));
+  }
   void downloadImage() async {
     var type = collectionsItemList[index].contentType;
     try {
