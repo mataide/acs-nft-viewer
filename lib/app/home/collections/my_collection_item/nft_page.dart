@@ -96,10 +96,17 @@ class NftPageView extends ConsumerWidget {
               SizedBox(height: height * 0.008),
               Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    collectionsItemList[index].name,
-                    style: state.textTheme.caption,
-                  )),
+                  child: SizedBox(
+                    width: 160.0,
+                    child: Text(
+                      collectionsItemList[index]
+                          .name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                      style: state.textTheme.caption,
+                    ),
+                  ),),
               SizedBox(
                 height: height * 0.04,
               ),

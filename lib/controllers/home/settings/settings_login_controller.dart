@@ -1,6 +1,7 @@
 
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/database_helper/database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -83,7 +84,13 @@ Future<void> _startPreferences() async {
       print("Failed to initWalletConnection: '${e.message}'.");
     }
   }
-
+  deleteAll() async {
+      final database = await $FloorFlutterDatabase.databaseBuilder(
+          'app_database.db').build();
+      await database.collectionsDAO.deleteAllCollections();
+      await database.collectionsItemDAO.deleteAllCollectionsItem();
+      await database.eth721DAO.deleteAll();
+    }
 }
 extension ListExtension<E> on List<E> {
   void addUnique(E element) {

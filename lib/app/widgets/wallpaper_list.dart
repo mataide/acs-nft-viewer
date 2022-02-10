@@ -88,10 +88,23 @@ class WallpaperListWidget extends ConsumerWidget {
                                       ),
                                     ),
                                   ),
-                                   Positioned(
-                                    bottom: 30.0,
-                                    left: 20.0,
-                                    child: Text(collectionsItemList[index].name, style: state.textTheme.headline4)),
+
+                                  Positioned(
+                                      bottom: 30.0,
+                                      left: 20.0,
+                                      child: SizedBox(
+                                        width: 160.0,
+                                        child: Text(
+                                          collectionsItemList[index]
+                                              .name,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: false,
+                                          style: state.textTheme.headline4,
+                                        ),
+                                      ),
+
+                    ),
                                 Positioned(
                                     bottom: 10.0,
                                     left: 20.0,

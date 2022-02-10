@@ -186,6 +186,8 @@ class SettingsLoginView extends ConsumerWidget {
                         context);
                   } else {
                     //TODO: Replace with empty placeholder
+                    controller.onRefresh();
+                    dataState.deleteAll();
                     return Column(children: [
                       Container(
                           margin: EdgeInsets.only(
