@@ -41,10 +41,9 @@ class NftScreen extends ConsumerWidget {
                 onTap: () {
                   dataState.setVisibility();
                 },
-                child: Stack(
+                child: data.isVisibility == true ? Stack(
                   children: [
-                    Container(
-                      child: collectionsItemList[index].image.contains('http')
+                     collectionsItemList[index].image.contains('http')
                           ? Image.network(collectionsItemList[index].image,
                               fit: BoxFit.fitWidth)
                           : Image.file(
@@ -54,14 +53,26 @@ class NftScreen extends ConsumerWidget {
                               height: double.infinity,
                               fit: BoxFit.fitWidth,
                             ),
-                    ),
-                    Container(
-                        child: data.isVisibility == true
-                            ? iconsAction(
-                                context, state, width, type, height, dataState)
-                            : Container()),
+                  Positioned(
+                      top: 2.0,
+                      left: 2.0,
+                      child: iconsAction(
+                                context, state, width, type, height, dataState))
+
                   ],
-                ))));
+                ): Stack(
+                    children: [
+                 collectionsItemList[index].image.contains('http')
+                    ? Image.network(collectionsItemList[index].image,
+                    fit: BoxFit.fitWidth)
+                    : Image.file(
+                  File(collectionsItemList[index].image),
+                  alignment: Alignment.center,
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.fitWidth,
+                ),
+            ]))));
   }
 
   /*Future<bool> _getFutureBool(ItemNftController dataState) {
