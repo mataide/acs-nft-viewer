@@ -4,6 +4,7 @@ import 'package:faktura_nft_viewer/controllers/home/home_collections_controller.
 import 'package:faktura_nft_viewer/controllers/home/settings/settings_login_controller.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -243,6 +244,7 @@ class HomeCollectionsView extends ConsumerWidget {
                         left: width * 0.0225, right: width * 0.0225),
                     child: ElevatedButton(
                       onPressed: () {
+                        FirebaseAnalytics.instance.logEvent(name: 'MetaMesk',parameters:null);
                         controllerLogin.openMetaMask();
                       },
                       style: TextButton.styleFrom(
@@ -273,8 +275,11 @@ class HomeCollectionsView extends ConsumerWidget {
                       margin: EdgeInsets.only(
                           left: width * 0.0225, right: width * 0.0225),
                       child: ElevatedButton(
-                        onPressed: () =>
-                            showModalAddress(context, state, controllerLogin),
+                        onPressed: () {
+                          FirebaseAnalytics.instance.logEvent(
+                              name: 'Eth_Address', parameters: null);
+                          showModalAddress(context, state, controllerLogin);
+                        },
                         style: TextButton.styleFrom(
                             backgroundColor: state.cardColor,
                             shape: RoundedRectangleBorder(

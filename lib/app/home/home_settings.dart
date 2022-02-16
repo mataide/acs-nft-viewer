@@ -1,3 +1,4 @@
+import 'package:faktura_nft_viewer/app/home/settings/report_bugs.dart';
 import 'package:faktura_nft_viewer/app/home/settings/settings_login.dart';
 import 'package:faktura_nft_viewer/app/routes/slide_right_route.dart';
 import 'package:flutter/material.dart';
@@ -93,6 +94,24 @@ class HomeSettingsView extends ConsumerWidget {
                       ),
                       onTap: () {
                         showThemeChangerDialog(context);
+                      })),
+              Card(
+                  color: state.primaryColor,
+                  child: ListTile(
+                      leading: Icon(
+                        Icons.bug_report_outlined,
+                        color: state.textTheme.bodyText1!.color,
+                        size: 24,
+                      ),
+                      title: Text(
+                        "Report Bugs",
+                        style: state.textTheme.headline5,),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_sharp,
+                        color: state.textTheme.bodyText1!.color,
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(SlideRightRoute(ReportBugsView()));
                       })),
             ],
           ),

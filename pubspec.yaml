@@ -38,6 +38,8 @@ dependencies:
   video_player: ^2.2.11
   firebase_crashlytics: ^2.4.5
   firebase_core: ^1.11.0
+  firebase_analytics: ^9.1.0
+
 
 
 dev_dependencies:

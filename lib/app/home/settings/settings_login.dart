@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:faktura_nft_viewer/controllers/home/settings/settings_login_controller.dart';
 import 'package:faktura_nft_viewer/app/home/settings/login_modal/login_modal.dart';
 import 'package:faktura_nft_viewer/core/utils/util.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -311,6 +312,7 @@ class SettingsLoginView extends ConsumerWidget {
           Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
         ElevatedButton(
           onPressed: () {
+            FirebaseAnalytics.instance.logEvent(name: 'MetaMask',parameters:null);
             dataState.openMetaMask();
           },
           style: TextButton.styleFrom(
@@ -338,7 +340,9 @@ class SettingsLoginView extends ConsumerWidget {
         ),
         SizedBox(width: width * 0.005),
         ElevatedButton(
-          onPressed: () => showModalAddress(context, state, dataState),
+          onPressed: () {
+            FirebaseAnalytics.instance.logEvent(name: 'Eth_Address',parameters:null);
+            showModalAddress(context, state, dataState);},
           style: TextButton.styleFrom(
               backgroundColor: state.cardColor,
               shape: RoundedRectangleBorder(

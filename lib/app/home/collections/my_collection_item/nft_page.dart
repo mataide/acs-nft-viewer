@@ -97,7 +97,7 @@ class NftPageView extends ConsumerWidget {
               Align(
                   alignment: Alignment.centerLeft,
                   child: SizedBox(
-                    width: 160.0,
+                    width: double.maxFinite,
                     child: Text(
                       collectionsItemList[index]
                           .name,
@@ -280,7 +280,6 @@ class NftPageView extends ConsumerWidget {
                         crossAxisCount: 2,
                       ),
                        itemCount: collectionsItemList[index].attributes.length,
-        //itemCount: collectionsItemList[index].attributes.length,
                       itemBuilder: (context, index) {
                         //final nDataList = collectionsItemList[index];
                         return Container(
