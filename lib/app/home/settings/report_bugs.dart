@@ -275,7 +275,7 @@ class ReportBugsView extends ConsumerWidget {
                           onPressed: () async {
                             if (_formKey.currentState!.validate() &&
                                 _formMessage.currentState!.validate()) {
-                              if (data.val == 0) {
+                             if (data.val == 0) {
                                 category = "BUG";
                               } else if (data.val == 1) {
                                 category = "SUGGESTION";
@@ -285,16 +285,17 @@ class ReportBugsView extends ConsumerWidget {
                               final String? email = _emailController.text;
                               final String? message =
                                   _descriptionController.text;
+                             FocusScope.of(context)
+                                 .requestFocus(new FocusNode());
+                             showAlertDialog2(context, state, _deviceHeight,
+                                 _emailController, _descriptionController);
                               await _feedbacks.add({
                                 "email": email,
                                 "message": message,
                                 "category": category,
                                 "time": Timestamp.now()
                               });
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
-                              showAlertDialog2(context, state, _deviceHeight,
-                                  _emailController, _descriptionController);
+
                             }
                           },
                           style: TextButton.styleFrom(
