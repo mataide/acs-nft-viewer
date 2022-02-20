@@ -8,12 +8,14 @@ class ItemNftLoginState {
   final bool isVisibility;
   final bool initial;
 
+
   const ItemNftLoginState(
       {this.listAddress = const [],
       this.eventChannel =
           const EventChannel("com.bimsina.re_walls/WalletStreamHandler"),
       this.isVisibility = true,
-      this.initial = true});
+      this.initial = true,
+      });
 }
 
 class ItemNftController extends StateNotifier<ItemNftLoginState> {
@@ -80,4 +82,5 @@ class ItemNftController extends StateNotifier<ItemNftLoginState> {
     state = ItemNftLoginState(
         initial: !state.initial, isVisibility: !state.isVisibility);
   }
+
 }

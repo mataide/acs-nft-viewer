@@ -1,4 +1,5 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/database_helper/database.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,9 +12,9 @@ class SettingsLoginState {
   final eventChannel;
   final bool isExpanded;
   final List<Collections?>? collections;
+  final int val;
 
-
-  const SettingsLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler"), this.isExpanded = false, this.collections});
+  const SettingsLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler"), this.isExpanded = false, this.collections,this.val = 0});
 }
 
 class SettingsLoginController extends StateNotifier<SettingsLoginState> {
@@ -91,6 +92,13 @@ Future<void> _startPreferences() async {
       await database.collectionsItemDAO.deleteAllCollectionsItem();
       await database.eth721DAO.deleteAll();
     }
+    setFeedBack(int val){
+    state = SettingsLoginState(
+      val: val
+    );
+    return val;
+    }
+
 }
 extension ListExtension<E> on List<E> {
   void addUnique(E element) {
@@ -98,6 +106,7 @@ extension ListExtension<E> on List<E> {
       add(element);
     }
   }
-}
+  }
+
 
 

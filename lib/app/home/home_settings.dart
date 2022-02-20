@@ -99,12 +99,12 @@ class HomeSettingsView extends ConsumerWidget {
                   color: state.primaryColor,
                   child: ListTile(
                       leading: Icon(
-                        Icons.bug_report_outlined,
+                        Icons.feedback_outlined,
                         color: state.textTheme.bodyText1!.color,
                         size: 24,
                       ),
                       title: Text(
-                        "Report Bugs",
+                        "Feedback",
                         style: state.textTheme.headline5,),
                       trailing: Icon(
                         Icons.arrow_forward_ios_sharp,
