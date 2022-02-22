@@ -5,6 +5,7 @@ import 'package:faktura_nft_viewer/database_helper/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsLoginState {
@@ -13,8 +14,9 @@ class SettingsLoginState {
   final bool isExpanded;
   final List<Collections?>? collections;
   final int val;
+  final XFile? file;
 
-  const SettingsLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler"), this.isExpanded = false, this.collections,this.val = 0});
+  const SettingsLoginState({this.listAddress = const [], this.eventChannel = const EventChannel("com.bimsina.re_walls/WalletStreamHandler"), this.isExpanded = false, this.collections,this.val = 0, this.file});
 }
 
 class SettingsLoginController extends StateNotifier<SettingsLoginState> {
@@ -98,6 +100,12 @@ Future<void> _startPreferences() async {
     );
     return val;
     }
+  setFile(XFile? file){
+    state = SettingsLoginState(
+        file: file
+    );
+    return file;
+  }
 
 }
 extension ListExtension<E> on List<E> {
