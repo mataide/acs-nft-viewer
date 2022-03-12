@@ -218,7 +218,7 @@ class HomeCollectionsView extends ConsumerWidget {
       networkStream,
       width,
       height) {
-    controller.prepareFromDb();
+    //controller.prepareFromDb();
     return Container(
         margin: EdgeInsets.only(left: (width * 0.02), right: (width * 0.02)),
         child: Column(children: [

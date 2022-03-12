@@ -46,7 +46,7 @@ class FlagListWidget extends ConsumerWidget {
                 } else {
                   if (snapshot.hasError)
                     return Center(
-                        child: Text('flaglist - getCollectionImage: ${snapshot.error}'));
+                        child: Text(collectionsList[index].image == null ? "Unsupported Image":'flaglist - getCollectionImage: ${snapshot.error}'));
                   else
                     print(collectionsList[index].image);
                   print(collectionsList[index].description);

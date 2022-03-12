@@ -30,7 +30,7 @@ class CollectionsItemController extends StateNotifier<CollectionsItemState> {
     List<CollectionsItem> collectionsItemList = await collectionsItemDAO.findCollectionsItemByAddress(state.collections.contractAddress);
     List<Eth721> erc721List = await erc721DAO.findEth721ByContractAddress(state.collections.contractAddress);
 
-    if(erc721List.length != collectionsItemList.length) {
+    if(erc721List.length != collectionsItemList.length || erc721List.length == collectionsItemList.length) {
       print(state.collections.totalSupply);
       print(collectionsItemList.length);
       collectionsItemList = [];
@@ -78,7 +78,6 @@ class CollectionsItemController extends StateNotifier<CollectionsItemState> {
 
     if(jsonData['animation_url'] != null) {
       var animation_url = ipfsToHTTP((jsonData['animation_url'] as String));
-
       final head = await httpClient.head(Uri.parse(animation_url), headers: {"Accept": "aplication/json"});
       contentType = head.headers['content-type'] as String;
     }

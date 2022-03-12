@@ -38,37 +38,35 @@ class NftScreen extends ConsumerWidget {
     dataState.setDelay();
     return Scaffold(
         backgroundColor: state.primaryColor,
-        body: Center(
-              child:
-            GestureDetector(
-                onTap: () {
-                  dataState.setVisibility();
-                },
-                child: data.isVisibility == true ? Stack(
-                  children: [
-                    type!.contains("image")
-                        ? typeImage(collectionsItemList[index], context, dataState)
+        body: Align(alignment: Alignment.center,
+        child:  data.isVisibility == true ?
+                type!.contains("image")
+                    ? GestureDetector(
+                    onTap: () {
+                      dataState.setVisibility();
+                    },
+                    child: Stack(
+                    children: [ typeImage(collectionsItemList[index], context, dataState),
+                    Positioned(
+                    top: 8.0,
+                    left: 2.0,
+                    child: iconsAction(
+                        context, state, width, type, height, dataState))]))
                         : type.contains("video")
                         ? typeVideo(
                         collectionsItemList[index], context, dataState)
                         : type.contains("html")
                         ? typeHtml(
-                        collectionsItemList[index], context, dataState):SizedBox(height: height * 0.2),
-                  Positioned(
-                      top: 0.0,
-                      left: 0.0,
-                      child: iconsAction(
-                                context, state, width, type, height, dataState))
+                        collectionsItemList[index], context, dataState):SizedBox(height: height * 0.2)
 
-                  ],
-                ): type!.contains("image")
+                : type!.contains("image")
                     ? typeImage(collectionsItemList[index], context, dataState)
                     : type.contains("video")
                     ? typeVideo(
                     collectionsItemList[index], context, dataState)
                     : type.contains("html")
                     ? typeHtml(
-                    collectionsItemList[index], context, dataState):SizedBox(height: height * 0.2),)));
+                    collectionsItemList[index], context, dataState):SizedBox(height: height * 0.2),));
   }
 
   /*Future<bool> _getFutureBool(ItemNftController dataState) {
