@@ -38,7 +38,7 @@ class NftScreen extends ConsumerWidget {
     dataState.setDelay();
     return Scaffold(
         backgroundColor: state.primaryColor,
-        body: Align(alignment: Alignment.center,
+        body: Center(
         child:  data.isVisibility == true ?
                 type!.contains("image")
                     ? GestureDetector(
@@ -53,8 +53,8 @@ class NftScreen extends ConsumerWidget {
                     child: iconsAction(
                         context, state, width, type, height, dataState))]))
                         : type.contains("video")
-                        ? typeVideo(
-                        collectionsItemList[index], context, dataState)
+                        ? Align(alignment: Alignment.center, child: typeVideo(
+                        collectionsItemList[index], context, dataState))
                         : type.contains("html")
                         ? typeHtml(
                         collectionsItemList[index], context, dataState):SizedBox(height: height * 0.2)
@@ -225,7 +225,7 @@ class NftScreen extends ConsumerWidget {
       if (status == PermissionStatus.granted) {
         try {
           showToast('Check the notification to see progress.');
-          if (type!.contains("video")) {
+          if (type!.contains("video") || type.contains("html")) {
             var imageId = await ImageDownloader.downloadImage(
                 collectionsItemList[index].animationUrl!,
                 destination: AndroidDestinationType.directoryMovies);
@@ -234,7 +234,7 @@ class NftScreen extends ConsumerWidget {
             }
           } else {
             var imageId = await ImageDownloader.downloadImage(
-                collectionsItemList[index].animationUrl!,
+                collectionsItemList[index].image,
                 destination: AndroidDestinationType.directoryPictures);
 
             if (imageId == null) {
@@ -269,22 +269,15 @@ class NftScreen extends ConsumerWidget {
           gravity: ToastGravity.BOTTOM);
 
   void _setWallpaper(BuildContext context) async {
-    var type = collectionsItemList[index].contentType;
-    if (type!.contains("video")) {
-      showToast(
-          "Invalid " + collectionsItemList[index].contentType! + " Format.");
-    } else {
-      var file = await DefaultCacheManager()
-          .getSingleFile(collectionsItemList[index].image);
-      try {
-        final int result =
-            await platform.invokeMethod('setWallpaper', file.path);
-        print('Wallpaer Updated.... $result');
-      } on PlatformException catch (e) {
-        print("Failed to Set Wallpaper: '${e.message}'.");
-      }
+    var file = await DefaultCacheManager()
+        .getSingleFile(collectionsItemList[index].image);
+    try {
+      final int result =
+      await platform.invokeMethod('setWallpaper', file.path);
+      print('Wallpaper Updated.... $result');
+    } on PlatformException catch (e) {
+      print("Failed to Set Wallpaper: '${e.message}'.");
     }
-    Navigator.pop(context);
   }
 
   void showLoadingDialog(BuildContext context, state) {
@@ -337,11 +330,15 @@ class NftScreen extends ConsumerWidget {
                             padding: EdgeInsets.all(8.0)),
                         child: Text("Yes", style: state.textTheme.headline4),
                         onPressed: () async {
-                          Navigator.pop(context);
-                          showLoadingDialog(context, state);
-                          await Future.delayed(Duration(milliseconds: 1000));
-                          _setWallpaper(context);
-                        },
+                          var type = collectionsItemList[index].contentType;
+                          if (type!.contains("video") || type.contains("html")) {
+                            showToast(
+                                "Invalid " + collectionsItemList[index].contentType! + " Format.");
+                            Navigator.pop(context);
+                          } else {
+                            Navigator.pop(context);
+                            _setWallpaper(context);
+                          }},
                       ),
                       SizedBox(
                         width: width * 0.02,

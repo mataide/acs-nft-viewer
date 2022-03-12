@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:faktura_nft_viewer/app/home/collections/my_collection_item/nft_screen.dart';
+import 'package:faktura_nft_viewer/app/routes/white_page_route.dart';
 import 'package:faktura_nft_viewer/controllers/widgets/html_controller.dart';
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
@@ -21,6 +23,7 @@ class HtmlWidget extends ConsumerWidget {
     ref.read(htmlProvider.notifier);
     final HtmlState dataState = ref.watch(htmlProvider);
     final ThemeData state = ref.watch(themeProvider);
+    final data = ref.read(itemNftProvider.notifier);
 
     var url = collectionsItemList[index].animationUrl!;
 
@@ -51,12 +54,13 @@ class HtmlWidget extends ConsumerWidget {
               controller.setLoaded(true);
               if (_controller != null) {
                 controller.setContentHeight(double.tryParse(
-                  await _controller
+                 await _controller
                       .runJavascriptReturningResult("document.body.offsetHeight;"),
                 ));
+                var height = await _controller
+                    .runJavascriptReturningResult("document.body.offsetHeight;");
                 var width = await _controller
                     .runJavascriptReturningResult("document.body.offsetWidth;");
-                print('Page width: $width');
               }
             },
           ),

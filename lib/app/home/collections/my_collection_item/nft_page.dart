@@ -354,19 +354,16 @@ class NftPageView extends ConsumerWidget {
                   enterPage: NftScreen(collectionsItemList, index)));
             },
             child: snapshot.animationUrl == null
-                ? Stack(alignment: Alignment.center, children: [
+                ? Stack(
+                alignment: Alignment.center, children: [
                     snapshot.image.contains('png')
                         ? Image.file(
                             File(collectionsItemList[index].image),
                             fit: BoxFit.cover,
                           )
-                        : Stack(
-                            alignment: Alignment.center,
-                            children: [VideoWidget(collectionsItemList, index)])
+                        :  VideoWidget(collectionsItemList, index)
                   ])
-                : Stack(
-                    alignment: Alignment.center,
-                    children: [VideoWidget(collectionsItemList, index)])));
+                : VideoWidget(collectionsItemList, index)));
   }
 
   Widget typeHtml(
@@ -400,7 +397,7 @@ class NftPageView extends ConsumerWidget {
       if (status == PermissionStatus.granted) {
         try {
           showToast('Check the notification to see progress.');
-          if (type!.contains("video")) {
+          if (type!.contains("video") || type.contains("html")) {
             var imageId = await ImageDownloader.downloadImage(
                 collectionsItemList[index].animationUrl!,
                 destination: AndroidDestinationType.directoryMovies);
@@ -441,22 +438,15 @@ class NftPageView extends ConsumerWidget {
       gravity: ToastGravity.BOTTOM);
 
   void _setWallpaper(BuildContext context) async {
-    var type = collectionsItemList[index].contentType;
-    if (type!.contains("video")) {
-      showToast(
-          "Invalid " + collectionsItemList[index].contentType! + " Format.");
-    } else {
       var file = await DefaultCacheManager()
           .getSingleFile(collectionsItemList[index].image);
       try {
         final int result =
             await platform.invokeMethod('setWallpaper', file.path);
-        print('Wallpaer Updated.... $result');
+        print('Wallpaper Updated.... $result');
       } on PlatformException catch (e) {
         print("Failed to Set Wallpaper: '${e.message}'.");
       }
-    }
-    Navigator.pop(context);
   }
 
   void showLoadingDialog(BuildContext context, state) {
@@ -509,11 +499,15 @@ class NftPageView extends ConsumerWidget {
                             padding: EdgeInsets.all(8.0)),
                         child: Text("Yes", style: state.textTheme.headline4),
                         onPressed: () async {
+                          var type = collectionsItemList[index].contentType;
+                          if (type!.contains("video") || type.contains("html")) {
+                            showToast(
+                                "Invalid " + collectionsItemList[index].contentType! + " Format.");
+                            Navigator.pop(context);
+                          } else {
                           Navigator.pop(context);
-                          showLoadingDialog(context, state);
-                          await Future.delayed(Duration(milliseconds: 1000));
                           _setWallpaper(context);
-                        },
+                        }},
                       ),
                       SizedBox(
                         width: width * 0.02,

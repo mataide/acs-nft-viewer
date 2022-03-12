@@ -27,33 +27,27 @@ class VideoWidget extends ConsumerWidget {
 
     _initializeVideoPlayerFuture = controller.initialize();
     controller.setLooping(true);
-    return Align(
-        alignment: Alignment.center,
-    child: Container(
+    return  Container(
         alignment: Alignment.center,
         child:
-        Column(
-          children: [
             FutureBuilder(
               future: _initializeVideoPlayerFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   controller.play();
-                  return AspectRatio(
+                  return Stack(children: [AspectRatio(
                       aspectRatio: controller.value.aspectRatio,
-                      child: Align(alignment: Alignment.center,child: Stack(
-                        children: [
-                          VideoPlayer(controller,),
-                        ],
-                      )));
+                      child:
+                          VideoPlayer(controller,)
+
+                  )]);
                 } else {
                   return Center(
                       child: CircularProgressIndicator(color: state.hoverColor));
                 }
               },
             ),
-          ],
-        ))
+
     );
   }
 
