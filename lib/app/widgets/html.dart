@@ -30,9 +30,10 @@ class HtmlWidget extends ConsumerWidget {
     // Enable virtual display.
     if (Platform.isAndroid) WebView.platform = AndroidWebView();
 
+    print(dataState.contentHeight);
     return Container(
       width: double.infinity,
-      height: dataState.contentHeight,
+      height: dataState.contentHeight < 190.0 ? 190.0 : dataState.contentHeight,
       decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
       child: Stack(
         alignment: Alignment.topCenter,

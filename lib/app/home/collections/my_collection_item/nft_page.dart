@@ -33,7 +33,6 @@ class NftPageView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(themeProvider);
-    final data = ref.watch(wallpaperListProvider(collectionsItemList));
     final dataState = ref.read(itemNftProvider.notifier);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;

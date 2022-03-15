@@ -48,6 +48,7 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
                                   left: (width * 0.04), right: (width * 0.04)),
                               child: Center(
                                 child: TextFormField(
+                                  cursorColor: state.hoverColor,
                                   autofocus: true,
                                   textAlign: TextAlign.center,
                                   controller: _keyController,
