@@ -92,9 +92,11 @@ Future<void> _startPreferences() async {
       await database.collectionsItemDAO.deleteAllCollectionsItem();
       await database.eth721DAO.deleteAll();
     }
-    setFeedBack(int val){
+    setFeedBack(int val) async{
+      final preferences = await SharedPreferences.getInstance();
+      final listAddress = preferences.getStringList('key');
     state = SettingsLoginState(
-      val: val
+      val: val, listAddress: listAddress!
     );
     return val;
     }

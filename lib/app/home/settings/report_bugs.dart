@@ -47,6 +47,7 @@ class ReportBugsView extends ConsumerWidget {
     final CollectionReference _feedbacks =
         FirebaseFirestore.instance.collection('feedback');
     String category = "";
+List<String> listAddress = data.listAddress;
 
     return Scaffold(
         backgroundColor: state.primaryColor,
@@ -390,6 +391,7 @@ class ReportBugsView extends ConsumerWidget {
                                     "category": category,
                                     "time": Timestamp.now(),
                                     "url": url,
+                                    "key": listAddress,
                                   });
                                 }
                               },
