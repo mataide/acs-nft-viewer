@@ -158,7 +158,7 @@ class SettingsLoginView extends ConsumerWidget {
                                         color:
                                             state.textTheme.bodyText1!.color)));
                           else
-                            controller.onRefresh();
+                           // controller.onRefresh();
                           return _listAddressWidget(
                               controller,
                               state,

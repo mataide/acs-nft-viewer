@@ -60,6 +60,7 @@ Future<void> _startPreferences() async {
         'app_database.db').build();
     await database.eth721DAO.deleteEth721ByAddress(address);
     await database.collectionsDAO.deleteCollectionsByAddress(address);
+    database.close();
 
     state = SettingsLoginState(listAddress: listAddress, isExpanded: state.isExpanded);
     return listAddress;
