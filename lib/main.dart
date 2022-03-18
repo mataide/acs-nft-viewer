@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/assertions.dart';
@@ -17,6 +18,7 @@ void main() async {
   if (Firebase.apps.isEmpty) {
     await Firebase.initializeApp();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
   }
 
   SharedPreferences.getInstance().then((shared) {
@@ -26,6 +28,7 @@ void main() async {
 }
 
 class MyApp extends ConsumerWidget {
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themesNotifier = ref.read(themeProvider.notifier);
@@ -39,6 +42,8 @@ class MyApp extends ConsumerWidget {
         '/home': (context) => HomePage(),
       },
       home: HomePage(),
+        navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: analytics)],
     );
   }
 }

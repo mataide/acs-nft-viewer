@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:faktura_nft_viewer/core/models/index.dart';
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
-import 'package:faktura_nft_viewer/core/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:video_player/video_player.dart';

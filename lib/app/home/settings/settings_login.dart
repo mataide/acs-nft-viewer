@@ -26,18 +26,17 @@ class SettingsLoginView extends ConsumerWidget {
     final _deviceHeight = MediaQuery.of(context).size.height;
     final _deviceWidth = MediaQuery.of(context).size.width;
     final navigator = Navigator.of(context);
-    final controller = ref.read(homeCollectionsProvider.notifier);
+    //final controller = ref.read(homeCollectionsProvider.notifier);
     final networkStream = eventChannel.receiveBroadcastStream().distinct().map(
         (dynamic event) => event == "disconnected" || event == null
             ? [].cast<String>()
             : [event]);
 
-    return _buildUI(controller, state, data, dataState, _deviceHeight,
+    return _buildUI(state, data, dataState, _deviceHeight,
         _deviceWidth, navigator, networkStream, context);
   }
 
   Widget _buildUI(
-      controller,
       state,
       SettingsLoginState data,
       SettingsLoginController dataState,
@@ -61,7 +60,6 @@ class SettingsLoginView extends ConsumerWidget {
               alignment: Alignment.center,
               children: [
                 _walletsWidget(
-                    controller,
                     state,
                     data,
                     dataState,
@@ -77,7 +75,6 @@ class SettingsLoginView extends ConsumerWidget {
   }
 
   Widget _walletsWidget(
-      controller,
       state,
       SettingsLoginState data,
       SettingsLoginController dataState,
@@ -160,7 +157,7 @@ class SettingsLoginView extends ConsumerWidget {
                           else
                            // controller.onRefresh();
                           return _listAddressWidget(
-                              controller,
+
                               state,
                               data,
                               dataState,
@@ -174,9 +171,8 @@ class SettingsLoginView extends ConsumerWidget {
                     );
                   } else if (data.listAddress.length > 0 &&
                       data.listAddress.isNotEmpty) {
-                    controller.onRefresh();
                     return _listAddressWidget(
-                        controller,
+
                         state,
                         data,
                         dataState,
@@ -187,7 +183,6 @@ class SettingsLoginView extends ConsumerWidget {
                         context);
                   } else {
                     //TODO: Replace with empty placeholder
-                    controller.onRefresh();
                    // dataState.deleteAll();
                     return Column(children: [
                       Container(
@@ -241,7 +236,6 @@ class SettingsLoginView extends ConsumerWidget {
   }
 
   Widget _listAddressWidget(
-      controller,
       state,
       SettingsLoginState data,
       SettingsLoginController dataState,
