@@ -287,7 +287,9 @@ class NftPageView extends ConsumerWidget {
                               color: state.primaryColorDark,
                               borderRadius: BorderRadius.circular(8.0)),
                           child: Center(
-                              child:Column(
+                              child:Container(
+                        margin: EdgeInsets.all(4),
+                              child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                                  Text(
@@ -303,7 +305,7 @@ class NftPageView extends ConsumerWidget {
                                       style: state.textTheme.headline5),
                             ],
                           )),
-                          );
+                          ));
                       }
     );
   }
