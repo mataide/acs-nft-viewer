@@ -274,19 +274,19 @@ class _$Eth721DAO extends Eth721DAO {
   @override
   Future<List<int>> insertList(List<Eth721> listEth721) {
     return _eth721InsertionAdapter.insertListAndReturnIds(
-        listEth721, OnConflictStrategy.rollback);
+        listEth721, OnConflictStrategy.ignore);
   }
 
   @override
   Future<int> create(Eth721 eth721) {
     return _eth721InsertionAdapter.insertAndReturnId(
-        eth721, OnConflictStrategy.rollback);
+        eth721, OnConflictStrategy.ignore);
   }
 
   @override
   Future<int> update(Eth721 eth721) {
     return _eth721UpdateAdapter.updateAndReturnChangedRows(
-        eth721, OnConflictStrategy.rollback);
+        eth721, OnConflictStrategy.ignore);
   }
 
   @override
