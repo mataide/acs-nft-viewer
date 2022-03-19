@@ -58,15 +58,19 @@ class NftScreen extends ConsumerWidget {
                         : type.contains("html")
                         ? typeHtml(
                         collectionsItemList[index], context, dataState):SizedBox(height: height * 0.2)
-
-                : type!.contains("image")
+        :GestureDetector(
+            onTap: () {
+              dataState.setVisibility();
+            },
+            child:
+                 type!.contains("image")
                     ? typeImage(collectionsItemList[index], context, dataState)
                     : type.contains("video")
                     ? typeVideo(
                     collectionsItemList[index], context, dataState)
                     : type.contains("html")
                     ? typeHtml(
-                    collectionsItemList[index], context, dataState):SizedBox(height: height * 0.2),));
+                    collectionsItemList[index], context, dataState):SizedBox(height: height * 0.2),)));
   }
 
   /*Future<bool> _getFutureBool(ItemNftController dataState) {

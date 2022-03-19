@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:faktura_nft_viewer/app/widgets/bottom_nav_bar.dart';
 import 'home_collections.dart';
 import 'home_settings.dart';
 import 'package:flutter/material.dart';
