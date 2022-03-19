@@ -60,7 +60,7 @@ class HomeCollectionsView extends ConsumerWidget {
       height,) {
     return SmartRefresher(
       enablePullDown: true,
-      enablePullUp: true,
+      //enablePullUp: true,
       header: WaterDropHeader(),
       footer: CustomFooter(
         builder: (BuildContext context,LoadStatus? mode){
