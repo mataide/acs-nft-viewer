@@ -16,13 +16,13 @@ abstract class Eth721DAO {
   @Query('DELETE FROM Eth721')
   Future<void> deleteAll();
 
-  @Insert(onConflict: OnConflictStrategy.rollback)
+  @Insert(onConflict: OnConflictStrategy.ignore)
   Future<List<int>> insertList(List<Eth721> listEth721);
 
-  @Insert(onConflict: OnConflictStrategy.rollback)
+  @Insert(onConflict: OnConflictStrategy.ignore)
   Future<int> create(Eth721 eth721);
 
-  @Update(onConflict: OnConflictStrategy.rollback)
+  @Update(onConflict: OnConflictStrategy.ignore)
   Future<int> update(Eth721 eth721);
 
   @delete

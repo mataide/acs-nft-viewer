@@ -79,15 +79,14 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
         final erc = ERC721(
             address: EthereumAddress.fromHex(erc721.contractAddress),
             client: ethClient);
-        print('Token ${erc721.tokenID}');
-       // try {
+        try {
           //Check if ERC is valid
           await erc.tokenURI(BigInt.parse(erc721.tokenID));
 
-       // } catch (error) {
-      //    print(error);
-      //    toRemove.add(erc721);
-      //  }
+        } catch (error) {
+          print(error);
+          toRemove.add(erc721);
+        }
 
         if (erc721.from.toLowerCase() == address.toLowerCase()) {
           for (var a in listERC721)
