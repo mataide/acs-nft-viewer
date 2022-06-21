@@ -20,7 +20,7 @@ class CardRenderer extends ConsumerWidget {
       width: cardWidth,
       margin: EdgeInsets.only(top: 8),
       child: Stack(
-        overflow: Overflow.visible,
+       // overflow: Overflow.visible,
         alignment: Alignment.center,
         children: <Widget>[
           // Card background color & decoration

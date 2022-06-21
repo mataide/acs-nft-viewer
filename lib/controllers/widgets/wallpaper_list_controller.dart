@@ -36,7 +36,7 @@ class WallpaperListController extends StateNotifier<WallpaperListState> {
     final collectionsItemDAO = database.collectionsItemDAO;
     //Web3
     var httpClient = new Client();
-    var ethClient = new Web3Client("https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531", httpClient);
+    var ethClient = new Web3Client("https://mainnet.infura.io/v3/4b642d6ba815468c8cd8a001bd752738", httpClient);
     final erc = ERC721(address: EthereumAddress.fromHex(collections.contractAddress), client: ethClient);
 
     var tokenURI = await erc.tokenURI(BigInt.parse(collections.id));

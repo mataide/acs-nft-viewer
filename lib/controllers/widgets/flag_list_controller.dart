@@ -37,7 +37,7 @@ class FlagListController extends StateNotifier<FlagListState> {
     //Web3
     var httpClient = new Client();
     var ethClient = new Web3Client(
-        "https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531",
+        "https://mainnet.infura.io/v3/4b642d6ba815468c8cd8a001bd752738",
         httpClient);
     final erc = ERC721(
         address: EthereumAddress.fromHex(collections.contractAddress),

@@ -71,7 +71,7 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
     //Web3
     var httpClient = new Client();
     var ethClient = new Web3Client(
-        "https://mainnet.infura.io/v3/804a4b60b242436f977cacd58ceca531",
+        "https://mainnet.infura.io/v3/4b642d6ba815468c8cd8a001bd752738",
         httpClient);
 
     if (listERC721.isNotEmpty) {
@@ -79,14 +79,15 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
         final erc = ERC721(
             address: EthereumAddress.fromHex(erc721.contractAddress),
             client: ethClient);
-
-        try {
+        print('Token ${erc721.tokenID}');
+       // try {
           //Check if ERC is valid
           await erc.tokenURI(BigInt.parse(erc721.tokenID));
-        } catch (error) {
-          print(error);
-          toRemove.add(erc721);
-        }
+
+       // } catch (error) {
+      //    print(error);
+      //    toRemove.add(erc721);
+      //  }
 
         if (erc721.from.toLowerCase() == address.toLowerCase()) {
           for (var a in listERC721)

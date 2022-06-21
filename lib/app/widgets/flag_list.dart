@@ -48,9 +48,6 @@ class FlagListWidget extends ConsumerWidget {
                     return Center(
                         child: Text(collectionsList[index].image == null ? "Unsupported Image":'flaglist - getCollectionImage: ${snapshot.error}'));
                   else
-                    print(collectionsList[index].image);
-                  print(collectionsList[index].description);
-
                   return Column(
                       children: [ InkWell(
                     splashColor: state.hoverColor,

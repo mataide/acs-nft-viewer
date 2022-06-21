@@ -18,7 +18,7 @@ class WallpaperListWidget extends ConsumerWidget {
     final dataState = ref.watch(wallpaperListProvider(collectionsItemList));
     final state = ref.watch(themeProvider);
 
-    return Padding(
+    return  Padding(
       padding: EdgeInsets.all(8.0),
       child: SingleChildScrollView(
           child: GridView.builder(
