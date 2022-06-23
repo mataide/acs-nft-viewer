@@ -15,12 +15,15 @@ class CollectionsItemState {
   final Collections collections;
   final kdataFetchState fetchState;
   final List<CollectionsItem> collectionsItemList;
+  int count;
 
-  const CollectionsItemState(this.collections, {this.fetchState = kdataFetchState.IS_LOADING, this.collectionsItemList = const []});
+   CollectionsItemState(this.collections, {this.fetchState = kdataFetchState.IS_LOADING, this.collectionsItemList = const [], this.count = 0});
 }
 
 class CollectionsItemController extends StateNotifier<CollectionsItemState> {
   CollectionsItemController(Collections collections) : super(CollectionsItemState(collections));
+
+
 
   Future<List<CollectionsItem>> prepareFromDb() async {
     final database = await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
@@ -31,14 +34,15 @@ class CollectionsItemController extends StateNotifier<CollectionsItemState> {
     List<Eth721> erc721List = await erc721DAO.findEth721ByContractAddress(state.collections.contractAddress);
 
     if(erc721List.length != collectionsItemList.length || erc721List.length == collectionsItemList.length) {
-      print(state.collections.totalSupply);
-      print(collectionsItemList.length);
+      print('total Itens: ${state.collections.totalSupply}');
       collectionsItemList = [];
       for (var i = 0; i < erc721List.length; i++) {
+        print('Itens Carregados : $i');
         collectionsItemList.add(await prepareFromInternet(erc721List[i]));
+        state = CollectionsItemState(state.collections, count: i);
       }
     }
-    state = CollectionsItemState(state.collections, collectionsItemList: collectionsItemList);
+    state = CollectionsItemState(state.collections, collectionsItemList: collectionsItemList, count: state.count);
     return collectionsItemList;
   }
 
@@ -53,11 +57,9 @@ class CollectionsItemController extends StateNotifier<CollectionsItemState> {
 
     var tokenURI = await erc.tokenURI(BigInt.parse(eth721.tokenID));
     tokenURI = ipfsToHTTP(tokenURI);
-    print(tokenURI);
     final res = await httpClient.get(Uri.parse(tokenURI), headers: {"Accept": "aplication/json", "Content-ype":"application/json; charset=utf-8"});
     final jsonData = json.decode(utf8.decode(res.bodyBytes));
     var image = ipfsToHTTP((jsonData['image'] as String));
-    print(jsonData);
     final head = await httpClient.head(Uri.parse(image), headers: {"Accept": "aplication/json"});
     var contentType = head.headers['content-type'] as String;
 
@@ -90,7 +92,7 @@ class CollectionsItemController extends StateNotifier<CollectionsItemState> {
     } else {
       attributes = <Attributes>[];
     }
-
+    print('State.count : ${state.count}');
     var collectionsItem = CollectionsItem(eth721.contractAddress, eth721.hash, eth721.tokenID, '${jsonData['name']} #${eth721.tokenID}', image, attributes, description: jsonData['description'], contentType: contentType, animationUrl: jsonData['animation_url']);
     collectionsItemDAO.create(collectionsItem);
     return collectionsItem;

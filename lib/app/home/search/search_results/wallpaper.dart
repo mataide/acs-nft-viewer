@@ -10,11 +10,10 @@ import 'package:image_downloader/image_downloader.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:faktura_nft_viewer/app/home/collections/collections_widget.dart';
-import 'package:share/share.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:faktura_nft_viewer/app/home/search/search_web.dart';
-
+import 'package:share_plus/share_plus.dart';
 // Providers
 import 'package:faktura_nft_viewer/core/providers/providers.dart';
 
@@ -37,7 +36,7 @@ class WallpaperView extends ConsumerWidget implements TickerProvider {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(themeProvider);
     final dataState = ref.watch(wallpaperProvider.notifier);
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(wallpaperProvider.notifier).setInitialData(_posts, _index, _heroId, _posts[_index]);
     });
 

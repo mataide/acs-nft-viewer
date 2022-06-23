@@ -16,11 +16,14 @@ class HomeCollectionsState {
   final kdataFetchState fetchState;
   final int? selectedFilter;
   final RefreshController refreshController;
+  final List<Collections?>? count;
 
-  const HomeCollectionsState(this.refreshController,
+
+
+   HomeCollectionsState(this.refreshController,
       {this.fetchState = kdataFetchState.IS_LOADING,
       this.collections,
-      this.selectedFilter});
+      this.selectedFilter, this.count});
 }
 
 class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
@@ -32,6 +35,8 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
   get selectedFilter => state.selectedFilter;
 
   get collections => state.collections;
+
+  get count => state.count;
 
   Future<List<Collections>> prepareFromDb() async {
     final database =
@@ -48,6 +53,8 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
       else {
         for (var i = 0; i < listAddress.length; i++)
           collections.addAll(await prepareFromInternet(listAddress[i]));
+        state = HomeCollectionsState(state.refreshController,
+            collections: collections);
       }
     } else {
       for (var i = 0; i < collections.length; i++) {
@@ -104,13 +111,12 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
 
       var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
       for (var erc721 in newMap.entries) {
-        final collections = Collections.fromEth721(
-            erc721.value.first, "ethereum", erc721.value.length, false);
-        listCollections.add(collections);
+          final collections = Collections.fromEth721(
+              erc721.value.first, "ethereum", erc721.value.length, false);
+          listCollections.add(collections);
       }
       await collectionsDAO.insertList(listCollections);
     }
-
     state = HomeCollectionsState(state.refreshController,
         collections: listCollections, fetchState: kdataFetchState.IS_LOADED);
     return listCollections;

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faktura_nft_viewer/app/widgets/html.dart';
 import 'package:faktura_nft_viewer/app/widgets/video.dart';
@@ -15,8 +16,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_downloader/image_downloader.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:share/share.dart';
+
 
 class NftScreen extends ConsumerWidget {
   final List<CollectionsItem> collectionsItemList;
@@ -141,13 +143,8 @@ class NftScreen extends ConsumerWidget {
                 color: state.cardColor,
               ),
               onPressed: () {
-                if (type!.contains("video")) {
-                  Share.share(
-                      'Checkout this amazing NFT mine. ${collectionsItemList[index].animationUrl}');
-                } else {
-                  Share.share(
-                      'Checkout this amazing NFT mine. ${collectionsItemList[index].image}');
-                }
+                  sharePicture(type);
+
               },
             )),
         SizedBox(
@@ -361,5 +358,20 @@ class NftScreen extends ConsumerWidget {
 
   Future<bool> _willPopCallback() async {
     return false;
+  }
+  Future<void> sharePicture(type) async {
+    String imageurl = '';
+    if (type!.contains("video")) {
+      imageurl = '${collectionsItemList[index].animationUrl!}';
+    }else{
+      imageurl = '${collectionsItemList[index].image}';
+    }
+    final uri = Uri.parse(imageurl);
+    final response = await http.get(uri);
+    final bytes = response.bodyBytes;
+    final temp = await getTemporaryDirectory();
+    final path = '${temp.path}/image.jpg';
+    File(path).writeAsBytesSync(bytes);
+    await Share.shareFiles([path], text: 'Checkout this amazing NFT mine.');
   }
 }

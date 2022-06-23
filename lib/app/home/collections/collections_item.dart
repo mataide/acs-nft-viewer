@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faktura_nft_viewer/app/widgets/my_flexible_spacebar.dart';
 import 'package:faktura_nft_viewer/app/widgets/wallpaper_list.dart';
@@ -14,23 +13,20 @@ import 'package:flutter_svg/svg.dart';
 import 'package:readmore/readmore.dart';
 import 'dart:io';
 
-
 class CollectionsItemView extends ConsumerWidget {
   final Collections collections;
-
 
   CollectionsItemView(this.collections);
 
   @override
- Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(themeProvider);
     final controller = ref.read(collectionsItemProvider(collections).notifier);
     final dataState = ref.watch(collectionsItemProvider(collections));
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    return
-      Scaffold(
+    return Scaffold(
         backgroundColor: state.primaryColor,
         body: NestedScrollView(
             headerSliverBuilder:
@@ -54,19 +50,23 @@ class CollectionsItemView extends ConsumerWidget {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [Colors.black, Colors.transparent],
-                        ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+                        ).createShader(
+                            Rect.fromLTRB(0, 0, rect.width, rect.height));
                       },
                       blendMode: BlendMode.dstIn,
                       child: dataState.collections.image.contains('http')
                           ? CachedNetworkImage(
-                        placeholder: (context, url) => CircularProgressIndicator(color: state.hoverColor),
-                        fit: BoxFit.cover, imageUrl: dataState.collections.image,
-                      )
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator(
+                                      color: state.hoverColor),
+                              fit: BoxFit.cover,
+                              imageUrl: dataState.collections.image,
+                            )
                           : Image.file(
-                        File(dataState.collections.image),
-                        height: MediaQuery.of(context).size.width / 3,
-                        fit: BoxFit.cover,
-                      ),
+                              File(dataState.collections.image),
+                              height: MediaQuery.of(context).size.width / 3,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                     titlePaddingTween: EdgeInsetsTween(
                         begin: EdgeInsets.only(left: 16.0, bottom: 16),
@@ -78,7 +78,7 @@ class CollectionsItemView extends ConsumerWidget {
             },
             body: SingleChildScrollView(
                 child: Container(
-                  child: Column(
+              child: Column(
                 children: [
                   SizedBox(height: height * 0.024),
                   SingleChildScrollView(
@@ -101,20 +101,20 @@ class CollectionsItemView extends ConsumerWidget {
                                 alignment: Alignment.centerLeft,
                                 child: Row(children: [
                                   Text(
-                                    concatAddress(dataState.collections.contractAddress),
+                                    concatAddress(
+                                        dataState.collections.contractAddress),
                                     style: state.textTheme.headline5,
                                     textAlign: TextAlign.start,
                                   ),
                                   SizedBox(
                                     width: width * 0.025,
                                   ),
-                                  SvgPicture.asset('assets/images/arrow-square-out.svg',
+                                  SvgPicture.asset(
+                                      'assets/images/arrow-square-out.svg',
                                       color: state.cardColor,
                                       semanticsLabel: 'External Link icon',
-                                      width: 24
-                                  ),
-                                ])
-                            ),
+                                      width: 24),
+                                ])),
                             SizedBox(
                               height: height * 0.016,
                             ),
@@ -127,7 +127,11 @@ class CollectionsItemView extends ConsumerWidget {
                             Align(
                                 alignment: Alignment.centerLeft,
                                 child: ReadMoreText(
-                                  dataState.collections.description == null || dataState.collections.description.toString() == "" ? "Not about"
+                                  dataState.collections.description == null ||
+                                          dataState.collections.description
+                                                  .toString() ==
+                                              ""
+                                      ? "Not about"
                                       : dataState.collections.description,
                                   style: state.textTheme.subtitle1,
                                   trimLines: 4,
@@ -186,21 +190,20 @@ class CollectionsItemView extends ConsumerWidget {
             future: controller.prepareFromDb(),
             // function where you call your api
             builder: (BuildContext context,
-                AsyncSnapshot<List<CollectionsItem>> snapshot){
+                AsyncSnapshot<List<CollectionsItem>> snapshot) {
               // AsyncSnapshot<Your object type>
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                     child: Text(
-                  'Please wait its loading...',
+                  'Please wait its loading...${dataState.collections.totalSupply} / ${dataState.count.toString()}',
                   style: TextStyle(color: state.textTheme.bodyText1!.color),
                 ));
               } else {
                 if (snapshot.hasError)
                   return Center(
                       child: Text('getCollectionImage: ${snapshot.error}'));
-                else
-                  return WallpaperListWidget(snapshot.data!);
               }
+              return WallpaperListWidget(snapshot.data!);
             },
           ),
         ))),

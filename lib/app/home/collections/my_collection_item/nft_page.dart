@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart' as http;
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ethereum_addresses/ethereum_addresses.dart';
@@ -12,13 +15,13 @@ import 'package:faktura_nft_viewer/core/providers/providers.dart';
 import 'package:faktura_nft_viewer/core/utils/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_downloader/image_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:share/share.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class NftPageView extends ConsumerWidget {
@@ -71,13 +74,7 @@ class NftPageView extends ConsumerWidget {
               color: state.textTheme.caption!.color,
             ),
             onPressed: () {
-              if (type!.contains("video")) {
-                Share.share(
-                    'Checkout this amazing NFT mine. ${collectionsItemList[index].animationUrl!}');
-              } else {
-                Share.share(
-                    'Checkout this amazing NFT mine. ${collectionsItemList[index].image}');
-              }
+                sharePicture(type);
             },
           ),
         ],
@@ -527,5 +524,20 @@ class NftPageView extends ConsumerWidget {
 
   Future<bool> _willPopCallback() async {
     return false;
+  }
+  Future<void> sharePicture(type) async {
+    String imageurl = '';
+    if (type!.contains("video")) {
+      imageurl = '${collectionsItemList[index].animationUrl!}';
+    }else{
+      imageurl = '${collectionsItemList[index].image}';
+    }
+    final uri = Uri.parse(imageurl);
+    final response = await http.get(uri);
+    final bytes = response.bodyBytes;
+    final temp = await getTemporaryDirectory();
+    final path = '${temp.path}/image.jpg';
+    File(path).writeAsBytesSync(bytes);
+    await Share.shareFiles([path], text: 'Checkout this amazing NFT mine.');
   }
 }
