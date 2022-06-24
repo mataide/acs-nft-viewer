@@ -112,7 +112,7 @@ void showModalAddress(BuildContext context, state, dataStateLogin, controller) {
                               else if (_formKey.currentState!.validate()) {
                                 await dataStateLogin.sharedWrite(_keyController.text);
                                 Navigator.pop(context);
-                                await controller.prepareFromDb();
+                                //await controller.prepareFromDb();
                               }
                             },
                             child:Text(

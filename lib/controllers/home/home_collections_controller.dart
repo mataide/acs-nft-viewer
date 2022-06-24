@@ -16,13 +16,13 @@ class HomeCollectionsState {
   final kdataFetchState fetchState;
   final int? selectedFilter;
   final RefreshController refreshController;
-  final List<Collections?>? count;
+
 
   HomeCollectionsState(this.refreshController,
       {this.fetchState = kdataFetchState.IS_LOADING,
       this.collections,
       this.selectedFilter,
-      this.count});
+     });
 }
 
 class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
@@ -35,50 +35,94 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
 
   get collections => state.collections;
 
-  get count => state.count;
+
 
   Future<List<Collections>> prepareFromDb() async {
     final database =
-        await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
+    await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final collectionsDAO = database.collectionsDAO;
     List<Collections> collections = await collectionsDAO.findAllCollections();
     final preferences = await SharedPreferences.getInstance();
     final listAddress = preferences.getStringList('key');
+
+    //Coleção Vazia
     if (collections.isEmpty) {
-      if (listAddress == null || listAddress.isEmpty)
+      //Lista vazia
+      if (listAddress == null || listAddress.isEmpty) {
         return await prepareFromInternet(
             "0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb");
-      else {
-        for (var i = 0; i < listAddress.length; i++)
-          collections.addAll(await prepareFromInternet(listAddress[i]));
-        state = HomeCollectionsState(state.refreshController,
-            collections: collections);
       }
-    } else if (collections.isNotEmpty && listAddress != null) {
-      if (collections.last.to != listAddress.last) {
+      // lista com carteira
+      else {
         for (var i = 0; i < listAddress.length; i++) {
           collections.addAll(await prepareFromInternet(listAddress[i]));
+          state = HomeCollectionsState(state.refreshController,
+              collections: collections);
         }
         var initial = '0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb';
-        var listInitial = collections
-            .where((element) => element.to.contains(initial))
-            .toList();
+        var listInitial =
+        collections.where((element) => element.to.contains(initial)).toList();
         for (var i = 0; i < listInitial.length; i++) {
           collections.removeAt(i);
         }
-        // for (var i = 0; i < collections.length; i++) {
-        //   if (collections[i].isNotSupported) collections.removeAt(i);
-        // }
         state = HomeCollectionsState(state.refreshController,
             collections: collections);
       }
-    } else {
-      for (var i = 0; i < collections.length; i++) {
-        if (collections[i].isNotSupported) collections.removeAt(i);
-      }
     }
+//Coleção com dados e lista com carteira
+    else if (collections.isNotEmpty && listAddress != null){
+        //Lista com carteira que não está na coleção
+        var collectionTo = [];
+        for(var i =0; i < collections.length; i++) {
+          collectionTo.add(collections[i].to);
+        }
+          var differenceSet =
+          listAddress.toSet().difference(collectionTo.toSet()).toList();
+        print('different linha 79 : $differenceSet');
+        if (differenceSet.isNotEmpty) {
+          for (var i = 0; i < differenceSet.length; i++) {
+            collections.addAll(await prepareFromInternet(differenceSet[i]));
+            state = HomeCollectionsState(state.refreshController,
+                collections: collections);
+          }
+          differenceSet = [];
+          var initial = '0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb';
+          var listInitial = collections
+              .where((element) => element.to.contains(initial))
+              .toList();
+          if(listInitial.isEmpty) {
+            for (var i = 0; i < listInitial.length; i++) {
+              collections.removeAt(i);
+            }
+          }
+          // for (var i = 0; i < collections.length; i++) {
+          //   if (collections[i].isNotSupported) collections.removeAt(i);
+          // }
+          // state = HomeCollectionsState(state.refreshController,
+          //     collections: collections);
+           return collections;
+        }
+        //coleção com todas as carteiras da lista
+        else {
+          // state = HomeCollectionsState(state.refreshController,
+          //     collections: collections);
+          return collections;
+        }
+
+      }
+      //coleção com dados mais listAddress igual a nulo
+       else {
+        // state = HomeCollectionsState(state.refreshController,
+        //     collections: collections);
+        return collections;
+       }
+
+    state = HomeCollectionsState(state.refreshController,
+        collections: collections);
+
     return collections;
   }
+
 
   Future<List<Collections>> prepareFromInternet(String address) async {
     final database =
