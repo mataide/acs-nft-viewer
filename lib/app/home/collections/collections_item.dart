@@ -200,11 +200,11 @@ class CollectionsItemView extends ConsumerWidget {
                   'Please wait its loading...',
                   style: TextStyle(color: state.textTheme.bodyText1!.color),
                 ));
-              } else {
-                if (snapshot.hasError)
-                  return Center(
-                      child: Text('getCollectionImage: ${snapshot.error}'));
-              }
+              } if (snapshot.hasError)
+                return
+                  Center(
+                      child: Text('getCollectionImage: ${snapshot
+                          .error}'));
               return WallpaperListWidget(snapshot.data!);
             },
           ),

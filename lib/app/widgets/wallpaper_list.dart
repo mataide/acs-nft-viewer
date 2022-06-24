@@ -42,12 +42,11 @@ class WallpaperListWidget extends ConsumerWidget {
                           'Please wait its loading...', style: TextStyle(
                             color: state.textTheme.bodyText1!.color),));
                       } else {
-                        if (snapshot.hasError)
+                        if (snapshot.hasError) {
                           return
                             Center(
-                                child: Text('getCollectionImage: ${snapshot
-                                    .error}'));
-                        else
+                                child: Text('Error loading image, please wait and try again.'));
+                        }else
                           return GestureDetector(
                               onTap: () {
                                 Navigator.push(

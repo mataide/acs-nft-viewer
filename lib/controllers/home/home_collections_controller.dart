@@ -95,25 +95,17 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
               collections.removeAt(i);
             }
           }
-          // for (var i = 0; i < collections.length; i++) {
-          //   if (collections[i].isNotSupported) collections.removeAt(i);
-          // }
-          // state = HomeCollectionsState(state.refreshController,
-          //     collections: collections);
            return collections;
         }
         //coleção com todas as carteiras da lista
         else {
-          // state = HomeCollectionsState(state.refreshController,
-          //     collections: collections);
+
           return collections;
         }
 
       }
       //coleção com dados mais listAddress igual a nulo
        else {
-        // state = HomeCollectionsState(state.refreshController,
-        //     collections: collections);
         return collections;
        }
 
@@ -187,20 +179,35 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
     // monitor network fetch
     final preferences = await SharedPreferences.getInstance();
     final listAddress = preferences.getStringList('key');
-    List<Collections> collections = [];
+    final database =
+    await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
+    final collectionsDAO = database.collectionsDAO;
+    List<Collections> collections = await collectionsDAO.findAllCollections();
 
     if (listAddress == null)
       await prepareFromInternet("0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb");
     else {
-      for (var i = 0; i < listAddress.length; i++)
-        collections.addAll(await prepareFromInternet(listAddress[i]));
-    }
-    // if failed,use refreshFailed()
-    state.refreshController.refreshCompleted();
-    state = HomeCollectionsState(state.refreshController,
-        collections: collections, fetchState: kdataFetchState.IS_LOADED);
-  }
+      var collectionTo = [];
+      for (var i = 0; i < collections.length; i++) {
+        collectionTo.add(collections[i].to);
+      }
+      var differenceSet =
+      listAddress.toSet().difference(collectionTo.toSet()).toList();
+      print('different linha 201 : $differenceSet');
+      if (differenceSet.isNotEmpty) {
+        for (var i = 0; i < differenceSet.length; i++) {
+          collections.addAll(await prepareFromInternet(differenceSet[i]));
+          state = HomeCollectionsState(state.refreshController,
+              collections: collections);
+        }
 
+      }
+      // if failed,use refreshFailed()
+      state.refreshController.refreshCompleted();
+      state = HomeCollectionsState(state.refreshController,
+          collections: collections, fetchState: kdataFetchState.IS_LOADED);
+    }
+  }
   void onLoading() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
