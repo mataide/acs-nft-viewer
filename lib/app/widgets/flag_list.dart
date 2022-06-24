@@ -44,9 +44,20 @@ class FlagListWidget extends ConsumerWidget {
                     style: TextStyle(color: state.textTheme.bodyText1!.color),
                   ));
                 } else {
-                  if (snapshot.hasError)
-                    return Center(
-                        child: Text(collectionsList[index].image == null ? "Unsupported Image":'flaglist - getCollectionImage: ${snapshot.error}'));
+                  if (snapshot.hasError) {
+                    if (collectionsList[index].image == null ||
+                        collectionsList[index].image == "") {
+                      return Center(
+                          child: Text("Unsupported Image", style: state
+                              .textTheme.bodyText1,));
+                    }
+                    else {
+                      return Center(
+                          child: Text(
+                          'flaglist - getCollectionImage: ${snapshot.error}',style: state
+                              .textTheme.bodyText1));
+                    }
+                  }
                   else
                   return Column(
                       children: [ InkWell(

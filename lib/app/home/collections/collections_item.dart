@@ -18,8 +18,10 @@ class CollectionsItemView extends ConsumerWidget {
 
   CollectionsItemView(this.collections);
 
+
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref,) {
     final state = ref.watch(themeProvider);
     final controller = ref.read(collectionsItemProvider(collections).notifier);
     final dataState = ref.watch(collectionsItemProvider(collections));
@@ -195,7 +197,7 @@ class CollectionsItemView extends ConsumerWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                     child: Text(
-                  'Please wait its loading...${dataState.collections.totalSupply} / ${dataState.count.toString()}',
+                  'Please wait its loading...',
                   style: TextStyle(color: state.textTheme.bodyText1!.color),
                 ));
               } else {

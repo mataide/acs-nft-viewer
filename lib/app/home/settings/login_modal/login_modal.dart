@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ethereum_addresses/ethereum_addresses.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void showModalAddress(BuildContext context, state, dataStateLogin) {
+void showModalAddress(BuildContext context, state, dataStateLogin, controller) {
   final _formKey = GlobalKey<FormState>();
   final _keyController = TextEditingController();
   final width = MediaQuery.of(context).size.width;
@@ -11,6 +12,7 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
+        var i = 0;
         return Container(
             margin: EdgeInsets.only(left: (width * 0.02), right: (width * 0.02)),
             //padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/10),
@@ -26,7 +28,7 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
                     children: <Widget>[
                       SizedBox(height: height * 0.0185),
                       Center(
-                        child: Text('Connect Wallet', style: state.textTheme.headline5,),
+                        child:Text('Connect Wallet', style: state.textTheme.headline5,),
                       ),
                       SizedBox(
                         height: height * 0.0185,
@@ -54,6 +56,7 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
                                   controller: _keyController,
                                   style: state.textTheme.headline5,
                                   validator: (value) {
+
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter some Address';
                                     } else if(isValidEthereumAddress(_keyController.text) == false){
@@ -91,11 +94,25 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
                                 fixedSize: Size((width * 1.1), (height * 0.08)),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0))),
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                dataStateLogin.sharedWrite(_keyController.text);
+                            onPressed: () async {
+                              final preferences = await SharedPreferences.getInstance();
+                              final listAddress = preferences.getStringList('key');
+                              if(listAddress != null) {
+                                var key = listAddress.where((e) =>
+                                    e.contains(_keyController.text)).toList();
+                                if (key.length > 0) {
+                                  Navigator.pop(context);
+                                }else {
+                                  await dataStateLogin.sharedWrite(
+                                      _keyController.text);
+                                  Navigator.pop(context);
+                                  await controller.prepareFromDb();
+                                }
+                              }
+                              else if (_formKey.currentState!.validate()) {
+                                await dataStateLogin.sharedWrite(_keyController.text);
                                 Navigator.pop(context);
-
+                                await controller.prepareFromDb();
                               }
                             },
                             child:Text(
@@ -112,6 +129,7 @@ void showModalAddress(BuildContext context, state, dataStateLogin) {
       });
   //return Container();
 }
+
 
 void showModalConnected(BuildContext context, state, dataState, address) {
   showModalBottomSheet(

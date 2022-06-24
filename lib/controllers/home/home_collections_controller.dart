@@ -18,12 +18,11 @@ class HomeCollectionsState {
   final RefreshController refreshController;
   final List<Collections?>? count;
 
-
-
-   HomeCollectionsState(this.refreshController,
+  HomeCollectionsState(this.refreshController,
       {this.fetchState = kdataFetchState.IS_LOADING,
       this.collections,
-      this.selectedFilter, this.count});
+      this.selectedFilter,
+      this.count});
 }
 
 class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
@@ -43,10 +42,9 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
         await $FloorFlutterDatabase.databaseBuilder('app_database.db').build();
     final collectionsDAO = database.collectionsDAO;
     List<Collections> collections = await collectionsDAO.findAllCollections();
-
+    final preferences = await SharedPreferences.getInstance();
+    final listAddress = preferences.getStringList('key');
     if (collections.isEmpty) {
-      final preferences = await SharedPreferences.getInstance();
-      final listAddress = preferences.getStringList('key');
       if (listAddress == null || listAddress.isEmpty)
         return await prepareFromInternet(
             "0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb");
@@ -56,9 +54,27 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
         state = HomeCollectionsState(state.refreshController,
             collections: collections);
       }
+    } else if (collections.isNotEmpty && listAddress != null) {
+      if (collections.last.to != listAddress.last) {
+        for (var i = 0; i < listAddress.length; i++) {
+          collections.addAll(await prepareFromInternet(listAddress[i]));
+        }
+        var initial = '0x2f8c6f2dae4b1fb3f357c63256fe0543b0bd42fb';
+        var listInitial = collections
+            .where((element) => element.to.contains(initial))
+            .toList();
+        for (var i = 0; i < listInitial.length; i++) {
+          collections.removeAt(i);
+        }
+        // for (var i = 0; i < collections.length; i++) {
+        //   if (collections[i].isNotSupported) collections.removeAt(i);
+        // }
+        state = HomeCollectionsState(state.refreshController,
+            collections: collections);
+      }
     } else {
       for (var i = 0; i < collections.length; i++) {
-        if(collections[i].isNotSupported) collections.removeAt(i);
+        if (collections[i].isNotSupported) collections.removeAt(i);
       }
     }
     return collections;
@@ -89,7 +105,6 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
         try {
           //Check if ERC is valid
           await erc.tokenURI(BigInt.parse(erc721.tokenID));
-
         } catch (error) {
           print(error);
           toRemove.add(erc721);
@@ -98,7 +113,8 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
         if (erc721.from.toLowerCase() == address.toLowerCase()) {
           for (var a in listERC721)
             //Check if ERC was transfer
-            if (a.contractAddress.toLowerCase() == erc721.contractAddress.toLowerCase() &&
+            if (a.contractAddress.toLowerCase() ==
+                    erc721.contractAddress.toLowerCase() &&
                 a.tokenID == erc721.tokenID) {
               toRemove.add(a);
               toRemove.add(erc721);
@@ -108,17 +124,18 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
       listERC721.removeWhere((element) => toRemove.contains(element));
       eth721Dao.insertList(listERC721);
 
-
       var newMap = groupBy(listERC721, (Eth721 obj) => obj.contractAddress);
       for (var erc721 in newMap.entries) {
-          final collections = Collections.fromEth721(
-              erc721.value.first, "ethereum", erc721.value.length, false);
-          listCollections.add(collections);
+        final collections = Collections.fromEth721(
+            erc721.value.first, "ethereum", erc721.value.length, false);
+        listCollections.add(collections);
       }
       await collectionsDAO.insertList(listCollections);
     }
     state = HomeCollectionsState(state.refreshController,
         collections: listCollections, fetchState: kdataFetchState.IS_LOADED);
+
+
     return listCollections;
   }
 

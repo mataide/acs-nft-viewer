@@ -22,6 +22,7 @@ class SettingsLoginView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(themeProvider);
     final dataState = ref.read(loginProvider.notifier);
+    final controller = ref.read(homeCollectionsProvider.notifier);
     final data = ref.watch(loginProvider);
     final _deviceHeight = MediaQuery.of(context).size.height;
     final _deviceWidth = MediaQuery.of(context).size.width;
@@ -33,7 +34,7 @@ class SettingsLoginView extends ConsumerWidget {
             : [event]);
 
     return _buildUI(state, data, dataState, _deviceHeight,
-        _deviceWidth, navigator, networkStream, context);
+        _deviceWidth, navigator, networkStream, context, controller);
   }
 
   Widget _buildUI(
@@ -44,7 +45,7 @@ class SettingsLoginView extends ConsumerWidget {
       double _deviceWidth,
       navigator,
       networkStream,
-      BuildContext context) {
+      BuildContext context, controller) {
     return Scaffold(
         backgroundColor: state.primaryColor,
         appBar: AppBar(
@@ -67,7 +68,7 @@ class SettingsLoginView extends ConsumerWidget {
                     _deviceWidth,
                     navigator,
                     networkStream,
-                    context)
+                    context, controller)
               ],
             ),
           ),
@@ -82,7 +83,7 @@ class SettingsLoginView extends ConsumerWidget {
       double _deviceWidth,
       navigator,
       networkStream,
-      BuildContext context) {
+      BuildContext context, controller) {
     //SettingsLoginController();
     return Container(
         margin: EdgeInsets.only(
@@ -172,7 +173,6 @@ class SettingsLoginView extends ConsumerWidget {
                   } else if (data.listAddress.length > 0 &&
                       data.listAddress.isNotEmpty) {
                     return _listAddressWidget(
-
                         state,
                         data,
                         dataState,
@@ -230,7 +230,7 @@ class SettingsLoginView extends ConsumerWidget {
               ],
             ),
             SizedBox(height: _deviceHeight * 0.0104),
-            _connectWidget(context, dataState, navigator, state),
+            _connectWidget(context, dataState, navigator, state, controller),
           ],
         ));
   }
@@ -296,7 +296,7 @@ class SettingsLoginView extends ConsumerWidget {
         ));
   }
 
-  Widget _connectWidget(BuildContext context, dataState, navigator, state) {
+  Widget _connectWidget(BuildContext context, dataState, navigator, state, controller) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -336,7 +336,7 @@ class SettingsLoginView extends ConsumerWidget {
         ElevatedButton(
           onPressed: () {
             FirebaseAnalytics.instance.logEvent(name: 'Eth_Address',parameters:null);
-            showModalAddress(context, state, dataState);},
+            showModalAddress(context, state, dataState, controller);},
           style: TextButton.styleFrom(
               backgroundColor: state.cardColor,
               shape: RoundedRectangleBorder(

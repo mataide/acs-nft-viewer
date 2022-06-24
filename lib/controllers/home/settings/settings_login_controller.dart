@@ -24,16 +24,6 @@ class SettingsLoginController extends StateNotifier<SettingsLoginState> {
   }
 
 
-/*startSettings() async {
-  await _startPreferences();
-  await sharedRead();
-}
-Future<void> _startPreferences() async {
-  _prefs = await SharedPreferences.getInstance();
-
-}*/
-
-
 
   Future<List<String>> sharedWrite(address) async {
     final preferences = await SharedPreferences.getInstance();
