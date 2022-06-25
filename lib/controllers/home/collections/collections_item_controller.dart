@@ -16,16 +16,20 @@ class CollectionsItemState {
   final kdataFetchState fetchState;
   final List<CollectionsItem> collectionsItemList;
 
+
   CollectionsItemState(
     this.collections, {
     this.fetchState = kdataFetchState.IS_LOADING,
     this.collectionsItemList = const [],
+
   });
 }
 
 class CollectionsItemController extends StateNotifier<CollectionsItemState> {
   CollectionsItemController(Collections collections)
       : super(CollectionsItemState(collections));
+
+
 
   Future<List<CollectionsItem>> prepareFromDb() async {
     final database =
@@ -62,12 +66,13 @@ class CollectionsItemController extends StateNotifier<CollectionsItemState> {
       if (differenceSet.isNotEmpty) {
         for (var i = 0; i < erc721Hash.length; i++) {
         for(var a = 0; a < differenceSet.length; a++) {
-          var test = differenceSet[a].toString();
-          if (erc721Hash[i] == test) {
+          var difference = differenceSet[a].toString();
+          if (erc721Hash[i] == difference) {
             collectionsItemList.add(
                 await prepareFromInternet(list721Hash[i]));
+
             state = CollectionsItemState(state.collections,
-                collectionsItemList: collectionsItemList);
+                collectionsItemList: collectionsItemList,);
           }
         }
 
@@ -76,7 +81,7 @@ class CollectionsItemController extends StateNotifier<CollectionsItemState> {
         return collectionsItemList;
     }
     state = CollectionsItemState(state.collections,
-        collectionsItemList: collectionsItemList);
+        collectionsItemList: collectionsItemList,);
     return collectionsItemList;
   }
 
