@@ -78,7 +78,6 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
         }
           var differenceSet =
           listAddress.toSet().difference(collectionTo.toSet()).toList();
-        print('different linha 79 : $differenceSet');
         if (differenceSet.isNotEmpty) {
           for (var i = 0; i < differenceSet.length; i++) {
             collections.addAll(await prepareFromInternet(differenceSet[i]));
@@ -193,7 +192,6 @@ class HomeCollectionsController extends StateNotifier<HomeCollectionsState> {
       }
       var differenceSet =
       listAddress.toSet().difference(collectionTo.toSet()).toList();
-      print('different linha 201 : $differenceSet');
       if (differenceSet.isNotEmpty) {
         for (var i = 0; i < differenceSet.length; i++) {
           collections.addAll(await prepareFromInternet(differenceSet[i]));
